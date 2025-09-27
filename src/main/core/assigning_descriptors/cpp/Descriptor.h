@@ -1,6 +1,8 @@
 #ifndef DESCRIPTOR_H
 #define DESCRIPTOR_H
 
+#include <vector>
+using std::vector;
 #include <string>
 using std::string;
 #include <map>
@@ -10,15 +12,17 @@ using std::map;
 class Descriptor {
 private:
     string name;
-    map<string, float> effects;
+    vector<float> effects;
     bool fixed;
+    // Fixed descriptors cannot be added or removed from counties after the initital assignments
+    // Fixed descriptors CAN have their effects modified
 public:
-    Descriptor(string name, map<string, float> effects = {}, bool fixed = false);
+    Descriptor(string name, vector<float> effects = {}, bool fixed = false);
     string getName() const;
-    map<string, float> getEffects() const;
-    float getEffect(string demographic) const;
-    float setEffect(string demographic, float effect);
-    float addEffect(string demographic, float effect);
+    const vector<float>& getEffects() const;
+    float getEffect(size_t index) const;
+    float setEffect(size_t index, float effect);
+    float addEffect(size_t index, float effect);
     bool isFixed() const;
     bool operator==(const Descriptor& other) const;
     string toString() const;

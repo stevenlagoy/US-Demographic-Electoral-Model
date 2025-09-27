@@ -1,4 +1,5 @@
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <set>
 #include <array>
@@ -16,6 +17,7 @@ using json = nlohmann::json;
 #include <sstream>
 #include <random>
 #include <iterator>
+#include <chrono>
 
 #include "Descriptor.h"
 #include "County.h"
@@ -26,39 +28,30 @@ using namespace std;
 #define MAX_PERMUTE_CHANCE 0.1f
 
 void normalize(vector<float>& vec) {
-    float sum = accumulate(vec.begin(), vec.end(), 0);
-    if (sum == 0.0) return;
-    for (auto it = vec.begin(); it != vec.end(); ++it) {
-        *it /= sum;
-    }
+    float sum = accumulate(vec.begin(), vec.end(), 0.0f);
+    if (sum == 0.0f) return;
+    for (auto &v : vec) v /= sum;
 }
 
-float compareDemographics(map<string, float> expected, map<string, float> actual, string method = "l1") {
+float compareDemographics(const vector<float>& expected, const vector<float>& actual, string method = "l1") {
 
-    // Create normalized vectors with zipped values
-    // Get all keys from both maps
-    set<string> keys = set<string>();
-    for (const auto& pair : expected) {
-        keys.insert(pair.first);
+    // Check that vectors have same length
+    if (expected.size() != actual.size()) {
+        cerr << "Compared vectors have different sizes: " << to_string(expected.size()) << ", " << to_string(actual.size()) << "." << endl; 
+        return 0.0;
     }
-    for (const auto& pair : actual) {
-        keys.insert(pair.first);
-    }
-    // Create mutually-regular vectors
-    vector<float> e, a;
-    for (const string& key : keys) {
-        auto e_it = expected.find(key);
-        e.emplace_back(e_it == expected.end() ? 0.0 : e_it->second);
-        auto a_it = actual.find(key);
-        a.emplace_back(a_it == actual.end() ? 0.0 : a_it->second);
-    }
+
+    // Copy vectors
+    auto e = expected;
+    auto a = actual;
+
     // Normalize vectors
     normalize(e);
     normalize(a);
 
     // Check if population disparity
-    if (accumulate(a.begin(), a.end(), 0) == 0.0 &&
-        accumulate(e.begin(), e.end(), 0) != 0.0) {
+    if (accumulate(a.begin(), a.end(), 0.0) == 0.0 &&
+        accumulate(e.begin(), e.end(), 0.0) != 0.0) {
         return 0.0;
     }
 
@@ -187,49 +180,82 @@ Iter select_randomly(Iter start, Iter end, RandomGenerator& g) {
 template<typename Iter>
 Iter select_randomly(Iter start, Iter end) {
     static random_device rd;
-    static mt19937 gen(rd());
+    static mt19937 gen(
+        static_cast<unsigned long>(
+            chrono::system_clock::now().time_since_epoch().count()
+        )
+    );
     return select_randomly(start, end, gen);
 }
 
 vector<County> counties;
+unordered_map<string, size_t> demoIndex;
+vector<string> demographics;
 
 void readCounties() {
     counties.clear();
+    demoIndex.clear();
+    demographics.clear();
 
+    struct RawCounty {
+        string name;
+        string state;
+        int population;
+        map<string, float> demos;
+    };
+    vector <RawCounty> raw;
+
+    // Gather all demographic blocs
     for (const string& state : listDirectories("..\\..\\..\\resources")) {
         string countyDir = "..\\..\\..\\resources\\" + state + "\\counties";
         for (const string& file : listFiles(countyDir)) {
             size_t dot = file.find('.');
-            if (dot != string::npos && all_of(file.begin(), file.begin() + dot, ::isdigit)) {
-                // Open file
-                ifstream f(countyDir + "\\" + file);
-                if (!f.is_open()) continue;
-                
-                // Read into buffer
-                stringstream buffer;
-                buffer << f.rdbuf();
-                f.close();
-                
-                // Read JSON
-                json j = json::parse(buffer.str());
-                map<string, float> demos;
-                flattenJson(j["demographics"], demos);
+            if (dot == string::npos || !all_of(file.begin(), file.begin() + dot, ::isdigit)) continue;
+            
+            // Open file
+            ifstream f(countyDir + "\\" + file);
+            if (!f.is_open()) continue;
+            // Read into buffer
+            stringstream buffer;
+            buffer << f.rdbuf();
+            f.close();
+            // Read JSON
+            json j = json::parse(buffer.str());
 
-                // cout << j["FIPS"].get<string>() << endl;
+            RawCounty rc;
+            rc.name = j.value("name", string());
+            rc.state = j.value("state", string());
+            rc.population = j.value("population", 0);
+            flattenJson(j["demographics"], rc.demos);
+            
+            // Add demographics keys to the global vector
+            for (const auto& [key, val] : rc.demos) {
+                if (!demoIndex.count(key)) {
+                    demoIndex[key] = demographics.size();
+                    demographics.push_back(key);
+                }
+            }
 
-                counties.emplace_back(
-                    j["name"].get<string>(),
-                    j["state"].get<string>(),
-                    j["population"].get<int>(),
-                    demos
-                );
+            raw.push_back(move(rc));
+        }
+    }
+
+    // Create counties
+    counties.reserve(raw.size());
+    for (const auto& rc : raw) {
+        vector<float> demosVec(demographics.size(), 0.0f);
+        for (const auto& [key, val] : rc.demos) {
+            auto it = demoIndex.find(key);
+            if (it != demoIndex.end()) {
+                demosVec[it->second] = val;
             }
         }
+        counties.emplace_back(rc.name, rc.state, rc.population, demosVec);
     }
 }
 
 vector<Descriptor> descriptors;
-vector<Descriptor> modifiable;
+vector<size_t> modifiable;
 
 void initialize() {
 
@@ -237,24 +263,39 @@ void initialize() {
     readCounties();
 
     // Assign base descriptors (nation, state) to each county
-    Descriptor nation("Nation", {}, true);
-    descriptors.emplace_back(nation);
-    map<string, Descriptor> states;
+
+    vector<float> emptyEffects(demographics.size(), 0.0f);
+    descriptors.reserve(1 + counties.size() + MAX_DESCRIPTORS);
+
+    // Create and store nation descriptor
+    descriptors.emplace_back("Nation", emptyEffects, true);
+    Descriptor* nation = &descriptors.back();
+
+    map<string, size_t> states;
     for (County& c : counties) {
+        // Add the nation descriptor to every county
         c.addDescriptor(nation);
-        if (states.count(c.getState()) == 0) {
-            Descriptor d(c.getState(), {}, true);
-            descriptors.emplace_back(d);
-            states.insert({ c.getState(), d });
+
+        // Add the state descriptor to each county
+        // Create state descriptor if not already made
+        if (!states.count(c.getState())) {
+            descriptors.emplace_back(c.getState(), emptyEffects, true);
+            states[c.getState()] = descriptors.size() - 1;
         }
-        c.addDescriptor(states.at(c.getState()));
+        c.addDescriptor(&descriptors[states.at(c.getState())]);
     }
 
     // Create blank descriptors up to MAX_DESCRIPTORS
     for (int i = 0; descriptors.size() <= MAX_DESCRIPTORS; ++i) {
-        Descriptor d("Descriptor " + to_string(i));
+        Descriptor d("Descriptor " + to_string(i), emptyEffects);
         descriptors.emplace_back(d);
-        modifiable.emplace_back(d);
+        modifiable.push_back(descriptors.size() - 1);
+    }
+
+    // Pre-calculate counties
+    for (auto& c : counties) {
+        c.recalculate();
+        scoreCounty(c);
     }
 }
 
@@ -270,29 +311,32 @@ Change permuteDescriptors() {
     }
     // Select a descriptor to modify
     Descriptor* descriptor = &*select_randomly(descriptors.begin(), descriptors.end());
-    // Select an effect in the descriptor to modify
-    map<string, float> effects = descriptor->getEffects();
+
+    auto effects = descriptor->getEffects();
     if (effects.empty()) {
         return Change([](){});
     }
-    auto& effect = *select_randomly(effects.begin(), effects.end());
-    const string key = effect.first;
-    float old_value = effect.second;
+    auto it = select_randomly(effects.begin(), effects.end());
+    size_t index = static_cast<size_t>(std::distance(effects.begin(), it));
+    float old_value = *it;
     // Choose how much to modify
-    float mod = static_cast<float>(rand()) / static_cast<float>(RAND_MAX/MAX_PERMUTE_CHANCE) - MAX_PERMUTE_CHANCE / 2.0f; // value in range [-MAX_PERMUTE_CHANCE, MAX_PERMUTE_CHANCE]
+    static std::mt19937 gen(random_device{}());
+    uniform_real_distribution<float> dist(-MAX_PERMUTE_CHANCE, MAX_PERMUTE_CHANCE);
+    float mod = dist(gen);
     float new_value = clamp(old_value + mod, 0.0f, 1.0f);
-    descriptor->setEffect(key, new_value);
+    // Make the change
+    descriptor->setEffect(index, new_value);
     // Recalculate scores
     vector<County*> affected;
     for (auto& c : counties) {
-        if (c.hasDescriptor(*descriptor)) {
+        if (c.hasDescriptor(descriptor)) {
             c.recalculate();
             scoreCounty(c);
             affected.push_back(&c);
         }
     }
-    return Change([descriptor, key, old_value, affected]() mutable {
-        descriptor->setEffect(key, old_value);
+    return Change([descriptor, index, old_value, affected]() mutable {
+        descriptor->setEffect(index, old_value);
         for (auto* c : affected) {
             c->recalculate();
             scoreCounty(*c);
@@ -307,24 +351,21 @@ Change permuteCounties() {
     // Select a county to modify
     County* county = &*select_randomly(counties.begin(), counties.end());
     // Select a modifiable descriptor
-    Descriptor* descriptor = &*select_randomly(modifiable.begin(), modifiable.end());
+    size_t idx = *select_randomly(modifiable.begin(), modifiable.end());
+    Descriptor* descriptor = &descriptors[idx];
     // Determine whether to add or remove
-    bool had_descriptor = county->hasDescriptor(*descriptor);
-    if (had_descriptor) {
-        county->removeDescriptor(*descriptor);
-    }
-    else {
-        county->addDescriptor(*descriptor);
-    }
+    bool had_descriptor = county->hasDescriptor(descriptor);
+    if (had_descriptor) county->removeDescriptor(descriptor);
+    else county->addDescriptor(descriptor);
     county->recalculate();
     scoreCounty(*county);
 
     return Change([county, descriptor, had_descriptor]() mutable {
         if (had_descriptor) {
-            county->addDescriptor(*descriptor);
+            county->addDescriptor(descriptor);
         }
         else {
-            county->removeDescriptor(*descriptor);
+            county->removeDescriptor(descriptor);
         }
         county->recalculate();
         scoreCounty(*county);
@@ -334,39 +375,49 @@ Change permuteCounties() {
 void run() {
     float prev_score = 0, new_score;
     Change change([](){});
-    while (true) {
+    size_t iter{0};
+    while (iter++ < 1'000'000LL) {
+        // cout << iter << endl;
         change = permuteDescriptors();
         new_score = score();
-        if (prev_score > new_score) {
+        if (new_score < prev_score) {
             change.undo();
         }
         else {
             prev_score = new_score;
-            cout << new_score << endl;
+            cout << iter << " D " << new_score << endl;
         }
 
         change = permuteCounties();
         new_score = score();
-        if (prev_score > new_score) {
+        if (new_score < prev_score) {
             change.undo();
         }
         else {
             prev_score = new_score;
-            cout << new_score << endl;
+            cout << iter << " C " << new_score << endl;
         }
+
+        if ((iter & 0x3FF) == 0) cout.flush(); // Flush periodically
     }
 }
 
 int main() {
 
+    cout << "Initializing..." << endl;
     initialize();
+    cout << "Initialization successful" << endl;
     run();
 
-    for (const auto& c : counties) {
-        cout << c << endl;
+    for (const auto& it : counties) {
+        cout << it << endl;
     }
-    for (const auto& d : descriptors) {
-        cout << d << endl;
+    for (const auto& it : demographics) {
+        cout << it << ", ";
+    }
+    cout << ";\n";
+    for (const auto& it : descriptors) {
+        cout << it << endl;
     }
 
     return 0;

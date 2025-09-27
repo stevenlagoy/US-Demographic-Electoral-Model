@@ -1,28 +1,28 @@
 #include "Descriptor.h"
 
-Descriptor::Descriptor(string name, map<string, float> effects, bool fixed)
+Descriptor::Descriptor(string name, vector<float> effects, bool fixed)
     : name{name}, effects{effects}, fixed{fixed} {}
 
 string Descriptor::getName() const {
     return this->name;
 }
 
-map<string, float> Descriptor::getEffects() const {
+const vector<float>& Descriptor::getEffects() const {
     return this->effects;
 }
 
-float Descriptor::getEffect(string demographic) const {
-    return this->effects.at(demographic);
+float Descriptor::getEffect(size_t index) const {
+    return this->effects[index];
 }
 
-float Descriptor::setEffect(string demographic, float effect) {
-    this->effects.at(demographic) = effect;
+float Descriptor::setEffect(size_t index, float effect) {
+    this->effects[index] = effect;
     return effect;
 }
 
-float Descriptor::addEffect(string demographic, float effect) {
-    float prior = this->effects.at(demographic);
-    return this->setEffect(demographic, prior + effect);
+float Descriptor::addEffect(size_t index, float effect) {
+    float prior = this->effects[index];
+    return this->setEffect(index, prior + effect);
 }
 
 bool Descriptor::isFixed() const {
@@ -38,8 +38,9 @@ bool Descriptor::operator==(const Descriptor& other) const {
 string Descriptor::toString() const {
     string result = "";
     result += "\"" + name + "\" : {";
-    for (const auto& pair : effects) {
-        result += "\"" + pair.first + "\": " + std::to_string(pair.second) + ", ";
+    for (const auto& val : effects) {
+        if (val != 0.0)
+            result += std::to_string(val) + ", ";
     }
     result += "};";
     return result;

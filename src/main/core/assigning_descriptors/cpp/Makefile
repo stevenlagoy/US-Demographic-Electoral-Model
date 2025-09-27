@@ -1,5 +1,5 @@
 CC = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -g
+CXXFLAGS = -O3 -march=native -DNDEBUG -std=c++17 -Wall -Wextra -Werror -g
 OBJS = Main.o County.o Descriptor.o
 TARGET = HillClimb.exe
 
