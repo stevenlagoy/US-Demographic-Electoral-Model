@@ -7,6 +7,36 @@ ElectionStats.py
 This file contains functions to analyze electoral history statistics.
 History is held as a Dict[str, Any] and can be made with read_history(history_file: str) -> Dict[str, Any]
 Functions include those to analyze at a national, state, and county level. Can sort by year, party, or candidate.
+
+History:
+{ '{FIPS}': { 'state': str, 'county': str, 'fips': str[5], 'results': {'{YEAR}': {'total_votes': int, 'result': [{'party': str, 'candidate': str, 'votes': int}, ...]}}, ...}, ...}
+
+County
+name: str
+state: State
+fips: str[5]
+
+State
+name: str
+fips: str[2]
+
+Get counties in a state: [county for county in counties if county.state == states['01']]
+
+Nationwide vote total for each year
+Statewide vote total for each year
+    for specific state
+County vote totals for each year
+    for specific county
+Nationwide votes for each candidate for each year
+Statewide votes for each candidate for each year
+    for specific state
+County votes for each candidate for each year
+    for specific county
+Nationwide votes for each party for each year
+Statewide votes for each party for each year
+    for specific state
+County votes for each party for each year
+    for specific county
 '''
 
 import json
@@ -57,10 +87,27 @@ def year_total_votes(year: int, history: Dict[str, Any]) -> Dict[str, int]:
                 totals[s] = votes
     return totals
 
-def candidate_total_votes(candidate: str, history: Dict[str, Any]) -> Dict[int, int]:
-    ''' Get the vote total for a specific candidate by year for the supplied history. <br>
+def candidate_states_votes(candidate: str, history: Dict[str, Any]) -> Dict[int, Dict[str, int]]:
+    ''' Get the vote total for a specific candidate by state by year for the supplied history. <br>
+        Only years in which the candidate received votes will be included. All states will be included in each record. '''
+    totals: Dict[int, Dict[str, int]] = {}
+    for fips, value in history.items():
+        state = value['state']
+        for year, details in value['results'].items():
+            for result in details['result']:
+                if result['candidate'] == candidate:
+                    totals.setdefault(year, {})
+                    totals[year].setdefault(state, 0)
+                    totals[year][state] += result['votes']
+    return totals
+
+def candidate_state_votes(candidate: str, state: str, history: Dict[str,Any]) -> Dict[int, int]:
+    ''' Get the vote total for a specific candidate in a specific state by year for the supplied history. <br>
         Only years in which the candidate received votes will be included. '''
     totals: Dict[int, int] = {}
+    for fips, value in history.items():
+        if value['state'] == state:
+            ...
     return totals
 
 def main() -> None:
@@ -70,6 +117,7 @@ def main() -> None:
     print(f"{state_total_votes("WYOMING", history)}")
     for state, votes in year_total_votes(2024, history).items():
         print(f"{state.rjust(20, ' ')}\t{votes}")
+    print(f"{candidate_states_votes("JO JORGENSEN", history)}")
 
 if __name__ == "__main__":
     main()
