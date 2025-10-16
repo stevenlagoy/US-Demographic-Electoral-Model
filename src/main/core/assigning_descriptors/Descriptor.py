@@ -1,7 +1,5 @@
 from typing import Dict, List, Set
 
-# from Demographic import Demographic
-
 '''
 Every area in the nation has at least two descriptors: one base for the nation itself, and one for the state it is in.
 Descriptors are additive. Adding all the descriptors' effects for an area should give simple percentages for each demographic in that area.
@@ -15,8 +13,6 @@ In this case, "demographic" in the county will have a percentage membership of 0
 Any given county is likely to have many more descriptors than this.
 
 '''
-
-DESCRIPTORS_MAX = 1000
 
 class Descriptor:
 

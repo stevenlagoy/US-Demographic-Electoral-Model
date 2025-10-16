@@ -1,3 +1,12 @@
+'''
+Steven LaGoy
+gathering_data/DB.py
+Created: 15 October 2025
+Modified: 15 October 2025
+
+This script creates an SQLite database for election results.
+'''
+
 import sqlite3
 from typing import Any, Dict
 from ElectionStats import read_history
@@ -92,9 +101,11 @@ def main() -> None:
         print(row)
     
     # Find all counties where the democratic candidate received no votes in 2020
-    cursor.execute('''
-        SELECT * FROM results_t WHERE party = 'DEMOCRAT' AND year = 2020 AND votes = 0;
-    ''')
+    cursor.execute("SELECT * FROM results_t WHERE party = 'DEMOCRAT' AND year = 2020 AND votes = 0;")
+    for row in cursor.fetchall():
+        print(row)
+
+    cursor.execute("SELECT * FROM counties_t c JOIN results_t r ON c.fips = r.county WHERE c.fips = '01001' ORDER BY r.year;")
     for row in cursor.fetchall():
         print(row)
 

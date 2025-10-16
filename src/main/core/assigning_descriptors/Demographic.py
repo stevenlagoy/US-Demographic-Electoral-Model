@@ -1,3 +1,14 @@
+'''
+Steven LaGoy
+Demographic.py
+Created: 06 September 2025
+
+This class was originally used to track demographic groups and blocs.
+It is no longer in use because subblocs were better represented with other
+    data structures. It is maintained to show creative process.
+
+'''
+
 # from typing import List, Dict, Any
 # import json
 
