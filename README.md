@@ -66,7 +66,7 @@ This work bridges computational modeling, demography, data science, and politica
 - American Community Survey (ACS) – https://www.census.gov/programs-surveys/acs.html
 - CIA World Factbook – https://www.cia.gov/the-world-factbook/
 - CDC National Center for Health Statistics – https://www.cdc.gov/nchs/index.html
-US Elections Project – https://www.electproject.org/election-data
-MIT Election Lab – https://electionlab.mit.edu/data
-Beautiful Soup – https://pypi.org/project/beautifulsoup4/, https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-OpenMP – https://www.openmp.org/
+- US Elections Project – https://www.electproject.org/election-data
+- MIT Election Lab – https://electionlab.mit.edu/data
+- Beautiful Soup – https://pypi.org/project/beautifulsoup4/, https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+- OpenMP – https://www.openmp.org/
