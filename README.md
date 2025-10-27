@@ -57,15 +57,15 @@ HTML and JS/TS for the [visualization website](https://stevenlagoy.github.io/us-
 This work bridges computational modeling, demography, data science, and political science. The research addresses a core question in political science and data science: how do composite demographic archetypes, rather than isolated demographic variables, shape electoral outcomes in the United States? This study proposes a novel computational framework to capture the complexity of identity-informed voting behavior. The significance of this work includes: introducing a mixed-membership modeling approach to reflect real-world complexity; providing an advanced tool for understanding regional identities in the United States; quantifying predictive strength and entropy of demographic archetypes to improve election forecasting models, and find the limits of demographic determinism in electoral behavior; and integrate information-theoretic measures into political behavior research, an innovative methodological contribution.
 
 ## References and Sources
-Wikipedia: Monte Carlo method – https://en.wikipedia.org/wiki/Monte_Carlo_method
-Wikipedia: Simulated Annealing – https://en.wikipedia.org/wiki/Simulated_annealing
-World Population Review - https://worldpopulationreview.com/
-The Williams Institute (UCLA School of Law) – https://williamsinstitute.law.ucla.edu/
-The Demographic Statistical Atlas of the United States – https://statisticalatlas.com/
-United States Census Bureau – https://www.census.gov/
-American Community Survey (ACS) – https://www.census.gov/programs-surveys/acs.html
-CIA World Factbook – https://www.cia.gov/the-world-factbook/
-CDC National Center for Health Statistics – https://www.cdc.gov/nchs/index.html
+- Wikipedia: Monte Carlo method – https://en.wikipedia.org/wiki/Monte_Carlo_method
+- Wikipedia: Simulated Annealing – https://en.wikipedia.org/wiki/Simulated_annealing
+- World Population Review - https://worldpopulationreview.com/
+- The Williams Institute (UCLA School of Law) – https://williamsinstitute.law.ucla.edu/
+- The Demographic Statistical Atlas of the United States – https://statisticalatlas.com/
+- United States Census Bureau – https://www.census.gov/
+- American Community Survey (ACS) – https://www.census.gov/programs-surveys/acs.html
+- CIA World Factbook – https://www.cia.gov/the-world-factbook/
+- CDC National Center for Health Statistics – https://www.cdc.gov/nchs/index.html
 US Elections Project – https://www.electproject.org/election-data
 MIT Election Lab – https://electionlab.mit.edu/data
 Beautiful Soup – https://pypi.org/project/beautifulsoup4/, https://www.crummy.com/software/BeautifulSoup/bs4/doc/
