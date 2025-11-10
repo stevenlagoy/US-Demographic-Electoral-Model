@@ -61,10 +61,9 @@ function toTitleCase(str) {
   });
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    const center = [42, -96];
+    const center = [45, -96];
     const map = L.map('map').setView(center, 4);
 
     // Basemap
@@ -75,12 +74,53 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedLayer = null; // Track highlighted area
 
     let geojsonCounties = null;
+    let geojsonNation = null;
+    let geojsonStates = null;
 
     let shadingMode = "raw";
 
     let nationalAverages = {};
 
     let selectedDemographic = null;
+
+    map.on("zoomend", () => {
+        updateLayerVisibility();
+
+        if (geojsonCounties) geojsonCounties.resetStyle();
+        if (geojsonStates) geojsonStates.resetStyle();
+        if (geojsonNation) geojsonNation.resetStyle();
+
+        if (selectedLayer) {
+            selectedLayer.setStyle({
+                weight: 3,
+                color: "#ff7800",
+                fillOpacity: 0.5
+            });
+            selectedLayer.bringToFront();
+        }
+    
+    });
+
+    function updateLayerVisibility() {
+        const zoom = map.getZoom();
+        console.log(zoom);
+
+        if (zoom <= 4) {
+            if (geojsonNation && !map.hasLayer(geojsonNation)) map.addLayer(geojsonNation);
+            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
+            if (geojsonCounties && map.hasLayer(geojsonCounties)) map.removeLayer(geojsonCounties);
+        }
+        else if (zoom <= 5) {
+            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
+            if (geojsonStates && !map.hasLayer(geojsonStates)) map.addLayer(geojsonStates);
+            if (geojsonCounties && map.hasLayer(geojsonCounties)) map.removeLayer(geojsonCounties);
+        }
+        else {
+            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
+            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
+            if (geojsonCounties && !map.hasLayer(geojsonCounties)) map.addLayer(geojsonCounties);
+        }
+    }
 
     document.getElementById("scale-select").addEventListener("change", e => {
         shadingMode = e.target.value;
@@ -90,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (legendDiv) updateLegend(legendDiv);
     });
 
+    let stateIndex;
     let countyIndex;
 
     window.addEventListener("resize", () => map.invalidateSize());
@@ -108,7 +149,40 @@ document.addEventListener('DOMContentLoaded', () => {
                         .then(res => res.json())
                         .then(topoData => {
                             const counties = topojson.feature(topoData, topoData.objects.counties);
-                            // Attach demographics
+                            const states = topojson.feature(topoData, topoData.objects.states);
+                            const nation = topojson.feature(topoData, topoData.objects.nation);
+
+                            // Attach demographics to nation
+                            nation.features.forEach(f => {
+                                f.properties.demographics = nationalAverages;
+                                f.properties.population = Object.values(countyData)
+                                    .reduce((sum, c) => sum + (c.population || 0), 0);
+                                f.properties.name = "United States";
+                            });
+
+                            // Attach demographics to states
+                            states.features.forEach(f => {
+                                try {
+                                    const sid = f.id;
+                                    const stateName = stateLookup[sid];
+                                    const stateData = countyData[sid]; // if you store state-level data in counties.json, otherwise fetch separately
+                                    if (stateData) {
+                                        f.properties.demographics = stateData.demographics;
+                                        f.properties.population = stateData.population;
+                                        f.properties.name = toTitleCase(stateName.replace(/_/g, " "));
+                                    } else {
+                                        f.properties.demographics = nationalAverages; // fallback
+                                        f.properties.population = 0;
+                                        f.properties.name = toTitleCase(stateName.replace(/_/g, " "));
+                                    }
+                                }
+                                catch (err) {
+                                    console.error(`Could not read data for state with ID = ${f.id} (is it a territory?):`, err);
+                                }
+                            });
+
+
+                            // Attach demographics to counties
                             counties.features.forEach(f => {
                                 f.properties.demographics = countyData[f.id]?.demographics || null;
                                 f.properties.name = countyData[f.id]?.name || "";
@@ -116,8 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const fp = f.id.substring(0, 2);
                                 f.properties.state = stateLookup[fp];
                             });
-                            // Add GeoJSON layer
-                            geojsonCounties = L.geoJSON(counties, { style, onEachFeature }).addTo(map);
+
+                            // Add GeoJSON layers
+                            geojsonNation = L.geoJSON(nation, { style, onEachFeature }).addTo(map);
+                            geojsonStates = L.geoJSON(states, { style, onEachFeature });
+                            geojsonCounties = L.geoJSON(counties, { style, onEachFeature });
+
                             // Build lookup list
                             countyIndex = counties.features.map(f => {
                                 const stateName = f.properties.state
@@ -129,6 +207,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                     fips: f.id
                                 };
                             });
+                            stateIndex = states.features.map(f => ({
+                                name: f.properties.name,
+                                fips: f.id
+                            }));
+
+                            updateLayerVisibility();
                         });
                 });
         });
@@ -258,6 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("demographic-select").addEventListener("change", (e) => {
         selectedDemographic = e.target.value;
+        if (geojsonNation) geojsonNation.setStyle(style);
+        if (geojsonStates) geojsonStates.setStyle(style);
         if (geojsonCounties) geojsonCounties.setStyle(style);
 
         if (selectedDemographic) {
@@ -282,21 +368,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const query = searchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
         if (!query) return;
 
+        // Try county match
+
         // Find the county feature by name
-        const match = countyIndex.find(c => 
+        const countyMatch = countyIndex.find(c => 
             (c.name + " " + c.state).toLowerCase() === query
         );
+        if (countyMatch) {
+            zoomToCounty(countyMatch.fips);
+            return;
+        }
 
-        if (match) {
-            zoomToCounty(match.fips);
+        // Try state match
+        
+        const stateMatch = stateIndex.find(s => 
+            s.name.replaceAll(/[.,'-\s]/g, '').toLowerCase() === query
+        );
+        if (stateMatch) {
+            zoomToState(stateMatch.fips);
+            return;
         }
-        else {
-            alert("No county found matching: " + query);
-        }
+        
+        alert("No county found matching: " + query);
     });
 
     function zoomToCounty(fips) {
         const match = geojsonCounties.getLayers().find(layer => layer.feature.id === fips);
+        if (match) {
+            map.fitBounds(match.getBounds());
+            highlightFeature({ target: match });
+        }
+    }
+    function zoomToState(fips) {
+        const match = geojsonStates.getLayers().find(layer => layer.feature.id === fips);
         if (match) {
             map.fitBounds(match.getBounds());
             highlightFeature({ target: match });
@@ -329,18 +433,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function highlightFeature(e) {
         const props = e.target.feature.properties;
+        console.log(props);
 
         const fips = e.target.feature.id;
         const state = props.state;
+        const name = props.name || "United States";
+        let datapath;
 
-        console.log(fips, state);
-
-        if (!fips || !state) {
-            console.error("Missing FIPS or State:", props);
+        if (!fips && name === "United States") { // The selected feature is the nation
+            datapath = `/src/main/resources/nation.json`;
+        }
+        else if (fips && !state) { // The selected feature is a state
+            datapath = `/src/main/resources/${name.replaceAll(" ", "_").toLowerCase()}/${fips}.json`;
+        }
+        else if (fips) { // The selected feature is a county
+            datapath = `/src/main/resources/${state}/counties/${fips}.json`;
+        }
+        else {
+            console.error("Missing FIPS:", props);
             return;
         }
-        
-        fetch(`/src/main/resources/${state}/counties/${fips}.json`)
+
+        fetch(datapath)
             .then(res => res.json())
             .then(data => {
                 const infobox = document.getElementById("infobox");
@@ -352,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 infobox.scrollTop = 0;
             })
-            .catch(err => console.error("Failed to load county JSON", err));
+            .catch(err => console.error("Failed to load feature JSON", err));
 
         if (selectedLayer) {
             geojsonCounties.resetStyle(selectedLayer);
@@ -368,7 +482,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function onEachFeature(feature, layer) {
         layer.on({
-            click: highlightFeature
+            click: highlightFeature,
+            mouseover: () => {
+                // Skip hover styling if selected
+                if (layer === selectedLayer) return;
+                layer.setStyle({ weight: 4, color: "#555" })
+            },
+            mouseout: () => {
+                // Skip styling reset if selected
+                if (layer === selectedLayer) return;
+                geojsonCounties.resetStyle(layer)
+            }
         });
     }
 
@@ -456,9 +580,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const matches = countyIndex.filter(c => 
-            (c.name.replaceAll(/[.,'-\s]/g,"") + " " + c.state).toLowerCase().includes(query)
-        ).slice(0, 10); // limit to 10 results
+        const matches = [
+            ...stateIndex.filter(s => 
+                s.name.replaceAll(/[.,'-\s]/g,"").toLowerCase().includes(query)
+            ),
+            ...countyIndex.filter(c => 
+                (c.name.replaceAll(/[.,'-\s]/g,"") + " " + c.state).toLowerCase().includes(query)
+            ),
+        ].slice(0, 10); // limit to 10 results
 
         if (matches.length === 0) {
             suggestionsBox.style.display = "none";
@@ -467,11 +596,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         matches.forEach(match => {
             const div = document.createElement("div");
-            div.textContent = `${match.name}, ${match.state}`;
+            div.textContent = match.state ?
+                `${match.name}, ${match.state}` : // county
+                `${match.name}`; // state
             div.addEventListener("click", () => {
-                searchInput.value = `${match.name}, ${match.state}`;
+                searchInput.value = match.state ?
+                    `${match.name}, ${match.state}` : // county
+                    `${match.name}`; // state
                 suggestionsBox.style.display = "none";
-                zoomToCounty(match.fips);
+                if (match.state) zoomToCounty(match.fips);
+                else zoomToState(match.fips);
             });
             suggestionsBox.appendChild(div);
         });
