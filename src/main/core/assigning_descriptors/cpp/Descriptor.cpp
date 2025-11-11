@@ -1,27 +1,27 @@
 #include "Descriptor.h"
 
-Descriptor::Descriptor(string name, vector<float> effects, bool fixed)
+Descriptor::Descriptor(string name, vector<double> effects, bool fixed)
     : name{name}, effects{effects}, fixed{fixed} {}
 
 string Descriptor::getName() const {
     return this->name;
 }
 
-const vector<float>& Descriptor::getEffects() const {
+const vector<double>& Descriptor::getEffects() const {
     return this->effects;
 }
 
-float Descriptor::getEffect(size_t index) const {
+double Descriptor::getEffect(size_t index) const {
     return this->effects[index];
 }
 
-float Descriptor::setEffect(size_t index, float effect) {
+double Descriptor::setEffect(size_t index, double effect) {
     this->effects[index] = effect;
     return effect;
 }
 
-float Descriptor::addEffect(size_t index, float effect) {
-    float prior = this->effects[index];
+double Descriptor::addEffect(size_t index, double effect) {
+    double prior = this->effects[index];
     return this->setEffect(index, prior + effect);
 }
 

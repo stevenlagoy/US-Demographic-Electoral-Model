@@ -18,6 +18,7 @@ using json = nlohmann::json;
 #include <random>
 #include <iterator>
 #include <chrono>
+#include <iomanip>
 
 #include "Descriptor.h"
 #include "County.h"
@@ -27,13 +28,13 @@ using namespace std;
 #define MAX_DESCRIPTORS 300
 #define MAX_PERMUTE_CHANCE 0.1f
 
-void normalize(vector<float>& vec) {
-    float sum = accumulate(vec.begin(), vec.end(), 0.0f);
+void normalize(vector<double>& vec) {
+    double sum = accumulate(vec.begin(), vec.end(), 0.0f);
     if (sum == 0.0f) return;
     for (auto &v : vec) v /= sum;
 }
 
-float compareDemographics(const vector<float>& expected, const vector<float>& actual, string method = "l1") {
+double compareDemographics(const vector<double>& expected, const vector<double>& actual, string method = "l1") {
 
     // Check that vectors have same length
     if (expected.size() != actual.size()) {
@@ -42,8 +43,8 @@ float compareDemographics(const vector<float>& expected, const vector<float>& ac
     }
 
     // Copy vectors
-    auto e = expected;
-    auto a = actual;
+    vector<double> e = expected;
+    vector<double> a = actual;
 
     // Normalize vectors
     normalize(e);
@@ -56,59 +57,59 @@ float compareDemographics(const vector<float>& expected, const vector<float>& ac
     }
 
     if (method == "l1") { // L1 Norm - Sum of absolute differences (Manhattan Distance)
-        vector<float> distances = vector<float>();
+        vector<double> distances = vector<double>();
         for (size_t i = 0; i < e.size(); i++) {
             distances.emplace_back(abs(e.at(i) - a.at(i)));
         }
-        float dist = accumulate(distances.begin(), distances.end(), 0.0);
+        double dist = accumulate(distances.begin(), distances.end(), 0.0);
         return 1 - dist / 2; // Normalize to [0, 1]
     }
     else if (method == "l2") { // L2 Norm - Eucledian distance
-        vector<float> distances = vector<float>();
+        vector<double> distances = vector<double>();
         for (size_t i = 0; i < e.size(); i++) {
             distances.emplace_back(pow(e.at(i) - a.at(i), 2));
         }
-        float dist = sqrt(accumulate(distances.begin(), distances.end(), 0.0));
+        double dist = sqrt(accumulate(distances.begin(), distances.end(), 0.0));
         return 1 - dist / 2; // Normalize to [0, 1]
     }
     else if (method == "cosine") { // Cosine Similarities - Dot product
-        float dot = inner_product(e.begin(), e.end(), a.begin(), 0.0);
+        double dot = inner_product(e.begin(), e.end(), a.begin(), 0.0);
         return dot;
     }
     else if (method == "js") { // Jensen-Shannon Divergence
-        auto kl = [](vector<float> p, vector<float> q) { // Kullback-Leibler
-            vector<float> d = vector<float>();
+        auto kl = [](vector<double> p, vector<double> q) { // Kullback-Leibler
+            vector<double> d = vector<double>();
             for(size_t i = 0; i < p.size(); ++i) {
                 if (p[i] && q[i])
                     d.emplace_back(p[i] * log2(p[i]/q[i]));
             }
-            float sum = accumulate(d.begin(), d.end(), 0.0);
+            double sum = accumulate(d.begin(), d.end(), 0.0);
             return sum;
         };
-        vector<float> m = vector<float>();
+        vector<double> m = vector<double>();
         for (size_t i = 0; i < e.size(); ++i) {
             m.emplace_back((e.at(i) + a.at(i))/2);
         }
-        float js = (kl(e, m) + kl(a, m)) / 2; // Get J-S divergence
-        float sim = 1 - js; // Invert
-        return clamp(sim, 0.0f, 1.0f);
+        double js = (kl(e, m) + kl(a, m)) / 2; // Get J-S divergence
+        double sim = 1 - js; // Invert
+        return clamp(sim, 0.0, 1.0);
     }
     else { // Invalid method
         throw invalid_argument("Unknown method: " + method);
     }
 }
 
-unordered_map<County*, float> countiesScores;
-float scoreCounty(County& c) {
-    float score = compareDemographics(c.getDemographics(), c.descriptorDemographics());
+unordered_map<County*, double> countiesScores;
+double scoreCounty(County& c) {
+    double score = compareDemographics(c.getDemographics(), c.descriptorDemographics());
     countiesScores[&c] = score;
     return score;
 }
 
-float score() {
+double score() {
     size_t num = countiesScores.size();
     if (num == 0) return 0.0f;
-    float avgScore = 0.0f;
+    double avgScore = 0.0f;
     for (const auto& s : countiesScores) {
         avgScore += s.second / num;
     }
@@ -120,7 +121,6 @@ vector<string> listDirectories(const string& path) {
     WIN32_FIND_DATAA fd;
     HANDLE hFind = FindFirstFileA((path + "\\*").c_str(), &fd);
 
-    
     if (hFind == INVALID_HANDLE_VALUE) return dirs;
     
     do {
@@ -152,7 +152,7 @@ vector<string> listFiles(const string& path) {
     return files;
 }
 
-void flattenJson(const json& j, map<string, float>& result, const string& parentKey = "", const string& sep = "->") {
+void flattenJson(const json& j, map<string, double>& result, const string& parentKey = "", const string& sep = "->") {
     for (auto& [k, v] : j.items()) {
         string newKey = parentKey.empty() ? k : parentKey + sep + k;
 
@@ -160,7 +160,7 @@ void flattenJson(const json& j, map<string, float>& result, const string& parent
             flattenJson(v, result, newKey, sep); // Recurse for nesting
         }
         else if (v.is_number_float() || v.is_number_integer()) {
-            result[newKey] = v.get<float>();
+            result[newKey] = v.get<double>();
         }
         else {
             throw runtime_error("Unsupported type for key " + newKey);
@@ -201,7 +201,7 @@ void readCounties() {
         string name;
         string state;
         int population;
-        map<string, float> demos;
+        map<string, double> demos;
     };
     vector <RawCounty> raw;
 
@@ -243,7 +243,7 @@ void readCounties() {
     // Create counties
     counties.reserve(raw.size());
     for (const auto& rc : raw) {
-        vector<float> demosVec(demographics.size(), 0.0f);
+        vector<double> demosVec(demographics.size(), 0.0f);
         for (const auto& [key, val] : rc.demos) {
             auto it = demoIndex.find(key);
             if (it != demoIndex.end()) {
@@ -264,7 +264,7 @@ void initialize() {
 
     // Assign base descriptors (nation, state) to each county
 
-    vector<float> emptyEffects(demographics.size(), 0.0f);
+    vector<double> emptyEffects(demographics.size(), 0.0f);
     descriptors.reserve(1 + counties.size() + MAX_DESCRIPTORS);
 
     // Create and store nation descriptor
@@ -318,12 +318,12 @@ Change permuteDescriptors() {
     }
     auto it = select_randomly(effects.begin(), effects.end());
     size_t index = static_cast<size_t>(std::distance(effects.begin(), it));
-    float old_value = *it;
+    double old_value = *it;
     // Choose how much to modify
     static std::mt19937 gen(random_device{}());
-    uniform_real_distribution<float> dist(-MAX_PERMUTE_CHANCE, MAX_PERMUTE_CHANCE);
-    float mod = dist(gen);
-    float new_value = clamp(old_value + mod, 0.0f, 1.0f);
+    uniform_real_distribution<double> dist(-MAX_PERMUTE_CHANCE, MAX_PERMUTE_CHANCE);
+    double mod = dist(gen);
+    double new_value = clamp(old_value + mod, 0.0, 1.0);
     // Make the change
     descriptor->setEffect(index, new_value);
     // Recalculate scores
@@ -357,7 +357,6 @@ Change permuteCounties() {
     bool had_descriptor = county->hasDescriptor(descriptor);
     if (had_descriptor) county->removeDescriptor(descriptor);
     else county->addDescriptor(descriptor);
-    county->recalculate();
     scoreCounty(*county);
 
     return Change([county, descriptor, had_descriptor]() mutable {
@@ -373,29 +372,29 @@ Change permuteCounties() {
 }
 
 void run() {
-    float prev_score = 0, new_score;
+    double prev_score = 0, new_score;
     Change change([](){});
     size_t iter{0};
-    while (iter++ < 1'000'000LL) {
+    while (iter++ < 100'000LL) {
         // cout << iter << endl;
         change = permuteDescriptors();
         new_score = score();
-        if (new_score < prev_score) {
+        if (new_score < prev_score) { // Change was worse
             change.undo();
         }
-        else {
+        else { // Change to descriptors was better
             prev_score = new_score;
-            cout << iter << " D " << new_score << endl;
+            cout << iter << " D " << setprecision(18) << new_score << endl;
         }
 
         change = permuteCounties();
         new_score = score();
-        if (new_score < prev_score) {
+        if (new_score < prev_score) { // Change was worse
             change.undo();
         }
-        else {
+        else { // Change to counties was better
             prev_score = new_score;
-            cout << iter << " C " << new_score << endl;
+            cout << iter << " C " << setprecision(18) << new_score << endl;
         }
 
         if ((iter & 0x3FF) == 0) cout.flush(); // Flush periodically

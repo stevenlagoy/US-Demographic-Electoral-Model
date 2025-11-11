@@ -9,27 +9,30 @@ using std::map;
 using std::vector;
 #include "Descriptor.h"
 #include <ostream>
+#include <unordered_set>
+using std::unordered_set;
 
 class County {
 private:
     string name;
     string state;
     int population;
-    vector<float> demographics;
-    vector<float> descDemographics;
-    vector<Descriptor*> descriptors;
-    public:
-    County(string name, string state, int population, vector<float> demogaphics, vector<Descriptor*> descriptors = {});
+    vector<double> demographics;
+    vector<double> descDemographics;
+    unordered_set<Descriptor*> descriptors;
+    bool shouldRecalculate = true;
+public:
+    County(string name, string state, int population, vector<double> demographics, unordered_set<Descriptor*> descriptors = {});
     string getName() const;
     string getState() const;
-    const vector<float>& getDemographics() const;
-    const vector<float>& descriptorDemographics() const;
-    float getDemographic(size_t demographic) const;
-    const vector<Descriptor*>& getDescriptors() const;
+    const vector<double>& getDemographics() const;
+    const vector<double>& descriptorDemographics();
+    double getDemographic(size_t demographic) const;
+    const unordered_set<Descriptor*>& getDescriptors() const;
     bool hasDescriptor(Descriptor* d) const;
-    const vector<Descriptor*>& addDescriptor(Descriptor* d);
-    const vector<Descriptor*>& removeDescriptor(Descriptor* d);
-    const vector<float>& recalculate();
+    const unordered_set<Descriptor*>& addDescriptor(Descriptor* d);
+    const unordered_set<Descriptor*>& removeDescriptor(Descriptor* d);
+    const vector<double>& recalculate();
     string toString() const;
     bool operator<(const County& other) const;
     friend std::ostream& operator<<(std::ostream& os, const County& obj);
