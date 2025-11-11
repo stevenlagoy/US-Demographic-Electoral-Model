@@ -158,6 +158,7 @@ def run():
     time_file.write("time,score\n")
     start_time = time.time()
     prev_score = 0
+    iteration = 0
     while True:
         change = permute_descriptors()
         new_score = score()
@@ -168,7 +169,7 @@ def run():
             prev_score = new_score
             current_time = time.time() - start_time
             time_file.write(str(current_time) + "," + str(new_score) + "\n")
-            print(new_score)
+            print(f"{iteration} D {new_score}")
 
         change = permute_counties()
         new_score = score()
@@ -178,7 +179,8 @@ def run():
             prev_score = new_score
             current_time = time.time() - start_time
             time_file.write(str(current_time) + "," + str(new_score) + "\n")
-            print(new_score)
+            print(f"{iteration} C {new_score}")
+        iteration += 1
 
 def write_output():
     ''' Write the current state of MapEntities and Descriptors to `logs\\log.out`.'''
