@@ -8,14 +8,20 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include <atomic>
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
 using namespace std;
 
 #define RESOURCES_DIR "../../../resources/"
+#define LOGS_DIR "../../../../../logs/"
+
+atomic<bool> stopRequested = false;
 
 struct Simulation {
+    uint32_t nationalPopulation;
     array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
     vector<County> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
@@ -24,10 +30,25 @@ struct Simulation {
 
     void initialize();
     void run();
+    double score();
     void printResults();
 };
 
+BOOL WINAPI ConsoleHandler(DWORD signal) {
+    if (signal == CTRL_C_EVENT) {
+        stopRequested = true;
+        return TRUE;
+    }
+    return FALSE;
+}
+
 int main() {
+    
+    // Add console handler for user interrupt
+    if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
+        cerr << "Error: Coult not set control handler.\n";
+        return 1;
+    }
     
     Simulation sim;
     cout << "Initializing..." << endl;
@@ -61,22 +82,24 @@ void Simulation::initialize() {
     for (size_t i = 0; i < numValues; ++i) {
         demographicNames[i] = keys[i];
     }
+    // Also gather national population
+    nationalPopulation = j["population"];
 
     size_t descriptorsMade = 0;
     // Create fixed-membership descriptors
     // Nation
-    descriptors[descriptorsMade] = Descriptor("USA", false);
+    descriptors[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
     ++descriptorsMade;
 
     // Each State
     for (const string& abbr : statesAbbreviations) {
-        descriptors[descriptorsMade] = Descriptor(abbr, false);
+        descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
         ++descriptorsMade;
     }
 
     // Create additional unfixed descriptors
     while (descriptorsMade < NUMBER_DESCRIPTORS) {
-        descriptors[descriptorsMade] = Descriptor(to_string(descriptorsMade));
+        descriptors[descriptorsMade] = Descriptor(to_string(descriptorsMade), &demographicNames);
         ++descriptorsMade;
     }
 
@@ -109,7 +132,6 @@ void Simulation::initialize() {
         }
         ++stateOrder;
     }
-
 }
 
 void Simulation::run() {
@@ -125,11 +147,89 @@ void Simulation::run() {
             // Choose a descriptor
             // If county already a member, remove membership
             // If county not already a member, add membership
-
     // If change is not better, revert it
-
     // Repeat
 
+    struct Change {
+        function<void()> undo_fn;
+        Change(function<void()> fn) : undo_fn(fn) {}
+        void undo() { if (undo_fn) undo_fn(); }
+    };
+
+    uint64_t max_iter = 1'000'000'000, iter = 0;
+    Change ch{[](){}};
+    double prevScore = 0, newScore = 0;
+    while (iter++ < max_iter && !stopRequested) {
+        // cout << iter << " ";
+        // Chance that a change made is to a descriptor rather than a county
+        if (randomChance(0.99)) {
+            // cout << "D ";
+            // Change a descriptor
+            // Choose a descriptor
+            size_t d = randomInt(0, NUMBER_DESCRIPTORS);
+            // Choose an effect to modify
+            size_t e = randomInt(0, NUMBER_DEMOGRAPHICS);
+            // Choose an amount to modify by
+            double change = randomDouble(-MAX_CHANGE_AMT, MAX_CHANGE_AMT);
+            // Make the change
+            double prev = descriptors[d].getEffect(e);
+            descriptors[d].addEffect(e, change);
+            ch = Change([this, d, e, prev]() mutable {
+                descriptors[d].setEffect(e, prev);
+            });
+        }
+        else {
+            // cout << "C ";
+            // Change a county
+            // Choose a county
+            County& c = counties[randomInt(0, counties.size())];
+            // Choose a membership-modifiable descriptor
+            size_t d;
+            do {
+                d = randomInt(0, NUMBER_DESCRIPTORS);
+            } while (!descriptors[d].isMembershipModifiable());
+            // If county is a member, remove membership
+            // If county not a member, add membership
+            c.addOrRemoveDescriptor(d);
+            ch = Change([&c, d]() mutable {
+                c.addOrRemoveDescriptor(d);
+            });
+        }
+
+        // Evaluate
+        newScore = score();
+        if (newScore < prevScore) { // If not better, revert
+            ch.undo();
+        }
+        else { // Keep the change
+            prevScore = newScore;
+        }
+
+        // Print details
+        if (iter % 10000 == 0)
+            cout << iter << " " << setprecision(12) << newScore << "\n";
+        // cout << newScore << endl;
+    }
+
+    if (stopRequested) {
+        cout << "\nSimulation interrupted by user.\n";
+    }
+    else {
+        cout << "\nSimulation limit reached.\n";
+    }
+
+}
+
+double Simulation::score() {
+    // Loop through counties
+    // Use county accuracy * ratio county pop / national pop
+    // Sum all values for total accuracy
+    return std::accumulate(
+        counties.begin(), counties.end(), 0.0,
+        [this](double total, const County& c) {
+            return total + c.getScore() * (static_cast<double>(c.getPopulation()) / nationalPopulation);
+        }
+    );
 }
 
 void Simulation::printResults() {
@@ -155,13 +255,29 @@ void Simulation::printResults() {
         ]
     }
     */
-    cout << "Generated " << counties.size() << " counties" << endl;
-    for (const auto c : counties) {
-        if (c.getStateFIPS() == "01" || c.getStateFIPS() == "10" || c.getStateFIPS() == "11" || c.getStateFIPS() == "12" || c.getStateFIPS() == "50") {
-            cout << c.toString() << endl;
-        }
+
+    // Counties json
+    json allCounties = json::object();
+    for (const auto& c : counties) {
+        auto countyJson = c.toJson();
+        allCounties.update(countyJson);
     }
-    // for (const auto d : descriptors) {
-    //     cout << d.toString() << endl;
-    // }
+
+    // Descriptors json
+    json allDescriptors = json::object();
+    for (const auto& d : descriptors) {
+        auto descJson = d.toJson();
+        allDescriptors.update(descJson);
+    }
+
+    // Combine for simulation json
+    json simJson = {
+        { "counties", allCounties },
+        { "descriptors", allDescriptors }
+    };
+
+    // Write to file
+    ofstream o(LOGS_DIR "cpplog.json");
+    o << simJson.dump(4);
+    o.close();
 }

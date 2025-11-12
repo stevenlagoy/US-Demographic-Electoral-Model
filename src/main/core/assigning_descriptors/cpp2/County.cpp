@@ -1,8 +1,5 @@
 #include "County.h"
 
-#include <sstream>
-#include <iomanip>
-
 // Determine descDemographics from descriptor membership
 void County::recalculate() {
     descDemographics.fill(0.0);
@@ -13,6 +10,7 @@ void County::recalculate() {
             descDemographics[i] += effects[i];
         }
     }
+    score = compareDemographics(demographics, descDemographics, "js");
 }
 
 County::County(
@@ -33,6 +31,8 @@ std::string County::getStateFIPS() const noexcept {
 }
 
 const std::string& County::getCountyFIPS() const noexcept { return countyFIPS; }
+
+uint32_t County::getPopulation() const noexcept { return population; }
 
 const std::array<double, NUMBER_DEMOGRAPHICS>& County::getDemographics() const noexcept {
     return demographics;
@@ -59,6 +59,19 @@ void County::removeDescriptor(size_t descIndex) noexcept {
     if (descriptorIndices.erase(descIndex)) recalculate();
 }
 
+void County::addOrRemoveDescriptor(size_t descIndex) noexcept {
+    if (hasDescriptor(descIndex)) {
+        removeDescriptor(descIndex);
+        // std::cout << "Removed descriptor " << descIndex << " from county " << countyFIPS << "\n";
+    }
+    else {
+        addDescriptor(descIndex);
+        // std::cout << "Added descriptor " << descIndex << " to county " << countyFIPS << "\n";
+    }
+}
+
+double County::getScore() const { return score; }
+
 // "Autauga County" (01001) : {"USA", "AL", "1", "2", ...};
 std::string County::toString() const {
     std::ostringstream oss;
@@ -71,6 +84,20 @@ std::string County::toString() const {
     }
     oss << "};";
     return oss.str();
+}
+
+json County::toJson() const {
+    json descriptorArr = json::array();
+    for (size_t idx : descriptorIndices) {
+        descriptorArr.push_back((*descriptorsRef)[idx].getName());
+    }
+    json res = {
+        { countyFIPS, {
+            { "descriptors", descriptorArr },
+            { "accuracy", score }
+        }}
+    };
+    return res;
 }
 
 std::ostream& operator<<(std::ostream& os, const County& obj) {

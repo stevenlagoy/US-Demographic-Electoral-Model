@@ -2,10 +2,13 @@
 #include <sstream>
 #include <tuple>
 
-Descriptor::Descriptor() : Descriptor("") {}
+Descriptor::Descriptor() : Descriptor("", nullptr) {}
 
-Descriptor::Descriptor(const std::string& name, bool membershipModifiable)
-    : name{name}, membershipModifiable{membershipModifiable} {}
+Descriptor::Descriptor(
+    const std::string& name,
+    const std::array<std::string, NUMBER_DEMOGRAPHICS>* demographicsRef,
+    bool membershipModifiable
+) : demographicsRef{demographicsRef}, name{name}, membershipModifiable{membershipModifiable} {}
 
 std::string Descriptor::getName() const noexcept { return name; }
 
@@ -22,10 +25,14 @@ double Descriptor::getEffect(const size_t index) const {
 }
 
 void Descriptor::setEffect(const size_t index, const double value) {
-    effects.at(index) = value;
+    effects.at(index) = std::max(value, 0.0);
 }
 
-constexpr bool Descriptor::isMembershipModifiable() const noexcept { return membershipModifiable; }
+void Descriptor::addEffect(const size_t index, const double value) {
+    effects[index] = std::max(effects[index] + value, 0.0);
+}
+
+bool Descriptor::isMembershipModifiable() const noexcept { return membershipModifiable; }
 
 bool Descriptor::operator==(const Descriptor& other) const {
     return std::tie(name, effects, membershipModifiable) == std::tie(other.name, other.effects, other.membershipModifiable);
@@ -41,6 +48,22 @@ std::string Descriptor::toString() const noexcept {
     }
     oss << "};";
     return oss.str();
+}
+
+json Descriptor::toJson() const {
+    json effectsJson = json::object();
+    if (!demographicsRef) {
+        return { { name, effectsJson } };
+    }
+    for (size_t i = 0; i < effects.size(); ++i) {
+        const auto& key = (*demographicsRef)[i];
+        double value = effects[i];
+        if (value != 0.0) effectsJson[key] = value;
+    }
+    json res = {
+        { name, effectsJson}
+    };
+    return res;
 }
 
 std::ostream& operator<<(std::ostream& os, const Descriptor& obj) {
