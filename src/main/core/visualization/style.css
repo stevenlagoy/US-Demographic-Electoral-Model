@@ -84,14 +84,23 @@ main {
     background-color: palegreen;
 }
 
-#reset-button {
+#reset-button, #load-descriptors {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: minmax(max-content, 5%);
     background: #333;
     color: white;
     cursor: pointer;
 }
 
-#reset-button:hover {
+#load-descriptors {
+    height: 2em;
+    padding: 0 0.5em;
+    gap: 0.5em;
+}
+
+#reset-button:hover, #load-descriptors:hover {
     background: #555;
 }
 

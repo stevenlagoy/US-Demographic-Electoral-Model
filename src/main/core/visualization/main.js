@@ -66,6 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const center = [45, -96];
     const map = L.map('map').setView(center, 4);
 
+    let descriptorsObject = null;
+
     // Basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 10
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let nationalAverages = {};
 
     let selectedDemographic = null;
+    let selectedDescriptor = null;
 
     map.on("zoomend", () => {
         updateLayerVisibility();
@@ -105,7 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const zoom = map.getZoom();
         console.log(zoom);
 
-        if (zoom <= 4) {
+        if (descriptorsObject) { // Make all counties visible when descriptors loaded
+            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
+            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
+            if (geojsonCounties && !map.hasLayer(geojsonCounties)) map.addLayer(geojsonCounties);
+        }
+        else if (zoom <= 4) {
             if (geojsonNation && !map.hasLayer(geojsonNation)) map.addLayer(geojsonNation);
             if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
             if (geojsonCounties && map.hasLayer(geojsonCounties)) map.removeLayer(geojsonCounties);
@@ -180,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                     console.error(`Could not read data for state with ID = ${f.id} (is it a territory?):`, err);
                                 }
                             });
-
 
                             // Attach demographics to counties
                             counties.features.forEach(f => {
@@ -306,8 +313,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function descriptorCloseness(descriptors1, descriptors2) {
+        // console.log(descriptors1, descriptors2);
+        if (!descriptors1 || !descriptors2) return 0.0;
+        let closeness1 = 0.0, closeness2 = 0.0;
+        // Get closeness of 1 to 2
+        descriptors1.forEach(d => {
+            if (descriptors2.includes(d)) {
+                closeness1 += (1 / descriptors1.length);
+            }
+        });
+        // Get closeness of 2 to 1
+        descriptors2.forEach(d => {
+            if (descriptors1.includes(d)) {
+                closeness2 += (1 / descriptors2.length);
+            }
+        });
+        // console.log(closeness1, closeness2);
+        // Average closeness
+        let closeness = (closeness1 + closeness2) / 2;
+        return closeness;
+    }
+
     function style(feature) {
-        if (!selectedDemographic || !feature.properties.demographics) {
+        if (!feature.properties.demographics) {
             return {
                 fillColor: "#cccccc",
                 weight: 1,
@@ -318,49 +347,108 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
-        const countyPercent = feature.properties.demographics[getDemographicCategory(selectedDemographic)][selectedDemographic] || 0;
-        
-        let colorValue;
-        if (shadingMode === "raw") {
-            colorValue = countyPercent;
+        if (descriptorsObject && selectedLayer && !selectedDescriptor) {
+            let closeness = descriptorCloseness(feature.properties.descriptors, selectedLayer.feature.properties.descriptors);
+            // console.log(closeness);
+            const lightness = (1-closeness) * 256;
+            return {
+                fillColor: `rgb(${lightness}, 256, ${lightness})`,
+                weight: 1,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.7
+            };
         }
-        else if (shadingMode === "relative") {
-            const nationalPercent = nationalAverages[getDemographicCategory(selectedDemographic)][selectedDemographic] || 0.0001;
-            colorValue = countyPercent / nationalPercent;
+
+        if (selectedDemographic) {
+            const countyPercent = feature.properties.demographics[getDemographicCategory(selectedDemographic)][selectedDemographic] || 0;
+            
+            let colorValue;
+            if (shadingMode === "raw") {
+                colorValue = countyPercent;
+            }
+            else if (shadingMode === "relative") {
+                const nationalPercent = nationalAverages[getDemographicCategory(selectedDemographic)][selectedDemographic] || 0.0001;
+                colorValue = countyPercent / nationalPercent;
+            }
+            else if (shadingMode === "count") {
+                colorValue = countyPercent * feature.properties.population;
+            }
+            return {
+                fillColor: getColor(colorValue, shadingMode),
+                weight: 1,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.7
+            };
         }
-        else if (shadingMode === "count") {
-            colorValue = countyPercent * feature.properties.population;
+        else if (selectedDescriptor && feature.properties.descriptors) {
+            try {
+                const isMember = feature.properties.descriptors.includes(selectedDescriptor);
+
+                return {
+                    fillColor: isMember ? "#6060ff" : "#cccccc",
+                    weight: 1,
+                    opacity: 1,
+                    color: "#333",
+                    fillOpacity: 0.7
+                }
+            }
+            catch (e) {
+                console.error(e, feature.properties.descriptors);
+                return {
+                    fillColor: "#cccccc",
+                    weight: 1,
+                    opacity: 1,
+                    color: "#333",
+                    fillOpacity: 0.6,
+                    interactive: true // <-- make sure polygons can be clicked
+                };
+            }
         }
-        return {
-            fillColor: getColor(colorValue, shadingMode),
-            weight: 1,
-            opacity: 1,
-            color: "#333",
-            fillOpacity: 0.7
-        };
+        else {
+            return {
+                fillColor: "#cccccc",
+                weight: 1,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true // <-- make sure polygons can be clicked
+            };
+        }
+
     }
 
     document.getElementById("demographic-select").addEventListener("change", (e) => {
-        selectedDemographic = e.target.value;
-        if (geojsonNation) geojsonNation.setStyle(style);
-        if (geojsonStates) geojsonStates.setStyle(style);
-        if (geojsonCounties) geojsonCounties.setStyle(style);
-
-        if (selectedDemographic) {
-            if (!legendAdded) {
-                legend.addTo(map);
-                legendAdded = true;
+        if (descriptorsObject) {
+            selectedDescriptor = e.target.value;
+            if (geojsonNation) geojsonNation.setStyle(style);
+            if (geojsonStates) geojsonStates.setStyle(style);
+            if (geojsonCounties) geojsonCounties.setStyle(style);
+        }
+        else {
+            selectedDemographic = e.target.value;
+            if (geojsonNation) geojsonNation.setStyle(style);
+            if (geojsonStates) geojsonStates.setStyle(style);
+            if (geojsonCounties) geojsonCounties.setStyle(style);
+            if (selectedDemographic) {
+                if (!legendAdded) {
+                    legend.addTo(map);
+                    legendAdded = true;
+                }
+                else {
+                    const legendDiv = document.querySelector('.legend');
+                    if (legendDiv) updateLegend(legendDiv);
+                }
             }
-            else {
-                const legendDiv = document.querySelector('.legend');
-                if (legendDiv) updateLegend(legendDiv);
+            else if (legendAdded) {
+                // Remove legend if nothing selected
+                legend.remove();
+                legendAdded = false;
             }
         }
-        else if (legendAdded) {
-            // Remove legend if nothing selected
-            legend.remove();
-            legendAdded = false;
-        }
+        
+        
     });
 
     document.getElementById("search-form").addEventListener("submit", e => {
@@ -477,6 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
             color: "#ff7800",
             fillOpacity: 0.5
         });
+        if (descriptorsObject) geojsonCounties.setStyle(style);
         selectedLayer.bringToFront();
     }
 
@@ -506,6 +595,52 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset demographic select
         const select = document.getElementById("demographic-select");
         if (select) {
+            if (!descriptorsObject) {
+                select.innerHTML = `
+                    <option value="">-- Select demographic --</option>
+                    <option class="race-ethnicity" value="White">Race/Ethnicity: White</option>
+                    <option class="race-ethnicity" value="Hispanic">Race/Ethnicity: Hispanic</option>
+                    <option class="race-ethnicity" value="Black">Race/Ethnicity: Black</option>
+                    <option class="race-ethnicity" value="Asian">Race/Ethnicity: Asian</option>
+                    <option class="race-ethnicity" value="Mixed">Race/Ethnicity: Mixed</option>
+                    <option class="race-ethnicity" value="Other">Race/Ethnicity: Other</option>
+                    <option class="household-type" value="Married">Household Type: Married</option>
+                    <option class="household-type"value="Single Female">Household Type: Single Female</option>
+                    <option class="household-type"value="Single Male">Household Type: Single Male</option>
+                    <option class="household-type"value="One-Person">Household Type: One-Person</option>
+                    <option class="household-type"value="Other Non-Family">Household Type: Other Non-Family</option>
+                    <option class="industry" value="Healthcare">Industry: Healthcare</option>
+                    <option class="industry" value="Retail">Industry: Retail</option>
+                    <option class="industry" value="Manufacturing">Industry: Manufacturing</option>
+                    <option class="industry" value="Education">Industry: Education</option>
+                    <option class="industry" value="Hospitality">Industry: Hospitality</option>
+                    <option class="industry" value="Professional">Industry: Professional</option>
+                    <option class="industry" value="Construction">Industry: Construction</option>
+                    <option class="industry" value="Other Services">Industry: Other Services</option>
+                    <option class="industry" value="Government">Industry: Government</option>
+                    <option class="industry" value="Finance & Insurance">Industry: Finance & Insurance</option>
+                    <option class="industry" value="Administrative">Industry: Administrative</option>
+                    <option class="industry" value="Transportation">Industry: Transportation</option>
+                    <option class="industry" value="Wholesalers">Industry: Wholesalers</option>
+                    <option class="industry" value="Entertainment">Industry: Entertainment</option>
+                    <option class="industry" value="Information">Industry: Information</option>
+                    <option class="industry" value="Real estate">Industry: Real estate</option>
+                    <option class="industry" value="Agriculture">Industry: Agriculture</option>
+                    <option class="industry" value="Utilities">Industry: Utilities</option>
+                    <option class="industry" value="Oil & Gas, and Mining">Industry: Oil & Gas, and Mining</option>
+                    <option class="industry" value="Management">Industry: Management</option>
+                    <option class="educational-attainment" value="Doctorate">Education: Doctorate</option>
+                    <option class="educational-attainment" value="Professional">Education: Professional</option>
+                    <option class="educational-attainment" value="Master's">Education: Master's Degree</option>
+                    <option class="educational-attainment" value="Bachelor's">Education: Bachelor's Degree</option>
+                    <option class="educational-attainment" value="Associate's">Education: Associate's Degree</option>
+                    <option class="educational-attainment" value="Some College">Education: Some College</option>
+                    <option class="educational-attainment" value="High School">Education: High School Diploma</option>
+                    <option class="educational-attainment" value="Some H.S.">Education: Some High School</option>
+                    <option class="educational-attainment" value="Less than H.S.">Education: Less than High School</option>
+                    <option class="educational-attainment" value="None">Education: No Formal Education</option>
+                `;
+            }
             select.value = "";
             select.dispatchEvent(new Event('change'));
         }
@@ -519,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: "#333",
                 fillOpacity: 0.6
             }));
-            geojsonCounties.resetStyle(selectedLayer);
+            if(selectedLayer) geojsonCounties.resetStyle(selectedLayer);
             selectedLayer = null;
         }
         // Reset infobox text
@@ -611,5 +746,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         suggestionsBox.style.display = "block";
     });
+
+    document.getElementById('load-descriptors-input').addEventListener('change', handleLoadDescriptorsInput, false);
+
+    function handleLoadDescriptorsInput(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const fileContent = e.target.result;
+            try {
+                const jsonObject = JSON.parse(fileContent);
+                console.log(jsonObject);
+                // Successfully parsed
+                descriptorsObject = jsonObject;
+
+                // Deselect demographics
+                // and remove filters from all counties
+                resetView();
+                const select = document.getElementById('demographic-select');
+                select.innerHTML = ``;
+                
+                // Allow selection of descriptors
+                options = [];
+                if (select) {
+                    Object.keys(jsonObject.descriptors).forEach(d => {
+                        options.push(`<option class="descriptor" value="${d}">${d.includes("$") ? d : "Descriptor " + d}</option>`);
+                    });
+                }
+                options.sort();
+                options.unshift(`<option value="">-- Select Descriptor --</option>`);
+                options.forEach(o => select.innerHTML += o); 
+
+                // Attach descriptors to counties
+                if (geojsonCounties) {
+                    geojsonCounties.eachLayer(layer => {
+                        layer.feature.properties.descriptors = [];
+                        const fips = layer.feature.id;
+                        // console.log(fips);
+                        try {
+                            for (let d of jsonObject.counties[fips].descriptors) {
+                                layer.feature.properties.descriptors.push(d);
+                            }
+                        }
+                        catch (e) {}
+                    });
+
+                    // Reapply style if a descriptor is selected
+                    if (selectedDescriptor) geojsonCounties.setStyle(style);
+                }
+
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                alert('Invalid JSON file.');
+            }
+        };
+
+        reader.onerror = (e) => {
+            console.error('Error reading file:', e);
+            alert('Error reading the file.');
+        };
+
+        reader.readAsText(file);
+    }
+
+    resetView();
 
 });

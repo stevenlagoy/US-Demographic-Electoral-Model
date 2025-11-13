@@ -18,50 +18,11 @@
     <main>
         <div id="controls">
             <button id="reset-button">Reset View</button>
-            <select id="demographic-select">
-                <option value="">-- Select demographic --</option>
-                <option class="race-ethnicity" value="White">Race/Ethnicity: White</option>
-                <option class="race-ethnicity" value="Hispanic">Race/Ethnicity: Hispanic</option>
-                <option class="race-ethnicity" value="Black">Race/Ethnicity: Black</option>
-                <option class="race-ethnicity" value="Asian">Race/Ethnicity: Asian</option>
-                <option class="race-ethnicity" value="Mixed">Race/Ethnicity: Mixed</option>
-                <option class="race-ethnicity" value="Other">Race/Ethnicity: Other</option>
-                <option class="household-type" value="Married">Household Type: Married</option>
-                <option class="household-type"value="Single Female">Household Type: Single Female</option>
-                <option class="household-type"value="Single Male">Household Type: Single Male</option>
-                <option class="household-type"value="One-Person">Household Type: One-Person</option>
-                <option class="household-type"value="Other Non-Family">Household Type: Other Non-Family</option>
-                <option class="industry" value="Healthcare">Industry: Healthcare</option>
-                <option class="industry" value="Retail">Industry: Retail</option>
-                <option class="industry" value="Manufacturing">Industry: Manufacturing</option>
-                <option class="industry" value="Education">Industry: Education</option>
-                <option class="industry" value="Hospitality">Industry: Hospitality</option>
-                <option class="industry" value="Professional">Industry: Professional</option>
-                <option class="industry" value="Construction">Industry: Construction</option>
-                <option class="industry" value="Other Services">Industry: Other Services</option>
-                <option class="industry" value="Government">Industry: Government</option>
-                <option class="industry" value="Finance & Insurance">Industry: Finance & Insurance</option>
-                <option class="industry" value="Administrative">Industry: Administrative</option>
-                <option class="industry" value="Transportation">Industry: Transportation</option>
-                <option class="industry" value="Wholesalers">Industry: Wholesalers</option>
-                <option class="industry" value="Entertainment">Industry: Entertainment</option>
-                <option class="industry" value="Information">Industry: Information</option>
-                <option class="industry" value="Real estate">Industry: Real estate</option>
-                <option class="industry" value="Agriculture">Industry: Agriculture</option>
-                <option class="industry" value="Utilities">Industry: Utilities</option>
-                <option class="industry" value="Oil & Gas, and Mining">Industry: Oil & Gas, and Mining</option>
-                <option class="industry" value="Management">Industry: Management</option>
-                <option class="educational-attainment" value="Doctorate">Education: Doctorate</option>
-                <option class="educational-attainment" value="Professional">Education: Professional</option>
-                <option class="educational-attainment" value="Master's">Education: Master's Degree</option>
-                <option class="educational-attainment" value="Bachelor's">Education: Bachelor's Degree</option>
-                <option class="educational-attainment" value="Associate's">Education: Associate's Degree</option>
-                <option class="educational-attainment" value="Some College">Education: Some College</option>
-                <option class="educational-attainment" value="High School">Education: High School Diploma</option>
-                <option class="educational-attainment" value="Some H.S.">Education: Some High School</option>
-                <option class="educational-attainment" value="Less than H.S.">Education: Less than High School</option>
-                <option class="educational-attainment" value="None">Education: No Formal Education</option>
-            </select>
+            <div id="load-descriptors">
+                <label for="load-descriptors-input">Load Descriptors</label>
+                <input type="file" id="load-descriptors-input" accept=".json">
+            </div>
+            <select id="demographic-select"></select>
             <select id="scale-select">
                 <option value="raw">Raw % per county</option>
                 <option value="relative">Relative to US pop</option>
