@@ -8,4 +8,9 @@
 // Maximum change (positive or negative) to a descriptor effect from one permutation - percentage
 #define MAX_CHANGE_AMT 0.25
 
+#define MAX_TRIES 500000
+
+#define MIN_THREADS 1u
+#define MAX_THREADS 100u
+
 #endif

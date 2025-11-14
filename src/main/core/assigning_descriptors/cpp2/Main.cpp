@@ -3,6 +3,7 @@
 #include "County.h"
 #include "utils.h"
 
+#include <vector>
 #include <iostream>
 #include <array>
 #include <string>
@@ -10,6 +11,8 @@
 #include <sstream>
 #include <iomanip>
 #include <atomic>
+#include <thread>
+#include <mutex>
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
@@ -23,15 +26,61 @@ atomic<bool> stopRequested = false;
 struct Simulation {
     uint32_t nationalPopulation;
     array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
-    vector<County> counties;
+    vector<unique_ptr<County>> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
+    uint32_t tries;
+    uint16_t threadNum;
 
-    Simulation() : descriptors{}, counties{}, demographicNames{} {}
+    Simulation() = default;
+
+    // Deep copy constructor
+    Simulation(const Simulation& other)
+        : nationalPopulation(other.nationalPopulation),
+          descriptors(other.descriptors),
+          demographicNames(other.demographicNames)
+    {
+        counties.reserve(other.counties.size());
+        for (const auto& c : other.counties) {
+            auto newCounty = make_unique<County>(
+                c->getName(),
+                c->getCountyFIPS(),
+                c->getPopulation(),
+                c->getDemographics(),
+                &descriptors
+            );
+            counties.push_back(move(newCounty));
+        }
+    }
+
+    // Deep copy assignment
+    Simulation& operator=(const Simulation& other) {
+        if (this == &other) return *this;
+        nationalPopulation = other.nationalPopulation;
+        descriptors = other.descriptors;
+        demographicNames = other.demographicNames;
+        counties.clear();
+        counties.reserve(other.counties.size());
+        for (const auto& c : other.counties) {
+            auto newCounty = make_unique<County>(
+                c->getName(),
+                c->getCountyFIPS(),
+                c->getPopulation(),
+                c->getDemographics(),
+                &descriptors
+            );
+            counties.push_back(move(newCounty));
+        }
+        return *this;
+    }
+
+    // Move semantics
+    Simulation(Simulation&&) noexcept = default;
+    Simulation& operator=(Simulation&&) noexcept = default;
 
     void initialize();
     void run();
     double score();
-    void printResults();
+    json formatResults();
 };
 
 BOOL WINAPI ConsoleHandler(DWORD signal) {
@@ -42,6 +91,51 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
     return FALSE;
 }
 
+class ThreadSafeLogger {
+private:
+    static inline mutex logMutex;
+public:
+    template<typename T>
+    ThreadSafeLogger& operator<<(const T& value) {
+        lock_guard<mutex> lock(logMutex);
+        cout << value;
+        return *this;
+    }
+
+    ThreadSafeLogger& operator<<(ostream& (*manip)(ostream&)) {
+        lock_guard<mutex> lock(logMutex);
+        cout << manip;
+        return *this;
+    }
+
+    template<typename... Args>
+    static void log(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args)); // fold expression to write all args
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << oss.str() << std::flush;
+    }
+
+    template<typename... Args>
+    static void logLine(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args));
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << oss.str() << std::endl;
+    }
+};
+
+string progressBar(double percent, int width) {
+    int filled = static_cast<int>(width * percent);
+    string res;
+    for (int i = 0; i < width; i++) {
+        res += (i <= filled ? "#" : "_");
+    }
+    return res;
+}
+
+ThreadSafeLogger logger;
+
 int main() {
     
     // Add console handler for user interrupt
@@ -49,17 +143,81 @@ int main() {
         cerr << "Error: Coult not set control handler.\n";
         return 1;
     }
-    
-    Simulation sim;
-    cout << "Initializing..." << endl;
-    sim.initialize();
-    cout << "Initialization done! Running simulation..." << endl;
-    sim.run();
-    cout << "Simulation complete! Printing results..." << endl;
-    sim.printResults();
-    cout << "Main done!" << endl;
+
+    const unsigned int workers = min(max(MIN_THREADS, thread::hardware_concurrency()), MAX_THREADS);
+    logger << "Starting " << workers << " parallel simulations..." << endl;
+
+    mutex bestMutex;
+    double bestScore = -1.0;
+    json bestSimJson = json::object();
+
+    vector<thread> threads;
+    threads.reserve(workers);
+
+    // Build a base simulation object to avoid initializing counties multiple times
+    Simulation baseSim;
+    logger.logLine("Initializing base model...\n");
+    baseSim.initialize();
+
+    for (unsigned int w = 0; w < workers; ++w) {
+        threads.emplace_back([w, &bestMutex, &bestSimJson, &bestScore, &baseSim]() {
+            try {
+                Simulation sim = baseSim;
+                sim.threadNum = w;
+                // logger.logLine("[T", w, "] Initializing...\n");
+                // sim.initialize();
+                logger.logLine("[T", w, "] Running...");
+                sim.run();
+                double s = sim.score();
+
+                json simJson = sim.formatResults();
+                {
+                    lock_guard<mutex> lk(bestMutex);
+                    if (s > bestScore) {
+                        bestScore = s;
+                        bestSimJson = simJson;
+                        // Write to log file
+                        ofstream o(LOGS_DIR "cpplog.json");
+                        o << bestSimJson.dump(4);
+                        o.close();
+                        logger.logLine("[T", w, "] NEW BEST SCORE: ", setprecision(12), bestScore);
+                    }
+                }
+            }
+            catch (const exception& ex) {
+                cerr << "[T" << w << "] Exception: " << ex.what() << "\n";
+            }
+            catch (...) {
+                cerr << "[T" << w << "] Unknown exception\n";
+            }
+        });
+    }
+
+    // Join
+    for (auto& t : threads) {
+        if (t.joinable()) t.join();
+    }
+
+    if (bestScore >= 0.0) {
+        cout << "Best score across workers: " << setprecision(12) << bestScore << "\n";
+        cout << "Best simulation saved to " << LOGS_DIR << "best_cpplog.json\n";
+    } else {
+        cout << "No successful simulations completed.\n";
+    }
 
     return 0;
+    
+    // Non-parallel version
+    // Simulation sim;
+    // cout << "Initializing..." << endl;
+    // sim.initialize();
+    // cout << "Initialization done! Running simulation..." << endl;
+    // sim.run();
+    // cout << "Simulation complete! Printing results..." << endl;
+    // sim.printResults();
+    // cout << "Main done!" << endl;
+
+    // return 0;
 }
 
 void Simulation::initialize() {
@@ -106,7 +264,7 @@ void Simulation::initialize() {
     // Read Counties and assign fixed descriptors
     size_t stateOrder = 1;
     for (const string& state : listDirectories(RESOURCES_DIR)) {
-        cout << "Initializing " << state << endl;
+        logger.logLine("Initializing ", state);
         string countyDir = RESOURCES_DIR + state + "/counties/";
         for (const string& file : listFiles(countyDir)) {
             // Verify file name: must contain only digits before a dot ("01001.json", "56045.json", ...)
@@ -122,13 +280,15 @@ void Simulation::initialize() {
                 demoArray[i++] = v;
             }
 
-            counties.emplace_back(
+            auto countyPtr = make_unique<County>(
                 j.value("name", string()),
                 j.value("FIPS", string()),
                 j.value("population", uint32_t()),
                 demoArray,
                 &descriptors
-            ).addDescriptor(stateOrder);
+            );
+            countyPtr->addDescriptor(stateOrder);
+            counties.emplace_back(move(countyPtr));
         }
         ++stateOrder;
     }
@@ -156,10 +316,10 @@ void Simulation::run() {
         void undo() { if (undo_fn) undo_fn(); }
     };
 
-    uint64_t max_iter = 1'000'000'000, iter = 0;
+    uint64_t max_iter = 10'000'000, iter = 0;
     Change ch{[](){}};
     double prevScore = 0, newScore = 0;
-    while (iter++ < max_iter && !stopRequested) {
+    while (iter++ < max_iter && tries < MAX_TRIES && !stopRequested) {
         // cout << iter << " ";
         // Chance that a change made is to a descriptor rather than a county
         if (randomChance(0.99)) {
@@ -182,7 +342,7 @@ void Simulation::run() {
             // cout << "C ";
             // Change a county
             // Choose a county
-            County& c = counties[randomInt(0, counties.size())];
+            County& c = *counties[randomInt(0, counties.size())];
             // Choose a membership-modifiable descriptor
             size_t d;
             do {
@@ -200,22 +360,30 @@ void Simulation::run() {
         newScore = score();
         if (newScore < prevScore) { // If not better, revert
             ch.undo();
+            ++tries;
         }
         else { // Keep the change
             prevScore = newScore;
+            tries = 0;
         }
 
         // Print details
         if (iter % 10000 == 0)
-            cout << iter << " " << setprecision(12) << newScore << "\n";
+            logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "]",
+            "Iter: ", setw(8), iter, ", ",
+            "Acc: ", fixed, setprecision(12), setw(14), newScore * 100, "% ",
+            progressBar(newScore, 100));
         // cout << newScore << endl;
     }
 
     if (stopRequested) {
-        cout << "\nSimulation interrupted by user.\n";
+        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation interrupted by user.");
+    }
+    else if (tries >= MAX_TRIES) {
+        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] ", to_string(MAX_TRIES), " iterations without improvement. Dropping out.");
     }
     else {
-        cout << "\nSimulation limit reached.\n";
+        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation limit reached.");
     }
 
 }
@@ -224,16 +392,16 @@ double Simulation::score() {
     // Loop through counties
     // Use county accuracy * ratio county pop / national pop
     // Sum all values for total accuracy
-    return std::accumulate(
+    return accumulate(
         counties.begin(), counties.end(), 0.0,
-        [this](double total, const County& c) {
-            return total + c.getScore() * (static_cast<double>(c.getPopulation()) / nationalPopulation);
+        [this](double total, const unique_ptr<County>& c) {
+            return total + c->getScore() * (static_cast<double>(c->getPopulation()) / nationalPopulation);
         }
     );
 }
 
-void Simulation::printResults() {
-    // Print to json
+json Simulation::formatResults() {
+    // Convert to json
     /*
     {
         "counties" : [
@@ -259,7 +427,7 @@ void Simulation::printResults() {
     // Counties json
     json allCounties = json::object();
     for (const auto& c : counties) {
-        auto countyJson = c.toJson();
+        auto countyJson = c->toJson();
         allCounties.update(countyJson);
     }
 
@@ -272,12 +440,10 @@ void Simulation::printResults() {
 
     // Combine for simulation json
     json simJson = {
+        { "accuracy", score()},
         { "counties", allCounties },
         { "descriptors", allDescriptors }
     };
 
-    // Write to file
-    ofstream o(LOGS_DIR "cpplog.json");
-    o << simJson.dump(4);
-    o.close();
+    return simJson;
 }

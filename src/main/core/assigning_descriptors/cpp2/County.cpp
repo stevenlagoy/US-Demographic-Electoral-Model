@@ -23,6 +23,17 @@ County::County(
     recalculate();
 }
 
+County::County(const County& other)
+    : descriptorsRef(other.descriptorsRef),
+      name(other.name),
+      countyFIPS(other.countyFIPS),
+      population(other.population),
+      demographics(other.demographics),
+      descDemographics(other.descDemographics),
+      descriptorIndices(other.descriptorIndices),
+      score(other.score)
+{}
+
 const std::string& County::getName() const noexcept { return name; }
 
 // First two digits in countyFIPS

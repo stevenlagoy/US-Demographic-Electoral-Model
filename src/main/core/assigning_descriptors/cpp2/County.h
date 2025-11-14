@@ -30,6 +30,7 @@ public:
         const std::array<double, NUMBER_DEMOGRAPHICS>& demographics,
         const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
     );
+    County(const County& other);
     const std::string& getName() const noexcept;
     std::string getStateFIPS() const noexcept;
     uint32_t getPopulation() const noexcept;
