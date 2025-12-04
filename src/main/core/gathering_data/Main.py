@@ -14,7 +14,7 @@ def webpages_to_files():
 
     # Read and write nation data
     for page in pages:
-        soup = get_soup("https://statisticalatlas.com/United-States/" + page)
+        soup = get_soup("https://statisticalatlas.com/United-States/Overview" + page)
         with open(DATA_DIR + "\\" + page + ".html", 'w', encoding='utf-8') as out:
             out.write(soup.prettify())
 
