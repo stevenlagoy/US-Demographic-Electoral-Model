@@ -1,0 +1,114 @@
+{
+    "name" : "San Juan County", 
+	"state" : "Colorado", 
+	"FIPS" : "08111",
+    "population" : 552, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.7590579700000001, 
+            "Hispanic" : 0.23550725, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0, 
+            "Other" : 0.00543478
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0, 
+            "80-84" : 0.04529, 
+            "75-79" : 0.01268, 
+            "70-74" : 0.04891, 
+            "67-69" : 0.03804, 
+            "65-66" : 0.02536, 
+            "62-64" : 0.04891, 
+            "60-61" : 0.05072, 
+            "55-59" : 0.08696, 
+            "50-54" : 0.13949, 
+            "45-49" : 0.10869999999999999, 
+            "40-44" : 0.03442, 
+            "35-39" : 0.0163, 
+            "30-34" : 0.07065, 
+            "25-29" : 0.10145, 
+            "22-24" : 0.0072499999999999995, 
+            "21" : 0.052539999999999996, 
+            "20" : 0.005430000000000001, 
+            "18-19" : 0.005430000000000001, 
+            "15-17" : 0.0163, 
+            "10-14" : 0.0308, 
+            "5-9" : 0.005430000000000001, 
+            "0-4" : 0.04891
+        }, 
+        "household_types" : {
+            "Married" : 0.33802816999999996, 
+            "Single Female" : 0.07746479, 
+            "Single Male" : 0.031690140000000006, 
+            "One-Person" : 0.46126761, 
+            "Other Non-Family" : 0.0915493
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.09292035, 
+                "male" : 0.48387096999999996
+            }, 
+            "Now Married" : {
+                "female" : 0.45575221, 
+                "male" : 0.34408602
+            }, 
+            "Separated" : {
+                "female" : 0.0, 
+                "male" : 0.00716846
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0619469, 
+                "male" : 0.03942652
+            }, 
+            "Widowed" : {
+                "female" : 0.24336283000000003, 
+                "male" : 0.0
+            }, 
+            "Divorced" : {
+                "female" : 0.1460177, 
+                "male" : 0.12544803
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.6910891100000001, 
+            "Unemployed" : 0.07920792, 
+            "Other" : 0.22970296999999998
+        }, 
+        "industries" : {
+            "Retail" : 0.20057307000000002, 
+            "Construction" : 0.14899713, 
+            "Hospitality" : 0.14326648, 
+            "Entertainment" : 0.06876791, 
+            "Oil & Gas, and Mining" : 0.06590258, 
+            "Government" : 0.06303725, 
+            "Professional" : 0.05444126, 
+            "Healthcare" : 0.0487106, 
+            "Manufacturing" : 0.045845269999999994, 
+            "Other Services" : 0.045845269999999994, 
+            "Transportation" : 0.04297994, 
+            "Education" : 0.03151862, 
+            "Finance & Insurance" : 0.014326650000000002, 
+            "Real estate" : 0.014326650000000002, 
+            "Administrative" : 0.011461319999999999, 
+            "Agriculture" : 0.0, 
+            "Wholesalers" : 0.0, 
+            "Utilities" : 0.0, 
+            "Information" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00437637, 
+            "Professional" : 0.0, 
+            "Master's" : 0.03938731, 
+            "Bachelor's" : 0.24070022000000002, 
+            "Associate's" : 0.15317287000000002, 
+            "Some College" : 0.19037199000000002, 
+            "High School" : 0.32603939, 
+            "Some H.S." : 0.00656455, 
+            "Less than H.S." : 0.03938731, 
+            "None" : 0.0
+        }
+    }
+}

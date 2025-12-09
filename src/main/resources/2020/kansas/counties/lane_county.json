@@ -1,0 +1,114 @@
+{
+    "name" : "Lane County", 
+	"state" : "Kansas", 
+	"FIPS" : "20101",
+    "population" : 1687, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9365738, 
+            "Hispanic" : 0.05275637, 
+            "Black" : 0.005334910000000001, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0011855400000000001, 
+            "Other" : 0.004149379999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02549, 
+            "80-84" : 0.04861, 
+            "75-79" : 0.04505, 
+            "70-74" : 0.04031, 
+            "67-69" : 0.02727, 
+            "65-66" : 0.024300000000000002, 
+            "62-64" : 0.0409, 
+            "60-61" : 0.01363, 
+            "55-59" : 0.08773, 
+            "50-54" : 0.062240000000000004, 
+            "45-49" : 0.06461, 
+            "40-44" : 0.05572, 
+            "35-39" : 0.07113, 
+            "30-34" : 0.03794, 
+            "25-29" : 0.0492, 
+            "22-24" : 0.0326, 
+            "21" : 0.004739999999999999, 
+            "20" : 0.0053300000000000005, 
+            "18-19" : 0.02964, 
+            "15-17" : 0.05453, 
+            "10-14" : 0.0658, 
+            "5-9" : 0.05572, 
+            "0-4" : 0.0575
+        }, 
+        "household_types" : {
+            "Married" : 0.51111111, 
+            "Single Female" : 0.07037037, 
+            "Single Male" : 0.00987654, 
+            "One-Person" : 0.34197531, 
+            "Other Non-Family" : 0.06666667
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14658926, 
+                "male" : 0.25143678
+            }, 
+            "Now Married" : {
+                "female" : 0.58635704, 
+                "male" : 0.60632184
+            }, 
+            "Separated" : {
+                "female" : 0.01741655, 
+                "male" : 0.00862069
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0, 
+                "male" : 0.0158046
+            }, 
+            "Widowed" : {
+                "female" : 0.1988389, 
+                "male" : 0.0387931
+            }, 
+            "Divorced" : {
+                "female" : 0.05079826, 
+                "male" : 0.07902299
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.64937911, 
+            "Unemployed" : 0.02410519, 
+            "Other" : 0.3265157
+        }, 
+        "industries" : {
+            "Agriculture" : 0.23847019, 
+            "Healthcare" : 0.143982, 
+            "Construction" : 0.10123735, 
+            "Education" : 0.09336333, 
+            "Retail" : 0.07986502, 
+            "Other Services" : 0.05961755, 
+            "Government" : 0.047244089999999996, 
+            "Transportation" : 0.0359955, 
+            "Wholesalers" : 0.03487064, 
+            "Utilities" : 0.029246340000000003, 
+            "Information" : 0.02699663, 
+            "Professional" : 0.02362205, 
+            "Administrative" : 0.02362205, 
+            "Hospitality" : 0.01687289, 
+            "Manufacturing" : 0.014623170000000001, 
+            "Finance & Insurance" : 0.014623170000000001, 
+            "Entertainment" : 0.01012373, 
+            "Oil & Gas, and Mining" : 0.00449944, 
+            "Real estate" : 0.00112486, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00170794, 
+            "Professional" : 0.0, 
+            "Master's" : 0.046114430000000005, 
+            "Bachelor's" : 0.16481639999999997, 
+            "Associate's" : 0.10674637000000001, 
+            "Some College" : 0.30742955, 
+            "High School" : 0.30401366, 
+            "Some H.S." : 0.04953032, 
+            "Less than H.S." : 0.01878736, 
+            "None" : 0.00085397
+        }
+    }
+}

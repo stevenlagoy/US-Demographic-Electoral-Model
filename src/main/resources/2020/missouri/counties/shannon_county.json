@@ -1,0 +1,114 @@
+{
+    "name" : "Shannon County", 
+	"state" : "Missouri", 
+	"FIPS" : "29203",
+    "population" : 8256, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.94307171, 
+            "Hispanic" : 0.01768411, 
+            "Black" : 0.00193798, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.021196709999999997, 
+            "Other" : 0.016109500000000002
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01054, 
+            "80-84" : 0.02556, 
+            "75-79" : 0.036699999999999997, 
+            "70-74" : 0.05051, 
+            "67-69" : 0.048330000000000005, 
+            "65-66" : 0.02313, 
+            "62-64" : 0.03912, 
+            "60-61" : 0.03282, 
+            "55-59" : 0.08442, 
+            "50-54" : 0.08163999999999999, 
+            "45-49" : 0.062380000000000005, 
+            "40-44" : 0.05862, 
+            "35-39" : 0.03864, 
+            "30-34" : 0.05039, 
+            "25-29" : 0.0556, 
+            "22-24" : 0.03161, 
+            "21" : 0.014410000000000001, 
+            "20" : 0.008960000000000001, 
+            "18-19" : 0.02313, 
+            "15-17" : 0.04106, 
+            "10-14" : 0.04845, 
+            "5-9" : 0.07812999999999999, 
+            "0-4" : 0.055839999999999994
+        }, 
+        "household_types" : {
+            "Married" : 0.51952141, 
+            "Single Female" : 0.09666247, 
+            "Single Male" : 0.027078090000000003, 
+            "One-Person" : 0.29691436, 
+            "Other Non-Family" : 0.059823680000000004
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.19230768999999998, 
+                "male" : 0.27673147
+            }, 
+            "Now Married" : {
+                "female" : 0.4739734, 
+                "male" : 0.52794654
+            }, 
+            "Separated" : {
+                "female" : 0.02371313, 
+                "male" : 0.03128797
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.00462695, 
+                "male" : 0.00972053
+            }, 
+            "Widowed" : {
+                "female" : 0.12434933, 
+                "male" : 0.021567440000000004
+            }, 
+            "Divorced" : {
+                "female" : 0.1810295, 
+                "male" : 0.13274605
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.48798912, 
+            "Unemployed" : 0.04456867, 
+            "Other" : 0.46744221
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.22414860999999997, 
+            "Healthcare" : 0.12755418000000002, 
+            "Agriculture" : 0.09256966, 
+            "Education" : 0.08173375, 
+            "Retail" : 0.06811146, 
+            "Hospitality" : 0.05510836, 
+            "Government" : 0.0501548, 
+            "Construction" : 0.04334365, 
+            "Other Services" : 0.0374613, 
+            "Transportation" : 0.036222910000000004, 
+            "Oil & Gas, and Mining" : 0.03281734, 
+            "Professional" : 0.030340560000000003, 
+            "Wholesalers" : 0.023839009999999997, 
+            "Real estate" : 0.022600620000000002, 
+            "Entertainment" : 0.02229102, 
+            "Finance & Insurance" : 0.017647060000000003, 
+            "Administrative" : 0.015170280000000001, 
+            "Utilities" : 0.01114551, 
+            "Information" : 0.00773994, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00329518, 
+            "Professional" : 0.0067637899999999996, 
+            "Master's" : 0.03884842, 
+            "Bachelor's" : 0.10145682, 
+            "Associate's" : 0.0603538, 
+            "Some College" : 0.19320153, 
+            "High School" : 0.41311134000000005, 
+            "Some H.S." : 0.12816511, 
+            "Less than H.S." : 0.04734651, 
+            "None" : 0.0074575100000000005
+        }
+    }
+}

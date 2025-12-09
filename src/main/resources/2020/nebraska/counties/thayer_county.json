@@ -1,0 +1,114 @@
+{
+    "name" : "Thayer County", 
+	"state" : "Nebraska", 
+	"FIPS" : "31169",
+    "population" : 5163, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9568080600000001, 
+            "Hispanic" : 0.022080190000000003, 
+            "Black" : 0.0013558, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01685067, 
+            "Other" : 0.0029052899999999996
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.04261, 
+            "80-84" : 0.044349999999999994, 
+            "75-79" : 0.04842, 
+            "70-74" : 0.05191, 
+            "67-69" : 0.03525, 
+            "65-66" : 0.030990000000000004, 
+            "62-64" : 0.053840000000000006, 
+            "60-61" : 0.03428, 
+            "55-59" : 0.07089000000000001, 
+            "50-54" : 0.06817999999999999, 
+            "45-49" : 0.06353, 
+            "40-44" : 0.043, 
+            "35-39" : 0.05443, 
+            "30-34" : 0.04532, 
+            "25-29" : 0.03777, 
+            "22-24" : 0.03467, 
+            "21" : 0.01065, 
+            "20" : 0.00194, 
+            "18-19" : 0.01724, 
+            "15-17" : 0.03719, 
+            "10-14" : 0.05016, 
+            "5-9" : 0.06682, 
+            "0-4" : 0.05656
+        }, 
+        "household_types" : {
+            "Married" : 0.56378947, 
+            "Single Female" : 0.04084211, 
+            "Single Male" : 0.015578950000000001, 
+            "One-Person" : 0.33852632, 
+            "Other Non-Family" : 0.04126316
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14081913999999998, 
+                "male" : 0.22492837000000002
+            }, 
+            "Now Married" : {
+                "female" : 0.61481822, 
+                "male" : 0.64231137
+            }, 
+            "Separated" : {
+                "female" : 0.0069029, 
+                "male" : 0.0028653299999999997
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01472618, 
+                "male" : 0.025787969999999997
+            }, 
+            "Widowed" : {
+                "female" : 0.13345605000000002, 
+                "male" : 0.036771729999999996
+            }, 
+            "Divorced" : {
+                "female" : 0.0892775, 
+                "male" : 0.06733524
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.60218631, 
+            "Unemployed" : 0.00879278, 
+            "Other" : 0.38902091
+        }, 
+        "industries" : {
+            "Healthcare" : 0.19652723000000002, 
+            "Manufacturing" : 0.13220205, 
+            "Agriculture" : 0.12509866, 
+            "Retail" : 0.09234412, 
+            "Construction" : 0.06866614, 
+            "Education" : 0.06787687, 
+            "Other Services" : 0.05761642, 
+            "Finance & Insurance" : 0.05406472, 
+            "Transportation" : 0.03275454, 
+            "Government" : 0.031965270000000004, 
+            "Wholesalers" : 0.031570640000000004, 
+            "Hospitality" : 0.02407261, 
+            "Professional" : 0.02249408, 
+            "Administrative" : 0.01894238, 
+            "Entertainment" : 0.01736385, 
+            "Information" : 0.007892660000000001, 
+            "Real estate" : 0.007892660000000001, 
+            "Utilities" : 0.00552486, 
+            "Oil & Gas, and Mining" : 0.00513023, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00962052, 
+            "Professional" : 0.0040085500000000005, 
+            "Master's" : 0.0384821, 
+            "Bachelor's" : 0.14377338, 
+            "Associate's" : 0.13709246, 
+            "Some College" : 0.2231427, 
+            "High School" : 0.36237305999999997, 
+            "Some H.S." : 0.060395510000000006, 
+            "Less than H.S." : 0.014965260000000001, 
+            "None" : 0.00614645
+        }
+    }
+}

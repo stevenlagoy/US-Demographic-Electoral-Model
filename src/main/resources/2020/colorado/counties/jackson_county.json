@@ -1,0 +1,114 @@
+{
+    "name" : "Jackson County", 
+	"state" : "Colorado", 
+	"FIPS" : "08057",
+    "population" : 1306, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.81852986, 
+            "Hispanic" : 0.17304746999999998, 
+            "Black" : 0.0007657, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00459418, 
+            "Other" : 0.00306279
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0291, 
+            "80-84" : 0.0291, 
+            "75-79" : 0.03522, 
+            "70-74" : 0.04671, 
+            "67-69" : 0.04364, 
+            "65-66" : 0.04135, 
+            "62-64" : 0.03982, 
+            "60-61" : 0.03982, 
+            "55-59" : 0.12251, 
+            "50-54" : 0.10490000000000001, 
+            "45-49" : 0.04441, 
+            "40-44" : 0.05819, 
+            "35-39" : 0.01685, 
+            "30-34" : 0.06508, 
+            "25-29" : 0.04211, 
+            "22-24" : 0.03905, 
+            "21" : 0.00919, 
+            "20" : 0.0, 
+            "18-19" : 0.01761, 
+            "15-17" : 0.01455, 
+            "10-14" : 0.04671, 
+            "5-9" : 0.06585, 
+            "0-4" : 0.04824
+        }, 
+        "household_types" : {
+            "Married" : 0.50649351, 
+            "Single Female" : 0.019480519999999998, 
+            "Single Male" : 0.04383117, 
+            "One-Person" : 0.37824674999999996, 
+            "Other Non-Family" : 0.051948049999999996
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.13274336, 
+                "male" : 0.15065913
+            }, 
+            "Now Married" : {
+                "female" : 0.56106195, 
+                "male" : 0.60451977
+            }, 
+            "Separated" : {
+                "female" : 0.021238939999999998, 
+                "male" : 0.00188324
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.042477879999999996, 
+                "male" : 0.05649718
+            }, 
+            "Widowed" : {
+                "female" : 0.11681416, 
+                "male" : 0.039548019999999996
+            }, 
+            "Divorced" : {
+                "female" : 0.12566372, 
+                "male" : 0.14689266
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.66911765, 
+            "Unemployed" : 0.011948529999999999, 
+            "Other" : 0.31893382
+        }, 
+        "industries" : {
+            "Agriculture" : 0.27197802, 
+            "Hospitality" : 0.10851648000000001, 
+            "Government" : 0.10302198000000001, 
+            "Retail" : 0.09752746999999999, 
+            "Construction" : 0.08241758, 
+            "Education" : 0.07692307999999999, 
+            "Administrative" : 0.05906593, 
+            "Transportation" : 0.038461539999999995, 
+            "Other Services" : 0.03296703, 
+            "Wholesalers" : 0.03159341, 
+            "Healthcare" : 0.0260989, 
+            "Utilities" : 0.02472527, 
+            "Professional" : 0.01648352, 
+            "Oil & Gas, and Mining" : 0.015109889999999999, 
+            "Manufacturing" : 0.012362640000000001, 
+            "Entertainment" : 0.00274725, 
+            "Information" : 0.0, 
+            "Finance & Insurance" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.011099900000000001, 
+            "Professional" : 0.01614531, 
+            "Master's" : 0.01614531, 
+            "Bachelor's" : 0.14732593, 
+            "Associate's" : 0.059535819999999996, 
+            "Some College" : 0.25529768, 
+            "High School" : 0.37235115999999996, 
+            "Some H.S." : 0.08375378, 
+            "Less than H.S." : 0.03834511, 
+            "None" : 0.0
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name" : "Pemiscot County", 
+	"state" : "Missouri", 
+	"FIPS" : "29155",
+    "population" : 17599, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.6915733799999999, 
+            "Hispanic" : 0.02079664, 
+            "Black" : 0.26978806, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01568271, 
+            "Other" : 0.00215921
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02108, 
+            "80-84" : 0.02404, 
+            "75-79" : 0.0258, 
+            "70-74" : 0.03182, 
+            "67-69" : 0.031190000000000002, 
+            "65-66" : 0.02193, 
+            "62-64" : 0.02722, 
+            "60-61" : 0.026539999999999998, 
+            "55-59" : 0.07347000000000001, 
+            "50-54" : 0.06762, 
+            "45-49" : 0.06279, 
+            "40-44" : 0.05699, 
+            "35-39" : 0.05944, 
+            "30-34" : 0.05563, 
+            "25-29" : 0.06148, 
+            "22-24" : 0.02841, 
+            "21" : 0.01807, 
+            "20" : 0.01494, 
+            "18-19" : 0.02506, 
+            "15-17" : 0.047220000000000005, 
+            "10-14" : 0.07989, 
+            "5-9" : 0.06648, 
+            "0-4" : 0.0729
+        }, 
+        "household_types" : {
+            "Married" : 0.39775184, 
+            "Single Female" : 0.19801124, 
+            "Single Male" : 0.03084018, 
+            "One-Person" : 0.31892202999999997, 
+            "Other Non-Family" : 0.05447471
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.29023533, 
+                "male" : 0.31137725
+            }, 
+            "Now Married" : {
+                "female" : 0.38341898999999996, 
+                "male" : 0.4328711
+            }, 
+            "Separated" : {
+                "female" : 0.04354882, 
+                "male" : 0.03309171
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.008249929999999999, 
+                "male" : 0.0285219
+            }, 
+            "Widowed" : {
+                "female" : 0.136462, 
+                "male" : 0.054837689999999994
+            }, 
+            "Divorced" : {
+                "female" : 0.13808493, 
+                "male" : 0.13930035
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.48124768, 
+            "Unemployed" : 0.06008168999999999, 
+            "Other" : 0.45867063
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.20277778000000002, 
+            "Healthcare" : 0.19166667, 
+            "Retail" : 0.12114198, 
+            "Education" : 0.07962963, 
+            "Agriculture" : 0.06450617, 
+            "Government" : 0.052777779999999996, 
+            "Other Services" : 0.04907407, 
+            "Hospitality" : 0.041512349999999996, 
+            "Finance & Insurance" : 0.03425926, 
+            "Entertainment" : 0.03425926, 
+            "Construction" : 0.02839506, 
+            "Administrative" : 0.02700617, 
+            "Transportation" : 0.02237654, 
+            "Professional" : 0.01358025, 
+            "Utilities" : 0.01219136, 
+            "Real estate" : 0.00972222, 
+            "Wholesalers" : 0.00941358, 
+            "Information" : 0.00432099, 
+            "Oil & Gas, and Mining" : 0.00138889, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0035127799999999996, 
+            "Professional" : 0.00245894, 
+            "Master's" : 0.0343374, 
+            "Bachelor's" : 0.0763151, 
+            "Associate's" : 0.055589709999999994, 
+            "Some College" : 0.19557390000000002, 
+            "High School" : 0.38025819, 
+            "Some H.S." : 0.13647141, 
+            "Less than H.S." : 0.09660139, 
+            "None" : 0.01888118
+        }
+    }
+}

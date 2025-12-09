@@ -1,0 +1,161 @@
+{
+    "name" : "Warren County", 
+	"state" : "Kentucky", 
+	"FIPS" : "21227",
+    "population" : 121066, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.80325608, 
+            "Hispanic" : 0.049320209999999996, 
+            "Black" : 0.09197463, 
+            "Asian" : 0.03235425, 
+            "Mixed" : 0.01594998, 
+            "Other" : 0.007144859999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01218, 
+            "80-84" : 0.01443, 
+            "75-79" : 0.021240000000000002, 
+            "70-74" : 0.0286, 
+            "67-69" : 0.02448, 
+            "65-66" : 0.01844, 
+            "62-64" : 0.02825, 
+            "60-61" : 0.02174, 
+            "55-59" : 0.06034, 
+            "50-54" : 0.06278, 
+            "45-49" : 0.05765, 
+            "40-44" : 0.05804, 
+            "35-39" : 0.06446, 
+            "30-34" : 0.06472, 
+            "25-29" : 0.06899, 
+            "22-24" : 0.06369, 
+            "21" : 0.02377, 
+            "20" : 0.0223, 
+            "18-19" : 0.05856, 
+            "15-17" : 0.03748, 
+            "10-14" : 0.06624, 
+            "5-9" : 0.05808, 
+            "0-4" : 0.06353
+        }, 
+        "household_types" : {
+            "Married" : 0.47387653999999996, 
+            "Single Female" : 0.1221125, 
+            "Single Male" : 0.05022404, 
+            "One-Person" : 0.27078349, 
+            "Other Non-Family" : 0.08300344000000001
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.32456764, 
+                "male" : 0.38161566
+            }, 
+            "Now Married" : {
+                "female" : 0.44012081999999997, 
+                "male" : 0.45478383
+            }, 
+            "Separated" : {
+                "female" : 0.02029535, 
+                "male" : 0.0178725
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.016109929999999998, 
+                "male" : 0.02053659
+            }, 
+            "Widowed" : {
+                "female" : 0.07660112, 
+                "male" : 0.02024291
+            }, 
+            "Divorced" : {
+                "female" : 0.12230513999999999, 
+                "male" : 0.1049485
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.28389474, 
+            "Unclassified" : 0.24670015, 
+            "German" : 0.12743462, 
+            "Irish" : 0.11566418, 
+            "American" : 0.10391026, 
+            "English" : 0.09769878, 
+            "Scottish" : 0.02982671, 
+            "Italian" : 0.01967522, 
+            "Yugoslavian" : 0.01962566, 
+            "French" : 0.01915484, 
+            "Scotch-Irish" : 0.01784151, 
+            "European" : 0.016643810000000002, 
+            "Dutch" : 0.013042469999999999, 
+            "Arab" : 0.010506670000000001, 
+            "Polish" : 0.00961459, 
+            "Swedish" : 0.008425160000000001, 
+            "Subsaharan African" : 0.0070953, 
+            "Other Arab" : 0.0063684300000000004, 
+            "Mexican" : 0.51347754, 
+            "Central American" : 0.02549, 
+            "Salvadoran" : 0.33843594000000005, 
+            "Guatemalan" : 0.0168, 
+            "Honduran" : 0.12778702, 
+            "Puerto Rican" : 0.00634, 
+            "South American" : 0.12529118, 
+            "Cuban" : 0.00622, 
+            "Colombian" : 0.08119799999999999, 
+            "Peruvian" : 0.004030000000000001, 
+            "Dominican" : 0.06056572, 
+            "Other Hispanic" : 0.00301, 
+            "Spaniard" : 0.04176373, 
+            "Burmese" : 0.39877457, 
+            "Vietnamese" : 0.0129, 
+            "Cambodian" : 0.10773550999999999, 
+            "Indian" : 0.0034899999999999996, 
+            "Nepalese" : 0.09701302, 
+            "Chinese" : 0.00314, 
+            "Japanese" : 0.09216237, 
+            "Korean" : 0.00298, 
+            "Filipino" : 0.07275977, 
+            "Bhutanese" : 0.0023499999999999997, 
+            "Thai" : 0.04697472999999999, 
+            "Pakistani" : 0.0015199999999999999, 
+            "Taiwanese" : 0.04314526, 
+            "Bangladeshi" : 0.0014000000000000002
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0008485900000000001, 
+            "Employed" : 0.60235328, 
+            "Unemployed" : 0.0439093, 
+            "Other" : 0.35288882
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.1675085, 
+            "Retail" : 0.13002096, 
+            "Education" : 0.12454043000000001, 
+            "Healthcare" : 0.12321754, 
+            "Hospitality" : 0.09541972, 
+            "Construction" : 0.052760879999999996, 
+            "Transportation" : 0.042607290000000006, 
+            "Other Services" : 0.0381404, 
+            "Administrative" : 0.03759063, 
+            "Professional" : 0.03250524, 
+            "Wholesalers" : 0.027815, 
+            "Government" : 0.027265229999999998, 
+            "Finance & Insurance" : 0.024241489999999997, 
+            "Entertainment" : 0.0237948, 
+            "Information" : 0.01683675, 
+            "Real estate" : 0.014294059999999999, 
+            "Agriculture" : 0.01023949, 
+            "Utilities" : 0.00584132, 
+            "Oil & Gas, and Mining" : 0.0029722, 
+            "Management" : 0.00238807
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.014821679999999999, 
+            "Professional" : 0.01761436, 
+            "Master's" : 0.08339918, 
+            "Bachelor's" : 0.17472685999999998, 
+            "Associate's" : 0.07646514, 
+            "Some College" : 0.21040514000000002, 
+            "High School" : 0.29955317000000004, 
+            "Some H.S." : 0.06586655000000001, 
+            "Less than H.S." : 0.04443778, 
+            "None" : 0.01271013
+        }
+    }
+}

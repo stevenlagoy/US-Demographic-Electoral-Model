@@ -200,7 +200,8 @@ int main() {
 
     if (bestScore >= 0.0) {
         cout << "Best score across workers: " << setprecision(12) << bestScore << "\n";
-        cout << "Best simulation saved to " << LOGS_DIR << "best_cpplog.json\n";
+        // Writing is done in the main loop whenever a best score is found
+        cout << "Best simulation saved to " << LOGS_DIR << "cpplog.json\n";
     } else {
         cout << "No successful simulations completed.\n";
     }
@@ -224,8 +225,7 @@ void Simulation::initialize() {
     counties.clear();
 
     // Read demographic names
-    // Can arbitrarily use nation data for this
-    
+    // Can use nation data for this, as all files have same demographic keys
     json j = freadJson(RESOURCES_DIR "nation.json");
     json demoJson = j["demographics"];
     auto keys = getJsonNestedKeys(demoJson);
@@ -250,22 +250,43 @@ void Simulation::initialize() {
     ++descriptorsMade;
 
     // Each State
+    map<string, size_t> stateToDescriptor;
     for (const string& abbr : statesAbbreviations) {
         descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
+        stateToDescriptor[abbr] = descriptorsMade; // Map abbreviation to descriptor index
+        logger.logLine(abbr, descriptorsMade);
         ++descriptorsMade;
     }
 
     // Create additional unfixed descriptors
     while (descriptorsMade < NUMBER_DESCRIPTORS) {
-        descriptors[descriptorsMade] = Descriptor(to_string(descriptorsMade), &demographicNames);
+        string name = to_string(descriptorsMade);
+        name.append(3 - name.length(), '0'); // Pad forwards with zeroes
+        descriptors[descriptorsMade] = Descriptor(name, &demographicNames);
         ++descriptorsMade;
     }
 
     // Read Counties and assign fixed descriptors
-    size_t stateOrder = 1;
     for (const string& state : listDirectories(RESOURCES_DIR)) {
         logger.logLine("Initializing ", state);
         string countyDir = RESOURCES_DIR + state + "/counties/";
+
+        // Convert state name to abbreviation
+        auto nameToAbbrIt = stateNameToAbbr.find(state);
+        if (nameToAbbrIt == stateNameToAbbr.end()) {
+            logger.logLine("Warning: Unknown state name: ", state);
+            continue;
+        }
+        string stateAbbr = nameToAbbrIt->second;
+
+        // Find descriptor index
+        auto stateDescIt = stateToDescriptor.find(stateAbbr);
+        if (stateDescIt == stateToDescriptor.end()) {
+            logger.logLine("Warning: No descriptor found for state abbreviation: ", stateAbbr);
+            continue;
+        }
+        size_t stateDescriptorIndex = stateDescIt->second;
+
         for (const string& file : listFiles(countyDir)) {
             // Verify file name: must contain only digits before a dot ("01001.json", "56045.json", ...)
             if (file.find('.') == string::npos || !all_of(file.begin(), file.begin() + file.find('.'), ::isdigit)) continue;
@@ -287,10 +308,14 @@ void Simulation::initialize() {
                 demoArray,
                 &descriptors
             );
-            countyPtr->addDescriptor(stateOrder);
+            // Add nation (index 0)
+            // countyPtr->addDescriptor(0); // This is done in the county's constructor
+            // Add state descriptor
+            logger.logLine("Assigning descriptor ", stateDescriptorIndex, " to county ", countyPtr->getName());
+            countyPtr->addDescriptor(stateDescriptorIndex);
+
             counties.emplace_back(move(countyPtr));
         }
-        ++stateOrder;
     }
 }
 
@@ -369,7 +394,7 @@ void Simulation::run() {
 
         // Print details
         if (iter % 10000 == 0)
-            logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "]",
+            logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] ",
             "Iter: ", setw(8), iter, ", ",
             "Acc: ", fixed, setprecision(12), setw(14), newScore * 100, "% ",
             progressBar(newScore, 100));

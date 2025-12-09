@@ -1,0 +1,114 @@
+{
+    "name" : "Lake County", 
+	"state" : "Minnesota", 
+	"FIPS" : "27075",
+    "population" : 10721, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.95970525, 
+            "Hispanic" : 0.013897960000000001, 
+            "Black" : 0.00895439, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01156609, 
+            "Other" : 0.005876320000000001
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03199, 
+            "80-84" : 0.03964, 
+            "75-79" : 0.04934, 
+            "70-74" : 0.06539, 
+            "67-69" : 0.03218, 
+            "65-66" : 0.02836, 
+            "62-64" : 0.05149, 
+            "60-61" : 0.04356, 
+            "55-59" : 0.08367000000000001, 
+            "50-54" : 0.08283, 
+            "45-49" : 0.0541, 
+            "40-44" : 0.04841, 
+            "35-39" : 0.051390000000000005, 
+            "30-34" : 0.04841, 
+            "25-29" : 0.04804, 
+            "22-24" : 0.024249999999999997, 
+            "21" : 0.00438, 
+            "20" : 0.01213, 
+            "18-19" : 0.01744, 
+            "15-17" : 0.03218, 
+            "10-14" : 0.051210000000000006, 
+            "5-9" : 0.04906, 
+            "0-4" : 0.05055
+        }, 
+        "household_types" : {
+            "Married" : 0.51987709, 
+            "Single Female" : 0.05915114, 
+            "Single Male" : 0.05185327, 
+            "One-Person" : 0.3105435, 
+            "Other Non-Family" : 0.058575
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14349776, 
+                "male" : 0.22286822
+            }, 
+            "Now Married" : {
+                "female" : 0.60807175, 
+                "male" : 0.58161068
+            }, 
+            "Separated" : {
+                "female" : 0.00964126, 
+                "male" : 0.00645995
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.015470850000000001, 
+                "male" : 0.014427220000000001
+            }, 
+            "Widowed" : {
+                "female" : 0.10650224, 
+                "male" : 0.05663221
+            }, 
+            "Divorced" : {
+                "female" : 0.11681614, 
+                "male" : 0.11800172
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.53762486, 
+            "Unemployed" : 0.02286349, 
+            "Other" : 0.43951165000000003
+        }, 
+        "industries" : {
+            "Healthcare" : 0.18559042, 
+            "Hospitality" : 0.12654831, 
+            "Manufacturing" : 0.11808423, 
+            "Education" : 0.07741536, 
+            "Construction" : 0.058629230000000004, 
+            "Government" : 0.05718415, 
+            "Retail" : 0.054706849999999994, 
+            "Oil & Gas, and Mining" : 0.04995871, 
+            "Transportation" : 0.044384810000000004, 
+            "Professional" : 0.03757225, 
+            "Information" : 0.032824110000000004, 
+            "Finance & Insurance" : 0.032204790000000004, 
+            "Other Services" : 0.026217999999999998, 
+            "Administrative" : 0.02270851, 
+            "Entertainment" : 0.020024769999999997, 
+            "Wholesalers" : 0.0171346, 
+            "Utilities" : 0.01692816, 
+            "Real estate" : 0.01156069, 
+            "Agriculture" : 0.010322050000000001, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.019422250000000002, 
+            "Professional" : 0.0244622, 
+            "Master's" : 0.057160419999999997, 
+            "Bachelor's" : 0.17135833, 
+            "Associate's" : 0.11641057, 
+            "Some College" : 0.22999385, 
+            "High School" : 0.33497234, 
+            "Some H.S." : 0.03626306, 
+            "Less than H.S." : 0.009342350000000001, 
+            "None" : 0.00061463
+        }
+    }
+}

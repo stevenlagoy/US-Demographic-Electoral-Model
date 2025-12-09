@@ -1,0 +1,114 @@
+{
+    "name" : "Phillips County", 
+	"state" : "Montana", 
+	"FIPS" : "30071",
+    "population" : 4150, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.85228916, 
+            "Hispanic" : 0.021686749999999998, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.022409639999999998, 
+            "Other" : 0.10361446
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0253, 
+            "80-84" : 0.02843, 
+            "75-79" : 0.05205, 
+            "70-74" : 0.05133, 
+            "67-69" : 0.03181, 
+            "65-66" : 0.02169, 
+            "62-64" : 0.03711, 
+            "60-61" : 0.01976, 
+            "55-59" : 0.10289, 
+            "50-54" : 0.08675000000000001, 
+            "45-49" : 0.061200000000000004, 
+            "40-44" : 0.03928, 
+            "35-39" : 0.061689999999999995, 
+            "30-34" : 0.041929999999999995, 
+            "25-29" : 0.0441, 
+            "22-24" : 0.01928, 
+            "21" : 0.011810000000000001, 
+            "20" : 0.01325, 
+            "18-19" : 0.02843, 
+            "15-17" : 0.0347, 
+            "10-14" : 0.06145, 
+            "5-9" : 0.06361, 
+            "0-4" : 0.062169999999999996
+        }, 
+        "household_types" : {
+            "Married" : 0.54303165, 
+            "Single Female" : 0.059966689999999996, 
+            "Single Male" : 0.03498057, 
+            "One-Person" : 0.34092171, 
+            "Other Non-Family" : 0.02109939
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14599407, 
+                "male" : 0.28436019
+            }, 
+            "Now Married" : {
+                "female" : 0.59643917, 
+                "male" : 0.57760664
+            }, 
+            "Separated" : {
+                "female" : 0.01127596, 
+                "male" : 0.00236967
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0035608299999999996, 
+                "male" : 0.018364929999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.14658754, 
+                "male" : 0.0450237
+            }, 
+            "Divorced" : {
+                "female" : 0.09614243, 
+                "male" : 0.07227488
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.51886228, 
+            "Unemployed" : 0.04071856, 
+            "Other" : 0.44041916000000003
+        }, 
+        "industries" : {
+            "Agriculture" : 0.23773803000000002, 
+            "Retail" : 0.09578765, 
+            "Construction" : 0.09521062000000001, 
+            "Education" : 0.09174841, 
+            "Healthcare" : 0.08713214000000001, 
+            "Government" : 0.08655511, 
+            "Hospitality" : 0.06462781, 
+            "Transportation" : 0.06231968, 
+            "Other Services" : 0.049047890000000004, 
+            "Information" : 0.03231391, 
+            "Utilities" : 0.020773229999999997, 
+            "Manufacturing" : 0.017888059999999997, 
+            "Professional" : 0.017888059999999997, 
+            "Finance & Insurance" : 0.01673399, 
+            "Oil & Gas, and Mining" : 0.01442585, 
+            "Administrative" : 0.00865551, 
+            "Wholesalers" : 0.0011540699999999999, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0, 
+            "Entertainment" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.0037581100000000003, 
+            "Master's" : 0.03348138, 
+            "Bachelor's" : 0.13665869, 
+            "Associate's" : 0.08814486, 
+            "Some College" : 0.2463273, 
+            "High School" : 0.40416809, 
+            "Some H.S." : 0.04373078, 
+            "Less than H.S." : 0.041339259999999996, 
+            "None" : 0.0023915300000000002
+        }
+    }
+}

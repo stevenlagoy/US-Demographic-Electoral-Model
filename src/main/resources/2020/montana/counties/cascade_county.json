@@ -1,0 +1,157 @@
+{
+    "name" : "Cascade County", 
+	"state" : "Montana", 
+	"FIPS" : "30013",
+    "population" : 82049, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.86126583, 
+            "Hispanic" : 0.03951297, 
+            "Black" : 0.01217565, 
+            "Asian" : 0.00884837, 
+            "Mixed" : 0.03553974, 
+            "Other" : 0.04265744
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02193, 
+            "80-84" : 0.02452, 
+            "75-79" : 0.03018, 
+            "70-74" : 0.038849999999999996, 
+            "67-69" : 0.03174, 
+            "65-66" : 0.023639999999999998, 
+            "62-64" : 0.03798, 
+            "60-61" : 0.0254, 
+            "55-59" : 0.06942, 
+            "50-54" : 0.0689, 
+            "45-49" : 0.055170000000000004, 
+            "40-44" : 0.05148, 
+            "35-39" : 0.05511, 
+            "30-34" : 0.06835, 
+            "25-29" : 0.07253, 
+            "22-24" : 0.04703, 
+            "21" : 0.014190000000000001, 
+            "20" : 0.016220000000000002, 
+            "18-19" : 0.02222, 
+            "15-17" : 0.03436, 
+            "10-14" : 0.060629999999999996, 
+            "5-9" : 0.0629, 
+            "0-4" : 0.06724000000000001
+        }, 
+        "household_types" : {
+            "Married" : 0.47805964, 
+            "Single Female" : 0.10232, 
+            "Single Male" : 0.04675142, 
+            "One-Person" : 0.31173472, 
+            "Other Non-Family" : 0.061134219999999996
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22799831, 
+                "male" : 0.30354883
+            }, 
+            "Now Married" : {
+                "female" : 0.48912716, 
+                "male" : 0.51229138
+            }, 
+            "Separated" : {
+                "female" : 0.014185890000000001, 
+                "male" : 0.014611069999999999
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02279983, 
+                "male" : 0.02693258
+            }, 
+            "Widowed" : {
+                "female" : 0.09740377, 
+                "male" : 0.0332289
+            }, 
+            "Divorced" : {
+                "female" : 0.14848503, 
+                "male" : 0.10938724000000001
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.25249546, 
+            "Other" : 0.17996563, 
+            "Unclassified" : 0.15097075999999998, 
+            "Irish" : 0.13423686, 
+            "Norwegian" : 0.10157345, 
+            "English" : 0.0934076, 
+            "American" : 0.08643615, 
+            "European" : 0.06012260999999999, 
+            "Italian" : 0.04221866999999999, 
+            "French" : 0.03301686, 
+            "Swedish" : 0.03299248, 
+            "Scottish" : 0.02616729, 
+            "Polish" : 0.022157490000000002, 
+            "Dutch" : 0.0208412, 
+            "Scotch-Irish" : 0.01424758, 
+            "Czech" : 0.01322381, 
+            "Welsh" : 0.009677139999999999, 
+            "Russian" : 0.00934807, 
+            "Finnish" : 0.008214599999999999, 
+            "Danish" : 0.00784897, 
+            "Mexican" : 0.64867283, 
+            "Puerto Rican" : 0.02651, 
+            "Other Hispanic" : 0.1595586, 
+            "Spaniard" : 0.006520000000000001, 
+            "Cuban" : 0.13033105, 
+            "Spanish" : 0.0053300000000000005, 
+            "South American" : 0.07992842, 
+            "Central American" : 0.0032700000000000003, 
+            "Costa Rican" : 0.033402919999999996, 
+            "Colombian" : 0.0013700000000000001, 
+            "Chinese" : 0.21900825999999998, 
+            "Filipino" : 0.00194, 
+            "Vietnamese" : 0.17630853999999999, 
+            "Korean" : 0.00156, 
+            "Laotian" : 0.16666667000000002, 
+            "Pakistani" : 0.00147, 
+            "Indian" : 0.11570248, 
+            "Mixed" : 0.0010199999999999999, 
+            "Japanese" : 0.10743802000000001, 
+            "Thai" : 0.00095, 
+            "Mongolian" : 0.07024793
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.04068159, 
+            "Employed" : 0.5617483, 
+            "Unemployed" : 0.02964774, 
+            "Other" : 0.36792237
+        }, 
+        "industries" : {
+            "Healthcare" : 0.18006964, 
+            "Retail" : 0.12786332, 
+            "Hospitality" : 0.09391153, 
+            "Education" : 0.07932966999999999, 
+            "Government" : 0.07154905, 
+            "Construction" : 0.06774036, 
+            "Finance & Insurance" : 0.054681969999999996, 
+            "Other Services" : 0.05236955, 
+            "Transportation" : 0.047880729999999996, 
+            "Professional" : 0.04061701, 
+            "Administrative" : 0.033979, 
+            "Manufacturing" : 0.03215627, 
+            "Entertainment" : 0.02701453, 
+            "Wholesalers" : 0.024484469999999998, 
+            "Agriculture" : 0.023505090000000003, 
+            "Information" : 0.01803689, 
+            "Real estate" : 0.01256869, 
+            "Oil & Gas, and Mining" : 0.00720931, 
+            "Utilities" : 0.00503292, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0037184099999999997, 
+            "Professional" : 0.01584838, 
+            "Master's" : 0.06380866, 
+            "Bachelor's" : 0.17602888, 
+            "Associate's" : 0.09389892, 
+            "Some College" : 0.24951263999999998, 
+            "High School" : 0.31373646, 
+            "Some H.S." : 0.06066787, 
+            "Less than H.S." : 0.0183935, 
+            "None" : 0.00438628
+        }
+    }
+}

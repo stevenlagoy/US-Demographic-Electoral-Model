@@ -1,0 +1,114 @@
+{
+    "name" : "Eureka County", 
+	"state" : "Nevada", 
+	"FIPS" : "32011",
+    "population" : 1730, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.98265896, 
+            "Hispanic" : 0.0040462399999999996, 
+            "Black" : 0.00115607, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0, 
+            "Other" : 0.01213873
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.035840000000000004, 
+            "80-84" : 0.00983, 
+            "75-79" : 0.0028899999999999998, 
+            "70-74" : 0.057800000000000004, 
+            "67-69" : 0.01965, 
+            "65-66" : 0.030059999999999996, 
+            "62-64" : 0.09249, 
+            "60-61" : 0.03237, 
+            "55-59" : 0.0526, 
+            "50-54" : 0.12601, 
+            "45-49" : 0.05087, 
+            "40-44" : 0.06647, 
+            "35-39" : 0.07977000000000001, 
+            "30-34" : 0.07225, 
+            "25-29" : 0.033530000000000004, 
+            "22-24" : 0.00462, 
+            "21" : 0.0, 
+            "20" : 0.0, 
+            "18-19" : 0.03064, 
+            "15-17" : 0.02023, 
+            "10-14" : 0.09422000000000001, 
+            "5-9" : 0.04566, 
+            "0-4" : 0.042199999999999994
+        }, 
+        "household_types" : {
+            "Married" : 0.54960836, 
+            "Single Female" : 0.019582250000000002, 
+            "Single Male" : 0.01174935, 
+            "One-Person" : 0.35378590000000004, 
+            "Other Non-Family" : 0.06527415
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.07782673, 
+                "male" : 0.19482289000000003
+            }, 
+            "Now Married" : {
+                "female" : 0.63142438, 
+                "male" : 0.5735694800000001
+            }, 
+            "Separated" : {
+                "female" : 0.023494860000000003, 
+                "male" : 0.0
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0, 
+                "male" : 0.0
+            }, 
+            "Widowed" : {
+                "female" : 0.08663729999999999, 
+                "male" : 0.03678474
+            }, 
+            "Divorced" : {
+                "female" : 0.18061674, 
+                "male" : 0.19482289000000003
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.63392226, 
+            "Unemployed" : 0.024734980000000004, 
+            "Other" : 0.34134276
+        }, 
+        "industries" : {
+            "Oil & Gas, and Mining" : 0.23299889000000001, 
+            "Agriculture" : 0.17837234999999999, 
+            "Government" : 0.16610925, 
+            "Construction" : 0.08807135, 
+            "Education" : 0.07915273, 
+            "Professional" : 0.07246377, 
+            "Hospitality" : 0.055741360000000004, 
+            "Utilities" : 0.05128205, 
+            "Retail" : 0.026755849999999998, 
+            "Entertainment" : 0.02006689, 
+            "Healthcare" : 0.0122631, 
+            "Other Services" : 0.00891862, 
+            "Manufacturing" : 0.0078037900000000006, 
+            "Wholesalers" : 0.0, 
+            "Transportation" : 0.0, 
+            "Information" : 0.0, 
+            "Finance & Insurance" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0, 
+            "Administrative" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.015163, 
+            "Professional" : 0.0, 
+            "Master's" : 0.03563306, 
+            "Bachelor's" : 0.11523882, 
+            "Associate's" : 0.06595906, 
+            "Some College" : 0.26838514, 
+            "High School" : 0.41546626000000003, 
+            "Some H.S." : 0.04624716, 
+            "Less than H.S." : 0.037907510000000005, 
+            "None" : 0.0
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name" : "Wheatland County", 
+	"state" : "Montana", 
+	"FIPS" : "30107",
+    "population" : 2109, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9497392100000001, 
+            "Hispanic" : 0.023707919999999997, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0170697, 
+            "Other" : 0.009483169999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03651, 
+            "80-84" : 0.01849, 
+            "75-79" : 0.0294, 
+            "70-74" : 0.06496, 
+            "67-69" : 0.03272, 
+            "65-66" : 0.03746, 
+            "62-64" : 0.039830000000000004, 
+            "60-61" : 0.01849, 
+            "55-59" : 0.10194, 
+            "50-54" : 0.03793, 
+            "45-49" : 0.05595, 
+            "40-44" : 0.04457, 
+            "35-39" : 0.05974, 
+            "30-34" : 0.059269999999999996, 
+            "25-29" : 0.03888, 
+            "22-24" : 0.03556, 
+            "21" : 0.00522, 
+            "20" : 0.009479999999999999, 
+            "18-19" : 0.04125, 
+            "15-17" : 0.02323, 
+            "10-14" : 0.06069, 
+            "5-9" : 0.0825, 
+            "0-4" : 0.06591
+        }, 
+        "household_types" : {
+            "Married" : 0.50632911, 
+            "Single Female" : 0.03797468, 
+            "Single Male" : 0.03682394, 
+            "One-Person" : 0.38319907999999997, 
+            "Other Non-Family" : 0.03567319
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.23209876999999998, 
+                "male" : 0.31701632
+            }, 
+            "Now Married" : {
+                "female" : 0.5481481500000001, 
+                "male" : 0.5128205100000001
+            }, 
+            "Separated" : {
+                "female" : 0.006172840000000001, 
+                "male" : 0.0034965
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.00740741, 
+                "male" : 0.02097902
+            }, 
+            "Widowed" : {
+                "female" : 0.10493827, 
+                "male" : 0.02913753
+            }, 
+            "Divorced" : {
+                "female" : 0.10123457, 
+                "male" : 0.11655012
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.594906, 
+            "Unemployed" : 0.01697999, 
+            "Other" : 0.38811400999999995
+        }, 
+        "industries" : {
+            "Agriculture" : 0.41692151000000005, 
+            "Construction" : 0.10907238, 
+            "Retail" : 0.06931702, 
+            "Education" : 0.06727829, 
+            "Healthcare" : 0.06422018, 
+            "Other Services" : 0.04892966000000001, 
+            "Hospitality" : 0.0479103, 
+            "Transportation" : 0.038735979999999996, 
+            "Finance & Insurance" : 0.03669725, 
+            "Administrative" : 0.01732926, 
+            "Manufacturing" : 0.01529052, 
+            "Government" : 0.01325178, 
+            "Wholesalers" : 0.01019368, 
+            "Information" : 0.01019368, 
+            "Real estate" : 0.01019368, 
+            "Entertainment" : 0.008154940000000001, 
+            "Utilities" : 0.00713558, 
+            "Professional" : 0.00509684, 
+            "Oil & Gas, and Mining" : 0.004077470000000001, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00841515, 
+            "Professional" : 0.00140252, 
+            "Master's" : 0.03015428, 
+            "Bachelor's" : 0.15077139, 
+            "Associate's" : 0.028050489999999997, 
+            "Some College" : 0.20967742, 
+            "High School" : 0.33099579, 
+            "Some H.S." : 0.05890603, 
+            "Less than H.S." : 0.1802244, 
+            "None" : 0.00140252
+        }
+    }
+}

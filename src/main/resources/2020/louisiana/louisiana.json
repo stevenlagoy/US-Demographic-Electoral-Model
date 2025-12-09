@@ -1,0 +1,167 @@
+{
+    "name" : "Louisiana", 
+	"FIPS" : "22",
+    "population" : 4645670, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.5929484899999999, 
+            "Hispanic" : 0.04577530999999999, 
+            "Black" : 0.32163305000000003, 
+            "Asian" : 0.0169446, 
+            "Mixed" : 0.015621640000000001, 
+            "Other" : 0.00707691
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01571, 
+            "80-84" : 0.01702, 
+            "75-79" : 0.023629999999999998, 
+            "70-74" : 0.03366, 
+            "67-69" : 0.02568, 
+            "65-66" : 0.020710000000000003, 
+            "62-64" : 0.03375, 
+            "60-61" : 0.02508, 
+            "55-59" : 0.06732, 
+            "50-54" : 0.06871000000000001, 
+            "45-49" : 0.06275, 
+            "40-44" : 0.06038, 
+            "35-39" : 0.062169999999999996, 
+            "30-34" : 0.0703, 
+            "25-29" : 0.0731, 
+            "22-24" : 0.042809999999999994, 
+            "21" : 0.01559, 
+            "20" : 0.01564, 
+            "18-19" : 0.02619, 
+            "15-17" : 0.0397, 
+            "10-14" : 0.0662, 
+            "5-9" : 0.06733, 
+            "0-4" : 0.06657
+        }, 
+        "household_types" : {
+            "Married" : 0.43315691, 
+            "Single Female" : 0.16373184999999998, 
+            "Single Male" : 0.05162822, 
+            "One-Person" : 0.29654014, 
+            "Other Non-Family" : 0.05494288
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.32168884, 
+                "male" : 0.38251828000000004
+            }, 
+            "Now Married" : {
+                "female" : 0.39553917, 
+                "male" : 0.42875929999999995
+            }, 
+            "Separated" : {
+                "female" : 0.03057481, 
+                "male" : 0.02283708
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02032187, 
+                "male" : 0.02764626
+            }, 
+            "Widowed" : {
+                "female" : 0.09974171999999999, 
+                "male" : 0.03027254
+            }, 
+            "Divorced" : {
+                "female" : 0.1321336, 
+                "male" : 0.10796655
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.43131411, 
+            "Unclassified" : 0.15007071, 
+            "French" : 0.1243784, 
+            "American" : 0.09484724, 
+            "German" : 0.07508067, 
+            "Irish" : 0.07328824, 
+            "English" : 0.05495806, 
+            "Italian" : 0.04765168, 
+            "French Canadian" : 0.029750930000000002, 
+            "Cajun" : 0.01254867, 
+            "Subsaharan African" : 0.01200709, 
+            "African" : 0.01105072, 
+            "Scottish" : 0.0097409, 
+            "Scotch-Irish" : 0.00779672, 
+            "European" : 0.0053103199999999995, 
+            "Dutch" : 0.00513424, 
+            "Polish" : 0.0050165, 
+            "Mexican" : 0.40570168, 
+            "Central American" : 0.01951, 
+            "Honduran" : 0.30677057, 
+            "Other Hispanic" : 0.014750000000000001, 
+            "Puerto Rican" : 0.17557562999999998, 
+            "Cuban" : 0.00844, 
+            "South American" : 0.09955328, 
+            "Guatemalan" : 0.00479, 
+            "Spaniard" : 0.06272381, 
+            "Salvadoran" : 0.00302, 
+            "Nicaraguan" : 0.05049506, 
+            "Dominican" : 0.00243, 
+            "Colombian" : 0.04985945, 
+            "Spanish" : 0.0024, 
+            "Venezuelan" : 0.04481487000000001, 
+            "Panamanian" : 0.00216, 
+            "Ecuadorian" : 0.04374508, 
+            "Peruvian" : 0.0021, 
+            "Costa Rican" : 0.03617597, 
+            "Vietnamese" : 0.42599626999999995, 
+            "Chinese" : 0.00722, 
+            "Indian" : 0.15169146, 
+            "Filipino" : 0.0025700000000000002, 
+            "Korean" : 0.13445293, 
+            "Laotian" : 0.00228, 
+            "Pakistani" : 0.09337009, 
+            "Japanese" : 0.00158, 
+            "Thai" : 0.050851759999999996, 
+            "Not Specified" : 0.00086, 
+            "Mixed" : 0.02136714, 
+            "Nepalese" : 0.00035999999999999997, 
+            "Cambodian" : 0.019982470000000002, 
+            "Taiwanese" : 0.00034, 
+            "Sri Lankan" : 0.019169449999999998, 
+            "Indonesian" : 0.00032
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00412732, 
+            "Employed" : 0.55424794, 
+            "Unemployed" : 0.04605472, 
+            "Other" : 0.39557001999999997
+        }, 
+        "industries" : {
+            "Healthcare" : 0.14455001, 
+            "Retail" : 0.11572087, 
+            "Education" : 0.09108232, 
+            "Hospitality" : 0.08137074999999999, 
+            "Construction" : 0.0800606, 
+            "Manufacturing" : 0.07893409, 
+            "Government" : 0.053911480000000005, 
+            "Professional" : 0.05362023, 
+            "Other Services" : 0.0518189, 
+            "Transportation" : 0.04162553, 
+            "Administrative" : 0.034514010000000005, 
+            "Finance & Insurance" : 0.03434272, 
+            "Oil & Gas, and Mining" : 0.03433679, 
+            "Wholesalers" : 0.025860829999999998, 
+            "Entertainment" : 0.02335407, 
+            "Real estate" : 0.017023999999999997, 
+            "Information" : 0.01604016, 
+            "Agriculture" : 0.011262620000000001, 
+            "Utilities" : 0.01021016, 
+            "Management" : 0.00035987
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00951409, 
+            "Professional" : 0.01612405, 
+            "Master's" : 0.053315760000000004, 
+            "Bachelor's" : 0.15062203999999998, 
+            "Associate's" : 0.05684775, 
+            "Some College" : 0.21298548, 
+            "High School" : 0.33874694, 
+            "Some H.S." : 0.10601214, 
+            "Less than H.S." : 0.04312978, 
+            "None" : 0.01270198
+        }
+    }
+}

@@ -1,0 +1,128 @@
+{
+    "name" : "Jefferson County", 
+	"state" : "Mississippi", 
+	"FIPS" : "28063",
+    "population" : 7528, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.13190754999999998, 
+            "Hispanic" : 0.0013283700000000002, 
+            "Black" : 0.8618491, 
+            "Asian" : 0.00491498, 
+            "Mixed" : 0.0, 
+            "Other" : 0.0
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02537, 
+            "80-84" : 0.012350000000000002, 
+            "75-79" : 0.01993, 
+            "70-74" : 0.02683, 
+            "67-69" : 0.022320000000000003, 
+            "65-66" : 0.03268, 
+            "62-64" : 0.02643, 
+            "60-61" : 0.03653, 
+            "55-59" : 0.08502000000000001, 
+            "50-54" : 0.06389, 
+            "45-49" : 0.04875, 
+            "40-44" : 0.05739, 
+            "35-39" : 0.057249999999999995, 
+            "30-34" : 0.08555, 
+            "25-29" : 0.055529999999999996, 
+            "22-24" : 0.04516, 
+            "21" : 0.00199, 
+            "20" : 0.00877, 
+            "18-19" : 0.054459999999999995, 
+            "15-17" : 0.04091, 
+            "10-14" : 0.05898, 
+            "5-9" : 0.05526, 
+            "0-4" : 0.07864
+        }, 
+        "household_types" : {
+            "Married" : 0.25437525, 
+            "Single Female" : 0.27960928, 
+            "Single Male" : 0.08628409, 
+            "One-Person" : 0.36548637, 
+            "Other Non-Family" : 0.01424501
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.42918314, 
+                "male" : 0.5871710499999999
+            }, 
+            "Now Married" : {
+                "female" : 0.24440052999999998, 
+                "male" : 0.225
+            }, 
+            "Separated" : {
+                "female" : 0.03754941, 
+                "male" : 0.01513158
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02667984, 
+                "male" : 0.01776316
+            }, 
+            "Widowed" : {
+                "female" : 0.18050066, 
+                "male" : 0.05065789
+            }, 
+            "Divorced" : {
+                "female" : 0.08168642999999999, 
+                "male" : 0.10427631999999999
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.79383634, 
+            "Unclassified" : 0.14080765, 
+            "American" : 0.01833156, 
+            "Subsaharan African" : 0.01753454, 
+            "African" : 0.01753454, 
+            "Italian" : 0.01182253, 
+            "English" : 0.01075983, 
+            "Irish" : 0.009431460000000001, 
+            "German" : 0.00863443, 
+            "Central American" : 1.0, 
+            "Guatemalan" : 0.00133, 
+            "Filipino" : 1.0
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.34137353, 
+            "Unemployed" : 0.046063650000000005, 
+            "Other" : 0.61256281
+        }, 
+        "industries" : {
+            "Education" : 0.18596663, 
+            "Healthcare" : 0.16045141999999998, 
+            "Government" : 0.13689892, 
+            "Manufacturing" : 0.12708538, 
+            "Retail" : 0.0966634, 
+            "Utilities" : 0.06035329, 
+            "Transportation" : 0.046123649999999995, 
+            "Entertainment" : 0.0451423, 
+            "Wholesalers" : 0.03287537, 
+            "Construction" : 0.02993131, 
+            "Agriculture" : 0.028949950000000002, 
+            "Administrative" : 0.023552499999999997, 
+            "Oil & Gas, and Mining" : 0.014229639999999998, 
+            "Professional" : 0.01030422, 
+            "Other Services" : 0.00147203, 
+            "Information" : 0.0, 
+            "Finance & Insurance" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0, 
+            "Hospitality" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0054689100000000004, 
+            "Professional" : 0.010937820000000001, 
+            "Master's" : 0.09297143999999999, 
+            "Bachelor's" : 0.06886773, 
+            "Associate's" : 0.0656269, 
+            "Some College" : 0.18168928, 
+            "High School" : 0.35973263000000005, 
+            "Some H.S." : 0.12436702000000001, 
+            "Less than H.S." : 0.08507191, 
+            "None" : 0.00526636
+        }
+    }
+}

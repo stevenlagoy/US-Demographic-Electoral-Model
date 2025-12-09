@@ -1,0 +1,114 @@
+{
+    "name" : "Mineral County", 
+	"state" : "Colorado", 
+	"FIPS" : "08079",
+    "population" : 793, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.84489281, 
+            "Hispanic" : 0.14501892, 
+            "Black" : 0.00630517, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0037830999999999997, 
+            "Other" : 0.0
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03657, 
+            "80-84" : 0.03153, 
+            "75-79" : 0.08953, 
+            "70-74" : 0.09836, 
+            "67-69" : 0.08196999999999999, 
+            "65-66" : 0.03783, 
+            "62-64" : 0.09458, 
+            "60-61" : 0.056749999999999995, 
+            "55-59" : 0.10214000000000001, 
+            "50-54" : 0.09205999999999999, 
+            "45-49" : 0.02522, 
+            "40-44" : 0.03531, 
+            "35-39" : 0.07188, 
+            "30-34" : 0.02144, 
+            "25-29" : 0.02396, 
+            "22-24" : 0.01261, 
+            "21" : 0.00126, 
+            "20" : 0.0, 
+            "18-19" : 0.00757, 
+            "15-17" : 0.00883, 
+            "10-14" : 0.03279, 
+            "5-9" : 0.02774, 
+            "0-4" : 0.010089999999999998
+        }, 
+        "household_types" : {
+            "Married" : 0.58679707, 
+            "Single Female" : 0.034229829999999996, 
+            "Single Male" : 0.01711491, 
+            "One-Person" : 0.31540342, 
+            "Other Non-Family" : 0.04645477
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.0916442, 
+                "male" : 0.18579235
+            }, 
+            "Now Married" : {
+                "female" : 0.6522911100000001, 
+                "male" : 0.65027322
+            }, 
+            "Separated" : {
+                "female" : 0.01347709, 
+                "male" : 0.00819672
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01078167, 
+                "male" : 0.01912568
+            }, 
+            "Widowed" : {
+                "female" : 0.13746631, 
+                "male" : 0.03005464
+            }, 
+            "Divorced" : {
+                "female" : 0.09433962, 
+                "male" : 0.10655738
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.44277929, 
+            "Unemployed" : 0.00953678, 
+            "Other" : 0.54768392
+        }, 
+        "industries" : {
+            "Other Services" : 0.13230769, 
+            "Construction" : 0.12307691999999999, 
+            "Education" : 0.12307691999999999, 
+            "Retail" : 0.09846154, 
+            "Professional" : 0.08307692, 
+            "Hospitality" : 0.07076923, 
+            "Entertainment" : 0.05230769, 
+            "Government" : 0.05230769, 
+            "Agriculture" : 0.04, 
+            "Administrative" : 0.04, 
+            "Oil & Gas, and Mining" : 0.03384615, 
+            "Utilities" : 0.030769229999999998, 
+            "Transportation" : 0.02461538, 
+            "Finance & Insurance" : 0.02461538, 
+            "Real estate" : 0.018461540000000002, 
+            "Healthcare" : 0.018461540000000002, 
+            "Manufacturing" : 0.01538462, 
+            "Wholesalers" : 0.009230770000000001, 
+            "Information" : 0.009230770000000001, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.02945302, 
+            "Professional" : 0.02384292, 
+            "Master's" : 0.10238429, 
+            "Bachelor's" : 0.26928471, 
+            "Associate's" : 0.07293128, 
+            "Some College" : 0.25806452, 
+            "High School" : 0.21037867999999998, 
+            "Some H.S." : 0.02664797, 
+            "Less than H.S." : 0.007012620000000001, 
+            "None" : 0.0
+        }
+    }
+}

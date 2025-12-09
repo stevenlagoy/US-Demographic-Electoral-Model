@@ -1,0 +1,114 @@
+{
+    "name" : "Lincoln County", 
+	"state" : "Arkansas", 
+	"FIPS" : "05079",
+    "population" : 13935, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.6459275200000001, 
+            "Hispanic" : 0.03315393, 
+            "Black" : 0.31123071, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00531037, 
+            "Other" : 0.00437747
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.012629999999999999, 
+            "80-84" : 0.02375, 
+            "75-79" : 0.02404, 
+            "70-74" : 0.03, 
+            "67-69" : 0.02045, 
+            "65-66" : 0.02368, 
+            "62-64" : 0.03531, 
+            "60-61" : 0.022959999999999998, 
+            "55-59" : 0.057050000000000003, 
+            "50-54" : 0.07908, 
+            "45-49" : 0.07198, 
+            "40-44" : 0.06509000000000001, 
+            "35-39" : 0.08518, 
+            "30-34" : 0.08109, 
+            "25-29" : 0.09055999999999999, 
+            "22-24" : 0.05956, 
+            "21" : 0.01306, 
+            "20" : 0.00617, 
+            "18-19" : 0.01923, 
+            "15-17" : 0.03215, 
+            "10-14" : 0.04887, 
+            "5-9" : 0.05511, 
+            "0-4" : 0.04299
+        }, 
+        "household_types" : {
+            "Married" : 0.52461929, 
+            "Single Female" : 0.14695431, 
+            "Single Male" : 0.049746189999999996, 
+            "One-Person" : 0.24035533, 
+            "Other Non-Family" : 0.03832487
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.17678406, 
+                "male" : 0.5126139200000001
+            }, 
+            "Now Married" : {
+                "female" : 0.5525950000000001, 
+                "male" : 0.22823933
+            }, 
+            "Separated" : {
+                "female" : 0.02224282, 
+                "male" : 0.03420948
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.019230769999999998, 
+                "male" : 0.06762647000000001
+            }, 
+            "Widowed" : {
+                "female" : 0.12696942, 
+                "male" : 0.01492537
+            }, 
+            "Divorced" : {
+                "female" : 0.10217794, 
+                "male" : 0.14238542
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.28144735, 
+            "Unemployed" : 0.03678102, 
+            "Other" : 0.68177163
+        }, 
+        "industries" : {
+            "Healthcare" : 0.21103698999999998, 
+            "Manufacturing" : 0.13553669, 
+            "Education" : 0.10764098999999999, 
+            "Retail" : 0.099151, 
+            "Government" : 0.08944815, 
+            "Agriculture" : 0.07822923, 
+            "Construction" : 0.06579745, 
+            "Hospitality" : 0.05275925, 
+            "Other Services" : 0.05063675, 
+            "Transportation" : 0.03577926, 
+            "Administrative" : 0.02941176, 
+            "Professional" : 0.01364463, 
+            "Finance & Insurance" : 0.01273499, 
+            "Utilities" : 0.00727714, 
+            "Real estate" : 0.00606428, 
+            "Entertainment" : 0.00303214, 
+            "Information" : 0.00121286, 
+            "Wholesalers" : 0.00060643, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0038717400000000003, 
+            "Professional" : 0.00238261, 
+            "Master's" : 0.01518912, 
+            "Bachelor's" : 0.056586920000000006, 
+            "Associate's" : 0.04536881, 
+            "Some College" : 0.16469771000000002, 
+            "High School" : 0.50243224, 
+            "Some H.S." : 0.15189119, 
+            "Less than H.S." : 0.047354310000000004, 
+            "None" : 0.01022535
+        }
+    }
+}

@@ -1,0 +1,131 @@
+{
+    "name" : "Sumter County", 
+	"state" : "Alabama", 
+	"FIPS" : "01119",
+    "population" : 13285, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.24576589999999998, 
+            "Hispanic" : 0.00270982, 
+            "Black" : 0.71682349, 
+            "Asian" : 0.028227319999999997, 
+            "Mixed" : 0.00338728, 
+            "Other" : 0.00308619
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.017310000000000002, 
+            "80-84" : 0.02913, 
+            "75-79" : 0.03018, 
+            "70-74" : 0.04178, 
+            "67-69" : 0.02266, 
+            "65-66" : 0.021230000000000002, 
+            "62-64" : 0.038239999999999996, 
+            "60-61" : 0.023940000000000003, 
+            "55-59" : 0.07806, 
+            "50-54" : 0.06594, 
+            "45-49" : 0.05126, 
+            "40-44" : 0.04885, 
+            "35-39" : 0.04705, 
+            "30-34" : 0.04562, 
+            "25-29" : 0.06187, 
+            "22-24" : 0.06007, 
+            "21" : 0.024089999999999997, 
+            "20" : 0.03794, 
+            "18-19" : 0.05578, 
+            "15-17" : 0.03749, 
+            "10-14" : 0.05683, 
+            "5-9" : 0.05344, 
+            "0-4" : 0.05126
+        }, 
+        "household_types" : {
+            "Married" : 0.29212792, 
+            "Single Female" : 0.22878229, 
+            "Single Male" : 0.02890529, 
+            "One-Person" : 0.41369414, 
+            "Other Non-Family" : 0.03649036
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.41330479, 
+                "male" : 0.53414923
+            }, 
+            "Now Married" : {
+                "female" : 0.23135189, 
+                "male" : 0.29313068000000003
+            }, 
+            "Separated" : {
+                "female" : 0.03622592, 
+                "male" : 0.02072641
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03029804, 
+                "male" : 0.03296486
+            }, 
+            "Widowed" : {
+                "female" : 0.13897579000000002, 
+                "male" : 0.0175681
+            }, 
+            "Divorced" : {
+                "female" : 0.14984356999999998, 
+                "male" : 0.10146072
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.67165977, 
+            "American" : 0.14557772, 
+            "Unclassified" : 0.12969514000000001, 
+            "Irish" : 0.024915319999999998, 
+            "German" : 0.01821603, 
+            "English" : 0.015430939999999999, 
+            "Scotch-Irish" : 0.008054200000000001, 
+            "Scottish" : 0.006398190000000001, 
+            "French" : 0.0054949199999999995, 
+            "Mexican" : 0.9230769200000001, 
+            "South American" : 0.00271, 
+            "Paraguayan" : 0.07692307999999999, 
+            "Chinese" : 0.83466667, 
+            "Thai" : 0.023559999999999998, 
+            "Vietnamese" : 0.15733333
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00027452, 
+            "Employed" : 0.39632138, 
+            "Unemployed" : 0.07155929999999999, 
+            "Other" : 0.5318448
+        }, 
+        "industries" : {
+            "Education" : 0.16739783, 
+            "Healthcare" : 0.16647425999999999, 
+            "Manufacturing" : 0.13322558, 
+            "Hospitality" : 0.12422072999999999, 
+            "Retail" : 0.11221427, 
+            "Government" : 0.04941122, 
+            "Transportation" : 0.04617871, 
+            "Construction" : 0.03463403, 
+            "Finance & Insurance" : 0.0323251, 
+            "Other Services" : 0.02747633, 
+            "Administrative" : 0.02586008, 
+            "Utilities" : 0.02424382, 
+            "Wholesalers" : 0.01570076, 
+            "Agriculture" : 0.01477719, 
+            "Information" : 0.00831217, 
+            "Entertainment" : 0.00692681, 
+            "Real estate" : 0.00484876, 
+            "Professional" : 0.0036942999999999998, 
+            "Oil & Gas, and Mining" : 0.0020780399999999997, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00821454, 
+            "Professional" : 0.00736893, 
+            "Master's" : 0.05605219, 
+            "Bachelor's" : 0.10956753000000001, 
+            "Associate's" : 0.06076347, 
+            "Some College" : 0.1419425, 
+            "High School" : 0.41592172, 
+            "Some H.S." : 0.14411694, 
+            "Less than H.S." : 0.05049529, 
+            "None" : 0.0055569
+        }
+    }
+}

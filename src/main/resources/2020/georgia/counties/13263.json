@@ -1,0 +1,133 @@
+{
+    "name" : "Talbot County", 
+	"state" : "Georgia", 
+	"FIPS" : "13263",
+    "population" : 6373, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.39949787999999997, 
+            "Hispanic" : 0.02055547, 
+            "Black" : 0.57241488, 
+            "Asian" : 0.00455045, 
+            "Mixed" : 0.00235368, 
+            "Other" : 0.00062765
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01601, 
+            "80-84" : 0.02181, 
+            "75-79" : 0.03656, 
+            "70-74" : 0.048639999999999996, 
+            "67-69" : 0.04409, 
+            "65-66" : 0.02903, 
+            "62-64" : 0.03986, 
+            "60-61" : 0.04425, 
+            "55-59" : 0.10262, 
+            "50-54" : 0.09383, 
+            "45-49" : 0.06669, 
+            "40-44" : 0.07955, 
+            "35-39" : 0.03766, 
+            "30-34" : 0.02887, 
+            "25-29" : 0.042519999999999995, 
+            "22-24" : 0.038290000000000005, 
+            "21" : 0.01224, 
+            "20" : 0.01349, 
+            "18-19" : 0.01899, 
+            "15-17" : 0.03436, 
+            "10-14" : 0.056799999999999996, 
+            "5-9" : 0.056799999999999996, 
+            "0-4" : 0.03703
+        }, 
+        "household_types" : {
+            "Married" : 0.42726273, 
+            "Single Female" : 0.17698791, 
+            "Single Male" : 0.078417, 
+            "One-Person" : 0.27739099, 
+            "Other Non-Family" : 0.03994137
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26999651, 
+                "male" : 0.31294118
+            }, 
+            "Now Married" : {
+                "female" : 0.41529864000000005, 
+                "male" : 0.45176471
+            }, 
+            "Separated" : {
+                "female" : 0.03248341, 
+                "male" : 0.03137255
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02235417, 
+                "male" : 0.03333333
+            }, 
+            "Widowed" : {
+                "female" : 0.13866574, 
+                "male" : 0.04941176
+            }, 
+            "Divorced" : {
+                "female" : 0.12120154, 
+                "male" : 0.12117647
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.6172917, 
+            "Unclassified" : 0.20335792000000003, 
+            "American" : 0.06088185, 
+            "English" : 0.04079711, 
+            "German" : 0.0406402, 
+            "Irish" : 0.03985564, 
+            "Scotch-Irish" : 0.01490664, 
+            "Italian" : 0.01067001, 
+            "Scottish" : 0.010356190000000001, 
+            "French" : 0.00863016, 
+            "Puerto Rican" : 0.63120567, 
+            "Mexican" : 0.01397, 
+            "Other Hispanic" : 0.32624113, 
+            "Spanish" : 0.00722, 
+            "Cuban" : 0.03546099, 
+            "Indian" : 0.6896551700000001, 
+            "Filipino" : 0.00314
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.48381093999999997, 
+            "Unemployed" : 0.04968366, 
+            "Other" : 0.4665054
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.20230768999999998, 
+            "Healthcare" : 0.16461538, 
+            "Education" : 0.08153846, 
+            "Retail" : 0.06692308, 
+            "Transportation" : 0.058461540000000006, 
+            "Hospitality" : 0.05538462, 
+            "Government" : 0.05346154, 
+            "Administrative" : 0.05038462, 
+            "Construction" : 0.05, 
+            "Finance & Insurance" : 0.04038462, 
+            "Professional" : 0.03346154, 
+            "Utilities" : 0.029230770000000003, 
+            "Other Services" : 0.02653846, 
+            "Wholesalers" : 0.024230770000000002, 
+            "Information" : 0.019230769999999998, 
+            "Real estate" : 0.019230769999999998, 
+            "Agriculture" : 0.010769230000000001, 
+            "Oil & Gas, and Mining" : 0.00769231, 
+            "Management" : 0.0034615400000000004, 
+            "Entertainment" : 0.00269231
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00900322, 
+            "Professional" : 0.00535906, 
+            "Master's" : 0.026366559999999997, 
+            "Bachelor's" : 0.08574491000000001, 
+            "Associate's" : 0.06280815, 
+            "Some College" : 0.14705252, 
+            "High School" : 0.44930332, 
+            "Some H.S." : 0.15884244, 
+            "Less than H.S." : 0.03365488, 
+            "None" : 0.021864949999999998
+        }
+    }
+}

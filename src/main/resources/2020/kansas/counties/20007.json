@@ -1,0 +1,137 @@
+{
+    "name" : "Barber County", 
+	"state" : "Kansas", 
+	"FIPS" : "20007",
+    "population" : 4831, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.92900021, 
+            "Hispanic" : 0.03146347, 
+            "Black" : 0.00724488, 
+            "Asian" : 0.0055889, 
+            "Mixed" : 0.02297661, 
+            "Other" : 0.0037259399999999996
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.025459999999999997, 
+            "80-84" : 0.02774, 
+            "75-79" : 0.04325999999999999, 
+            "70-74" : 0.047400000000000005, 
+            "67-69" : 0.04968, 
+            "65-66" : 0.017589999999999998, 
+            "62-64" : 0.03333, 
+            "60-61" : 0.02939, 
+            "55-59" : 0.08942, 
+            "50-54" : 0.06996000000000001, 
+            "45-49" : 0.060439999999999994, 
+            "40-44" : 0.042640000000000004, 
+            "35-39" : 0.04471, 
+            "30-34" : 0.06003, 
+            "25-29" : 0.060860000000000004, 
+            "22-24" : 0.02794, 
+            "21" : 0.01035, 
+            "20" : 0.01035, 
+            "18-19" : 0.02008, 
+            "15-17" : 0.03105, 
+            "10-14" : 0.054029999999999995, 
+            "5-9" : 0.06707, 
+            "0-4" : 0.07721
+        }, 
+        "household_types" : {
+            "Married" : 0.53010204, 
+            "Single Female" : 0.06326531, 
+            "Single Male" : 0.02295918, 
+            "One-Person" : 0.33061224, 
+            "Other Non-Family" : 0.05306122
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.17659462, 
+                "male" : 0.2388664
+            }, 
+            "Now Married" : {
+                "female" : 0.54138113, 
+                "male" : 0.54554656
+            }, 
+            "Separated" : {
+                "female" : 0.01159726, 
+                "male" : 0.02024291
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.013705849999999999, 
+                "male" : 0.01467611
+            }, 
+            "Widowed" : {
+                "female" : 0.12546125, 
+                "male" : 0.04605263
+            }, 
+            "Divorced" : {
+                "female" : 0.13125988, 
+                "male" : 0.13461537999999998
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.3703167, 
+            "Unclassified" : 0.24653281, 
+            "Other" : 0.13703167, 
+            "English" : 0.12192093, 
+            "Irish" : 0.117781, 
+            "American" : 0.11115710999999999, 
+            "French" : 0.041606290000000004, 
+            "Dutch" : 0.01676671, 
+            "Scotch-Irish" : 0.01573173, 
+            "Swedish" : 0.014696750000000001, 
+            "Scottish" : 0.00724488, 
+            "Russian" : 0.0060029, 
+            "Swiss" : 0.0060029, 
+            "Italian" : 0.0055889, 
+            "Mexican" : 0.93421053, 
+            "Other Hispanic" : 0.02939, 
+            "Spaniard" : 0.05921053, 
+            "Central American" : 0.0018599999999999999, 
+            "Salvadoran" : 0.05921053, 
+            "Chinese" : 0.88888889, 
+            "Indian" : 0.00497
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.60151555, 
+            "Unemployed" : 0.0201202, 
+            "Other" : 0.37836424999999996
+        }, 
+        "industries" : {
+            "Healthcare" : 0.17289314, 
+            "Retail" : 0.11511729000000001, 
+            "Oil & Gas, and Mining" : 0.09774108999999999, 
+            "Education" : 0.09426586, 
+            "Agriculture" : 0.09296264000000001, 
+            "Hospitality" : 0.05560382, 
+            "Construction" : 0.053866199999999996, 
+            "Transportation" : 0.05039096, 
+            "Manufacturing" : 0.048653339999999996, 
+            "Other Services" : 0.044743700000000004, 
+            "Wholesalers" : 0.04387489000000001, 
+            "Finance & Insurance" : 0.029973939999999998, 
+            "Utilities" : 0.02302346, 
+            "Government" : 0.01911381, 
+            "Administrative" : 0.01390096, 
+            "Information" : 0.013466549999999999, 
+            "Professional" : 0.013466549999999999, 
+            "Entertainment" : 0.00999131, 
+            "Real estate" : 0.00695048, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00560307, 
+            "Professional" : 0.00914185, 
+            "Master's" : 0.06458272, 
+            "Bachelor's" : 0.10763786, 
+            "Associate's" : 0.09112356, 
+            "Some College" : 0.28074314, 
+            "High School" : 0.36508405000000005, 
+            "Some H.S." : 0.05514597, 
+            "Less than H.S." : 0.0168092, 
+            "None" : 0.00412858
+        }
+    }
+}

@@ -1,0 +1,169 @@
+{
+    "name" : "Howard County", 
+	"state" : "Maryland", 
+	"FIPS" : "24027",
+    "population" : 308447, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.55259088, 
+            "Hispanic" : 0.059504549999999996, 
+            "Black" : 0.18318868, 
+            "Asian" : 0.16711137, 
+            "Mixed" : 0.032414, 
+            "Other" : 0.00519052
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.013839999999999998, 
+            "80-84" : 0.01379, 
+            "75-79" : 0.0187, 
+            "70-74" : 0.03076, 
+            "67-69" : 0.025150000000000002, 
+            "65-66" : 0.01989, 
+            "62-64" : 0.03148, 
+            "60-61" : 0.0242, 
+            "55-59" : 0.07024, 
+            "50-54" : 0.08144, 
+            "45-49" : 0.07837, 
+            "40-44" : 0.0736, 
+            "35-39" : 0.06636, 
+            "30-34" : 0.06534, 
+            "25-29" : 0.05903, 
+            "22-24" : 0.03705, 
+            "21" : 0.00918, 
+            "20" : 0.01026, 
+            "18-19" : 0.02398, 
+            "15-17" : 0.04594, 
+            "10-14" : 0.07378, 
+            "5-9" : 0.06792, 
+            "0-4" : 0.05969
+        }, 
+        "household_types" : {
+            "Married" : 0.60524064, 
+            "Single Female" : 0.109218, 
+            "Single Male" : 0.03298384, 
+            "One-Person" : 0.20592144, 
+            "Other Non-Family" : 0.04663609
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26490817, 
+                "male" : 0.30322851
+            }, 
+            "Now Married" : {
+                "female" : 0.52669227, 
+                "male" : 0.5850566
+            }, 
+            "Separated" : {
+                "female" : 0.020491350000000002, 
+                "male" : 0.014440249999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.028211020000000003, 
+                "male" : 0.02425157
+            }, 
+            "Widowed" : {
+                "female" : 0.06759628000000001, 
+                "male" : 0.01634382
+            }, 
+            "Divorced" : {
+                "female" : 0.09210091000000001, 
+                "male" : 0.05667925
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.39098450999999995, 
+            "German" : 0.1506288, 
+            "Unclassified" : 0.11761825999999999, 
+            "Irish" : 0.11176312, 
+            "English" : 0.08971071, 
+            "Italian" : 0.06386510000000001, 
+            "American" : 0.046400189999999994, 
+            "Subsaharan African" : 0.03738081, 
+            "Polish" : 0.03542586, 
+            "Scottish" : 0.01997426, 
+            "European" : 0.0199386, 
+            "African" : 0.018340270000000002, 
+            "French" : 0.01676463, 
+            "Russian" : 0.01637234, 
+            "West Indian" : 0.01331509, 
+            "Scotch-Irish" : 0.00891563, 
+            "Swedish" : 0.00794626, 
+            "British" : 0.00763827, 
+            "Greek" : 0.00686017, 
+            "Dutch" : 0.00685045, 
+            "Central American" : 0.34136259, 
+            "Mexican" : 0.02169, 
+            "Salvadoran" : 0.1989283, 
+            "South American" : 0.01264, 
+            "Puerto Rican" : 0.16494004, 
+            "Honduran" : 0.01048, 
+            "Dominican" : 0.15779536, 
+            "Other Hispanic" : 0.01002, 
+            "Cuban" : 0.14758867, 
+            "Guatemalan" : 0.00938, 
+            "Peruvian" : 0.09946415, 
+            "Ecuadorian" : 0.00632, 
+            "Colombian" : 0.05429957, 
+            "Spaniard" : 0.00345, 
+            "Panamanian" : 0.05082929, 
+            "Bolivian" : 0.0032300000000000002, 
+            "Argentinean" : 0.049196220000000006, 
+            "Spanish" : 0.00313, 
+            "Chilean" : 0.042153609999999994, 
+            "Nicaraguan" : 0.00268, 
+            "Indian" : 0.32437676000000004, 
+            "Korean" : 0.05421, 
+            "Chinese" : 0.2482879, 
+            "Pakistani" : 0.04149, 
+            "Filipino" : 0.1779222, 
+            "Vietnamese" : 0.02973, 
+            "Burmese" : 0.05686294, 
+            "Japanese" : 0.0095, 
+            "Bangladeshi" : 0.0556989, 
+            "Mixed" : 0.00931, 
+            "Thai" : 0.04549423, 
+            "Sri Lankan" : 0.0076, 
+            "Taiwanese" : 0.02077796
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0059211, 
+            "Employed" : 0.6855520900000001, 
+            "Unemployed" : 0.032690290000000004, 
+            "Other" : 0.27583651
+        }, 
+        "industries" : {
+            "Professional" : 0.16972584999999998, 
+            "Healthcare" : 0.12894477999999998, 
+            "Government" : 0.11743282000000001, 
+            "Education" : 0.11241370999999999, 
+            "Retail" : 0.08103668000000001, 
+            "Hospitality" : 0.04959322, 
+            "Other Services" : 0.048149689999999995, 
+            "Finance & Insurance" : 0.048034929999999997, 
+            "Manufacturing" : 0.04792622, 
+            "Construction" : 0.0413005, 
+            "Administrative" : 0.03053145, 
+            "Information" : 0.025216379999999997, 
+            "Transportation" : 0.0250231, 
+            "Wholesalers" : 0.02399633, 
+            "Real estate" : 0.02186426, 
+            "Entertainment" : 0.019043650000000002, 
+            "Utilities" : 0.006366, 
+            "Agriculture" : 0.00193879, 
+            "Management" : 0.0008033, 
+            "Oil & Gas, and Mining" : 0.00065834
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.04733402, 
+            "Professional" : 0.05085972, 
+            "Master's" : 0.21221694, 
+            "Bachelor's" : 0.30003135000000003, 
+            "Associate's" : 0.05581306, 
+            "Some College" : 0.14655991999999998, 
+            "High School" : 0.14049244, 
+            "Some H.S." : 0.02613645, 
+            "Less than H.S." : 0.01388574, 
+            "None" : 0.006670359999999999
+        }
+    }
+}

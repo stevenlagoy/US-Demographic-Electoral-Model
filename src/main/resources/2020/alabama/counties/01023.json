@@ -1,0 +1,129 @@
+{
+    "name" : "Choctaw County", 
+	"state" : "Alabama", 
+	"FIPS" : "01023",
+    "population" : 13287, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.56205313, 
+            "Hispanic" : 0.00203206, 
+            "Black" : 0.42582976, 
+            "Asian" : 0.00045157000000000004, 
+            "Mixed" : 0.009332430000000001, 
+            "Other" : 0.00030104999999999997
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02213, 
+            "80-84" : 0.028980000000000002, 
+            "75-79" : 0.03582, 
+            "70-74" : 0.055990000000000005, 
+            "67-69" : 0.03891, 
+            "65-66" : 0.02566, 
+            "62-64" : 0.04433, 
+            "60-61" : 0.02243, 
+            "55-59" : 0.08128, 
+            "50-54" : 0.07797, 
+            "45-49" : 0.06721, 
+            "40-44" : 0.06367, 
+            "35-39" : 0.0499, 
+            "30-34" : 0.051699999999999996, 
+            "25-29" : 0.04508, 
+            "22-24" : 0.03846, 
+            "21" : 0.01076, 
+            "20" : 0.010089999999999998, 
+            "18-19" : 0.0219, 
+            "15-17" : 0.040190000000000003, 
+            "10-14" : 0.06774, 
+            "5-9" : 0.05103, 
+            "0-4" : 0.04877
+        }, 
+        "household_types" : {
+            "Married" : 0.44012945000000003, 
+            "Single Female" : 0.1618123, 
+            "Single Male" : 0.04602661, 
+            "One-Person" : 0.3234448, 
+            "Other Non-Family" : 0.02858684
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26349855, 
+                "male" : 0.28304431999999996
+            }, 
+            "Now Married" : {
+                "female" : 0.40504173, 
+                "male" : 0.48747591999999995
+            }, 
+            "Separated" : {
+                "female" : 0.04547777, 
+                "male" : 0.018689789999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02674161, 
+                "male" : 0.04142582
+            }, 
+            "Widowed" : {
+                "female" : 0.13983989, 
+                "male" : 0.03930636
+            }, 
+            "Divorced" : {
+                "female" : 0.11940044, 
+                "male" : 0.1300578
+            }
+        }, 
+        "ancestry" : {
+            "American" : 0.35154662000000003, 
+            "Other" : 0.34492361000000005, 
+            "Unclassified" : 0.16241439, 
+            "Irish" : 0.06600437, 
+            "German" : 0.0410928, 
+            "English" : 0.03785655, 
+            "Scottish" : 0.0283736, 
+            "Scotch-Irish" : 0.01693385, 
+            "Italian" : 0.01083766, 
+            "European" : 0.00632197, 
+            "Puerto Rican" : 0.62162162, 
+            "Mexican" : 0.0034599999999999995, 
+            "Filipino" : 1.0
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.39230131999999995, 
+            "Unemployed" : 0.06197624, 
+            "Other" : 0.54572244
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.19530515999999998, 
+            "Healthcare" : 0.15657277, 
+            "Retail" : 0.12535211000000002, 
+            "Education" : 0.09483568, 
+            "Construction" : 0.08521127, 
+            "Agriculture" : 0.055868539999999994, 
+            "Transportation" : 0.05164319, 
+            "Other Services" : 0.04577465, 
+            "Hospitality" : 0.027934269999999997, 
+            "Oil & Gas, and Mining" : 0.027230050000000002, 
+            "Administrative" : 0.026056339999999997, 
+            "Finance & Insurance" : 0.022065730000000002, 
+            "Government" : 0.022065730000000002, 
+            "Professional" : 0.02112676, 
+            "Information" : 0.01901408, 
+            "Wholesalers" : 0.01103286, 
+            "Utilities" : 0.00798122, 
+            "Real estate" : 0.00375587, 
+            "Entertainment" : 0.0011737100000000001, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00137595, 
+            "Professional" : 0.00857324, 
+            "Master's" : 0.03132938, 
+            "Bachelor's" : 0.07832345, 
+            "Associate's" : 0.08562659, 
+            "Some College" : 0.21073243000000003, 
+            "High School" : 0.37256562000000004, 
+            "Some H.S." : 0.13854784, 
+            "Less than H.S." : 0.05556732, 
+            "None" : 0.01735817
+        }
+    }
+}

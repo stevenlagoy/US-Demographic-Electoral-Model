@@ -1,0 +1,148 @@
+{
+    "name" : "Warren County", 
+	"state" : "Missouri", 
+	"FIPS" : "29219",
+    "population" : 33290, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9207870200000001, 
+            "Hispanic" : 0.03166116, 
+            "Black" : 0.02111745, 
+            "Asian" : 0.0037248399999999997, 
+            "Mixed" : 0.01847402, 
+            "Other" : 0.0042355100000000005
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01478, 
+            "80-84" : 0.01883, 
+            "75-79" : 0.03238, 
+            "70-74" : 0.042839999999999996, 
+            "67-69" : 0.02926, 
+            "65-66" : 0.02544, 
+            "62-64" : 0.03641, 
+            "60-61" : 0.02773, 
+            "55-59" : 0.0733, 
+            "50-54" : 0.08167999999999999, 
+            "45-49" : 0.06251000000000001, 
+            "40-44" : 0.059480000000000005, 
+            "35-39" : 0.056139999999999995, 
+            "30-34" : 0.05894, 
+            "25-29" : 0.06558, 
+            "22-24" : 0.026789999999999998, 
+            "21" : 0.01481, 
+            "20" : 0.00961, 
+            "18-19" : 0.01889, 
+            "15-17" : 0.04184, 
+            "10-14" : 0.07041, 
+            "5-9" : 0.06912, 
+            "0-4" : 0.06323000000000001
+        }, 
+        "household_types" : {
+            "Married" : 0.60830584, 
+            "Single Female" : 0.11308467, 
+            "Single Male" : 0.034255270000000004, 
+            "One-Person" : 0.2103527, 
+            "Other Non-Family" : 0.03400152
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.211423, 
+                "male" : 0.28911925
+            }, 
+            "Now Married" : {
+                "female" : 0.56904833, 
+                "male" : 0.54396186
+            }, 
+            "Separated" : {
+                "female" : 0.01973882, 
+                "male" : 0.00923123
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01853798, 
+                "male" : 0.010971550000000002
+            }, 
+            "Widowed" : {
+                "female" : 0.07460222, 
+                "male" : 0.021943100000000004
+            }, 
+            "Divorced" : {
+                "female" : 0.10664965, 
+                "male" : 0.124773
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.40279362999999996, 
+            "Unclassified" : 0.19693602, 
+            "Irish" : 0.14728147, 
+            "Other" : 0.14517873, 
+            "English" : 0.10982277, 
+            "American" : 0.09092821000000001, 
+            "Italian" : 0.048122559999999995, 
+            "French" : 0.03385401, 
+            "Polish" : 0.024632019999999998, 
+            "Dutch" : 0.020847099999999997, 
+            "Scottish" : 0.01721238, 
+            "European" : 0.01240613, 
+            "Eastern European" : 0.0060979300000000005, 
+            "British" : 0.00513668, 
+            "Scotch-Irish" : 0.00501652, 
+            "Mexican" : 0.65180266, 
+            "Central American" : 0.020640000000000002, 
+            "Other Hispanic" : 0.14895636, 
+            "Honduran" : 0.004719999999999999, 
+            "Salvadoran" : 0.13757116, 
+            "South American" : 0.00436, 
+            "Argentinean" : 0.10815939000000001, 
+            "Cuban" : 0.0034200000000000003, 
+            "Spaniard" : 0.04079696, 
+            "Puerto Rican" : 0.0012900000000000001, 
+            "Peruvian" : 0.03036053, 
+            "Vietnamese" : 0.28225806, 
+            "Filipino" : 0.00105, 
+            "Japanese" : 0.16129032, 
+            "Korean" : 0.0006, 
+            "Chinese" : 0.16129032, 
+            "Taiwanese" : 0.0006
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.56047198, 
+            "Unemployed" : 0.03976554, 
+            "Other" : 0.39976248
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.16302119, 
+            "Construction" : 0.13834586, 
+            "Healthcare" : 0.11182502, 
+            "Retail" : 0.10109364, 
+            "Hospitality" : 0.07354751, 
+            "Education" : 0.0696514, 
+            "Administrative" : 0.05933014, 
+            "Other Services" : 0.054955569999999995, 
+            "Transportation" : 0.03526999, 
+            "Finance & Insurance" : 0.03479152, 
+            "Professional" : 0.03349282, 
+            "Wholesalers" : 0.02980178, 
+            "Government" : 0.027751199999999997, 
+            "Entertainment" : 0.02112098, 
+            "Real estate" : 0.013738889999999998, 
+            "Information" : 0.01203008, 
+            "Utilities" : 0.009432669999999999, 
+            "Agriculture" : 0.00929597, 
+            "Oil & Gas, and Mining" : 0.00150376, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00372595, 
+            "Professional" : 0.00828475, 
+            "Master's" : 0.047341430000000004, 
+            "Bachelor's" : 0.12273704, 
+            "Associate's" : 0.08657344, 
+            "Some College" : 0.2299566, 
+            "High School" : 0.35891816, 
+            "Some H.S." : 0.09652390999999999, 
+            "Less than H.S." : 0.03515539, 
+            "None" : 0.01078333
+        }
+    }
+}

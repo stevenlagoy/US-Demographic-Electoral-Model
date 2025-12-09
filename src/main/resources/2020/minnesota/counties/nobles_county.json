@@ -1,0 +1,151 @@
+{
+    "name" : "Nobles County", 
+	"state" : "Minnesota", 
+	"FIPS" : "27105",
+    "population" : 21729, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.61236136, 
+            "Hispanic" : 0.26038934, 
+            "Black" : 0.04174145, 
+            "Asian" : 0.05996594, 
+            "Mixed" : 0.0152331, 
+            "Other" : 0.0103088
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03281, 
+            "80-84" : 0.01933, 
+            "75-79" : 0.02559, 
+            "70-74" : 0.03811, 
+            "67-69" : 0.02283, 
+            "65-66" : 0.01514, 
+            "62-64" : 0.02738, 
+            "60-61" : 0.02688, 
+            "55-59" : 0.06995, 
+            "50-54" : 0.06282, 
+            "45-49" : 0.05601, 
+            "40-44" : 0.05366, 
+            "35-39" : 0.05978, 
+            "30-34" : 0.06709999999999999, 
+            "25-29" : 0.06521, 
+            "22-24" : 0.03659, 
+            "21" : 0.014079999999999999, 
+            "20" : 0.00943, 
+            "18-19" : 0.03134, 
+            "15-17" : 0.04073, 
+            "10-14" : 0.07446, 
+            "5-9" : 0.06981, 
+            "0-4" : 0.08095000000000001
+        }, 
+        "household_types" : {
+            "Married" : 0.53878327, 
+            "Single Female" : 0.09264892, 
+            "Single Male" : 0.06476553, 
+            "One-Person" : 0.26425856, 
+            "Other Non-Family" : 0.03954373
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26539304, 
+                "male" : 0.36184287
+            }, 
+            "Now Married" : {
+                "female" : 0.52032125, 
+                "male" : 0.49332714000000005
+            }, 
+            "Separated" : {
+                "female" : 0.0153322, 
+                "male" : 0.00348149
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01107325, 
+                "male" : 0.04908901
+            }, 
+            "Widowed" : {
+                "female" : 0.10915064, 
+                "male" : 0.02483463
+            }, 
+            "Divorced" : {
+                "female" : 0.07872962, 
+                "male" : 0.06742486
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.35174191, 
+            "Other" : 0.3405587, 
+            "Unclassified" : 0.12053017, 
+            "Norwegian" : 0.07345023, 
+            "Dutch" : 0.07101109, 
+            "Irish" : 0.04731005, 
+            "American" : 0.03520641, 
+            "Swedish" : 0.028993509999999997, 
+            "Subsaharan African" : 0.028027060000000003, 
+            "English" : 0.02521975, 
+            "Ethiopian" : 0.01537116, 
+            "French" : 0.010538909999999999, 
+            "Danish" : 0.0070872999999999995, 
+            "African" : 0.0066270899999999995, 
+            "Italian" : 0.00575268, 
+            "Polish" : 0.00570666, 
+            "Scottish" : 0.00506236, 
+            "Central American" : 0.49920509, 
+            "Mexican" : 0.13006, 
+            "Salvadoran" : 0.47500442, 
+            "Guatemalan" : 0.12375, 
+            "Honduran" : 0.22522523, 
+            "Nicaraguan" : 0.05868, 
+            "Puerto Rican" : 0.20385091, 
+            "Other Hispanic" : 0.05311, 
+            "Laotian" : 0.50575595, 
+            "Burmese" : 0.03033, 
+            "Hmong" : 0.24558711, 
+            "Not Specified" : 0.01473, 
+            "Thai" : 0.06830391, 
+            "Vietnamese" : 0.0040999999999999995, 
+            "Chinese" : 0.06446662, 
+            "Indian" : 0.00387, 
+            "Mixed" : 0.046047580000000005, 
+            "Korean" : 0.0027600000000000003
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00018181, 
+            "Employed" : 0.6368704900000001, 
+            "Unemployed" : 0.04805769, 
+            "Other" : 0.31489001
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.25606623, 
+            "Retail" : 0.11599581, 
+            "Healthcare" : 0.11504425, 
+            "Agriculture" : 0.08744885, 
+            "Construction" : 0.07393663, 
+            "Education" : 0.06784661, 
+            "Hospitality" : 0.054429540000000005, 
+            "Other Services" : 0.04567514, 
+            "Transportation" : 0.030640399999999998, 
+            "Government" : 0.02797602, 
+            "Wholesalers" : 0.02673899, 
+            "Finance & Insurance" : 0.02664383, 
+            "Administrative" : 0.02026834, 
+            "Professional" : 0.01941193, 
+            "Utilities" : 0.012941290000000001, 
+            "Information" : 0.00780284, 
+            "Entertainment" : 0.0072319, 
+            "Real estate" : 0.0023789099999999997, 
+            "Oil & Gas, and Mining" : 0.0010467200000000001, 
+            "Management" : 0.00047578000000000003
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00444031, 
+            "Professional" : 0.00866576, 
+            "Master's" : 0.02692831, 
+            "Bachelor's" : 0.09503688, 
+            "Associate's" : 0.09689895, 
+            "Some College" : 0.2082647, 
+            "High School" : 0.33245005, 
+            "Some H.S." : 0.08458068, 
+            "Less than H.S." : 0.10649573999999999, 
+            "None" : 0.03623863
+        }
+    }
+}

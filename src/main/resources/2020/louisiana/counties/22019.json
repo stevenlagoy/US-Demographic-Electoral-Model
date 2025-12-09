@@ -1,0 +1,160 @@
+{
+    "name" : "Calcasieu Parish", 
+	"state" : "Louisiana", 
+	"FIPS" : "22019",
+    "population" : 197233, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.68521495, 
+            "Hispanic" : 0.02858041, 
+            "Black" : 0.24844727, 
+            "Asian" : 0.01295422, 
+            "Mixed" : 0.01929697, 
+            "Other" : 0.00550618
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.015229999999999999, 
+            "80-84" : 0.0192, 
+            "75-79" : 0.023250000000000003, 
+            "70-74" : 0.03181, 
+            "67-69" : 0.0262, 
+            "65-66" : 0.02096, 
+            "62-64" : 0.03308, 
+            "60-61" : 0.02625, 
+            "55-59" : 0.06849, 
+            "50-54" : 0.0683, 
+            "45-49" : 0.060919999999999995, 
+            "40-44" : 0.057089999999999995, 
+            "35-39" : 0.061790000000000005, 
+            "30-34" : 0.06856, 
+            "25-29" : 0.07325999999999999, 
+            "22-24" : 0.04016, 
+            "21" : 0.0151, 
+            "20" : 0.01693, 
+            "18-19" : 0.02418, 
+            "15-17" : 0.04134, 
+            "10-14" : 0.07133, 
+            "5-9" : 0.06748, 
+            "0-4" : 0.06906
+        }, 
+        "household_types" : {
+            "Married" : 0.45481841, 
+            "Single Female" : 0.15396617, 
+            "Single Male" : 0.05518553, 
+            "One-Person" : 0.28686246, 
+            "Other Non-Family" : 0.049167430000000005
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.27490385, 
+                "male" : 0.33366944
+            }, 
+            "Now Married" : {
+                "female" : 0.43089994, 
+                "male" : 0.47105103
+            }, 
+            "Separated" : {
+                "female" : 0.03789219, 
+                "male" : 0.028723429999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01697976, 
+                "male" : 0.019807889999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.09914545000000001, 
+                "male" : 0.03088598
+            }, 
+            "Divorced" : {
+                "female" : 0.14017883, 
+                "male" : 0.11586223000000001
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.3764076, 
+            "Unclassified" : 0.19168192, 
+            "French" : 0.11782511, 
+            "French Canadian" : 0.09147049000000002, 
+            "Irish" : 0.07645272, 
+            "German" : 0.07583416999999999, 
+            "American" : 0.06657101, 
+            "English" : 0.04964179, 
+            "Italian" : 0.0266284, 
+            "Cajun" : 0.025872950000000002, 
+            "Scottish" : 0.01264494, 
+            "Scotch-Irish" : 0.00876121, 
+            "European" : 0.006251489999999999, 
+            "Dutch" : 0.00614502, 
+            "Mexican" : 0.54129054, 
+            "Central American" : 0.01642, 
+            "Puerto Rican" : 0.12337011, 
+            "Other Hispanic" : 0.00374, 
+            "South American" : 0.1186894, 
+            "Spaniard" : 0.0036, 
+            "Honduran" : 0.10297558999999999, 
+            "Salvadoran" : 0.00312, 
+            "Colombian" : 0.07372116000000001, 
+            "Cuban" : 0.0022400000000000002, 
+            "Argentinean" : 0.061852220000000006, 
+            "Guatemalan" : 0.00188, 
+            "Costa Rican" : 0.04647274999999999, 
+            "Venezuelan" : 0.0014099999999999998, 
+            "Spanish" : 0.043129390000000004, 
+            "Dominican" : 0.00131, 
+            "Ecuadorian" : 0.03878302, 
+            "Panamanian" : 0.0011799999999999998, 
+            "Vietnamese" : 0.29745597, 
+            "Indian" : 0.00385, 
+            "Filipino" : 0.22504892, 
+            "Chinese" : 0.00292, 
+            "Nepalese" : 0.10019569, 
+            "Korean" : 0.0013, 
+            "Bangladeshi" : 0.09980431, 
+            "Laotian" : 0.0012900000000000001, 
+            "Mixed" : 0.07553816000000001, 
+            "Japanese" : 0.00098, 
+            "Indonesian" : 0.04422701, 
+            "Pakistani" : 0.00057
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00091679, 
+            "Employed" : 0.57249491, 
+            "Unemployed" : 0.04578763, 
+            "Other" : 0.38080067
+        }, 
+        "industries" : {
+            "Healthcare" : 0.14228603, 
+            "Retail" : 0.12370525, 
+            "Manufacturing" : 0.11214338, 
+            "Construction" : 0.08945121, 
+            "Education" : 0.08741823, 
+            "Hospitality" : 0.08397692, 
+            "Entertainment" : 0.054129569999999995, 
+            "Government" : 0.04669044000000001, 
+            "Other Services" : 0.04266991, 
+            "Professional" : 0.03829729, 
+            "Transportation" : 0.03609395, 
+            "Administrative" : 0.02867754, 
+            "Finance & Insurance" : 0.025383879999999998, 
+            "Wholesalers" : 0.02211294, 
+            "Oil & Gas, and Mining" : 0.02120434, 
+            "Real estate" : 0.01660458, 
+            "Utilities" : 0.01139151, 
+            "Information" : 0.010891789999999998, 
+            "Agriculture" : 0.00687125, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0065312899999999995, 
+            "Professional" : 0.012543480000000001, 
+            "Master's" : 0.04941466, 
+            "Bachelor's" : 0.1372268, 
+            "Associate's" : 0.07231678999999999, 
+            "Some College" : 0.23049329, 
+            "High School" : 0.34594138, 
+            "Some H.S." : 0.09812429, 
+            "Less than H.S." : 0.03579425, 
+            "None" : 0.011613759999999999
+        }
+    }
+}

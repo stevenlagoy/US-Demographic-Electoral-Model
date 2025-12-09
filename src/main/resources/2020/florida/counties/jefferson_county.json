@@ -1,0 +1,114 @@
+{
+    "name" : "Jefferson County", 
+	"state" : "Florida", 
+	"FIPS" : "12065",
+    "population" : 14082, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.58045732, 
+            "Hispanic" : 0.03692657, 
+            "Black" : 0.35960801, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0123562, 
+            "Other" : 0.0106519
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01733, 
+            "80-84" : 0.02088, 
+            "75-79" : 0.03856, 
+            "70-74" : 0.0529, 
+            "67-69" : 0.04793, 
+            "65-66" : 0.02358, 
+            "62-64" : 0.05383, 
+            "60-61" : 0.03508, 
+            "55-59" : 0.07364, 
+            "50-54" : 0.07811, 
+            "45-49" : 0.06562, 
+            "40-44" : 0.07257, 
+            "35-39" : 0.0691, 
+            "30-34" : 0.053399999999999996, 
+            "25-29" : 0.0642, 
+            "22-24" : 0.02706, 
+            "21" : 0.01314, 
+            "20" : 0.00909, 
+            "18-19" : 0.01413, 
+            "15-17" : 0.028900000000000002, 
+            "10-14" : 0.0495, 
+            "5-9" : 0.04573000000000001, 
+            "0-4" : 0.04573000000000001
+        }, 
+        "household_types" : {
+            "Married" : 0.43799425, 
+            "Single Female" : 0.1534867, 
+            "Single Male" : 0.043673619999999996, 
+            "One-Person" : 0.32961898, 
+            "Other Non-Family" : 0.03522646
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22001432, 
+                "male" : 0.40055291
+            }, 
+            "Now Married" : {
+                "female" : 0.47368421, 
+                "male" : 0.34649054999999995
+            }, 
+            "Separated" : {
+                "female" : 0.022735409999999998, 
+                "male" : 0.0290278
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03025421, 
+                "male" : 0.05329442
+            }, 
+            "Widowed" : {
+                "female" : 0.13122091, 
+                "male" : 0.0167409
+            }, 
+            "Divorced" : {
+                "female" : 0.12209094000000001, 
+                "male" : 0.15389341
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0005829899999999999, 
+            "Employed" : 0.40168235, 
+            "Unemployed" : 0.03706171, 
+            "Other" : 0.56067294
+        }, 
+        "industries" : {
+            "Healthcare" : 0.17478748, 
+            "Government" : 0.17375078, 
+            "Education" : 0.08729007, 
+            "Retail" : 0.07567904, 
+            "Construction" : 0.0754717, 
+            "Agriculture" : 0.06614141, 
+            "Administrative" : 0.056396430000000004, 
+            "Hospitality" : 0.05224964, 
+            "Other Services" : 0.044992739999999996, 
+            "Professional" : 0.044370719999999995, 
+            "Finance & Insurance" : 0.043541359999999994, 
+            "Manufacturing" : 0.02902758, 
+            "Utilities" : 0.01783123, 
+            "Entertainment" : 0.01741655, 
+            "Transportation" : 0.01658719, 
+            "Information" : 0.013891770000000001, 
+            "Real estate" : 0.00933029, 
+            "Wholesalers" : 0.0010367, 
+            "Oil & Gas, and Mining" : 0.00020733999999999998, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01157729, 
+            "Professional" : 0.01074373, 
+            "Master's" : 0.053811239999999996, 
+            "Bachelor's" : 0.11401315000000001, 
+            "Associate's" : 0.09456329999999999, 
+            "Some College" : 0.18755210000000003, 
+            "High School" : 0.3261091, 
+            "Some H.S." : 0.14300269, 
+            "Less than H.S." : 0.04899509, 
+            "None" : 0.00963231
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name" : "Montgomery County", 
+	"state" : "Iowa", 
+	"FIPS" : "19137",
+    "population" : 10380, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.94441233, 
+            "Hispanic" : 0.03391137, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01936416, 
+            "Other" : 0.00231214
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03391, 
+            "80-84" : 0.0317, 
+            "75-79" : 0.038919999999999996, 
+            "70-74" : 0.04325999999999999, 
+            "67-69" : 0.03613, 
+            "65-66" : 0.02514, 
+            "62-64" : 0.04152, 
+            "60-61" : 0.029769999999999998, 
+            "55-59" : 0.08651, 
+            "50-54" : 0.07341, 
+            "45-49" : 0.06349, 
+            "40-44" : 0.06985000000000001, 
+            "35-39" : 0.046239999999999996, 
+            "30-34" : 0.04595, 
+            "25-29" : 0.04229, 
+            "22-24" : 0.0236, 
+            "21" : 0.01696, 
+            "20" : 0.00559, 
+            "18-19" : 0.02254, 
+            "15-17" : 0.04239, 
+            "10-14" : 0.06301, 
+            "5-9" : 0.06262, 
+            "0-4" : 0.0552
+        }, 
+        "household_types" : {
+            "Married" : 0.50054265, 
+            "Single Female" : 0.12611244, 
+            "Single Male" : 0.04471456, 
+            "One-Person" : 0.28955937, 
+            "Other Non-Family" : 0.03907098
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.20616955, 
+                "male" : 0.25444083
+            }, 
+            "Now Married" : {
+                "female" : 0.52174878, 
+                "male" : 0.56517388
+            }, 
+            "Separated" : {
+                "female" : 0.00554816, 
+                "male" : 0.01876407
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01242787, 
+                "male" : 0.00950713
+            }, 
+            "Widowed" : {
+                "female" : 0.12272525999999999, 
+                "male" : 0.043532650000000006
+            }, 
+            "Divorced" : {
+                "female" : 0.13138038, 
+                "male" : 0.10858143999999999
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.56303419, 
+            "Unemployed" : 0.05187559, 
+            "Other" : 0.38509022000000004
+        }, 
+        "industries" : {
+            "Healthcare" : 0.22180054999999999, 
+            "Manufacturing" : 0.17246468, 
+            "Retail" : 0.11343031999999999, 
+            "Agriculture" : 0.07526882, 
+            "Construction" : 0.056082650000000005, 
+            "Other Services" : 0.05545014, 
+            "Education" : 0.05165507, 
+            "Wholesalers" : 0.041745729999999995, 
+            "Hospitality" : 0.04026987, 
+            "Information" : 0.03183639, 
+            "Transportation" : 0.02867384, 
+            "Finance & Insurance" : 0.02361375, 
+            "Government" : 0.02171621, 
+            "Administrative" : 0.01749947, 
+            "Professional" : 0.01602361, 
+            "Utilities" : 0.014126080000000001, 
+            "Entertainment" : 0.00864432, 
+            "Real estate" : 0.00843348, 
+            "Oil & Gas, and Mining" : 0.00126502, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00244898, 
+            "Professional" : 0.00435374, 
+            "Master's" : 0.033061219999999995, 
+            "Bachelor's" : 0.11537415, 
+            "Associate's" : 0.12843537, 
+            "Some College" : 0.24571428999999997, 
+            "High School" : 0.36149659999999995, 
+            "Some H.S." : 0.07197279, 
+            "Less than H.S." : 0.031428569999999996, 
+            "None" : 0.0057142899999999995
+        }
+    }
+}

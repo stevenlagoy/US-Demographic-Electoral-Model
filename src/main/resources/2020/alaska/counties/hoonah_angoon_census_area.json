@@ -1,0 +1,146 @@
+{
+    "name" : "Hoonah Angoon Census Area", 
+	"state" : "Alaska", 
+	"FIPS" : "02105",
+    "population" : 2107, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.4831514, 
+            "Hispanic" : 0.04793545, 
+            "Black" : 0.036544850000000004, 
+            "Asian" : 0.02278121, 
+            "Mixed" : 0.09919317, 
+            "Other" : 0.31039393
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.00902, 
+            "80-84" : 0.01234, 
+            "75-79" : 0.01851, 
+            "70-74" : 0.04746, 
+            "67-69" : 0.03512, 
+            "65-66" : 0.04414, 
+            "62-64" : 0.08211, 
+            "60-61" : 0.03465, 
+            "55-59" : 0.10252, 
+            "50-54" : 0.08875, 
+            "45-49" : 0.08638, 
+            "40-44" : 0.055999999999999994, 
+            "35-39" : 0.04888, 
+            "30-34" : 0.04034, 
+            "25-29" : 0.04319, 
+            "22-24" : 0.036070000000000005, 
+            "21" : 0.00522, 
+            "20" : 0.00997, 
+            "18-19" : 0.01329, 
+            "15-17" : 0.02373, 
+            "10-14" : 0.03227, 
+            "5-9" : 0.0655, 
+            "0-4" : 0.06455
+        }, 
+        "household_types" : {
+            "Married" : 0.48086123999999997, 
+            "Single Female" : 0.11363635999999999, 
+            "Single Male" : 0.05143541, 
+            "One-Person" : 0.3062201, 
+            "Other Non-Family" : 0.04784689
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.20302648, 
+                "male" : 0.31893004
+            }, 
+            "Now Married" : {
+                "female" : 0.49684741000000004, 
+                "male" : 0.43518519
+            }, 
+            "Separated" : {
+                "female" : 0.0075661999999999995, 
+                "male" : 0.02160494
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.013871370000000001, 
+                "male" : 0.05658436
+            }, 
+            "Widowed" : {
+                "female" : 0.04665826, 
+                "male" : 0.022633740000000003
+            }, 
+            "Divorced" : {
+                "female" : 0.23203026000000002, 
+                "male" : 0.14506173
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.54342667, 
+            "German" : 0.10393925, 
+            "Irish" : 0.07546274, 
+            "English" : 0.06786901000000001, 
+            "Norwegian" : 0.06122448999999999, 
+            "Unclassified" : 0.04935928, 
+            "European" : 0.048884670000000005, 
+            "American" : 0.03084955, 
+            "Scottish" : 0.030374940000000003, 
+            "French" : 0.02373042, 
+            "Subsaharan African" : 0.020882770000000002, 
+            "Scandinavian" : 0.01945895, 
+            "French Canadian" : 0.01613669, 
+            "Italian" : 0.015187470000000002, 
+            "Dutch" : 0.01328904, 
+            "African" : 0.012814430000000002, 
+            "Swedish" : 0.01233982, 
+            "Sudanese" : 0.01091599, 
+            "Scotch-Irish" : 0.01044139, 
+            "Czech" : 0.00901756, 
+            "Mexican" : 0.8, 
+            "Other Hispanic" : 0.03987, 
+            "Central American" : 0.16190476, 
+            "Salvadoran" : 0.00807, 
+            "Spaniard" : 0.03809524, 
+            "Spanish" : 0.0019, 
+            "Filipino" : 0.58333333, 
+            "Japanese" : 0.01329, 
+            "Chinese" : 0.22916667000000002, 
+            "Korean" : 0.00522
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00285551, 
+            "Employed" : 0.59737293, 
+            "Unemployed" : 0.06796117, 
+            "Other" : 0.33181039
+        }, 
+        "industries" : {
+            "Hospitality" : 0.09847035999999999, 
+            "Government" : 0.09560228999999999, 
+            "Transportation" : 0.09464627, 
+            "Manufacturing" : 0.08413002, 
+            "Education" : 0.08126194999999999, 
+            "Retail" : 0.08030593, 
+            "Construction" : 0.0707457, 
+            "Agriculture" : 0.06309751000000001, 
+            "Oil & Gas, and Mining" : 0.061185470000000006, 
+            "Entertainment" : 0.05927342, 
+            "Healthcare" : 0.057361380000000003, 
+            "Information" : 0.04780115, 
+            "Other Services" : 0.028680690000000002, 
+            "Professional" : 0.02676864, 
+            "Administrative" : 0.024856600000000003, 
+            "Real estate" : 0.015296369999999998, 
+            "Utilities" : 0.00669216, 
+            "Finance & Insurance" : 0.00382409, 
+            "Wholesalers" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00443319, 
+            "Professional" : 0.01773274, 
+            "Master's" : 0.05573148, 
+            "Bachelor's" : 0.16466118000000002, 
+            "Associate's" : 0.06523116, 
+            "Some College" : 0.2590247, 
+            "High School" : 0.33882204, 
+            "Some H.S." : 0.06269791, 
+            "Less than H.S." : 0.031665610000000004, 
+            "None" : 0.0
+        }
+    }
+}

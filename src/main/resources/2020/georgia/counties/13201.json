@@ -1,0 +1,114 @@
+{
+    "name" : "Miller County", 
+	"state" : "Georgia", 
+	"FIPS" : "13201",
+    "population" : 5911, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.6875317200000001, 
+            "Hispanic" : 0.00101506, 
+            "Black" : 0.3038403, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00118423, 
+            "Other" : 0.00642869
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02571, 
+            "80-84" : 0.03248, 
+            "75-79" : 0.03823, 
+            "70-74" : 0.049400000000000006, 
+            "67-69" : 0.035699999999999996, 
+            "65-66" : 0.01709, 
+            "62-64" : 0.03096, 
+            "60-61" : 0.020640000000000002, 
+            "55-59" : 0.08053, 
+            "50-54" : 0.06513, 
+            "45-49" : 0.05667, 
+            "40-44" : 0.05126, 
+            "35-39" : 0.06513, 
+            "30-34" : 0.06496, 
+            "25-29" : 0.055999999999999994, 
+            "22-24" : 0.03739, 
+            "21" : 0.0044, 
+            "20" : 0.011000000000000001, 
+            "18-19" : 0.026389999999999997, 
+            "15-17" : 0.03925, 
+            "10-14" : 0.057350000000000005, 
+            "5-9" : 0.07393, 
+            "0-4" : 0.0604
+        }, 
+        "household_types" : {
+            "Married" : 0.50510884, 
+            "Single Female" : 0.16126166, 
+            "Single Male" : 0.0226566, 
+            "One-Person" : 0.26477121, 
+            "Other Non-Family" : 0.04620169
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.20670391, 
+                "male" : 0.30941901
+            }, 
+            "Now Married" : {
+                "female" : 0.45011971, 
+                "male" : 0.5136443700000001
+            }, 
+            "Separated" : {
+                "female" : 0.023543500000000002, 
+                "male" : 0.014964789999999999
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03511572, 
+                "male" : 0.03257042
+            }, 
+            "Widowed" : {
+                "female" : 0.13288109, 
+                "male" : 0.03036972
+            }, 
+            "Divorced" : {
+                "female" : 0.15163607, 
+                "male" : 0.09903169
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.49268603, 
+            "Unemployed" : 0.04197583, 
+            "Other" : 0.46533814
+        }, 
+        "industries" : {
+            "Healthcare" : 0.14371773, 
+            "Education" : 0.11101549000000001, 
+            "Retail" : 0.10800344, 
+            "Manufacturing" : 0.09681582999999999, 
+            "Agriculture" : 0.08175559, 
+            "Hospitality" : 0.061962130000000004, 
+            "Finance & Insurance" : 0.059380379999999996, 
+            "Construction" : 0.0580895, 
+            "Government" : 0.04733219, 
+            "Other Services" : 0.0464716, 
+            "Professional" : 0.03528399, 
+            "Transportation" : 0.03442341, 
+            "Wholesalers" : 0.03270224, 
+            "Utilities" : 0.027108430000000003, 
+            "Administrative" : 0.027108430000000003, 
+            "Oil & Gas, and Mining" : 0.01333907, 
+            "Information" : 0.00731497, 
+            "Entertainment" : 0.00516351, 
+            "Real estate" : 0.00301205, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.005885240000000001, 
+            "Professional" : 0.00514958, 
+            "Master's" : 0.02206964, 
+            "Bachelor's" : 0.08092202, 
+            "Associate's" : 0.06645414, 
+            "Some College" : 0.22265817, 
+            "High School" : 0.38719960999999997, 
+            "Some H.S." : 0.14713094999999998, 
+            "Less than H.S." : 0.04438449999999999, 
+            "None" : 0.01814615
+        }
+    }
+}

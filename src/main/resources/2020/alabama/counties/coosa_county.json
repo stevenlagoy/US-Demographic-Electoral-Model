@@ -1,0 +1,114 @@
+{
+    "name" : "Coosa County", 
+	"state" : "Alabama", 
+	"FIPS" : "01037",
+    "population" : 10864, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.65022091, 
+            "Hispanic" : 0.0128866, 
+            "Black" : 0.32363770000000003, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01251841, 
+            "Other" : 0.0007363799999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02246, 
+            "80-84" : 0.0197, 
+            "75-79" : 0.03001, 
+            "70-74" : 0.05053, 
+            "67-69" : 0.041609999999999994, 
+            "65-66" : 0.02237, 
+            "62-64" : 0.04556, 
+            "60-61" : 0.0336, 
+            "55-59" : 0.09186, 
+            "50-54" : 0.07437, 
+            "45-49" : 0.06591, 
+            "40-44" : 0.09223, 
+            "35-39" : 0.04785999999999999, 
+            "30-34" : 0.051089999999999997, 
+            "25-29" : 0.03866, 
+            "22-24" : 0.031939999999999996, 
+            "21" : 0.015189999999999999, 
+            "20" : 0.014450000000000001, 
+            "18-19" : 0.02725, 
+            "15-17" : 0.03617, 
+            "10-14" : 0.057069999999999996, 
+            "5-9" : 0.04529, 
+            "0-4" : 0.044829999999999995
+        }, 
+        "household_types" : {
+            "Married" : 0.45625297000000004, 
+            "Single Female" : 0.13219211, 
+            "Single Male" : 0.029719449999999998, 
+            "One-Person" : 0.34545887000000003, 
+            "Other Non-Family" : 0.0363766
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.24716213, 
+                "male" : 0.33311575
+            }, 
+            "Now Married" : {
+                "female" : 0.42514457, 
+                "male" : 0.41383812
+            }, 
+            "Separated" : {
+                "female" : 0.024844719999999997, 
+                "male" : 0.031766749999999996
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01584922, 
+                "male" : 0.015013049999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.16149068, 
+                "male" : 0.04329852
+            }, 
+            "Divorced" : {
+                "female" : 0.12550867, 
+                "male" : 0.1629678
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.41031537, 
+            "Unemployed" : 0.05902322, 
+            "Other" : 0.53066141
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.20309581000000002, 
+            "Healthcare" : 0.11769415999999999, 
+            "Transportation" : 0.08219908999999999, 
+            "Retail" : 0.07179077, 
+            "Education" : 0.06912196, 
+            "Hospitality" : 0.06912196, 
+            "Government" : 0.06565252, 
+            "Construction" : 0.05737924, 
+            "Administrative" : 0.05097411, 
+            "Professional" : 0.04590339, 
+            "Other Services" : 0.04163331000000001, 
+            "Finance & Insurance" : 0.03602882, 
+            "Utilities" : 0.0322925, 
+            "Wholesalers" : 0.01841473, 
+            "Information" : 0.00960769, 
+            "Entertainment" : 0.00934081, 
+            "Real estate" : 0.00854017, 
+            "Oil & Gas, and Mining" : 0.00800641, 
+            "Agriculture" : 0.0032025599999999997, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00392058, 
+            "Professional" : 0.00088529, 
+            "Master's" : 0.03275579, 
+            "Bachelor's" : 0.06184394, 
+            "Associate's" : 0.0547616, 
+            "Some College" : 0.21183761, 
+            "High School" : 0.36334893, 
+            "Some H.S." : 0.16934362, 
+            "Less than H.S." : 0.07132920000000001, 
+            "None" : 0.02997344
+        }
+    }
+}

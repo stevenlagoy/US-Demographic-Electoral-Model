@@ -1,0 +1,166 @@
+{
+    "name" : "Champaign County", 
+	"state" : "Illinois", 
+	"FIPS" : "17019",
+    "population" : 206420, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.68866873, 
+            "Hispanic" : 0.054602269999999994, 
+            "Black" : 0.12583083, 
+            "Asian" : 0.10177792999999999, 
+            "Mixed" : 0.02538514, 
+            "Other" : 0.0037351
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01554, 
+            "80-84" : 0.014199999999999999, 
+            "75-79" : 0.02009, 
+            "70-74" : 0.02561, 
+            "67-69" : 0.018420000000000002, 
+            "65-66" : 0.01691, 
+            "62-64" : 0.0279, 
+            "60-61" : 0.02291, 
+            "55-59" : 0.05483, 
+            "50-54" : 0.053559999999999997, 
+            "45-49" : 0.04923, 
+            "40-44" : 0.051210000000000006, 
+            "35-39" : 0.05567999999999999, 
+            "30-34" : 0.06717, 
+            "25-29" : 0.08102000000000001, 
+            "22-24" : 0.07992, 
+            "21" : 0.043550000000000005, 
+            "20" : 0.041909999999999996, 
+            "18-19" : 0.07007, 
+            "15-17" : 0.03161, 
+            "10-14" : 0.04982, 
+            "5-9" : 0.053200000000000004, 
+            "0-4" : 0.05563
+        }, 
+        "household_types" : {
+            "Married" : 0.39734218, 
+            "Single Female" : 0.09983591, 
+            "Single Male" : 0.03445961, 
+            "One-Person" : 0.34270655, 
+            "Other Non-Family" : 0.12565575
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.42419964, 
+                "male" : 0.49493386
+            }, 
+            "Now Married" : {
+                "female" : 0.36734506000000006, 
+                "male" : 0.37889203000000005
+            }, 
+            "Separated" : {
+                "female" : 0.01719527, 
+                "male" : 0.010675289999999999
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.023772630000000003, 
+                "male" : 0.02445844
+            }, 
+            "Widowed" : {
+                "female" : 0.06577361, 
+                "male" : 0.01952516
+            }, 
+            "Divorced" : {
+                "female" : 0.10171379, 
+                "male" : 0.07151522
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.31617576, 
+            "German" : 0.20621548, 
+            "Unclassified" : 0.14373123, 
+            "American" : 0.13027807, 
+            "Irish" : 0.10085263, 
+            "English" : 0.07843232, 
+            "Italian" : 0.03132933, 
+            "Polish" : 0.0295078, 
+            "European" : 0.02232342, 
+            "French" : 0.01894196, 
+            "Swedish" : 0.01720279, 
+            "Scottish" : 0.01497917, 
+            "Dutch" : 0.01262959, 
+            "Norwegian" : 0.01103091, 
+            "Subsaharan African" : 0.008201720000000001, 
+            "Scotch-Irish" : 0.0068162, 
+            "Welsh" : 0.006331750000000001, 
+            "Arab" : 0.005731030000000001, 
+            "British" : 0.00537254, 
+            "Russian" : 0.005333790000000001, 
+            "Mexican" : 0.6377061900000001, 
+            "South American" : 0.035769999999999996, 
+            "Puerto Rican" : 0.11313585, 
+            "Other Hispanic" : 0.00635, 
+            "Colombian" : 0.10942223000000001, 
+            "Central American" : 0.00614, 
+            "Cuban" : 0.056136109999999996, 
+            "Spaniard" : 0.00315, 
+            "Guatemalan" : 0.05337248, 
+            "Ecuadorian" : 0.00299, 
+            "Peruvian" : 0.0521634, 
+            "Argentinean" : 0.00293, 
+            "Honduran" : 0.03022714, 
+            "Spanish" : 0.0017000000000000001, 
+            "Costa Rican" : 0.024181710000000002, 
+            "Salvadoran" : 0.00136, 
+            "Panamanian" : 0.01779083, 
+            "Chinese" : 0.41344186, 
+            "Indian" : 0.04208, 
+            "Korean" : 0.20672093, 
+            "Filipino" : 0.02104, 
+            "Vietnamese" : 0.16883241000000002, 
+            "Pakistani" : 0.01718, 
+            "Taiwanese" : 0.06492455999999999, 
+            "Japanese" : 0.00661, 
+            "Laotian" : 0.02955876, 
+            "Not Specified" : 0.00301, 
+            "Mixed" : 0.028892380000000002, 
+            "Cambodian" : 0.00294, 
+            "Indonesian" : 0.01865867
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00041369999999999997, 
+            "Employed" : 0.60435725, 
+            "Unemployed" : 0.034407009999999995, 
+            "Other" : 0.36082203999999996
+        }, 
+        "industries" : {
+            "Education" : 0.25374804, 
+            "Healthcare" : 0.12497951, 
+            "Retail" : 0.10298782, 
+            "Hospitality" : 0.08469837, 
+            "Manufacturing" : 0.07393874, 
+            "Professional" : 0.053933150000000006, 
+            "Other Services" : 0.03834325, 
+            "Finance & Insurance" : 0.03639572, 
+            "Construction" : 0.03329123, 
+            "Wholesalers" : 0.03100626, 
+            "Transportation" : 0.03043742, 
+            "Administrative" : 0.02834527, 
+            "Government" : 0.025790340000000002, 
+            "Information" : 0.02341859, 
+            "Entertainment" : 0.02104685, 
+            "Real estate" : 0.01617802, 
+            "Agriculture" : 0.01350739, 
+            "Utilities" : 0.00656569, 
+            "Oil & Gas, and Mining" : 0.0008773499999999999, 
+            "Management" : 0.00051099
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.05200557, 
+            "Professional" : 0.027516980000000003, 
+            "Master's" : 0.13461555, 
+            "Bachelor's" : 0.2251297, 
+            "Associate's" : 0.07966595, 
+            "Some College" : 0.20607364, 
+            "High School" : 0.22153613, 
+            "Some H.S." : 0.037909649999999996, 
+            "Less than H.S." : 0.01060357, 
+            "None" : 0.0049432700000000005
+        }
+    }
+}

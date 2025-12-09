@@ -1,0 +1,164 @@
+{
+    "name" : "Osceola County", 
+	"state" : "Florida", 
+	"FIPS" : "12097",
+    "population" : 311962, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.35528686, 
+            "Hispanic" : 0.48107141, 
+            "Black" : 0.11354267999999999, 
+            "Asian" : 0.026314099999999997, 
+            "Mixed" : 0.01686103, 
+            "Other" : 0.00692392
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0149, 
+            "80-84" : 0.01409, 
+            "75-79" : 0.01994, 
+            "70-74" : 0.03004, 
+            "67-69" : 0.026779999999999998, 
+            "65-66" : 0.02005, 
+            "62-64" : 0.02997, 
+            "60-61" : 0.02009, 
+            "55-59" : 0.057699999999999994, 
+            "50-54" : 0.06634999999999999, 
+            "45-49" : 0.06924999999999999, 
+            "40-44" : 0.07595, 
+            "35-39" : 0.06636, 
+            "30-34" : 0.06995, 
+            "25-29" : 0.07031, 
+            "22-24" : 0.042460000000000005, 
+            "21" : 0.013720000000000001, 
+            "20" : 0.01373, 
+            "18-19" : 0.02693, 
+            "15-17" : 0.045759999999999995, 
+            "10-14" : 0.07479, 
+            "5-9" : 0.06606, 
+            "0-4" : 0.06483
+        }, 
+        "household_types" : {
+            "Married" : 0.51776606, 
+            "Single Female" : 0.16728816, 
+            "Single Male" : 0.057745059999999994, 
+            "One-Person" : 0.19838412000000002, 
+            "Other Non-Family" : 0.058816600000000004
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.30860289, 
+                "male" : 0.36260035
+            }, 
+            "Now Married" : {
+                "female" : 0.39752223000000003, 
+                "male" : 0.44232393000000003
+            }, 
+            "Separated" : {
+                "female" : 0.03507155, 
+                "male" : 0.02667384
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03942695, 
+                "male" : 0.039708679999999996
+            }, 
+            "Widowed" : {
+                "female" : 0.08041333, 
+                "male" : 0.02173301
+            }, 
+            "Divorced" : {
+                "female" : 0.13896305, 
+                "male" : 0.10696019
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.5555356100000001, 
+            "Unclassified" : 0.13759689, 
+            "German" : 0.06586059, 
+            "American" : 0.06414243, 
+            "Irish" : 0.06146903, 
+            "West Indian" : 0.0060231699999999996, 
+            "Italian" : 0.04353415, 
+            "English" : 0.03846622, 
+            "Jamaican" : 0.018694580000000002, 
+            "French" : 0.017454050000000002, 
+            "Haitian" : 0.013895919999999999, 
+            "Polish" : 0.01356255, 
+            "Arab" : 0.01269706, 
+            "Scottish" : 0.008340760000000001, 
+            "Subsaharan African" : 0.007347050000000001, 
+            "Dutch" : 0.0071995900000000005, 
+            "African" : 0.00547503, 
+            "European" : 0.0052185800000000004, 
+            "Moroccan" : 0.00507754, 
+            "Puerto Rican" : 0.60634212, 
+            "South American" : 0.30463, 
+            "Dominican" : 0.14298475, 
+            "Colombian" : 0.07184, 
+            "Mexican" : 0.09497863000000001, 
+            "Central American" : 0.047720000000000005, 
+            "Cuban" : 0.057423590000000004, 
+            "Other Hispanic" : 0.028849999999999997, 
+            "Venezuelan" : 0.050673130000000004, 
+            "Peruvian" : 0.025459999999999997, 
+            "Ecuadorian" : 0.04365469, 
+            "Salvadoran" : 0.02193, 
+            "Honduran" : 0.03782939, 
+            "Argentinean" : 0.01901, 
+            "Other South American" : 0.02353729, 
+            "Nicaraguan" : 0.01183, 
+            "Costa Rican" : 0.02320551, 
+            "Indian" : 0.3393836, 
+            "Filipino" : 0.00893, 
+            "Chinese" : 0.21549519, 
+            "Vietnamese" : 0.00567, 
+            "Pakistani" : 0.17139724999999997, 
+            "Bangladeshi" : 0.00451, 
+            "Japanese" : 0.07406505000000001, 
+            "Thai" : 0.0019500000000000001, 
+            "Not Specified" : 0.07211597, 
+            "Mixed" : 0.0019, 
+            "Indonesian" : 0.02545986, 
+            "Korean" : 0.00067
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00034583000000000004, 
+            "Employed" : 0.56650048, 
+            "Unemployed" : 0.051384769999999996, 
+            "Other" : 0.38176893
+        }, 
+        "industries" : {
+            "Hospitality" : 0.15166535, 
+            "Retail" : 0.14920893, 
+            "Healthcare" : 0.10710107, 
+            "Entertainment" : 0.09199922, 
+            "Administrative" : 0.07040749, 
+            "Education" : 0.06978975, 
+            "Construction" : 0.06088707, 
+            "Transportation" : 0.05646842999999999, 
+            "Other Services" : 0.04359043, 
+            "Professional" : 0.037485740000000004, 
+            "Government" : 0.03361943, 
+            "Manufacturing" : 0.03357583, 
+            "Wholesalers" : 0.02563245, 
+            "Real estate" : 0.02502198, 
+            "Finance & Insurance" : 0.01926613, 
+            "Information" : 0.013037890000000002, 
+            "Utilities" : 0.00464393, 
+            "Agriculture" : 0.00423695, 
+            "Management" : 0.00215118, 
+            "Oil & Gas, and Mining" : 0.00021076000000000002
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0058481, 
+            "Professional" : 0.0080565, 
+            "Master's" : 0.039884119999999995, 
+            "Bachelor's" : 0.13297658, 
+            "Associate's" : 0.09882251, 
+            "Some College" : 0.23510924, 
+            "High School" : 0.33637625, 
+            "Some H.S." : 0.08611311, 
+            "Less than H.S." : 0.0388414, 
+            "None" : 0.0179722
+        }
+    }
+}

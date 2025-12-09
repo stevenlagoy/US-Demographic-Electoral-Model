@@ -1,0 +1,157 @@
+{
+    "name" : "Mchenry County", 
+	"state" : "Illinois", 
+	"FIPS" : "17111",
+    "population" : 307083, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.8232302, 
+            "Hispanic" : 0.12175860999999999, 
+            "Black" : 0.01304859, 
+            "Asian" : 0.02667357, 
+            "Mixed" : 0.013667309999999998, 
+            "Other" : 0.0016217100000000002
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01362, 
+            "80-84" : 0.01164, 
+            "75-79" : 0.020630000000000003, 
+            "70-74" : 0.030670000000000003, 
+            "67-69" : 0.02357, 
+            "65-66" : 0.02146, 
+            "62-64" : 0.03267, 
+            "60-61" : 0.026469999999999997, 
+            "55-59" : 0.07335, 
+            "50-54" : 0.08528000000000001, 
+            "45-49" : 0.08181, 
+            "40-44" : 0.07349, 
+            "35-39" : 0.060629999999999996, 
+            "30-34" : 0.05776, 
+            "25-29" : 0.05077, 
+            "22-24" : 0.035590000000000004, 
+            "21" : 0.0125, 
+            "20" : 0.01167, 
+            "18-19" : 0.02598, 
+            "15-17" : 0.048470000000000006, 
+            "10-14" : 0.07734, 
+            "5-9" : 0.06825, 
+            "0-4" : 0.05638
+        }, 
+        "household_types" : {
+            "Married" : 0.6090237900000001, 
+            "Single Female" : 0.09559618, 
+            "Single Male" : 0.040405420000000004, 
+            "One-Person" : 0.20530565, 
+            "Other Non-Family" : 0.049668960000000005
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.24734047, 
+                "male" : 0.30180333000000004
+            }, 
+            "Now Married" : {
+                "female" : 0.54912264, 
+                "male" : 0.5683572
+            }, 
+            "Separated" : {
+                "female" : 0.01092063, 
+                "male" : 0.008995999999999999
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.016070189999999998, 
+                "male" : 0.01601122
+            }, 
+            "Widowed" : {
+                "female" : 0.07049575, 
+                "male" : 0.02126026
+            }, 
+            "Divorced" : {
+                "female" : 0.10605033000000001, 
+                "male" : 0.08357199
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.31289586, 
+            "Other" : 0.00099, 
+            "Irish" : 0.17125989, 
+            "Polish" : 0.13388563, 
+            "Unclassified" : 0.12939498, 
+            "Italian" : 0.10187474, 
+            "English" : 0.06918650999999999, 
+            "Swedish" : 0.04066327, 
+            "American" : 0.03331347, 
+            "Norwegian" : 0.031138159999999998, 
+            "French" : 0.02654657, 
+            "Scottish" : 0.016917249999999998, 
+            "European" : 0.014953609999999999, 
+            "Czech" : 0.01476474, 
+            "Dutch" : 0.01128359, 
+            "Greek" : 0.00956419, 
+            "Russian" : 0.00804994, 
+            "Danish" : 0.00774058, 
+            "Scotch-Irish" : 0.006506380000000001, 
+            "Hungarian" : 0.005871380000000001, 
+            "Mexican" : 0.82039388, 
+            "Puerto Rican" : 0.10079, 
+            "South American" : 0.07705357, 
+            "Central American" : 0.00947, 
+            "Other Hispanic" : 0.03318578, 
+            "Colombian" : 0.004079999999999999, 
+            "Cuban" : 0.03011106, 
+            "Guatemalan" : 0.0037, 
+            "Salvadoran" : 0.02115196, 
+            "Spaniard" : 0.0026, 
+            "Indian" : 0.40019534, 
+            "Filipino" : 0.010669999999999999, 
+            "Chinese" : 0.21902088, 
+            "Korean" : 0.00584, 
+            "Pakistani" : 0.16237334, 
+            "Vietnamese" : 0.00433, 
+            "Not Specified" : 0.08289586, 
+            "Japanese" : 0.00221, 
+            "Malaysian" : 0.037235990000000004, 
+            "Mixed" : 0.02344036, 
+            "Bangladeshi" : 0.00063
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00020830000000000002, 
+            "Employed" : 0.66415451, 
+            "Unemployed" : 0.04643945000000001, 
+            "Other" : 0.28919774
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.16075247999999998, 
+            "Retail" : 0.12856686, 
+            "Healthcare" : 0.10248465, 
+            "Education" : 0.08147083999999999, 
+            "Construction" : 0.07218713, 
+            "Professional" : 0.06605863000000001, 
+            "Hospitality" : 0.061611229999999996, 
+            "Finance & Insurance" : 0.05798556, 
+            "Other Services" : 0.043194350000000006, 
+            "Transportation" : 0.04232243, 
+            "Administrative" : 0.04000151, 
+            "Wholesalers" : 0.03936795, 
+            "Government" : 0.030172059999999997, 
+            "Information" : 0.023554279999999997, 
+            "Entertainment" : 0.02100753, 
+            "Real estate" : 0.0144713, 
+            "Agriculture" : 0.00704433, 
+            "Utilities" : 0.005476140000000001, 
+            "Management" : 0.00204493, 
+            "Oil & Gas, and Mining" : 0.00022582
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00769204, 
+            "Professional" : 0.01396145, 
+            "Master's" : 0.08874303, 
+            "Bachelor's" : 0.22206851, 
+            "Associate's" : 0.08658455, 
+            "Some College" : 0.23843373, 
+            "High School" : 0.26863775, 
+            "Some H.S." : 0.04445490999999999, 
+            "Less than H.S." : 0.02389047, 
+            "None" : 0.00553356
+        }
+    }
+}

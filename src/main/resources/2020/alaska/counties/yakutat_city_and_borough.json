@@ -1,0 +1,137 @@
+{
+    "name" : "Yakutat City And Borough", 
+	"state" : "Alaska", 
+	"FIPS" : "02282",
+    "population" : 646, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.43188854, 
+            "Hispanic" : 0.02786378, 
+            "Black" : 0.010835909999999999, 
+            "Asian" : 0.05882353, 
+            "Mixed" : 0.14860681, 
+            "Other" : 0.32198141999999996
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01238, 
+            "80-84" : 0.00155, 
+            "75-79" : 0.02322, 
+            "70-74" : 0.02322, 
+            "67-69" : 0.02477, 
+            "65-66" : 0.03096, 
+            "62-64" : 0.052629999999999996, 
+            "60-61" : 0.03096, 
+            "55-59" : 0.08514, 
+            "50-54" : 0.10680999999999999, 
+            "45-49" : 0.0356, 
+            "40-44" : 0.0774, 
+            "35-39" : 0.06347, 
+            "30-34" : 0.06347, 
+            "25-29" : 0.06656, 
+            "22-24" : 0.04025, 
+            "21" : 0.00929, 
+            "20" : 0.01238, 
+            "18-19" : 0.01703, 
+            "15-17" : 0.03251, 
+            "10-14" : 0.06656, 
+            "5-9" : 0.05573, 
+            "0-4" : 0.06811
+        }, 
+        "household_types" : {
+            "Married" : 0.3562753, 
+            "Single Female" : 0.13765181999999998, 
+            "Single Male" : 0.10931174, 
+            "One-Person" : 0.34008097, 
+            "Other Non-Family" : 0.05668016
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.34934497999999997, 
+                "male" : 0.43537415
+            }, 
+            "Now Married" : {
+                "female" : 0.41921397, 
+                "male" : 0.31632653
+            }, 
+            "Separated" : {
+                "female" : 0.01310044, 
+                "male" : 0.02380952
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.021834060000000002, 
+                "male" : 0.07823129
+            }, 
+            "Widowed" : {
+                "female" : 0.10043668, 
+                "male" : 0.010204079999999999
+            }, 
+            "Divorced" : {
+                "female" : 0.09606987, 
+                "male" : 0.13605442
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.60216718, 
+            "German" : 0.13622291, 
+            "Unclassified" : 0.10835913, 
+            "Irish" : 0.08359133, 
+            "English" : 0.07430341, 
+            "Norwegian" : 0.03250774, 
+            "Scottish" : 0.03095975, 
+            "Swedish" : 0.02631579, 
+            "Dutch" : 0.024767800000000003, 
+            "Polish" : 0.02012384, 
+            "European" : 0.01702786, 
+            "Finnish" : 0.01702786, 
+            "Italian" : 0.01547988, 
+            "French" : 0.012383900000000002, 
+            "Scotch-Irish" : 0.00773994, 
+            "Mexican" : 1.0, 
+            "Filipino" : 0.65789474, 
+            "Japanese" : 0.0387, 
+            "Vietnamese" : 0.15789474, 
+            "Mixed" : 0.00929, 
+            "Chinese" : 0.10526316
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.71235521, 
+            "Unemployed" : 0.05405405, 
+            "Other" : 0.23359073
+        }, 
+        "industries" : {
+            "Government" : 0.27642276, 
+            "Agriculture" : 0.13279132999999999, 
+            "Retail" : 0.08943089, 
+            "Manufacturing" : 0.08401084, 
+            "Hospitality" : 0.07317073, 
+            "Healthcare" : 0.06775068000000001, 
+            "Transportation" : 0.0596206, 
+            "Education" : 0.0596206, 
+            "Professional" : 0.04065041, 
+            "Construction" : 0.0298103, 
+            "Entertainment" : 0.024390239999999997, 
+            "Utilities" : 0.02168022, 
+            "Real estate" : 0.01897019, 
+            "Other Services" : 0.00813008, 
+            "Wholesalers" : 0.005420049999999999, 
+            "Information" : 0.005420049999999999, 
+            "Administrative" : 0.00271003, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Finance & Insurance" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.0044345899999999995, 
+            "Master's" : 0.019955650000000002, 
+            "Bachelor's" : 0.172949, 
+            "Associate's" : 0.05321508, 
+            "Some College" : 0.28603103999999996, 
+            "High School" : 0.40798226, 
+            "Some H.S." : 0.0443459, 
+            "Less than H.S." : 0.01108647, 
+            "None" : 0.0
+        }
+    }
+}

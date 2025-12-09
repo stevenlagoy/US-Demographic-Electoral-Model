@@ -1,0 +1,150 @@
+{
+    "name" : "Prince Of Wales Hyder Census Area", 
+	"state" : "Alaska", 
+	"FIPS" : "02198",
+    "population" : 6374, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.45136491999999995, 
+            "Hispanic" : 0.03467211, 
+            "Black" : 0.00203954, 
+            "Asian" : 0.010825229999999998, 
+            "Mixed" : 0.09381864000000001, 
+            "Other" : 0.40727957000000004
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.00502, 
+            "80-84" : 0.00879, 
+            "75-79" : 0.019299999999999998, 
+            "70-74" : 0.033889999999999997, 
+            "67-69" : 0.02573, 
+            "65-66" : 0.020550000000000002, 
+            "62-64" : 0.03985, 
+            "60-61" : 0.03812, 
+            "55-59" : 0.09162000000000001, 
+            "50-54" : 0.08692, 
+            "45-49" : 0.07185, 
+            "40-44" : 0.06527, 
+            "35-39" : 0.05099, 
+            "30-34" : 0.05836, 
+            "25-29" : 0.062279999999999995, 
+            "22-24" : 0.03232, 
+            "21" : 0.010509999999999999, 
+            "20" : 0.012709999999999999, 
+            "18-19" : 0.02291, 
+            "15-17" : 0.04079, 
+            "10-14" : 0.07484, 
+            "5-9" : 0.06087, 
+            "0-4" : 0.06652
+        }, 
+        "household_types" : {
+            "Married" : 0.43449492999999995, 
+            "Single Female" : 0.12042346999999999, 
+            "Single Male" : 0.08601676, 
+            "One-Person" : 0.29245699, 
+            "Other Non-Family" : 0.06660785
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26663767, 
+                "male" : 0.3776023
+            }, 
+            "Now Married" : {
+                "female" : 0.46324489, 
+                "male" : 0.35606604
+            }, 
+            "Separated" : {
+                "female" : 0.02392344, 
+                "male" : 0.024048820000000002
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02392344, 
+                "male" : 0.05204594
+            }, 
+            "Widowed" : {
+                "female" : 0.0800348, 
+                "male" : 0.03015075
+            }, 
+            "Divorced" : {
+                "female" : 0.14223575, 
+                "male" : 0.16008614999999998
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.58236586, 
+            "German" : 0.13759021000000002, 
+            "Irish" : 0.08628805, 
+            "Unclassified" : 0.08346406999999999, 
+            "English" : 0.05757766, 
+            "European" : 0.04894885, 
+            "Norwegian" : 0.0310637, 
+            "Scottish" : 0.02321933, 
+            "Italian" : 0.02180734, 
+            "French" : 0.021022910000000002, 
+            "American" : 0.01819893, 
+            "Scotch-Irish" : 0.013962969999999998, 
+            "Swedish" : 0.01270788, 
+            "Dutch" : 0.012394099999999998, 
+            "Portuguese" : 0.012080329999999998, 
+            "Canadian" : 0.0072168200000000005, 
+            "Polish" : 0.00674616, 
+            "Swiss" : 0.00611861, 
+            "Russian" : 0.00549106, 
+            "Welsh" : 0.00533417, 
+            "Mexican" : 0.72850679, 
+            "Other Hispanic" : 0.025259999999999998, 
+            "Spanish" : 0.19457014, 
+            "Central American" : 0.006750000000000001, 
+            "South American" : 0.15384615000000001, 
+            "Argentinean" : 0.0053300000000000005, 
+            "Spaniard" : 0.03167421, 
+            "Salvadoran" : 0.0011, 
+            "Puerto Rican" : 0.02714932, 
+            "Costa Rican" : 0.00094, 
+            "Filipino" : 0.6811594200000001, 
+            "Korean" : 0.00737, 
+            "Chinese" : 0.11594203, 
+            "Vietnamese" : 0.00126
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00120024, 
+            "Employed" : 0.5565113, 
+            "Unemployed" : 0.08781756, 
+            "Other" : 0.35447089
+        }, 
+        "industries" : {
+            "Agriculture" : 0.13551401999999999, 
+            "Government" : 0.11969806, 
+            "Healthcare" : 0.11897914999999999, 
+            "Education" : 0.11143063, 
+            "Retail" : 0.09884975000000001, 
+            "Manufacturing" : 0.08123651999999999, 
+            "Construction" : 0.061466570000000005, 
+            "Transportation" : 0.06074766, 
+            "Hospitality" : 0.04457225, 
+            "Entertainment" : 0.03091301, 
+            "Other Services" : 0.02839684, 
+            "Utilities" : 0.024802300000000003, 
+            "Real estate" : 0.01689432, 
+            "Administrative" : 0.01365924, 
+            "Professional" : 0.01329978, 
+            "Oil & Gas, and Mining" : 0.01294033, 
+            "Wholesalers" : 0.0100647, 
+            "Finance & Insurance" : 0.0100647, 
+            "Information" : 0.00647017, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00878613, 
+            "Professional" : 0.00809249, 
+            "Master's" : 0.04254335, 
+            "Bachelor's" : 0.09849711, 
+            "Associate's" : 0.054335259999999996, 
+            "Some College" : 0.3017341, 
+            "High School" : 0.39121386999999996, 
+            "Some H.S." : 0.07676300999999999, 
+            "Less than H.S." : 0.01803468, 
+            "None" : 0.0
+        }
+    }
+}

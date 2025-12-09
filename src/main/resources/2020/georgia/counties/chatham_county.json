@@ -1,0 +1,166 @@
+{
+    "name" : "Chatham County", 
+	"state" : "Georgia", 
+	"FIPS" : "13051",
+    "population" : 282613, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.49469769999999996, 
+            "Hispanic" : 0.05677021, 
+            "Black" : 0.39807085999999997, 
+            "Asian" : 0.02572422, 
+            "Mixed" : 0.02058999, 
+            "Other" : 0.00414701
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01691, 
+            "80-84" : 0.01571, 
+            "75-79" : 0.023399999999999997, 
+            "70-74" : 0.03335, 
+            "67-69" : 0.025310000000000003, 
+            "65-66" : 0.02121, 
+            "62-64" : 0.033530000000000004, 
+            "60-61" : 0.0215, 
+            "55-59" : 0.061829999999999996, 
+            "50-54" : 0.06245, 
+            "45-49" : 0.057569999999999996, 
+            "40-44" : 0.05865, 
+            "35-39" : 0.06164, 
+            "30-34" : 0.07607, 
+            "25-29" : 0.08976, 
+            "22-24" : 0.05026, 
+            "21" : 0.01688, 
+            "20" : 0.02, 
+            "18-19" : 0.03263, 
+            "15-17" : 0.03327, 
+            "10-14" : 0.06141, 
+            "5-9" : 0.06001, 
+            "0-4" : 0.06663999999999999
+        }, 
+        "household_types" : {
+            "Married" : 0.40911859, 
+            "Single Female" : 0.16794536999999998, 
+            "Single Male" : 0.041836460000000006, 
+            "One-Person" : 0.30611996, 
+            "Other Non-Family" : 0.07497963
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.35488811, 
+                "male" : 0.40934458
+            }, 
+            "Now Married" : {
+                "female" : 0.37163259, 
+                "male" : 0.40999414
+            }, 
+            "Separated" : {
+                "female" : 0.024068109999999997, 
+                "male" : 0.02028288
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02018992, 
+                "male" : 0.026641289999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.09017219000000001, 
+                "male" : 0.026275339999999998
+            }, 
+            "Divorced" : {
+                "female" : 0.13904909, 
+                "male" : 0.10746176
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.47990715, 
+            "Unclassified" : 0.1843015, 
+            "Irish" : 0.09592269, 
+            "German" : 0.08820188999999999, 
+            "English" : 0.07311412, 
+            "American" : 0.057392969999999995, 
+            "Italian" : 0.029545699999999998, 
+            "Scottish" : 0.020689069999999997, 
+            "French" : 0.01882433, 
+            "Subsaharan African" : 0.013385800000000002, 
+            "Scotch-Irish" : 0.01324426, 
+            "Polish" : 0.01296473, 
+            "African" : 0.01073553, 
+            "European" : 0.00927063, 
+            "Dutch" : 0.00662036, 
+            "Welsh" : 0.00642221, 
+            "West Indian" : 0.00582422, 
+            "Russian" : 0.00554468, 
+            "Mexican" : 0.45644925000000003, 
+            "Puerto Rican" : 0.027610000000000003, 
+            "Central American" : 0.23164668, 
+            "South American" : 0.01401, 
+            "Honduran" : 0.1251828, 
+            "Other Hispanic" : 0.00757, 
+            "Cuban" : 0.09201521, 
+            "Dominican" : 0.00557, 
+            "Colombian" : 0.048493709999999995, 
+            "Guatemalan" : 0.00293, 
+            "Peruvian" : 0.03696987, 
+            "Ecuadorian" : 0.0022400000000000002, 
+            "Salvadoran" : 0.03082773, 
+            "Venezuelan" : 0.0018599999999999999, 
+            "Panamanian" : 0.02690845, 
+            "Spanish" : 0.0016300000000000002, 
+            "Costa Rican" : 0.02445159, 
+            "Nicaraguan" : 0.00148, 
+            "Spaniard" : 0.02240421, 
+            "Argentinean" : 0.00136, 
+            "Indian" : 0.2909216, 
+            "Vietnamese" : 0.00748, 
+            "Chinese" : 0.20302613, 
+            "Korean" : 0.00522, 
+            "Filipino" : 0.16781293000000003, 
+            "Japanese" : 0.00432, 
+            "Mixed" : 0.11595598000000001, 
+            "Thai" : 0.00298, 
+            "Not Specified" : 0.10055021, 
+            "Pakistani" : 0.0025900000000000003, 
+            "Indonesian" : 0.02888583, 
+            "Laotian" : 0.00074
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.01543315, 
+            "Employed" : 0.5732444999999999, 
+            "Unemployed" : 0.058418859999999996, 
+            "Other" : 0.35290349
+        }, 
+        "industries" : {
+            "Healthcare" : 0.13421919000000002, 
+            "Retail" : 0.1260569, 
+            "Hospitality" : 0.12116261, 
+            "Education" : 0.09031701, 
+            "Manufacturing" : 0.08456718, 
+            "Government" : 0.06345622, 
+            "Transportation" : 0.06253902, 
+            "Construction" : 0.0569048, 
+            "Professional" : 0.05061545, 
+            "Administrative" : 0.04708539, 
+            "Other Services" : 0.04184426, 
+            "Finance & Insurance" : 0.02874914, 
+            "Real estate" : 0.02726929, 
+            "Wholesalers" : 0.020178349999999998, 
+            "Entertainment" : 0.01928428, 
+            "Information" : 0.015615490000000001, 
+            "Utilities" : 0.00589627, 
+            "Agriculture" : 0.0032911200000000002, 
+            "Management" : 0.00069368, 
+            "Oil & Gas, and Mining" : 0.00025435
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0168088, 
+            "Professional" : 0.02140034, 
+            "Master's" : 0.08789981, 
+            "Bachelor's" : 0.2028387, 
+            "Associate's" : 0.06769166, 
+            "Some College" : 0.24674564, 
+            "High School" : 0.24953278999999998, 
+            "Some H.S." : 0.0744474, 
+            "Less than H.S." : 0.024944690000000002, 
+            "None" : 0.007690160000000001
+        }
+    }
+}

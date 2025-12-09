@@ -1,0 +1,135 @@
+{
+    "name" : "Edmonson County", 
+	"state" : "Kentucky", 
+	"FIPS" : "21061",
+    "population" : 12086, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.95656131, 
+            "Hispanic" : 0.01249379, 
+            "Black" : 0.01687903, 
+            "Asian" : 0.00173755, 
+            "Mixed" : 0.010590770000000001, 
+            "Other" : 0.00173755
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02259, 
+            "80-84" : 0.0254, 
+            "75-79" : 0.02606, 
+            "70-74" : 0.05411, 
+            "67-69" : 0.040209999999999996, 
+            "65-66" : 0.02267, 
+            "62-64" : 0.0302, 
+            "60-61" : 0.03136, 
+            "55-59" : 0.08439999999999999, 
+            "50-54" : 0.0748, 
+            "45-49" : 0.06545, 
+            "40-44" : 0.05659, 
+            "35-39" : 0.0681, 
+            "30-34" : 0.056260000000000004, 
+            "25-29" : 0.05295, 
+            "22-24" : 0.03252, 
+            "21" : 0.01431, 
+            "20" : 0.01373, 
+            "18-19" : 0.03136, 
+            "15-17" : 0.039220000000000005, 
+            "10-14" : 0.06445000000000001, 
+            "5-9" : 0.04857, 
+            "0-4" : 0.04468
+        }, 
+        "household_types" : {
+            "Married" : 0.59889643, 
+            "Single Female" : 0.09762309, 
+            "Single Male" : 0.040747030000000004, 
+            "One-Person" : 0.23047538, 
+            "Other Non-Family" : 0.03225806
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.17302799, 
+                "male" : 0.25517649
+            }, 
+            "Now Married" : {
+                "female" : 0.5607751, 
+                "male" : 0.57049892
+            }, 
+            "Separated" : {
+                "female" : 0.02270503, 
+                "male" : 0.019719979999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01507144, 
+                "male" : 0.014395579999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.12879232999999998, 
+                "male" : 0.03648196
+            }, 
+            "Divorced" : {
+                "female" : 0.09962811, 
+                "male" : 0.10372708
+            }
+        }, 
+        "ancestry" : {
+            "Unclassified" : 0.29108059000000003, 
+            "American" : 0.24507695, 
+            "Other" : 0.19874234999999998, 
+            "Irish" : 0.12220751, 
+            "German" : 0.09887473, 
+            "English" : 0.07529373, 
+            "European" : 0.03086215, 
+            "Italian" : 0.02085057, 
+            "Dutch" : 0.01861658, 
+            "French" : 0.01638259, 
+            "Scottish" : 0.01547245, 
+            "Scotch-Irish" : 0.01274202, 
+            "Puerto Rican" : 0.61589404, 
+            "Mexican" : 0.00769, 
+            "Other Hispanic" : 0.2781457, 
+            "Spaniard" : 0.0034799999999999996, 
+            "Filipino" : 0.66666667, 
+            "Vietnamese" : 0.00116, 
+            "Mongolian" : 0.28571429
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.44829307, 
+            "Unemployed" : 0.0501098, 
+            "Other" : 0.5015971300000001
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.15942997, 
+            "Education" : 0.14117122999999998, 
+            "Construction" : 0.13226453, 
+            "Healthcare" : 0.13204186, 
+            "Retail" : 0.09997773, 
+            "Hospitality" : 0.08283233, 
+            "Other Services" : 0.03651748, 
+            "Transportation" : 0.03317747, 
+            "Administrative" : 0.032064129999999996, 
+            "Wholesalers" : 0.03161879, 
+            "Professional" : 0.02827878, 
+            "Finance & Insurance" : 0.02805611, 
+            "Entertainment" : 0.013360050000000002, 
+            "Government" : 0.01202405, 
+            "Real estate" : 0.01113338, 
+            "Utilities" : 0.00935204, 
+            "Information" : 0.00779336, 
+            "Agriculture" : 0.00489869, 
+            "Oil & Gas, and Mining" : 0.00400802, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00116347, 
+            "Professional" : 0.010703899999999999, 
+            "Master's" : 0.02862129, 
+            "Bachelor's" : 0.07853403, 
+            "Associate's" : 0.06084933000000001, 
+            "Some College" : 0.1875509, 
+            "High School" : 0.40232692999999997, 
+            "Some H.S." : 0.13123909, 
+            "Less than H.S." : 0.08935428, 
+            "None" : 0.00965678
+        }
+    }
+}

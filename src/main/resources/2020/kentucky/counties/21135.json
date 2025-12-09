@@ -1,0 +1,114 @@
+{
+    "name" : "Lewis County", 
+	"state" : "Kentucky", 
+	"FIPS" : "21135",
+    "population" : 13646, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.97955445, 
+            "Hispanic" : 0.00703503, 
+            "Black" : 0.00403049, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00483658, 
+            "Other" : 0.00454346
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.017070000000000002, 
+            "80-84" : 0.02726, 
+            "75-79" : 0.02176, 
+            "70-74" : 0.05027, 
+            "67-69" : 0.029609999999999997, 
+            "65-66" : 0.02169, 
+            "62-64" : 0.04309, 
+            "60-61" : 0.02316, 
+            "55-59" : 0.0757, 
+            "50-54" : 0.07922, 
+            "45-49" : 0.06896, 
+            "40-44" : 0.052320000000000005, 
+            "35-39" : 0.07504, 
+            "30-34" : 0.055330000000000004, 
+            "25-29" : 0.055689999999999996, 
+            "22-24" : 0.027549999999999998, 
+            "21" : 0.02748, 
+            "20" : 0.005639999999999999, 
+            "18-19" : 0.021400000000000002, 
+            "15-17" : 0.03972, 
+            "10-14" : 0.0735, 
+            "5-9" : 0.056280000000000004, 
+            "0-4" : 0.05225
+        }, 
+        "household_types" : {
+            "Married" : 0.5534892299999999, 
+            "Single Female" : 0.10495305, 
+            "Single Male" : 0.05450193, 
+            "One-Person" : 0.25741116, 
+            "Other Non-Family" : 0.029644629999999998
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14552571, 
+                "male" : 0.25591049
+            }, 
+            "Now Married" : {
+                "female" : 0.53869418, 
+                "male" : 0.55784154
+            }, 
+            "Separated" : {
+                "female" : 0.03291229, 
+                "male" : 0.03555315
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02366127, 
+                "male" : 0.01317452
+            }, 
+            "Widowed" : {
+                "female" : 0.11047855999999999, 
+                "male" : 0.02508572
+            }, 
+            "Divorced" : {
+                "female" : 0.14872797999999998, 
+                "male" : 0.11243458
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.40940877, 
+            "Unemployed" : 0.02987921, 
+            "Other" : 0.56071202
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.17635315, 
+            "Healthcare" : 0.16858917, 
+            "Construction" : 0.1393079, 
+            "Retail" : 0.09494232, 
+            "Education" : 0.07830524, 
+            "Transportation" : 0.049023960000000005, 
+            "Other Services" : 0.04724933, 
+            "Hospitality" : 0.04148181, 
+            "Government" : 0.03327418, 
+            "Oil & Gas, and Mining" : 0.03305235, 
+            "Agriculture" : 0.02817214, 
+            "Information" : 0.02528838, 
+            "Finance & Insurance" : 0.018411709999999998, 
+            "Professional" : 0.01730257, 
+            "Utilities" : 0.01685892, 
+            "Administrative" : 0.015306120000000001, 
+            "Wholesalers" : 0.00931677, 
+            "Real estate" : 0.0055457, 
+            "Entertainment" : 0.00221828, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00357895, 
+            "Professional" : 0.00821053, 
+            "Master's" : 0.04305263, 
+            "Bachelor's" : 0.06094737, 
+            "Associate's" : 0.06568420999999999, 
+            "Some College" : 0.15610526, 
+            "High School" : 0.41010525999999997, 
+            "Some H.S." : 0.12315789, 
+            "Less than H.S." : 0.12, 
+            "None" : 0.00915789
+        }
+    }
+}

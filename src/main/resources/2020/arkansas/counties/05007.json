@@ -1,0 +1,158 @@
+{
+    "name" : "Benton County", 
+	"state" : "Arkansas", 
+	"FIPS" : "05007",
+    "population" : 245231, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.74737696, 
+            "Hispanic" : 0.15981666, 
+            "Black" : 0.014818679999999999, 
+            "Asian" : 0.035529769999999995, 
+            "Mixed" : 0.0235166, 
+            "Other" : 0.018941319999999998
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0151, 
+            "80-84" : 0.01755, 
+            "75-79" : 0.020950000000000003, 
+            "70-74" : 0.03286, 
+            "67-69" : 0.02467, 
+            "65-66" : 0.01671, 
+            "62-64" : 0.02556, 
+            "60-61" : 0.02204, 
+            "55-59" : 0.05633, 
+            "50-54" : 0.0629, 
+            "45-49" : 0.0655, 
+            "40-44" : 0.06944, 
+            "35-39" : 0.0713, 
+            "30-34" : 0.07744, 
+            "25-29" : 0.06910999999999999, 
+            "22-24" : 0.03433, 
+            "21" : 0.010660000000000001, 
+            "20" : 0.012150000000000001, 
+            "18-19" : 0.02421, 
+            "15-17" : 0.04292, 
+            "10-14" : 0.07705000000000001, 
+            "5-9" : 0.07821, 
+            "0-4" : 0.07302
+        }, 
+        "household_types" : {
+            "Married" : 0.5989047200000001, 
+            "Single Female" : 0.10338127999999999, 
+            "Single Male" : 0.03840298, 
+            "One-Person" : 0.21002341000000002, 
+            "Other Non-Family" : 0.049287609999999996
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.2051072, 
+                "male" : 0.26984914
+            }, 
+            "Now Married" : {
+                "female" : 0.55791482, 
+                "male" : 0.57674569
+            }, 
+            "Separated" : {
+                "female" : 0.01686849, 
+                "male" : 0.0102694
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.021129679999999998, 
+                "male" : 0.0253125
+            }, 
+            "Widowed" : {
+                "female" : 0.08112844000000001, 
+                "male" : 0.02432112
+            }, 
+            "Divorced" : {
+                "female" : 0.11785137000000001, 
+                "male" : 0.09350216
+            }
+        }, 
+        "ancestry" : {
+            "Unclassified" : 0.34093977000000003, 
+            "Other" : 0.32316060999999996, 
+            "German" : 0.11626589, 
+            "Irish" : 0.08012038, 
+            "English" : 0.07380796, 
+            "American" : 0.07347766, 
+            "Italian" : 0.01983028, 
+            "French" : 0.01725312, 
+            "Scottish" : 0.015132669999999999, 
+            "Dutch" : 0.013183489999999999, 
+            "Scotch-Irish" : 0.01103042, 
+            "Swedish" : 0.01045137, 
+            "European" : 0.010402439999999999, 
+            "Polish" : 0.01011699, 
+            "Norwegian" : 0.00885696, 
+            "Welsh" : 0.0059821100000000006, 
+            "Mexican" : 0.6987184399999999, 
+            "Central American" : 0.11227000000000001, 
+            "Salvadoran" : 0.22880345, 
+            "Guatemalan" : 0.03677, 
+            "Other Hispanic" : 0.16726304, 
+            "South American" : 0.02688, 
+            "Honduran" : 0.03603604, 
+            "Puerto Rican" : 0.00579, 
+            "Spanish" : 0.032381679999999996, 
+            "Spaniard" : 0.0052, 
+            "Peruvian" : 0.02083492, 
+            "Ecuadorian" : 0.00335, 
+            "Indian" : 0.51141972, 
+            "Chinese" : 0.01817, 
+            "Laotian" : 0.09767015000000001, 
+            "Filipino" : 0.0034699999999999996, 
+            "Hmong" : 0.09491564000000001, 
+            "Vietnamese" : 0.00337, 
+            "Korean" : 0.06243544, 
+            "Pakistani" : 0.00222, 
+            "Thai" : 0.05084357, 
+            "Mixed" : 0.00181, 
+            "Bangladeshi" : 0.0507288, 
+            "Not Specified" : 0.0018, 
+            "Japanese" : 0.04258005, 
+            "Nepalese" : 0.00151
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00094785, 
+            "Employed" : 0.61906788, 
+            "Unemployed" : 0.02206975, 
+            "Other" : 0.35791452
+        }, 
+        "industries" : {
+            "Retail" : 0.23667476, 
+            "Manufacturing" : 0.13581439, 
+            "Healthcare" : 0.09619751000000001, 
+            "Education" : 0.07805065, 
+            "Construction" : 0.06731564, 
+            "Professional" : 0.06267018, 
+            "Hospitality" : 0.059938580000000005, 
+            "Transportation" : 0.04143505, 
+            "Other Services" : 0.040747799999999994, 
+            "Administrative" : 0.03421458, 
+            "Finance & Insurance" : 0.032553, 
+            "Wholesalers" : 0.024540890000000003, 
+            "Government" : 0.023879739999999997, 
+            "Real estate" : 0.015189079999999999, 
+            "Entertainment" : 0.01453663, 
+            "Agriculture" : 0.011857230000000002, 
+            "Information" : 0.01023045, 
+            "Utilities" : 0.007507549999999999, 
+            "Management" : 0.00428878, 
+            "Oil & Gas, and Mining" : 0.00235753
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00773412, 
+            "Professional" : 0.01604766, 
+            "Master's" : 0.07865749, 
+            "Bachelor's" : 0.20479037000000003, 
+            "Associate's" : 0.05427738, 
+            "Some College" : 0.20593662999999998, 
+            "High School" : 0.30489303, 
+            "Some H.S." : 0.068782, 
+            "Less than H.S." : 0.04639211000000001, 
+            "None" : 0.012489209999999999
+        }
+    }
+}

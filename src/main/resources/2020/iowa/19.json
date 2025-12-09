@@ -1,0 +1,164 @@
+{
+    "name" : "Iowa", 
+	"FIPS" : "19",
+    "population" : 3106589, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.8696354700000001, 
+            "Hispanic" : 0.05470051, 
+            "Black" : 0.03317207, 
+            "Asian" : 0.02142865, 
+            "Mixed" : 0.01676855, 
+            "Other" : 0.00429474
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.025019999999999997, 
+            "80-84" : 0.0212, 
+            "75-79" : 0.02811, 
+            "70-74" : 0.03537, 
+            "67-69" : 0.02657, 
+            "65-66" : 0.021709999999999997, 
+            "62-64" : 0.03573, 
+            "60-61" : 0.02674, 
+            "55-59" : 0.06823, 
+            "50-54" : 0.0694, 
+            "45-49" : 0.06133, 
+            "40-44" : 0.057999999999999996, 
+            "35-39" : 0.059370000000000006, 
+            "30-34" : 0.06412, 
+            "25-29" : 0.061829999999999996, 
+            "22-24" : 0.042089999999999995, 
+            "21" : 0.01514, 
+            "20" : 0.015960000000000002, 
+            "18-19" : 0.02989, 
+            "15-17" : 0.03932, 
+            "10-14" : 0.06555, 
+            "5-9" : 0.06594, 
+            "0-4" : 0.06337
+        }, 
+        "household_types" : {
+            "Married" : 0.50823448, 
+            "Single Female" : 0.09247804, 
+            "Single Male" : 0.04200248, 
+            "One-Person" : 0.28921869, 
+            "Other Non-Family" : 0.06806632
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.25791205, 
+                "male" : 0.32425064
+            }, 
+            "Now Married" : {
+                "female" : 0.50029052, 
+                "male" : 0.51950851
+            }, 
+            "Separated" : {
+                "female" : 0.014371499999999999, 
+                "male" : 0.01000064
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01641342, 
+                "male" : 0.0180164
+            }, 
+            "Widowed" : {
+                "female" : 0.0971458, 
+                "male" : 0.02673705
+            }, 
+            "Divorced" : {
+                "female" : 0.1138667, 
+                "male" : 0.10148675000000001
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.35081435, 
+            "Unclassified" : 0.20350552, 
+            "Other" : 0.15790212, 
+            "Irish" : 0.13520392, 
+            "English" : 0.08224809000000001, 
+            "American" : 0.058183109999999996, 
+            "Norwegian" : 0.05012829, 
+            "Dutch" : 0.04103375, 
+            "Swedish" : 0.02694209, 
+            "French" : 0.021326610000000003, 
+            "Italian" : 0.020722079999999997, 
+            "Czech" : 0.01785914, 
+            "Danish" : 0.017690459999999998, 
+            "Scottish" : 0.015397270000000001, 
+            "Polish" : 0.01276738, 
+            "European" : 0.01070724, 
+            "Scotch-Irish" : 0.00837542, 
+            "Welsh" : 0.0069777500000000004, 
+            "Subsaharan African" : 0.00575229, 
+            "Mexican" : 0.7789609, 
+            "Central American" : 0.04331, 
+            "Other Hispanic" : 0.09807940999999999, 
+            "Guatemalan" : 0.00545, 
+            "Puerto Rican" : 0.044277300000000006, 
+            "Salvadoran" : 0.00246, 
+            "South American" : 0.04019523999999999, 
+            "Spaniard" : 0.00223, 
+            "Honduran" : 0.0367501, 
+            "Cuban" : 0.0020399999999999997, 
+            "Ecuadorian" : 0.03420244, 
+            "Colombian" : 0.0019, 
+            "Spanish" : 0.0277522, 
+            "Indian" : 0.19637975000000002, 
+            "Chinese" : 0.00421, 
+            "Vietnamese" : 0.19181313, 
+            "Korean" : 0.00411, 
+            "Laotian" : 0.14272195, 
+            "Burmese" : 0.00306, 
+            "Filipino" : 0.09199339000000001, 
+            "Thai" : 0.00197, 
+            "Japanese" : 0.08116269000000001, 
+            "Mixed" : 0.0017399999999999998, 
+            "Not Specified" : 0.07919483, 
+            "Pakistani" : 0.0017000000000000001, 
+            "Hmong" : 0.06157428, 
+            "Taiwanese" : 0.00132, 
+            "Nepalese" : 0.027369690000000002, 
+            "Cambodian" : 0.0005899999999999999, 
+            "Malaysian" : 0.021796609999999998
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00069239, 
+            "Employed" : 0.6453015999999999, 
+            "Unemployed" : 0.030610369999999998, 
+            "Other" : 0.32339564000000004
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.15233011, 
+            "Healthcare" : 0.14425981, 
+            "Retail" : 0.11650867, 
+            "Education" : 0.09940725, 
+            "Finance & Insurance" : 0.06468714, 
+            "Construction" : 0.06221356, 
+            "Hospitality" : 0.05672458, 
+            "Other Services" : 0.042455230000000004, 
+            "Professional" : 0.03961811, 
+            "Transportation" : 0.03812112, 
+            "Agriculture" : 0.037394039999999996, 
+            "Administrative" : 0.03187103, 
+            "Government" : 0.031109300000000003, 
+            "Wholesalers" : 0.02875355, 
+            "Information" : 0.01750339, 
+            "Entertainment" : 0.01618848, 
+            "Real estate" : 0.01105736, 
+            "Utilities" : 0.00792476, 
+            "Oil & Gas, and Mining" : 0.0014648600000000001, 
+            "Management" : 0.00040764
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01121165, 
+            "Professional" : 0.01554613, 
+            "Master's" : 0.0605642, 
+            "Bachelor's" : 0.18439947, 
+            "Associate's" : 0.11250460999999999, 
+            "Some College" : 0.21426337, 
+            "High School" : 0.31895631, 
+            "Some H.S." : 0.05058430999999999, 
+            "Less than H.S." : 0.02497523, 
+            "None" : 0.006994719999999999
+        }
+    }
+}

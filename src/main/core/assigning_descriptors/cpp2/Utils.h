@@ -36,6 +36,8 @@ json freadJson(const std::string& path);
 
 extern std::array<std::string, 51> statesAbbreviations;
 
+extern std::map<std::string, std::string> stateNameToAbbr;
+
 std::vector<std::string> listDirectories(const std::string& path);
 
 std::vector<std::string> listFiles(const std::string& path);

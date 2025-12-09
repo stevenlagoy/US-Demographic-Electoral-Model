@@ -1,0 +1,139 @@
+{
+    "name" : "Garden County", 
+	"state" : "Nebraska", 
+	"FIPS" : "31069",
+    "population" : 1930, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9290155400000001, 
+            "Hispanic" : 0.04352332, 
+            "Black" : 0.0015544, 
+            "Asian" : 0.012953369999999999, 
+            "Mixed" : 0.01036269, 
+            "Other" : 0.0025906699999999998
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03212, 
+            "80-84" : 0.057510000000000006, 
+            "75-79" : 0.0285, 
+            "70-74" : 0.058550000000000005, 
+            "67-69" : 0.04093, 
+            "65-66" : 0.021240000000000002, 
+            "62-64" : 0.05337, 
+            "60-61" : 0.02487, 
+            "55-59" : 0.08653000000000001, 
+            "50-54" : 0.10052, 
+            "45-49" : 0.046630000000000005, 
+            "40-44" : 0.07409, 
+            "35-39" : 0.06321, 
+            "30-34" : 0.04301, 
+            "25-29" : 0.04197, 
+            "22-24" : 0.021240000000000002, 
+            "21" : 0.0072499999999999995, 
+            "20" : 0.00207, 
+            "18-19" : 0.00155, 
+            "15-17" : 0.03782, 
+            "10-14" : 0.06114, 
+            "5-9" : 0.044039999999999996, 
+            "0-4" : 0.05181
+        }, 
+        "household_types" : {
+            "Married" : 0.63206459, 
+            "Single Female" : 0.036908880000000005, 
+            "Single Male" : 0.004613610000000001, 
+            "One-Person" : 0.29411765, 
+            "Other Non-Family" : 0.03229527
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.13773148000000002, 
+                "male" : 0.15858453
+            }, 
+            "Now Married" : {
+                "female" : 0.62037037, 
+                "male" : 0.72214941
+            }, 
+            "Separated" : {
+                "female" : 0.00578704, 
+                "male" : 0.01441678
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.00347222, 
+                "male" : 0.00917431
+            }, 
+            "Widowed" : {
+                "female" : 0.13541667000000002, 
+                "male" : 0.047182180000000004
+            }, 
+            "Divorced" : {
+                "female" : 0.09722222, 
+                "male" : 0.04849279
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.31917098, 
+            "Unclassified" : 0.20051813, 
+            "Irish" : 0.18549223, 
+            "English" : 0.15025907, 
+            "Other" : 0.11606218, 
+            "American" : 0.06528497, 
+            "Danish" : 0.0507772, 
+            "Italian" : 0.04455959, 
+            "Polish" : 0.044041449999999996, 
+            "Swedish" : 0.04196891, 
+            "French" : 0.02694301, 
+            "Scottish" : 0.02642487, 
+            "Scotch-Irish" : 0.01761658, 
+            "Dutch" : 0.015544039999999999, 
+            "Welsh" : 0.012953369999999999, 
+            "Norwegian" : 0.00829016, 
+            "French Canadian" : 0.00673575, 
+            "Swiss" : 0.00673575, 
+            "Subsaharan African" : 0.00518135, 
+            "African" : 0.00518135, 
+            "Mexican" : 1.0, 
+            "Thai" : 0.72, 
+            "Korean" : 0.00933
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00501567, 
+            "Employed" : 0.5830721, 
+            "Unemployed" : 0.0137931, 
+            "Other" : 0.39811912
+        }, 
+        "industries" : {
+            "Healthcare" : 0.14516129, 
+            "Agriculture" : 0.12580645000000001, 
+            "Retail" : 0.12473118, 
+            "Construction" : 0.10537634000000001, 
+            "Transportation" : 0.1, 
+            "Other Services" : 0.08172043000000001, 
+            "Education" : 0.06774194, 
+            "Government" : 0.05913978, 
+            "Hospitality" : 0.04301075, 
+            "Professional" : 0.0311828, 
+            "Finance & Insurance" : 0.02150538, 
+            "Manufacturing" : 0.020430109999999998, 
+            "Administrative" : 0.020430109999999998, 
+            "Real estate" : 0.019354839999999998, 
+            "Information" : 0.018279570000000002, 
+            "Wholesalers" : 0.0075268800000000005, 
+            "Oil & Gas, and Mining" : 0.00430108, 
+            "Entertainment" : 0.00430108, 
+            "Utilities" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00201072, 
+            "Professional" : 0.022117960000000002, 
+            "Master's" : 0.03016086, 
+            "Bachelor's" : 0.16487936, 
+            "Associate's" : 0.11595174, 
+            "Some College" : 0.30428954, 
+            "High School" : 0.30428954, 
+            "Some H.S." : 0.04155496, 
+            "Less than H.S." : 0.013404830000000001, 
+            "None" : 0.00134048
+        }
+    }
+}

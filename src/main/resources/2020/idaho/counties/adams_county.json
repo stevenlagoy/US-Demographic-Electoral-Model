@@ -1,0 +1,114 @@
+{
+    "name" : "Adams County", 
+	"state" : "Idaho", 
+	"FIPS" : "16003",
+    "population" : 3865, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.93065977, 
+            "Hispanic" : 0.03156533, 
+            "Black" : 0.00206986, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01190168, 
+            "Other" : 0.02380336
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.016040000000000002, 
+            "80-84" : 0.02691, 
+            "75-79" : 0.04424, 
+            "70-74" : 0.0652, 
+            "67-69" : 0.05252, 
+            "65-66" : 0.04217, 
+            "62-64" : 0.0784, 
+            "60-61" : 0.04657, 
+            "55-59" : 0.09366, 
+            "50-54" : 0.07529, 
+            "45-49" : 0.05537, 
+            "40-44" : 0.046310000000000004, 
+            "35-39" : 0.045540000000000004, 
+            "30-34" : 0.041909999999999996, 
+            "25-29" : 0.03182, 
+            "22-24" : 0.0132, 
+            "21" : 0.005430000000000001, 
+            "20" : 0.0075, 
+            "18-19" : 0.02924, 
+            "15-17" : 0.03286, 
+            "10-14" : 0.05511, 
+            "5-9" : 0.05459, 
+            "0-4" : 0.0401
+        }, 
+        "household_types" : {
+            "Married" : 0.5214501500000001, 
+            "Single Female" : 0.10332326, 
+            "Single Male" : 0.02719033, 
+            "One-Person" : 0.31903323, 
+            "Other Non-Family" : 0.02900302
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.10707457, 
+                "male" : 0.20326149999999998
+            }, 
+            "Now Married" : {
+                "female" : 0.6131293800000001, 
+                "male" : 0.50262085
+            }, 
+            "Separated" : {
+                "female" : 0.01019758, 
+                "male" : 0.00407688
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02039516, 
+                "male" : 0.03203262
+            }, 
+            "Widowed" : {
+                "female" : 0.13575526, 
+                "male" : 0.03727432
+            }, 
+            "Divorced" : {
+                "female" : 0.11344806, 
+                "male" : 0.22073384000000001
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.46399019, 
+            "Unemployed" : 0.056083360000000006, 
+            "Other" : 0.47992645
+        }, 
+        "industries" : {
+            "Agriculture" : 0.12681638, 
+            "Retail" : 0.11360633999999999, 
+            "Healthcare" : 0.10898282999999999, 
+            "Education" : 0.10369880999999999, 
+            "Construction" : 0.09643328999999999, 
+            "Hospitality" : 0.08718626, 
+            "Manufacturing" : 0.06935271, 
+            "Real estate" : 0.055482170000000004, 
+            "Government" : 0.052840160000000004, 
+            "Administrative" : 0.04227213, 
+            "Entertainment" : 0.03698811, 
+            "Transportation" : 0.03500661, 
+            "Other Services" : 0.030383089999999998, 
+            "Professional" : 0.01915456, 
+            "Oil & Gas, and Mining" : 0.0066050200000000005, 
+            "Information" : 0.0066050200000000005, 
+            "Finance & Insurance" : 0.00528402, 
+            "Utilities" : 0.00264201, 
+            "Wholesalers" : 0.0006605, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0027164700000000003, 
+            "Professional" : 0.013921900000000001, 
+            "Master's" : 0.06859083, 
+            "Bachelor's" : 0.14159592999999998, 
+            "Associate's" : 0.06689304, 
+            "Some College" : 0.22614601, 
+            "High School" : 0.37724958000000003, 
+            "Some H.S." : 0.07741935, 
+            "Less than H.S." : 0.025466890000000002, 
+            "None" : 0.0
+        }
+    }
+}

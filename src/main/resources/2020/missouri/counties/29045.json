@@ -1,0 +1,130 @@
+{
+    "name" : "Clark County", 
+	"state" : "Missouri", 
+	"FIPS" : "29045",
+    "population" : 6860, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.97244898, 
+            "Hispanic" : 0.0026239099999999997, 
+            "Black" : 0.00276968, 
+            "Asian" : 0.00043732, 
+            "Mixed" : 0.0180758, 
+            "Other" : 0.00364431
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0207, 
+            "80-84" : 0.02536, 
+            "75-79" : 0.04096, 
+            "70-74" : 0.047080000000000004, 
+            "67-69" : 0.030899999999999997, 
+            "65-66" : 0.03061, 
+            "62-64" : 0.0481, 
+            "60-61" : 0.03324, 
+            "55-59" : 0.06472, 
+            "50-54" : 0.07624, 
+            "45-49" : 0.06487, 
+            "40-44" : 0.058890000000000005, 
+            "35-39" : 0.052329999999999995, 
+            "30-34" : 0.05146, 
+            "25-29" : 0.0519, 
+            "22-24" : 0.02522, 
+            "21" : 0.008159999999999999, 
+            "20" : 0.01458, 
+            "18-19" : 0.021869999999999997, 
+            "15-17" : 0.03994, 
+            "10-14" : 0.07114, 
+            "5-9" : 0.06501, 
+            "0-4" : 0.05671
+        }, 
+        "household_types" : {
+            "Married" : 0.54705675, 
+            "Single Female" : 0.07225943, 
+            "Single Male" : 0.058512510000000004, 
+            "One-Person" : 0.27987311, 
+            "Other Non-Family" : 0.0422982
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.16974303, 
+                "male" : 0.23900505
+            }, 
+            "Now Married" : {
+                "female" : 0.56930872, 
+                "male" : 0.56272531
+            }, 
+            "Separated" : {
+                "female" : 0.02569671, 
+                "male" : 0.00937275
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01266739, 
+                "male" : 0.02451334
+            }, 
+            "Widowed" : {
+                "female" : 0.13391241, 
+                "male" : 0.038211970000000005
+            }, 
+            "Divorced" : {
+                "female" : 0.08867172999999999, 
+                "male" : 0.12617159
+            }
+        }, 
+        "ancestry" : {
+            "Unclassified" : 0.33877550999999995, 
+            "German" : 0.26676385, 
+            "Other" : 0.13702624, 
+            "American" : 0.12813411, 
+            "Irish" : 0.10830904000000001, 
+            "English" : 0.059620990000000006, 
+            "Dutch" : 0.015451900000000001, 
+            "Scottish" : 0.014577260000000002, 
+            "European" : 0.01239067, 
+            "French" : 0.012244900000000001, 
+            "Swedish" : 0.01166181, 
+            "Scotch-Irish" : 0.01049563, 
+            "Mexican" : 1.0, 
+            "Korean" : 1.0
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00368324, 
+            "Employed" : 0.58526703, 
+            "Unemployed" : 0.02707182, 
+            "Other" : 0.3839779
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.1938326, 
+            "Retail" : 0.13876652, 
+            "Healthcare" : 0.12806797, 
+            "Education" : 0.07740717, 
+            "Agriculture" : 0.07551919, 
+            "Construction" : 0.059156700000000007, 
+            "Transportation" : 0.05695406, 
+            "Government" : 0.05538074, 
+            "Other Services" : 0.0377596, 
+            "Hospitality" : 0.03241032, 
+            "Utilities" : 0.02674638, 
+            "Wholesalers" : 0.02359975, 
+            "Administrative" : 0.02359975, 
+            "Finance & Insurance" : 0.019823789999999997, 
+            "Information" : 0.01667716, 
+            "Professional" : 0.01415985, 
+            "Real estate" : 0.01164254, 
+            "Oil & Gas, and Mining" : 0.00440529, 
+            "Entertainment" : 0.00409062, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.00459866, 
+            "Master's" : 0.03156355, 
+            "Bachelor's" : 0.08695652000000001, 
+            "Associate's" : 0.08131271, 
+            "Some College" : 0.22658863, 
+            "High School" : 0.43373745999999996, 
+            "Some H.S." : 0.08695652000000001, 
+            "Less than H.S." : 0.040760870000000005, 
+            "None" : 0.00752508
+        }
+    }
+}

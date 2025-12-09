@@ -1,0 +1,158 @@
+{
+    "name" : "Caddo Parish", 
+	"state" : "Louisiana", 
+	"FIPS" : "22017",
+    "population" : 253125, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.45996642, 
+            "Hispanic" : 0.02408296, 
+            "Black" : 0.4864237, 
+            "Asian" : 0.012061230000000001, 
+            "Mixed" : 0.01242469, 
+            "Other" : 0.0050409899999999995
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.021240000000000002, 
+            "80-84" : 0.01861, 
+            "75-79" : 0.02544, 
+            "70-74" : 0.036019999999999996, 
+            "67-69" : 0.0271, 
+            "65-66" : 0.019950000000000002, 
+            "62-64" : 0.03465, 
+            "60-61" : 0.02577, 
+            "55-59" : 0.0698, 
+            "50-54" : 0.06585, 
+            "45-49" : 0.05865, 
+            "40-44" : 0.05985, 
+            "35-39" : 0.05928, 
+            "30-34" : 0.06785000000000001, 
+            "25-29" : 0.07296, 
+            "22-24" : 0.04102, 
+            "21" : 0.013999999999999999, 
+            "20" : 0.01336, 
+            "18-19" : 0.024820000000000002, 
+            "15-17" : 0.039209999999999995, 
+            "10-14" : 0.06731, 
+            "5-9" : 0.06608, 
+            "0-4" : 0.07117
+        }, 
+        "household_types" : {
+            "Married" : 0.37322173999999997, 
+            "Single Female" : 0.20119593, 
+            "Single Male" : 0.05029898, 
+            "One-Person" : 0.3332, 
+            "Other Non-Family" : 0.04208335
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.34422822, 
+                "male" : 0.40264546
+            }, 
+            "Now Married" : {
+                "female" : 0.34247608999999996, 
+                "male" : 0.39308651
+            }, 
+            "Separated" : {
+                "female" : 0.03983299, 
+                "male" : 0.027507229999999997
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02415702, 
+                "male" : 0.02543382
+            }, 
+            "Widowed" : {
+                "female" : 0.11460604999999999, 
+                "male" : 0.0350991
+            }, 
+            "Divorced" : {
+                "female" : 0.13469962000000002, 
+                "male" : 0.11622788
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.52586272, 
+            "Unclassified" : 0.15376988, 
+            "American" : 0.10660741, 
+            "Irish" : 0.06523654, 
+            "German" : 0.05332938, 
+            "English" : 0.05112099, 
+            "French" : 0.03983407, 
+            "Subsaharan African" : 0.02645333, 
+            "African" : 0.025789629999999997, 
+            "Italian" : 0.02198519, 
+            "Scotch-Irish" : 0.01202173, 
+            "Scottish" : 0.010488889999999999, 
+            "French Canadian" : 0.00794864, 
+            "Dutch" : 0.00760889, 
+            "European" : 0.00743506, 
+            "Mexican" : 0.58784773, 
+            "Central American" : 0.01586, 
+            "Other Hispanic" : 0.18960469, 
+            "Guatemalan" : 0.00512, 
+            "Spaniard" : 0.1033675, 
+            "Honduran" : 0.0027900000000000004, 
+            "South American" : 0.08257687000000001, 
+            "Puerto Rican" : 0.00223, 
+            "Cuban" : 0.06427526, 
+            "Salvadoran" : 0.0017299999999999998, 
+            "Ecuadorian" : 0.06266471, 
+            "Colombian" : 0.00169, 
+            "Nicaraguan" : 0.04143485, 
+            "Spanish" : 0.0011200000000000001, 
+            "Panamanian" : 0.03660322, 
+            "Dominican" : 0.00099, 
+            "Vietnamese" : 0.34916476, 
+            "Indian" : 0.00421, 
+            "Filipino" : 0.18375368000000003, 
+            "Chinese" : 0.00222, 
+            "Korean" : 0.15394694, 
+            "Pakistani" : 0.0018599999999999999, 
+            "Not Specified" : 0.10579758, 
+            "Thai" : 0.00128, 
+            "Sri Lankan" : 0.09007534, 
+            "Mixed" : 0.00109, 
+            "Japanese" : 0.03996069
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0033795500000000003, 
+            "Employed" : 0.54008303, 
+            "Unemployed" : 0.04100862, 
+            "Other" : 0.41552880000000003
+        }, 
+        "industries" : {
+            "Healthcare" : 0.18862074, 
+            "Retail" : 0.12334690999999999, 
+            "Education" : 0.08868799, 
+            "Hospitality" : 0.07925507999999999, 
+            "Other Services" : 0.061257849999999996, 
+            "Manufacturing" : 0.058371940000000004, 
+            "Construction" : 0.052516059999999996, 
+            "Administrative" : 0.044521439999999995, 
+            "Transportation" : 0.04350344, 
+            "Professional" : 0.043064479999999995, 
+            "Government" : 0.03986103, 
+            "Entertainment" : 0.03525665, 
+            "Oil & Gas, and Mining" : 0.031614239999999995, 
+            "Wholesalers" : 0.02908323, 
+            "Finance & Insurance" : 0.02492715, 
+            "Real estate" : 0.022022560000000004, 
+            "Information" : 0.01917401, 
+            "Utilities" : 0.010086669999999999, 
+            "Agriculture" : 0.00460438, 
+            "Management" : 0.00022415
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01119585, 
+            "Professional" : 0.01914437, 
+            "Master's" : 0.058320920000000005, 
+            "Bachelor's" : 0.14934755, 
+            "Associate's" : 0.0604302, 
+            "Some College" : 0.23421319000000002, 
+            "High School" : 0.32820711, 
+            "Some H.S." : 0.09945183, 
+            "Less than H.S." : 0.02950605, 
+            "None" : 0.01018292
+        }
+    }
+}

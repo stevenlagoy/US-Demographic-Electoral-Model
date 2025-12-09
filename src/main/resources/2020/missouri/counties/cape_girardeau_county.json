@@ -1,0 +1,156 @@
+{
+    "name" : "Cape Girardeau County", 
+	"state" : "Missouri", 
+	"FIPS" : "29031",
+    "population" : 78089, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.8669338799999999, 
+            "Hispanic" : 0.022051759999999997, 
+            "Black" : 0.07665612000000001, 
+            "Asian" : 0.01440664, 
+            "Mixed" : 0.01769776, 
+            "Other" : 0.00225384
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0231, 
+            "80-84" : 0.02231, 
+            "75-79" : 0.02638, 
+            "70-74" : 0.03381, 
+            "67-69" : 0.028069999999999998, 
+            "65-66" : 0.02104, 
+            "62-64" : 0.03228, 
+            "60-61" : 0.02675, 
+            "55-59" : 0.06587, 
+            "50-54" : 0.06673, 
+            "45-49" : 0.05749, 
+            "40-44" : 0.05404, 
+            "35-39" : 0.05724, 
+            "30-34" : 0.05992, 
+            "25-29" : 0.06604, 
+            "22-24" : 0.05950999999999999, 
+            "21" : 0.02022, 
+            "20" : 0.02633, 
+            "18-19" : 0.03839, 
+            "15-17" : 0.03499, 
+            "10-14" : 0.05619, 
+            "5-9" : 0.06534, 
+            "0-4" : 0.057960000000000005
+        }, 
+        "household_types" : {
+            "Married" : 0.49988267000000003, 
+            "Single Female" : 0.09074453, 
+            "Single Male" : 0.04093058, 
+            "One-Person" : 0.28168684, 
+            "Other Non-Family" : 0.08675539
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.28657092, 
+                "male" : 0.3610026
+            }, 
+            "Now Married" : {
+                "female" : 0.45857944000000006, 
+                "male" : 0.49163411
+            }, 
+            "Separated" : {
+                "female" : 0.0161005, 
+                "male" : 0.01181641
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01723983, 
+                "male" : 0.01383464
+            }, 
+            "Widowed" : {
+                "female" : 0.0957635, 
+                "male" : 0.02828776
+            }, 
+            "Divorced" : {
+                "female" : 0.12574581, 
+                "male" : 0.09342447999999999
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.32033961, 
+            "Unclassified" : 0.21563856999999997, 
+            "Other" : 0.21269321000000002, 
+            "American" : 0.13210566999999998, 
+            "Irish" : 0.1169691, 
+            "English" : 0.07476085, 
+            "European" : 0.030708549999999998, 
+            "French" : 0.0273406, 
+            "Dutch" : 0.01965706, 
+            "Italian" : 0.01774898, 
+            "Scottish" : 0.015482329999999999, 
+            "Polish" : 0.01521341, 
+            "Swedish" : 0.011064300000000001, 
+            "Scotch-Irish" : 0.010462419999999998, 
+            "Norwegian" : 0.00850312, 
+            "Mexican" : 0.67743764, 
+            "South American" : 0.015300000000000001, 
+            "Puerto Rican" : 0.10884354, 
+            "Cuban" : 0.00246, 
+            "Central American" : 0.09410431000000001, 
+            "Peruvian" : 0.00213, 
+            "Colombian" : 0.05045351, 
+            "Argentinean" : 0.00114, 
+            "Other Hispanic" : 0.04081633, 
+            "Honduran" : 0.00092, 
+            "Panamanian" : 0.04081633, 
+            "Other South American" : 0.00092, 
+            "Dominican" : 0.03287982, 
+            "Guatemalan" : 0.00074, 
+            "Spanish" : 0.0260771, 
+            "Chinese" : 0.29866667, 
+            "Indian" : 0.0043, 
+            "Filipino" : 0.16, 
+            "Vietnamese" : 0.00231, 
+            "Sri Lankan" : 0.11911111, 
+            "Korean" : 0.00172, 
+            "Nepalese" : 0.10666667, 
+            "Japanese" : 0.00154, 
+            "Thai" : 0.09511111, 
+            "Burmese" : 0.0013700000000000001
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00173285, 
+            "Employed" : 0.59401927, 
+            "Unemployed" : 0.03705765, 
+            "Other" : 0.36719023
+        }, 
+        "industries" : {
+            "Healthcare" : 0.18747491, 
+            "Retail" : 0.11674026, 
+            "Education" : 0.112592, 
+            "Manufacturing" : 0.11194969, 
+            "Hospitality" : 0.09348321, 
+            "Construction" : 0.057808109999999996, 
+            "Other Services" : 0.04785227, 
+            "Government" : 0.04027834, 
+            "Administrative" : 0.03564833, 
+            "Finance & Insurance" : 0.03447076, 
+            "Transportation" : 0.03331995, 
+            "Professional" : 0.02751238, 
+            "Wholesalers" : 0.02545163, 
+            "Real estate" : 0.019376420000000002, 
+            "Entertainment" : 0.01868058, 
+            "Information" : 0.015950759999999998, 
+            "Agriculture" : 0.01260538, 
+            "Oil & Gas, and Mining" : 0.00380035, 
+            "Utilities" : 0.00361301, 
+            "Management" : 0.00139168
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01350353, 
+            "Professional" : 0.016879409999999997, 
+            "Master's" : 0.08006232, 
+            "Bachelor's" : 0.18811050999999998, 
+            "Associate's" : 0.05609157, 
+            "Some College" : 0.22854118, 
+            "High School" : 0.31839156, 
+            "Some H.S." : 0.06749765, 
+            "Less than H.S." : 0.024250409999999997, 
+            "None" : 0.006671859999999999
+        }
+    }
+}

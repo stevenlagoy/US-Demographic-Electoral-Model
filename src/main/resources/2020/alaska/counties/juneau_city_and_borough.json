@@ -1,0 +1,161 @@
+{
+    "name" : "Juneau City And Borough", 
+	"state" : "Alaska", 
+	"FIPS" : "02110",
+    "population" : 32524, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.6566228, 
+            "Hispanic" : 0.05562046, 
+            "Black" : 0.01171443, 
+            "Asian" : 0.0717009, 
+            "Mixed" : 0.07342270000000001, 
+            "Other" : 0.13091871
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01202, 
+            "80-84" : 0.00621, 
+            "75-79" : 0.01337, 
+            "70-74" : 0.02798, 
+            "67-69" : 0.02321, 
+            "65-66" : 0.020720000000000002, 
+            "62-64" : 0.03305, 
+            "60-61" : 0.03324, 
+            "55-59" : 0.08288999999999999, 
+            "50-54" : 0.08391, 
+            "45-49" : 0.06644, 
+            "40-44" : 0.06712, 
+            "35-39" : 0.06906, 
+            "30-34" : 0.07078000000000001, 
+            "25-29" : 0.07527, 
+            "22-24" : 0.04301, 
+            "21" : 0.01076, 
+            "20" : 0.01424, 
+            "18-19" : 0.02392, 
+            "15-17" : 0.03788, 
+            "10-14" : 0.05918999999999999, 
+            "5-9" : 0.0658, 
+            "0-4" : 0.05992
+        }, 
+        "household_types" : {
+            "Married" : 0.50428407, 
+            "Single Female" : 0.10355907, 
+            "Single Male" : 0.04901961, 
+            "One-Person" : 0.25012358, 
+            "Other Non-Family" : 0.09301368
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.32510829, 
+                "male" : 0.33625387
+            }, 
+            "Now Married" : {
+                "female" : 0.46171101, 
+                "male" : 0.48358121
+            }, 
+            "Separated" : {
+                "female" : 0.0205755, 
+                "male" : 0.01789133
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02637686, 
+                "male" : 0.02893536
+            }, 
+            "Widowed" : {
+                "female" : 0.05329517, 
+                "male" : 0.01649242
+            }, 
+            "Divorced" : {
+                "female" : 0.11293317, 
+                "male" : 0.11684583
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.40859058, 
+            "German" : 0.14807527, 
+            "Unclassified" : 0.12461567000000001, 
+            "Irish" : 0.11643709, 
+            "English" : 0.09783544, 
+            "Norwegian" : 0.04252244, 
+            "Swedish" : 0.03929406, 
+            "European" : 0.03148444, 
+            "American" : 0.02905547, 
+            "Scottish" : 0.02822531, 
+            "French" : 0.02690321, 
+            "Italian" : 0.02638052, 
+            "Polish" : 0.02527364, 
+            "Scotch-Irish" : 0.02047719, 
+            "Welsh" : 0.01558849, 
+            "Dutch" : 0.012329360000000001, 
+            "Scandinavian" : 0.01131472, 
+            "French Canadian" : 0.01048457, 
+            "Russian" : 0.00916246, 
+            "Danish" : 0.00836305, 
+            "Mexican" : 0.54833984, 
+            "Puerto Rican" : 0.03453, 
+            "Other Hispanic" : 0.13867188, 
+            "South American" : 0.00873, 
+            "Central American" : 0.11523438000000001, 
+            "Spanish" : 0.00726, 
+            "Colombian" : 0.09960938000000001, 
+            "Paraguayan" : 0.00627, 
+            "Spaniard" : 0.05664063, 
+            "Nicaraguan" : 0.00357, 
+            "Dominican" : 0.03662109, 
+            "Peruvian" : 0.00231, 
+            "Cuban" : 0.03466797, 
+            "Salvadoran" : 0.00218, 
+            "Guatemalan" : 0.02929688, 
+            "Ecuadorian" : 0.00184, 
+            "Filipino" : 0.7602916000000001, 
+            "Indian" : 0.054509999999999996, 
+            "Mixed" : 0.058747860000000006, 
+            "Chinese" : 0.00421, 
+            "Japanese" : 0.04759863, 
+            "Vietnamese" : 0.0034100000000000003, 
+            "Korean" : 0.04588336, 
+            "Sri Lankan" : 0.00329, 
+            "Thai" : 0.04202401
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00624115, 
+            "Employed" : 0.6853390500000001, 
+            "Unemployed" : 0.0355707, 
+            "Other" : 0.2728491
+        }, 
+        "industries" : {
+            "Government" : 0.2241466, 
+            "Healthcare" : 0.13598525, 
+            "Retail" : 0.08631767, 
+            "Education" : 0.0855355, 
+            "Transportation" : 0.07492039, 
+            "Construction" : 0.06218224, 
+            "Hospitality" : 0.05754511, 
+            "Professional" : 0.05341081, 
+            "Other Services" : 0.04408067, 
+            "Finance & Insurance" : 0.025029330000000002, 
+            "Agriculture" : 0.024861719999999997, 
+            "Information" : 0.023632610000000002, 
+            "Administrative" : 0.02011286, 
+            "Oil & Gas, and Mining" : 0.0171518, 
+            "Entertainment" : 0.0164255, 
+            "Manufacturing" : 0.016202019999999998, 
+            "Wholesalers" : 0.013799650000000002, 
+            "Real estate" : 0.01145315, 
+            "Utilities" : 0.00720711, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.014133169999999999, 
+            "Professional" : 0.025888369999999997, 
+            "Master's" : 0.10166906, 
+            "Bachelor's" : 0.25264716, 
+            "Associate's" : 0.0735822, 
+            "Some College" : 0.27638191, 
+            "High School" : 0.21195262, 
+            "Some H.S." : 0.03342606, 
+            "Less than H.S." : 0.00686468, 
+            "None" : 0.00345477
+        }
+    }
+}

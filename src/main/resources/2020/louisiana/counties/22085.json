@@ -1,0 +1,146 @@
+{
+    "name" : "Sabine Parish", 
+	"state" : "Louisiana", 
+	"FIPS" : "22085",
+    "population" : 24144, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.6831510900000001, 
+            "Hispanic" : 0.0355782, 
+            "Black" : 0.16745361, 
+            "Asian" : 0.00385189, 
+            "Mixed" : 0.03636514, 
+            "Other" : 0.07360007
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01943, 
+            "80-84" : 0.01984, 
+            "75-79" : 0.03421, 
+            "70-74" : 0.04689, 
+            "67-69" : 0.0321, 
+            "65-66" : 0.03243, 
+            "62-64" : 0.04324, 
+            "60-61" : 0.029449999999999997, 
+            "55-59" : 0.06325, 
+            "50-54" : 0.06958, 
+            "45-49" : 0.061630000000000004, 
+            "40-44" : 0.05459, 
+            "35-39" : 0.05579, 
+            "30-34" : 0.06051, 
+            "25-29" : 0.055999999999999994, 
+            "22-24" : 0.03094, 
+            "21" : 0.00982, 
+            "20" : 0.01516, 
+            "18-19" : 0.022860000000000002, 
+            "15-17" : 0.04113000000000001, 
+            "10-14" : 0.07327, 
+            "5-9" : 0.06436, 
+            "0-4" : 0.06354
+        }, 
+        "household_types" : {
+            "Married" : 0.50523152, 
+            "Single Female" : 0.13457257, 
+            "Single Male" : 0.04051647, 
+            "One-Person" : 0.29285395999999997, 
+            "Other Non-Family" : 0.02682547
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22796818, 
+                "male" : 0.27438574
+            }, 
+            "Now Married" : {
+                "female" : 0.47776418, 
+                "male" : 0.48697670000000004
+            }, 
+            "Separated" : {
+                "female" : 0.0369237, 
+                "male" : 0.02973742
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03263974, 
+                "male" : 0.03237372
+            }, 
+            "Widowed" : {
+                "female" : 0.11893105, 
+                "male" : 0.04671517
+            }, 
+            "Divorced" : {
+                "female" : 0.10577315000000001, 
+                "male" : 0.12981124
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.49838469, 
+            "Unclassified" : 0.15167329000000002, 
+            "American" : 0.11841450999999999, 
+            "Irish" : 0.101723, 
+            "French" : 0.09020875, 
+            "English" : 0.07886017, 
+            "German" : 0.06850563, 
+            "Italian" : 0.01859675, 
+            "Scottish" : 0.01093439, 
+            "Dutch" : 0.01014745, 
+            "Scotch-Irish" : 0.00612989, 
+            "Mexican" : 0.50453515, 
+            "Other Hispanic" : 0.01843, 
+            "Spanish" : 0.41496599, 
+            "Spaniard" : 0.01516, 
+            "Puerto Rican" : 0.20748299, 
+            "Cuban" : 0.00758, 
+            "Central American" : 0.1122449, 
+            "Honduran" : 0.0040999999999999995, 
+            "Spanish American" : 0.0430839, 
+            "South American" : 0.00157, 
+            "Colombian" : 0.01927438, 
+            "Vietnamese" : 0.31182796, 
+            "Indian" : 0.0012, 
+            "Thai" : 0.1827957, 
+            "Chinese" : 0.0007000000000000001, 
+            "Japanese" : 0.13978495000000002, 
+            "Korean" : 0.00054, 
+            "Filipino" : 0.10752687999999999, 
+            "Laotian" : 0.00041
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00031724000000000005, 
+            "Employed" : 0.46158727, 
+            "Unemployed" : 0.04991276, 
+            "Other" : 0.48818272999999995
+        }, 
+        "industries" : {
+            "Healthcare" : 0.1231386, 
+            "Retail" : 0.10572738, 
+            "Education" : 0.10504009, 
+            "Manufacturing" : 0.09702176, 
+            "Oil & Gas, and Mining" : 0.09484536, 
+            "Other Services" : 0.06804124, 
+            "Construction" : 0.06036655, 
+            "Hospitality" : 0.05452463, 
+            "Agriculture" : 0.05429553, 
+            "Government" : 0.041809849999999996, 
+            "Finance & Insurance" : 0.03436426, 
+            "Professional" : 0.03298969, 
+            "Transportation" : 0.03184422, 
+            "Utilities" : 0.029667810000000003, 
+            "Administrative" : 0.023024049999999997, 
+            "Wholesalers" : 0.01512027, 
+            "Entertainment" : 0.01408935, 
+            "Real estate" : 0.00824742, 
+            "Information" : 0.0058419200000000004, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00372133, 
+            "Professional" : 0.00835774, 
+            "Master's" : 0.03715227, 
+            "Bachelor's" : 0.08931186, 
+            "Associate's" : 0.06149341, 
+            "Some College" : 0.19466813, 
+            "High School" : 0.42996584, 
+            "Some H.S." : 0.12786725000000002, 
+            "Less than H.S." : 0.04014153, 
+            "None" : 0.007320640000000001
+        }
+    }
+}

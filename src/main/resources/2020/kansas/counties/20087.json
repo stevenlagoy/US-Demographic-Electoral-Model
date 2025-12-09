@@ -1,0 +1,114 @@
+{
+    "name" : "Jefferson County", 
+	"state" : "Kansas", 
+	"FIPS" : "20087",
+    "population" : 18880, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.94173729, 
+            "Hispanic" : 0.023781780000000002, 
+            "Black" : 0.00587924, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02229873, 
+            "Other" : 0.00630297
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.021030000000000004, 
+            "80-84" : 0.02198, 
+            "75-79" : 0.030670000000000003, 
+            "70-74" : 0.04190000000000001, 
+            "67-69" : 0.03003, 
+            "65-66" : 0.02918, 
+            "62-64" : 0.035379999999999995, 
+            "60-61" : 0.03443, 
+            "55-59" : 0.0821, 
+            "50-54" : 0.08983000000000001, 
+            "45-49" : 0.06976, 
+            "40-44" : 0.059160000000000004, 
+            "35-39" : 0.052009999999999994, 
+            "30-34" : 0.05313, 
+            "25-29" : 0.04672, 
+            "22-24" : 0.0294, 
+            "21" : 0.00747, 
+            "20" : 0.00757, 
+            "18-19" : 0.02278, 
+            "15-17" : 0.045439999999999994, 
+            "10-14" : 0.06711, 
+            "5-9" : 0.07075999999999999, 
+            "0-4" : 0.052169999999999994
+        }, 
+        "household_types" : {
+            "Married" : 0.58365194, 
+            "Single Female" : 0.07462096, 
+            "Single Male" : 0.04429796, 
+            "One-Person" : 0.25537245, 
+            "Other Non-Family" : 0.04205669
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.18661231, 
+                "male" : 0.24245577999999998
+            }, 
+            "Now Married" : {
+                "female" : 0.56575487, 
+                "male" : 0.6037981299999999
+            }, 
+            "Separated" : {
+                "female" : 0.012887949999999999, 
+                "male" : 0.0050728399999999995
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.010915310000000001, 
+                "male" : 0.01795005
+            }, 
+            "Widowed" : {
+                "female" : 0.11178326999999999, 
+                "male" : 0.02679501
+            }, 
+            "Divorced" : {
+                "female" : 0.11204629, 
+                "male" : 0.1039282
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00073436, 
+            "Employed" : 0.6020428600000001, 
+            "Unemployed" : 0.04566393, 
+            "Other" : 0.35155885
+        }, 
+        "industries" : {
+            "Healthcare" : 0.13894433, 
+            "Construction" : 0.12730095, 
+            "Education" : 0.10357063999999999, 
+            "Manufacturing" : 0.10068751000000001, 
+            "Retail" : 0.09935684, 
+            "Government" : 0.08150366, 
+            "Other Services" : 0.05023287, 
+            "Transportation" : 0.043135950000000006, 
+            "Hospitality" : 0.03581725, 
+            "Finance & Insurance" : 0.03504103, 
+            "Professional" : 0.03448658, 
+            "Administrative" : 0.0301619, 
+            "Wholesalers" : 0.02217787, 
+            "Utilities" : 0.02095808, 
+            "Information" : 0.02051453, 
+            "Entertainment" : 0.02018186, 
+            "Agriculture" : 0.01752051, 
+            "Real estate" : 0.00920381, 
+            "Oil & Gas, and Mining" : 0.0052118, 
+            "Management" : 0.00399202
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00896316, 
+            "Professional" : 0.006608429999999999, 
+            "Master's" : 0.044739839999999996, 
+            "Bachelor's" : 0.14538549, 
+            "Associate's" : 0.07626282, 
+            "Some College" : 0.24398025, 
+            "High School" : 0.39718952, 
+            "Some H.S." : 0.05127231, 
+            "Less than H.S." : 0.02164831, 
+            "None" : 0.003949869999999999
+        }
+    }
+}

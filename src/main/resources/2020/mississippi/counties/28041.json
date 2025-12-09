@@ -1,0 +1,114 @@
+{
+    "name" : "Greene County", 
+	"state" : "Mississippi", 
+	"FIPS" : "28041",
+    "population" : 13941, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.71759558, 
+            "Hispanic" : 0.00961194, 
+            "Black" : 0.25600746, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01427444, 
+            "Other" : 0.00251058
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01176, 
+            "80-84" : 0.01184, 
+            "75-79" : 0.02231, 
+            "70-74" : 0.034929999999999996, 
+            "67-69" : 0.02396, 
+            "65-66" : 0.01506, 
+            "62-64" : 0.03371, 
+            "60-61" : 0.024390000000000002, 
+            "55-59" : 0.068, 
+            "50-54" : 0.06707, 
+            "45-49" : 0.08320999999999999, 
+            "40-44" : 0.06456, 
+            "35-39" : 0.08535999999999999, 
+            "30-34" : 0.09182, 
+            "25-29" : 0.07618, 
+            "22-24" : 0.04218, 
+            "21" : 0.013839999999999998, 
+            "20" : 0.00768, 
+            "18-19" : 0.01693, 
+            "15-17" : 0.032709999999999996, 
+            "10-14" : 0.05495, 
+            "5-9" : 0.06599000000000001, 
+            "0-4" : 0.05157
+        }, 
+        "household_types" : {
+            "Married" : 0.52257445, 
+            "Single Female" : 0.09101825, 
+            "Single Male" : 0.07060519, 
+            "One-Person" : 0.28554275, 
+            "Other Non-Family" : 0.030259369999999997
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.16536835, 
+                "male" : 0.40934261
+            }, 
+            "Now Married" : {
+                "female" : 0.55464055, 
+                "male" : 0.28751952
+            }, 
+            "Separated" : {
+                "female" : 0.044291119999999996, 
+                "male" : 0.03066875
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.012908969999999999, 
+                "male" : 0.09484595000000001
+            }, 
+            "Widowed" : {
+                "female" : 0.1177387, 
+                "male" : 0.03436036
+            }, 
+            "Divorced" : {
+                "female" : 0.10505229999999999, 
+                "male" : 0.14326281
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.34425797, 
+            "Unemployed" : 0.03989105, 
+            "Other" : 0.61585098
+        }, 
+        "industries" : {
+            "Construction" : 0.22179684000000002, 
+            "Manufacturing" : 0.12353241000000001, 
+            "Government" : 0.11664113999999999, 
+            "Healthcare" : 0.10821847999999999, 
+            "Education" : 0.10081674, 
+            "Retail" : 0.0704441, 
+            "Finance & Insurance" : 0.03981623, 
+            "Transportation" : 0.03751914, 
+            "Agriculture" : 0.03598775, 
+            "Other Services" : 0.03343543, 
+            "Information" : 0.0229709, 
+            "Oil & Gas, and Mining" : 0.01990812, 
+            "Professional" : 0.01939765, 
+            "Hospitality" : 0.01531394, 
+            "Utilities" : 0.014548239999999999, 
+            "Wholesalers" : 0.005870339999999999, 
+            "Real estate" : 0.00459418, 
+            "Entertainment" : 0.00408372, 
+            "Administrative" : 0.00357325, 
+            "Management" : 0.0015313899999999999
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.0033145799999999997, 
+            "Master's" : 0.01898353, 
+            "Bachelor's" : 0.056046610000000004, 
+            "Associate's" : 0.06830052, 
+            "Some College" : 0.23865006, 
+            "High School" : 0.36681398000000004, 
+            "Some H.S." : 0.18491362, 
+            "Less than H.S." : 0.059361189999999994, 
+            "None" : 0.00361591
+        }
+    }
+}
