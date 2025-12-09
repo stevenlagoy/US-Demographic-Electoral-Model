@@ -1,0 +1,114 @@
+{
+    "name" : "Wells County", 
+	"state" : "North Dakota", 
+	"FIPS" : "38103",
+    "population" : 4179, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.97726729, 
+            "Hispanic" : 0.00885379, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01028954, 
+            "Other" : 0.0035893799999999997
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.043789999999999996, 
+            "80-84" : 0.05193, 
+            "75-79" : 0.067, 
+            "70-74" : 0.05887, 
+            "67-69" : 0.0481, 
+            "65-66" : 0.022010000000000002, 
+            "62-64" : 0.041159999999999995, 
+            "60-61" : 0.03685, 
+            "55-59" : 0.08375, 
+            "50-54" : 0.07490000000000001, 
+            "45-49" : 0.057670000000000006, 
+            "40-44" : 0.057190000000000005, 
+            "35-39" : 0.031349999999999996, 
+            "30-34" : 0.04092, 
+            "25-29" : 0.035179999999999996, 
+            "22-24" : 0.031110000000000002, 
+            "21" : 0.01914, 
+            "20" : 0.00263, 
+            "18-19" : 0.00861, 
+            "15-17" : 0.023929999999999996, 
+            "10-14" : 0.058390000000000004, 
+            "5-9" : 0.05743, 
+            "0-4" : 0.0481
+        }, 
+        "household_types" : {
+            "Married" : 0.56367226, 
+            "Single Female" : 0.03849951, 
+            "Single Male" : 0.02270484, 
+            "One-Person" : 0.35538006000000005, 
+            "Other Non-Family" : 0.01974334
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.09464789, 
+                "male" : 0.19255381
+            }, 
+            "Now Married" : {
+                "female" : 0.61915493, 
+                "male" : 0.6672484
+            }, 
+            "Separated" : {
+                "female" : 0.012957749999999999, 
+                "male" : 0.0
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.025352109999999997, 
+                "male" : 0.01396161
+            }, 
+            "Widowed" : {
+                "female" : 0.17521127, 
+                "male" : 0.04013962
+            }, 
+            "Divorced" : {
+                "female" : 0.07267606, 
+                "male" : 0.08609657
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.5812212, 
+            "Unemployed" : 0.012960830000000001, 
+            "Other" : 0.40581797000000003
+        }, 
+        "industries" : {
+            "Agriculture" : 0.18582754999999998, 
+            "Healthcare" : 0.12884044, 
+            "Retail" : 0.11397423, 
+            "Construction" : 0.0827552, 
+            "Transportation" : 0.07482656, 
+            "Education" : 0.06590684000000001, 
+            "Finance & Insurance" : 0.06442022, 
+            "Other Services" : 0.06442022, 
+            "Government" : 0.04509415, 
+            "Manufacturing" : 0.039147669999999996, 
+            "Wholesalers" : 0.03369673, 
+            "Professional" : 0.02824579, 
+            "Administrative" : 0.022299310000000003, 
+            "Hospitality" : 0.01833499, 
+            "Utilities" : 0.01139742, 
+            "Information" : 0.00792864, 
+            "Oil & Gas, and Mining" : 0.0049553999999999996, 
+            "Real estate" : 0.00396432, 
+            "Entertainment" : 0.00396432, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.005419190000000001, 
+            "Professional" : 0.00318776, 
+            "Master's" : 0.031240039999999997, 
+            "Bachelor's" : 0.17277653999999998, 
+            "Associate's" : 0.1071087, 
+            "Some College" : 0.19795983, 
+            "High School" : 0.33025182999999997, 
+            "Some H.S." : 0.04749761, 
+            "Less than H.S." : 0.09754543, 
+            "None" : 0.00701307
+        }
+    }
+}

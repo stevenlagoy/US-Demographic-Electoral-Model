@@ -1,0 +1,159 @@
+{
+    "name" : "Crawford County", 
+	"state" : "Pennsylvania", 
+	"FIPS" : "42039",
+    "population" : 87027, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9517620999999999, 
+            "Hispanic" : 0.010617389999999999, 
+            "Black" : 0.01891367, 
+            "Asian" : 0.00475714, 
+            "Mixed" : 0.01326025, 
+            "Other" : 0.00068944
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01926, 
+            "80-84" : 0.02419, 
+            "75-79" : 0.03352, 
+            "70-74" : 0.04555, 
+            "67-69" : 0.03615, 
+            "65-66" : 0.02481, 
+            "62-64" : 0.04614, 
+            "60-61" : 0.02734, 
+            "55-59" : 0.07445, 
+            "50-54" : 0.07321, 
+            "45-49" : 0.06575, 
+            "40-44" : 0.06089000000000001, 
+            "35-39" : 0.050890000000000005, 
+            "30-34" : 0.052809999999999996, 
+            "25-29" : 0.05379, 
+            "22-24" : 0.03175, 
+            "21" : 0.01574, 
+            "20" : 0.0161, 
+            "18-19" : 0.03251, 
+            "15-17" : 0.03916, 
+            "10-14" : 0.06378, 
+            "5-9" : 0.057370000000000004, 
+            "0-4" : 0.05486
+        }, 
+        "household_types" : {
+            "Married" : 0.51346811, 
+            "Single Female" : 0.10655738, 
+            "Single Male" : 0.0503968, 
+            "One-Person" : 0.27063662, 
+            "Other Non-Family" : 0.05894109
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.25183328, 
+                "male" : 0.3018748
+            }, 
+            "Now Married" : {
+                "female" : 0.48673568, 
+                "male" : 0.5200624
+            }, 
+            "Separated" : {
+                "female" : 0.02054351, 
+                "male" : 0.02100124
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01348, 
+                "male" : 0.013114939999999999
+            }, 
+            "Widowed" : {
+                "female" : 0.09975197, 
+                "male" : 0.03714938
+            }, 
+            "Divorced" : {
+                "female" : 0.12765556, 
+                "male" : 0.10679724
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.30212463, 
+            "Unclassified" : 0.21004975, 
+            "Irish" : 0.16200719, 
+            "English" : 0.11187333, 
+            "Other" : 0.10723108999999999, 
+            "Italian" : 0.08621461999999999, 
+            "American" : 0.06709412000000001, 
+            "Polish" : 0.06084319, 
+            "French" : 0.027106530000000004, 
+            "Dutch" : 0.02153355, 
+            "Scotch-Irish" : 0.021085410000000002, 
+            "Scottish" : 0.01863789, 
+            "Pennsylvania German" : 0.01679938, 
+            "Swedish" : 0.016741930000000002, 
+            "Welsh" : 0.014995350000000001, 
+            "Slovak" : 0.013191310000000001, 
+            "Swiss" : 0.01280063, 
+            "European" : 0.012065220000000001, 
+            "Hungarian" : 0.011054040000000001, 
+            "Czech" : 0.006331369999999999, 
+            "Puerto Rican" : 0.50049164, 
+            "Mexican" : 0.005849999999999999, 
+            "South American" : 0.2300885, 
+            "Other Hispanic" : 0.00269, 
+            "Cuban" : 0.08259587, 
+            "Spaniard" : 0.00097, 
+            "Colombian" : 0.07571288, 
+            "Central American" : 0.0008799999999999999, 
+            "Peruvian" : 0.07177974, 
+            "Guatemalan" : 0.00084, 
+            "Dominican" : 0.05014749, 
+            "Venezuelan" : 0.0005899999999999999, 
+            "Other South American" : 0.02753196, 
+            "Chinese" : 0.26570048, 
+            "Indian" : 0.00126, 
+            "Filipino" : 0.20772946999999997, 
+            "Korean" : 0.00099, 
+            "Vietnamese" : 0.15942029, 
+            "Cambodian" : 0.0007599999999999999, 
+            "Japanese" : 0.13768116, 
+            "Not Specified" : 0.00065, 
+            "Nepalese" : 0.10144928, 
+            "Taiwanese" : 0.00048
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00017036, 
+            "Employed" : 0.53795375, 
+            "Unemployed" : 0.03906816, 
+            "Other" : 0.42280774
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.20380535, 
+            "Healthcare" : 0.16812688, 
+            "Retail" : 0.11075632, 
+            "Education" : 0.10458119999999999, 
+            "Construction" : 0.06185676, 
+            "Hospitality" : 0.057317780000000006, 
+            "Other Services" : 0.05591914, 
+            "Government" : 0.04224943, 
+            "Transportation" : 0.038977149999999995, 
+            "Professional" : 0.024199079999999998, 
+            "Agriculture" : 0.02388241, 
+            "Administrative" : 0.02206154, 
+            "Finance & Insurance" : 0.0216657, 
+            "Wholesalers" : 0.01665171, 
+            "Entertainment" : 0.015305850000000001, 
+            "Real estate" : 0.009764080000000001, 
+            "Oil & Gas, and Mining" : 0.00931546, 
+            "Information" : 0.00709875, 
+            "Utilities" : 0.0061223399999999996, 
+            "Management" : 0.00034306
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.011928989999999999, 
+            "Professional" : 0.01032734, 
+            "Master's" : 0.05926124, 
+            "Bachelor's" : 0.12481231, 
+            "Associate's" : 0.07477726999999999, 
+            "Some College" : 0.15335847, 
+            "High School" : 0.44874704, 
+            "Some H.S." : 0.07437686, 
+            "Less than H.S." : 0.03530315, 
+            "None" : 0.00710734
+        }
+    }
+}

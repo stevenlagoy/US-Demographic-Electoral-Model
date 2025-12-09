@@ -1,0 +1,114 @@
+{
+    "name" : "Wirt County", 
+	"state" : "West Virginia", 
+	"FIPS" : "54105",
+    "population" : 5826, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9737384099999999, 
+            "Hispanic" : 0.00446275, 
+            "Black" : 0.007724, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0092688, 
+            "Other" : 0.00480604
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.013560000000000001, 
+            "80-84" : 0.02987, 
+            "75-79" : 0.02472, 
+            "70-74" : 0.03673, 
+            "67-69" : 0.04308, 
+            "65-66" : 0.03193, 
+            "62-64" : 0.02952, 
+            "60-61" : 0.03999, 
+            "55-59" : 0.09217, 
+            "50-54" : 0.08548, 
+            "45-49" : 0.07072, 
+            "40-44" : 0.07551999999999999, 
+            "35-39" : 0.03913, 
+            "30-34" : 0.05287, 
+            "25-29" : 0.046, 
+            "22-24" : 0.027290000000000002, 
+            "21" : 0.01613, 
+            "20" : 0.009439999999999999, 
+            "18-19" : 0.0218, 
+            "15-17" : 0.03673, 
+            "10-14" : 0.060250000000000005, 
+            "5-9" : 0.06471, 
+            "0-4" : 0.05235
+        }, 
+        "household_types" : {
+            "Married" : 0.50246711, 
+            "Single Female" : 0.09457236999999999, 
+            "Single Male" : 0.01932566, 
+            "One-Person" : 0.30016447, 
+            "Other Non-Family" : 0.08347039
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.18875160000000002, 
+                "male" : 0.29926410000000003
+            }, 
+            "Now Married" : {
+                "female" : 0.5291861999999999, 
+                "male" : 0.49304988
+            }, 
+            "Separated" : {
+                "female" : 0.02343417, 
+                "male" : 0.0073589499999999995
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0, 
+                "male" : 0.01308258
+            }, 
+            "Widowed" : {
+                "female" : 0.10183213, 
+                "male" : 0.02616517
+            }, 
+            "Divorced" : {
+                "female" : 0.15679591, 
+                "male" : 0.16107931
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.46849723, 
+            "Unemployed" : 0.02660707, 
+            "Other" : 0.5048957000000001
+        }, 
+        "industries" : {
+            "Construction" : 0.15311222000000002, 
+            "Manufacturing" : 0.15220354, 
+            "Healthcare" : 0.11721945, 
+            "Retail" : 0.11403907, 
+            "Hospitality" : 0.09404816, 
+            "Education" : 0.08995911, 
+            "Government" : 0.05542935, 
+            "Professional" : 0.04679691, 
+            "Finance & Insurance" : 0.031349390000000005, 
+            "Administrative" : 0.031349390000000005, 
+            "Other Services" : 0.024988640000000003, 
+            "Utilities" : 0.024079959999999997, 
+            "Agriculture" : 0.02089959, 
+            "Wholesalers" : 0.0163562, 
+            "Transportation" : 0.0163562, 
+            "Oil & Gas, and Mining" : 0.00681508, 
+            "Information" : 0.0036347099999999998, 
+            "Real estate" : 0.0013630200000000002, 
+            "Management" : 0.0, 
+            "Entertainment" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.008204630000000001, 
+            "Professional" : 0.01085907, 
+            "Master's" : 0.02027027, 
+            "Bachelor's" : 0.05719112, 
+            "Associate's" : 0.049469110000000004, 
+            "Some College" : 0.19932432, 
+            "High School" : 0.48769305, 
+            "Some H.S." : 0.10545367, 
+            "Less than H.S." : 0.059845560000000006, 
+            "None" : 0.0016891900000000001
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name" : "Irion County", 
+	"state" : "Texas", 
+	"FIPS" : "48235",
+    "population" : 1631, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.74248927, 
+            "Hispanic" : 0.23237278, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02513795, 
+            "Other" : 0.0
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01778, 
+            "80-84" : 0.03004, 
+            "75-79" : 0.03127, 
+            "70-74" : 0.04169, 
+            "67-69" : 0.01839, 
+            "65-66" : 0.03127, 
+            "62-64" : 0.04721, 
+            "60-61" : 0.03495, 
+            "55-59" : 0.06744, 
+            "50-54" : 0.09994, 
+            "45-49" : 0.05273, 
+            "40-44" : 0.04905, 
+            "35-39" : 0.03617, 
+            "30-34" : 0.04782, 
+            "25-29" : 0.05579, 
+            "22-24" : 0.03863, 
+            "21" : 0.01655, 
+            "20" : 0.011040000000000001, 
+            "18-19" : 0.01717, 
+            "15-17" : 0.03066, 
+            "10-14" : 0.07909, 
+            "5-9" : 0.07174, 
+            "0-4" : 0.07357
+        }, 
+        "household_types" : {
+            "Married" : 0.65506329, 
+            "Single Female" : 0.06329114, 
+            "Single Male" : 0.05063291, 
+            "One-Person" : 0.20411392, 
+            "Other Non-Family" : 0.02689873
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.15434084, 
+                "male" : 0.17418351
+            }, 
+            "Now Married" : {
+                "female" : 0.6414791, 
+                "male" : 0.6796267500000001
+            }, 
+            "Separated" : {
+                "female" : 0.02090032, 
+                "male" : 0.0
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0096463, 
+                "male" : 0.021772939999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.11093248000000001, 
+                "male" : 0.03265941
+            }, 
+            "Divorced" : {
+                "female" : 0.06270096, 
+                "male" : 0.09175739
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00243112, 
+            "Employed" : 0.6110210699999999, 
+            "Unemployed" : 0.02106969, 
+            "Other" : 0.36547812
+        }, 
+        "industries" : {
+            "Oil & Gas, and Mining" : 0.19893899, 
+            "Healthcare" : 0.12466844, 
+            "Education" : 0.11671087999999999, 
+            "Agriculture" : 0.09416446, 
+            "Construction" : 0.08222811999999999, 
+            "Retail" : 0.0729443, 
+            "Government" : 0.058355439999999995, 
+            "Other Services" : 0.0530504, 
+            "Hospitality" : 0.04509284, 
+            "Transportation" : 0.03448276, 
+            "Wholesalers" : 0.033156500000000005, 
+            "Administrative" : 0.03050398, 
+            "Manufacturing" : 0.0198939, 
+            "Finance & Insurance" : 0.01193634, 
+            "Entertainment" : 0.00795756, 
+            "Information" : 0.0066313, 
+            "Utilities" : 0.00530504, 
+            "Professional" : 0.00397878, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0176089, 
+            "Professional" : 0.00370714, 
+            "Master's" : 0.03243744, 
+            "Bachelor's" : 0.10287302999999999, 
+            "Associate's" : 0.08526413, 
+            "Some College" : 0.29471733, 
+            "High School" : 0.37998146, 
+            "Some H.S." : 0.04170528, 
+            "Less than H.S." : 0.030583870000000003, 
+            "None" : 0.01112141
+        }
+    }
+}

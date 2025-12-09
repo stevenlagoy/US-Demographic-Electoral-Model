@@ -1,0 +1,114 @@
+{
+    "name" : "Johnson County", 
+	"state" : "Wyoming", 
+	"FIPS" : "56019",
+    "population" : 8572, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.91565562, 
+            "Hispanic" : 0.02134858, 
+            "Black" : 0.00443304, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01913206, 
+            "Other" : 0.0394307
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02963, 
+            "80-84" : 0.01797, 
+            "75-79" : 0.04106, 
+            "70-74" : 0.047009999999999996, 
+            "67-69" : 0.04795, 
+            "65-66" : 0.021349999999999997, 
+            "62-64" : 0.03791, 
+            "60-61" : 0.02322, 
+            "55-59" : 0.09659000000000001, 
+            "50-54" : 0.07116, 
+            "45-49" : 0.06463, 
+            "40-44" : 0.07886, 
+            "35-39" : 0.053079999999999995, 
+            "30-34" : 0.04386, 
+            "25-29" : 0.03173, 
+            "22-24" : 0.03115, 
+            "21" : 0.01295, 
+            "20" : 0.0015199999999999999, 
+            "18-19" : 0.026949999999999998, 
+            "15-17" : 0.032080000000000004, 
+            "10-14" : 0.06288, 
+            "5-9" : 0.0728, 
+            "0-4" : 0.05366
+        }, 
+        "household_types" : {
+            "Married" : 0.48446019999999995, 
+            "Single Female" : 0.06679389, 
+            "Single Male" : 0.09541985, 
+            "One-Person" : 0.32906216, 
+            "Other Non-Family" : 0.0242639
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.181571, 
+                "male" : 0.23577905999999998
+            }, 
+            "Now Married" : {
+                "female" : 0.51208459, 
+                "male" : 0.54300632
+            }, 
+            "Separated" : {
+                "female" : 0.00151057, 
+                "male" : 0.012366029999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0141994, 
+                "male" : 0.01154163
+            }, 
+            "Widowed" : {
+                "female" : 0.13021148, 
+                "male" : 0.036548500000000005
+            }, 
+            "Divorced" : {
+                "female" : 0.16042296, 
+                "male" : 0.16075845
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.6389875700000001, 
+            "Unemployed" : 0.030195379999999997, 
+            "Other" : 0.33081705
+        }, 
+        "industries" : {
+            "Healthcare" : 0.13087792, 
+            "Agriculture" : 0.12300208, 
+            "Construction" : 0.09196201, 
+            "Education" : 0.08871902000000001, 
+            "Transportation" : 0.08593930999999999, 
+            "Oil & Gas, and Mining" : 0.08200139000000001, 
+            "Hospitality" : 0.07760019, 
+            "Retail" : 0.05281445, 
+            "Government" : 0.05049803, 
+            "Other Services" : 0.040537409999999996, 
+            "Professional" : 0.0393792, 
+            "Entertainment" : 0.02663887, 
+            "Real estate" : 0.02432245, 
+            "Administrative" : 0.01922631, 
+            "Finance & Insurance" : 0.01899467, 
+            "Manufacturing" : 0.014593469999999999, 
+            "Wholesalers" : 0.0136669, 
+            "Information" : 0.01297197, 
+            "Utilities" : 0.006254340000000001, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01222736, 
+            "Professional" : 0.01619299, 
+            "Master's" : 0.05882353, 
+            "Bachelor's" : 0.16738268, 
+            "Associate's" : 0.10145406, 
+            "Some College" : 0.26074025, 
+            "High School" : 0.33212161, 
+            "Some H.S." : 0.033873099999999996, 
+            "Less than H.S." : 0.01222736, 
+            "None" : 0.004957039999999999
+        }
+    }
+}

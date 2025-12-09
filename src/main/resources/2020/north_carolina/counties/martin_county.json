@@ -1,0 +1,138 @@
+{
+    "name" : "Martin County", 
+	"state" : "North Carolina", 
+	"FIPS" : "37117",
+    "population" : 23510, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.52122501, 
+            "Hispanic" : 0.03458103, 
+            "Black" : 0.4322416, 
+            "Asian" : 0.00161633, 
+            "Mixed" : 0.00646533, 
+            "Other" : 0.00387069
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02471, 
+            "80-84" : 0.02097, 
+            "75-79" : 0.03871, 
+            "70-74" : 0.05053, 
+            "67-69" : 0.03781, 
+            "65-66" : 0.03318, 
+            "62-64" : 0.03956, 
+            "60-61" : 0.04168, 
+            "55-59" : 0.08558, 
+            "50-54" : 0.07205, 
+            "45-49" : 0.06563, 
+            "40-44" : 0.05266, 
+            "35-39" : 0.05219, 
+            "30-34" : 0.04445, 
+            "25-29" : 0.054740000000000004, 
+            "22-24" : 0.02624, 
+            "21" : 0.01199, 
+            "20" : 0.01093, 
+            "18-19" : 0.027309999999999997, 
+            "15-17" : 0.03641, 
+            "10-14" : 0.0684, 
+            "5-9" : 0.054740000000000004, 
+            "0-4" : 0.04951
+        }, 
+        "household_types" : {
+            "Married" : 0.44583687, 
+            "Single Female" : 0.15165675, 
+            "Single Male" : 0.05713679, 
+            "One-Person" : 0.29970262999999997, 
+            "Other Non-Family" : 0.045666950000000005
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.27697876, 
+                "male" : 0.32640751
+            }, 
+            "Now Married" : {
+                "female" : 0.40460996, 
+                "male" : 0.4836908
+            }, 
+            "Separated" : {
+                "female" : 0.0337175, 
+                "male" : 0.02178284
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01104867, 
+                "male" : 0.02546917
+            }, 
+            "Widowed" : {
+                "female" : 0.14896657, 
+                "male" : 0.05049151
+            }, 
+            "Divorced" : {
+                "female" : 0.12467854, 
+                "male" : 0.09215818
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.48983411, 
+            "Unclassified" : 0.21216504, 
+            "American" : 0.15482773, 
+            "English" : 0.07307529, 
+            "German" : 0.0379413, 
+            "Irish" : 0.03113569, 
+            "Scottish" : 0.00935772, 
+            "European" : 0.00905997, 
+            "Scotch-Irish" : 0.00740111, 
+            "Mexican" : 0.64805825, 
+            "South American" : 0.022709999999999998, 
+            "Colombian" : 0.18082524, 
+            "Venezuelan" : 0.00634, 
+            "Puerto Rican" : 0.09587379, 
+            "Other Hispanic" : 0.00336, 
+            "Central American" : 0.08495146, 
+            "Cuban" : 0.00298, 
+            "Panamanian" : 0.054611650000000005, 
+            "Spaniard" : 0.00191, 
+            "Honduran" : 0.052184470000000004, 
+            "Korean" : 0.73684211, 
+            "Chinese" : 0.0011899999999999999
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00187363, 
+            "Employed" : 0.47720412, 
+            "Unemployed" : 0.07203081, 
+            "Other" : 0.44889143
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.17537354, 
+            "Healthcare" : 0.17068383, 
+            "Retail" : 0.14941651, 
+            "Education" : 0.10284655000000001, 
+            "Government" : 0.05398626, 
+            "Agriculture" : 0.053768130000000004, 
+            "Construction" : 0.05256844, 
+            "Hospitality" : 0.051041550000000005, 
+            "Other Services" : 0.03751772, 
+            "Finance & Insurance" : 0.03075581, 
+            "Transportation" : 0.026175160000000003, 
+            "Professional" : 0.02388483, 
+            "Administrative" : 0.01810448, 
+            "Entertainment" : 0.0153779, 
+            "Wholesalers" : 0.014069149999999999, 
+            "Real estate" : 0.01265133, 
+            "Information" : 0.008288799999999999, 
+            "Utilities" : 0.00349002, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.009227840000000001, 
+            "Professional" : 0.00946598, 
+            "Master's" : 0.03280348, 
+            "Bachelor's" : 0.10632851, 
+            "Associate's" : 0.09501697, 
+            "Some College" : 0.22319462, 
+            "High School" : 0.36101685000000006, 
+            "Some H.S." : 0.10174436, 
+            "Less than H.S." : 0.04399595, 
+            "None" : 0.01720545
+        }
+    }
+}

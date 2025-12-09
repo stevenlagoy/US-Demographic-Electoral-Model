@@ -1,0 +1,114 @@
+{
+    "name" : "Butte County", 
+	"state" : "South Dakota", 
+	"FIPS" : "46019",
+    "population" : 10268, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.91819244, 
+            "Hispanic" : 0.03437865, 
+            "Black" : 0.006817299999999999, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02103623, 
+            "Other" : 0.01957538
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.031939999999999996, 
+            "80-84" : 0.0187, 
+            "75-79" : 0.03418, 
+            "70-74" : 0.041100000000000005, 
+            "67-69" : 0.02844, 
+            "65-66" : 0.029220000000000003, 
+            "62-64" : 0.0336, 
+            "60-61" : 0.03944, 
+            "55-59" : 0.07976, 
+            "50-54" : 0.07139000000000001, 
+            "45-49" : 0.05619, 
+            "40-44" : 0.042069999999999996, 
+            "35-39" : 0.057460000000000004, 
+            "30-34" : 0.06671, 
+            "25-29" : 0.05464, 
+            "22-24" : 0.03136, 
+            "21" : 0.014119999999999999, 
+            "20" : 0.00575, 
+            "18-19" : 0.020259999999999997, 
+            "15-17" : 0.04032, 
+            "10-14" : 0.07596, 
+            "5-9" : 0.060090000000000005, 
+            "0-4" : 0.0673
+        }, 
+        "household_types" : {
+            "Married" : 0.50490313, 
+            "Single Female" : 0.07964602, 
+            "Single Male" : 0.052140639999999995, 
+            "One-Person" : 0.29012198, 
+            "Other Non-Family" : 0.07318823
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.18332932, 
+                "male" : 0.27674361000000003
+            }, 
+            "Now Married" : {
+                "female" : 0.50662491, 
+                "male" : 0.53263837
+            }, 
+            "Separated" : {
+                "female" : 0.01204529, 
+                "male" : 0.01836684
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.023608769999999998, 
+                "male" : 0.02184165
+            }, 
+            "Widowed" : {
+                "female" : 0.10937124000000001, 
+                "male" : 0.04244229
+            }, 
+            "Divorced" : {
+                "female" : 0.16502048, 
+                "male" : 0.10796723999999999
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00262697, 
+            "Employed" : 0.64385789, 
+            "Unemployed" : 0.01200901, 
+            "Other" : 0.34150613
+        }, 
+        "industries" : {
+            "Healthcare" : 0.12900719, 
+            "Agriculture" : 0.11948708, 
+            "Retail" : 0.09384107, 
+            "Construction" : 0.08626384, 
+            "Hospitality" : 0.08198950999999999, 
+            "Manufacturing" : 0.07693802, 
+            "Oil & Gas, and Mining" : 0.06683505000000001, 
+            "Education" : 0.057897800000000006, 
+            "Other Services" : 0.05595493, 
+            "Transportation" : 0.05245774, 
+            "Government" : 0.03944045, 
+            "Administrative" : 0.030697489999999997, 
+            "Finance & Insurance" : 0.028171750000000002, 
+            "Wholesalers" : 0.018457349999999997, 
+            "Professional" : 0.01748591, 
+            "Information" : 0.01340587, 
+            "Entertainment" : 0.01321158, 
+            "Utilities" : 0.01262872, 
+            "Real estate" : 0.00582864, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00298635, 
+            "Professional" : 0.0032707599999999997, 
+            "Master's" : 0.02957907, 
+            "Bachelor's" : 0.16112058999999998, 
+            "Associate's" : 0.08176906, 
+            "Some College" : 0.25056882999999996, 
+            "High School" : 0.38111490000000003, 
+            "Some H.S." : 0.06513083, 
+            "Less than H.S." : 0.01905575, 
+            "None" : 0.00540387
+        }
+    }
+}

@@ -1,0 +1,166 @@
+{
+    "name" : "Strafford County", 
+	"state" : "New Hampshire", 
+	"FIPS" : "33017",
+    "population" : 125913, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.91641054, 
+            "Hispanic" : 0.020029699999999998, 
+            "Black" : 0.00965746, 
+            "Asian" : 0.03044165, 
+            "Mixed" : 0.02170546, 
+            "Other" : 0.00175518
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.015600000000000001, 
+            "80-84" : 0.01816, 
+            "75-79" : 0.02418, 
+            "70-74" : 0.03193, 
+            "67-69" : 0.024620000000000003, 
+            "65-66" : 0.02182, 
+            "62-64" : 0.03177, 
+            "60-61" : 0.024569999999999998, 
+            "55-59" : 0.0716, 
+            "50-54" : 0.07608, 
+            "45-49" : 0.06557, 
+            "40-44" : 0.061959999999999994, 
+            "35-39" : 0.05432000000000001, 
+            "30-34" : 0.05950999999999999, 
+            "25-29" : 0.06299, 
+            "22-24" : 0.04845, 
+            "21" : 0.03108, 
+            "20" : 0.02948, 
+            "18-19" : 0.05193, 
+            "15-17" : 0.03404, 
+            "10-14" : 0.05535, 
+            "5-9" : 0.054169999999999996, 
+            "0-4" : 0.0508
+        }, 
+        "household_types" : {
+            "Married" : 0.5048243, 
+            "Single Female" : 0.09276042000000001, 
+            "Single Male" : 0.045145359999999995, 
+            "One-Person" : 0.25387723, 
+            "Other Non-Family" : 0.1033927
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.33165912, 
+                "male" : 0.38074766
+            }, 
+            "Now Married" : {
+                "female" : 0.44538339, 
+                "male" : 0.48105446
+            }, 
+            "Separated" : {
+                "female" : 0.01354646, 
+                "male" : 0.0066245900000000005
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01028358, 
+                "male" : 0.01373771
+            }, 
+            "Widowed" : {
+                "female" : 0.07000532, 
+                "male" : 0.0173529
+            }, 
+            "Divorced" : {
+                "female" : 0.12912214, 
+                "male" : 0.10048268
+            }
+        }, 
+        "ancestry" : {
+            "Irish" : 0.21077252000000002, 
+            "English" : 0.17997347000000002, 
+            "French" : 0.15184293999999998, 
+            "Other" : 0.13892926, 
+            "Unclassified" : 0.13668168, 
+            "Italian" : 0.10341267, 
+            "German" : 0.10229285, 
+            "French Canadian" : 0.09423967, 
+            "American" : 0.05118614, 
+            "Scottish" : 0.04133807, 
+            "Polish" : 0.03897135, 
+            "Swedish" : 0.024064230000000002, 
+            "Greek" : 0.014787989999999999, 
+            "Scotch-Irish" : 0.013564920000000001, 
+            "Dutch" : 0.012484809999999999, 
+            "Norwegian" : 0.010928180000000001, 
+            "Arab" : 0.010022789999999998, 
+            "European" : 0.00985601, 
+            "Canadian" : 0.0098163, 
+            "Portuguese" : 0.00955422, 
+            "Puerto Rican" : 0.25157934, 
+            "Dominican" : 0.00538, 
+            "Mexican" : 0.19955407, 
+            "Other Hispanic" : 0.00426, 
+            "South American" : 0.19843924000000002, 
+            "Spaniard" : 0.00424, 
+            "Cuban" : 0.14121145000000002, 
+            "Central American" : 0.00302, 
+            "Chilean" : 0.09438869999999999, 
+            "Ecuadorian" : 0.00202, 
+            "Spanish" : 0.08955779, 
+            "Colombian" : 0.00191, 
+            "Salvadoran" : 0.06503159, 
+            "Costa Rican" : 0.0013900000000000002, 
+            "Panamanian" : 0.04979562, 
+            "Peruvian" : 0.00106, 
+            "Honduran" : 0.043478260000000005, 
+            "Guatemalan" : 0.0009299999999999999, 
+            "Chinese" : 0.21941038, 
+            "Indian" : 0.00668, 
+            "Indonesian" : 0.21810592, 
+            "Filipino" : 0.00664, 
+            "Korean" : 0.20558309000000002, 
+            "Vietnamese" : 0.00626, 
+            "Japanese" : 0.11427081, 
+            "Laotian" : 0.0034799999999999996, 
+            "Nepalese" : 0.045395250000000005, 
+            "Not Specified" : 0.0013800000000000002, 
+            "Thai" : 0.042525440000000005, 
+            "Cambodian" : 0.0012900000000000001
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0033156799999999997, 
+            "Employed" : 0.6500658300000001, 
+            "Unemployed" : 0.03799099, 
+            "Other" : 0.3086275
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.12856298, 
+            "Healthcare" : 0.12581313, 
+            "Education" : 0.1256505, 
+            "Retail" : 0.12485215999999999, 
+            "Hospitality" : 0.08959196, 
+            "Finance & Insurance" : 0.06170905, 
+            "Professional" : 0.05801301, 
+            "Construction" : 0.05481963, 
+            "Other Services" : 0.04201656, 
+            "Administrative" : 0.03734477, 
+            "Government" : 0.0361916, 
+            "Transportation" : 0.028548200000000003, 
+            "Wholesalers" : 0.02121526, 
+            "Entertainment" : 0.01910112, 
+            "Information" : 0.01855411, 
+            "Real estate" : 0.01283264, 
+            "Utilities" : 0.00934358, 
+            "Agriculture" : 0.0053222899999999995, 
+            "Oil & Gas, and Mining" : 0.0002809, 
+            "Management" : 0.00023654999999999998
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01987065, 
+            "Professional" : 0.01139513, 
+            "Master's" : 0.10025254, 
+            "Bachelor's" : 0.21661842, 
+            "Associate's" : 0.09580536, 
+            "Some College" : 0.20114567, 
+            "High School" : 0.27744995, 
+            "Some H.S." : 0.05489375, 
+            "Less than H.S." : 0.01520172, 
+            "None" : 0.0073668
+        }
+    }
+}

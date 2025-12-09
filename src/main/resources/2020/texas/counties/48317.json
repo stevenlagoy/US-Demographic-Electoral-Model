@@ -1,0 +1,114 @@
+{
+    "name" : "Martin County", 
+	"state" : "Texas", 
+	"FIPS" : "48317",
+    "population" : 5451, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.52504128, 
+            "Hispanic" : 0.46119978000000006, 
+            "Black" : 0.0069711999999999994, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0005503600000000001, 
+            "Other" : 0.006237390000000001
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01559, 
+            "80-84" : 0.01303, 
+            "75-79" : 0.01541, 
+            "70-74" : 0.02697, 
+            "67-69" : 0.03504, 
+            "65-66" : 0.01853, 
+            "62-64" : 0.021099999999999997, 
+            "60-61" : 0.02972, 
+            "55-59" : 0.04311, 
+            "50-54" : 0.07980000000000001, 
+            "45-49" : 0.0576, 
+            "40-44" : 0.052469999999999996, 
+            "35-39" : 0.06072, 
+            "30-34" : 0.06641, 
+            "25-29" : 0.0554, 
+            "22-24" : 0.03999, 
+            "21" : 0.01853, 
+            "20" : 0.015229999999999999, 
+            "18-19" : 0.03669, 
+            "15-17" : 0.0455, 
+            "10-14" : 0.08182, 
+            "5-9" : 0.08989000000000001, 
+            "0-4" : 0.08145
+        }, 
+        "household_types" : {
+            "Married" : 0.56967465, 
+            "Single Female" : 0.11970534000000001, 
+            "Single Male" : 0.0626151, 
+            "One-Person" : 0.2203806, 
+            "Other Non-Family" : 0.02762431
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26969093, 
+                "male" : 0.29636804
+            }, 
+            "Now Married" : {
+                "female" : 0.51296112, 
+                "male" : 0.51331719
+            }, 
+            "Separated" : {
+                "female" : 0.01545364, 
+                "male" : 0.02711864
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.04336989, 
+                "male" : 0.010169490000000002
+            }, 
+            "Widowed" : {
+                "female" : 0.08125622999999998, 
+                "male" : 0.05956416
+            }, 
+            "Divorced" : {
+                "female" : 0.0772682, 
+                "male" : 0.09346247
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.61659585, 
+            "Unemployed" : 0.02149463, 
+            "Other" : 0.36190952000000004
+        }, 
+        "industries" : {
+            "Agriculture" : 0.12363194, 
+            "Retail" : 0.12160519, 
+            "Healthcare" : 0.10417510999999999, 
+            "Oil & Gas, and Mining" : 0.10174301, 
+            "Other Services" : 0.09241994, 
+            "Construction" : 0.09039319000000001, 
+            "Education" : 0.07620592, 
+            "Hospitality" : 0.07539522, 
+            "Transportation" : 0.03567086, 
+            "Manufacturing" : 0.0352655, 
+            "Utilities" : 0.02391569, 
+            "Government" : 0.02229428, 
+            "Finance & Insurance" : 0.02188893, 
+            "Professional" : 0.01743008, 
+            "Administrative" : 0.01580867, 
+            "Wholesalers" : 0.014997970000000001, 
+            "Information" : 0.01459262, 
+            "Real estate" : 0.01256587, 
+            "Management" : 0.0, 
+            "Entertainment" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00155231, 
+            "Professional" : 0.0049674, 
+            "Master's" : 0.04594846, 
+            "Bachelor's" : 0.14032909, 
+            "Associate's" : 0.06923316, 
+            "Some College" : 0.20490531, 
+            "High School" : 0.30611611, 
+            "Some H.S." : 0.10462589, 
+            "Less than H.S." : 0.11269792000000001, 
+            "None" : 0.00962434
+        }
+    }
+}

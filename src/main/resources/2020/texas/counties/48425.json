@@ -1,0 +1,114 @@
+{
+    "name" : "Somervell County", 
+	"state" : "Texas", 
+	"FIPS" : "48425",
+    "population" : 8673, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.78900035, 
+            "Hispanic" : 0.19105269, 
+            "Black" : 0.005188519999999999, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.004842620000000001, 
+            "Other" : 0.00991583
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02548, 
+            "80-84" : 0.02617, 
+            "75-79" : 0.01949, 
+            "70-74" : 0.03851, 
+            "67-69" : 0.02283, 
+            "65-66" : 0.05039, 
+            "62-64" : 0.04139, 
+            "60-61" : 0.02421, 
+            "55-59" : 0.06814, 
+            "50-54" : 0.06826, 
+            "45-49" : 0.06215, 
+            "40-44" : 0.07045, 
+            "35-39" : 0.05684, 
+            "30-34" : 0.061340000000000006, 
+            "25-29" : 0.047270000000000006, 
+            "22-24" : 0.03724, 
+            "21" : 0.013720000000000001, 
+            "20" : 0.00773, 
+            "18-19" : 0.021789999999999997, 
+            "15-17" : 0.04612, 
+            "10-14" : 0.07402, 
+            "5-9" : 0.06272, 
+            "0-4" : 0.05373
+        }, 
+        "household_types" : {
+            "Married" : 0.55877815, 
+            "Single Female" : 0.14162296, 
+            "Single Male" : 0.06078371, 
+            "One-Person" : 0.20024684, 
+            "Other Non-Family" : 0.03856834
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.21797753, 
+                "male" : 0.26119619
+            }, 
+            "Now Married" : {
+                "female" : 0.48455055999999996, 
+                "male" : 0.58104594
+            }, 
+            "Separated" : {
+                "female" : 0.00870787, 
+                "male" : 0.00462294
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01685393, 
+                "male" : 0.01618029
+            }, 
+            "Widowed" : {
+                "female" : 0.14382022, 
+                "male" : 0.02889338
+            }, 
+            "Divorced" : {
+                "female" : 0.12808989, 
+                "male" : 0.10806125
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.53403141, 
+            "Unemployed" : 0.01963351, 
+            "Other" : 0.44633508
+        }, 
+        "industries" : {
+            "Construction" : 0.10375817, 
+            "Hospitality" : 0.10157951999999999, 
+            "Utilities" : 0.09640523, 
+            "Healthcare" : 0.09504357000000001, 
+            "Oil & Gas, and Mining" : 0.08605664, 
+            "Manufacturing" : 0.07135076, 
+            "Education" : 0.0672658, 
+            "Professional" : 0.05882353, 
+            "Retail" : 0.054193899999999996, 
+            "Other Services" : 0.05010893, 
+            "Transportation" : 0.047385619999999996, 
+            "Government" : 0.04003268, 
+            "Finance & Insurance" : 0.03540305, 
+            "Entertainment" : 0.028594770000000002, 
+            "Wholesalers" : 0.02205882, 
+            "Agriculture" : 0.017973859999999998, 
+            "Real estate" : 0.01089325, 
+            "Administrative" : 0.01062092, 
+            "Information" : 0.0016339899999999999, 
+            "Management" : 0.00081699
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00894817, 
+            "Professional" : 0.016208, 
+            "Master's" : 0.025831499999999997, 
+            "Bachelor's" : 0.14063819, 
+            "Associate's" : 0.09471552000000001, 
+            "Some College" : 0.23687321, 
+            "High School" : 0.30406888, 
+            "Some H.S." : 0.12071585000000001, 
+            "Less than H.S." : 0.048286340000000004, 
+            "None" : 0.00371433
+        }
+    }
+}

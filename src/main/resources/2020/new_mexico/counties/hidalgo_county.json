@@ -1,0 +1,114 @@
+{
+    "name" : "Hidalgo County", 
+	"state" : "New Mexico", 
+	"FIPS" : "35023",
+    "population" : 4531, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.41734716, 
+            "Hispanic" : 0.57205915, 
+            "Black" : 0.00331053, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00617965, 
+            "Other" : 0.00110351
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03134, 
+            "80-84" : 0.02626, 
+            "75-79" : 0.03818, 
+            "70-74" : 0.03642, 
+            "67-69" : 0.03642, 
+            "65-66" : 0.02626, 
+            "62-64" : 0.03333, 
+            "60-61" : 0.02604, 
+            "55-59" : 0.07725, 
+            "50-54" : 0.07636, 
+            "45-49" : 0.06268, 
+            "40-44" : 0.046790000000000005, 
+            "35-39" : 0.05672, 
+            "30-34" : 0.04988000000000001, 
+            "25-29" : 0.05341, 
+            "22-24" : 0.01435, 
+            "21" : 0.01302, 
+            "20" : 0.0053, 
+            "18-19" : 0.05804, 
+            "15-17" : 0.040389999999999995, 
+            "10-14" : 0.053849999999999995, 
+            "5-9" : 0.07261000000000001, 
+            "0-4" : 0.06511
+        }, 
+        "household_types" : {
+            "Married" : 0.47135564, 
+            "Single Female" : 0.17640386, 
+            "Single Male" : 0.03516733, 
+            "One-Person" : 0.28530913, 
+            "Other Non-Family" : 0.03176404
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.25217391, 
+                "male" : 0.28140428
+            }, 
+            "Now Married" : {
+                "female" : 0.44021739, 
+                "male" : 0.46955568
+            }, 
+            "Separated" : {
+                "female" : 0.0201087, 
+                "male" : 0.01371366
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01902174, 
+                "male" : 0.06363138
+            }, 
+            "Widowed" : {
+                "female" : 0.14836957, 
+                "male" : 0.051563359999999996
+            }, 
+            "Divorced" : {
+                "female" : 0.12010870000000001, 
+                "male" : 0.12013165
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.01407285, 
+            "Employed" : 0.47488962, 
+            "Unemployed" : 0.060982339999999996, 
+            "Other" : 0.45005519
+        }, 
+        "industries" : {
+            "Government" : 0.13364323, 
+            "Healthcare" : 0.12957583, 
+            "Education" : 0.12260314, 
+            "Retail" : 0.11563045000000001, 
+            "Hospitality" : 0.10865776, 
+            "Oil & Gas, and Mining" : 0.07844277, 
+            "Agriculture" : 0.06856479, 
+            "Construction" : 0.06740267, 
+            "Transportation" : 0.03718768, 
+            "Administrative" : 0.02672865, 
+            "Finance & Insurance" : 0.022080190000000003, 
+            "Utilities" : 0.01743173, 
+            "Manufacturing" : 0.01685067, 
+            "Professional" : 0.01336432, 
+            "Other Services" : 0.01336432, 
+            "Information" : 0.01104009, 
+            "Wholesalers" : 0.00929692, 
+            "Entertainment" : 0.00813481, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00097752, 
+            "Professional" : 0.00456175, 
+            "Master's" : 0.053763439999999996, 
+            "Bachelor's" : 0.095145, 
+            "Associate's" : 0.07754969, 
+            "Some College" : 0.24014337000000002, 
+            "High School" : 0.2971652, 
+            "Some H.S." : 0.11990877, 
+            "Less than H.S." : 0.08602151, 
+            "None" : 0.024763769999999997
+        }
+    }
+}

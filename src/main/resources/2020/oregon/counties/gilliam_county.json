@@ -1,0 +1,114 @@
+{
+    "name" : "Gilliam County", 
+	"state" : "Oregon", 
+	"FIPS" : "41021",
+    "population" : 1913, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.86617878, 
+            "Hispanic" : 0.09722948000000001, 
+            "Black" : 0.00313643, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.0, 
+            "Other" : 0.033455309999999995
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.04182, 
+            "80-84" : 0.02561, 
+            "75-79" : 0.04548, 
+            "70-74" : 0.06168, 
+            "67-69" : 0.0345, 
+            "65-66" : 0.028229999999999998, 
+            "62-64" : 0.04809, 
+            "60-61" : 0.03084, 
+            "55-59" : 0.08782, 
+            "50-54" : 0.06325, 
+            "45-49" : 0.06116, 
+            "40-44" : 0.03973, 
+            "35-39" : 0.0528, 
+            "30-34" : 0.056459999999999996, 
+            "25-29" : 0.021429999999999998, 
+            "22-24" : 0.02091, 
+            "21" : 0.012549999999999999, 
+            "20" : 0.01307, 
+            "18-19" : 0.016200000000000003, 
+            "15-17" : 0.04234, 
+            "10-14" : 0.0643, 
+            "5-9" : 0.0758, 
+            "0-4" : 0.05593
+        }, 
+        "household_types" : {
+            "Married" : 0.53172589, 
+            "Single Female" : 0.10152284, 
+            "Single Male" : 0.021573600000000002, 
+            "One-Person" : 0.28807107, 
+            "Other Non-Family" : 0.0571066
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14322917000000002, 
+                "male" : 0.24675325
+            }, 
+            "Now Married" : {
+                "female" : 0.55729167, 
+                "male" : 0.54285714
+            }, 
+            "Separated" : {
+                "female" : 0.05078125, 
+                "male" : 0.02987013
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.015625, 
+                "male" : 0.04805195
+            }, 
+            "Widowed" : {
+                "female" : 0.11067708, 
+                "male" : 0.00909091
+            }, 
+            "Divorced" : {
+                "female" : 0.12239583, 
+                "male" : 0.12337661999999999
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.47233201999999996, 
+            "Unemployed" : 0.05599473, 
+            "Other" : 0.47167325
+        }, 
+        "industries" : {
+            "Agriculture" : 0.14365411, 
+            "Administrative" : 0.10878660999999999, 
+            "Construction" : 0.09623431, 
+            "Government" : 0.08786611000000001, 
+            "Retail" : 0.08368200999999999, 
+            "Transportation" : 0.08089261, 
+            "Healthcare" : 0.07810321, 
+            "Hospitality" : 0.07112971, 
+            "Utilities" : 0.06834031, 
+            "Education" : 0.0390516, 
+            "Manufacturing" : 0.029288699999999997, 
+            "Wholesalers" : 0.029288699999999997, 
+            "Professional" : 0.0223152, 
+            "Other Services" : 0.0223152, 
+            "Information" : 0.0181311, 
+            "Entertainment" : 0.0153417, 
+            "Finance & Insurance" : 0.0055788, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.00224383, 
+            "Master's" : 0.042632760000000006, 
+            "Bachelor's" : 0.12565445, 
+            "Associate's" : 0.07180254, 
+            "Some College" : 0.2789828, 
+            "High School" : 0.37771129000000003, 
+            "Some H.S." : 0.0710546, 
+            "Less than H.S." : 0.01720269, 
+            "None" : 0.01271503
+        }
+    }
+}

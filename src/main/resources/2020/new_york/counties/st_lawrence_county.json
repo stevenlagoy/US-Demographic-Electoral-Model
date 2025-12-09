@@ -1,0 +1,166 @@
+{
+    "name" : "St Lawrence County", 
+	"state" : "New York", 
+	"FIPS" : "36089",
+    "population" : 111529, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.92109676, 
+            "Hispanic" : 0.02044311, 
+            "Black" : 0.023922029999999997, 
+            "Asian" : 0.011225780000000001, 
+            "Mixed" : 0.01446261, 
+            "Other" : 0.00884972
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.022160000000000003, 
+            "80-84" : 0.01884, 
+            "75-79" : 0.02565, 
+            "70-74" : 0.033690000000000005, 
+            "67-69" : 0.02717, 
+            "65-66" : 0.02633, 
+            "62-64" : 0.037599999999999995, 
+            "60-61" : 0.02467, 
+            "55-59" : 0.06865, 
+            "50-54" : 0.07238, 
+            "45-49" : 0.06232, 
+            "40-44" : 0.05918, 
+            "35-39" : 0.05102, 
+            "30-34" : 0.05529, 
+            "25-29" : 0.06189, 
+            "22-24" : 0.04277, 
+            "21" : 0.02463, 
+            "20" : 0.02674, 
+            "18-19" : 0.05341, 
+            "15-17" : 0.0345, 
+            "10-14" : 0.06143, 
+            "5-9" : 0.055999999999999994, 
+            "0-4" : 0.053680000000000005
+        }, 
+        "household_types" : {
+            "Married" : 0.46298172, 
+            "Single Female" : 0.11853084000000001, 
+            "Single Male" : 0.05240438, 
+            "One-Person" : 0.28703034, 
+            "Other Non-Family" : 0.07905272
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.32136414, 
+                "male" : 0.40661772999999996
+            }, 
+            "Now Married" : {
+                "female" : 0.42288229, 
+                "male" : 0.41551229
+            }, 
+            "Separated" : {
+                "female" : 0.02380638, 
+                "male" : 0.02166188
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.020484049999999997, 
+                "male" : 0.024789870000000002
+            }, 
+            "Widowed" : {
+                "female" : 0.10587459, 
+                "male" : 0.03359932
+            }, 
+            "Divorced" : {
+                "female" : 0.10558856, 
+                "male" : 0.09781891999999999
+            }
+        }, 
+        "ancestry" : {
+            "Unclassified" : 0.22334997999999998, 
+            "Irish" : 0.17927176, 
+            "Other" : 0.16309658999999999, 
+            "French" : 0.13544459, 
+            "English" : 0.12128683999999999, 
+            "German" : 0.10055681, 
+            "Italian" : 0.06688843, 
+            "French Canadian" : 0.06174179, 
+            "American" : 0.057411079999999996, 
+            "Scottish" : 0.03136404, 
+            "Polish" : 0.028629329999999998, 
+            "Dutch" : 0.02348268, 
+            "Welsh" : 0.00971048, 
+            "Canadian" : 0.0091187, 
+            "Hungarian" : 0.00908284, 
+            "Scotch-Irish" : 0.00893938, 
+            "Pennsylvania German" : 0.00780963, 
+            "Russian" : 0.007119220000000001, 
+            "Arab" : 0.00639296, 
+            "European" : 0.00567565, 
+            "Puerto Rican" : 0.48456913999999995, 
+            "Mexican" : 0.01084, 
+            "Dominican" : 0.14308617, 
+            "Central American" : 0.0032, 
+            "Other Hispanic" : 0.09458918000000001, 
+            "South American" : 0.00212, 
+            "Cuban" : 0.08977956000000001, 
+            "Panamanian" : 0.00201, 
+            "Salvadoran" : 0.07975952, 
+            "Colombian" : 0.00178, 
+            "Spanish" : 0.06653307, 
+            "Ecuadorian" : 0.00149, 
+            "Honduran" : 0.041683370000000004, 
+            "Spaniard" : 0.0009299999999999999, 
+            "Guatemalan" : 0.028857719999999996, 
+            "Peruvian" : 0.00065, 
+            "Other South American" : 0.023246489999999998, 
+            "Argentinean" : 0.00052, 
+            "Chinese" : 0.30031949, 
+            "Indian" : 0.00337, 
+            "Not Specified" : 0.25239617, 
+            "Vietnamese" : 0.0028299999999999996, 
+            "Korean" : 0.11182109000000001, 
+            "Japanese" : 0.00126, 
+            "Filipino" : 0.08226837, 
+            "Thai" : 0.00092, 
+            "Hmong" : 0.07587859, 
+            "Nepalese" : 0.0008500000000000001, 
+            "Sri Lankan" : 0.05830671, 
+            "Mixed" : 0.00065
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0015138999999999999, 
+            "Employed" : 0.48381329, 
+            "Unemployed" : 0.05383139, 
+            "Other" : 0.46084142
+        }, 
+        "industries" : {
+            "Education" : 0.16940275, 
+            "Healthcare" : 0.16684051, 
+            "Retail" : 0.13187611, 
+            "Government" : 0.07357943, 
+            "Construction" : 0.07076777, 
+            "Hospitality" : 0.07013287, 
+            "Manufacturing" : 0.06351186, 
+            "Other Services" : 0.04228833, 
+            "Professional" : 0.031291099999999995, 
+            "Administrative" : 0.029318399999999998, 
+            "Finance & Insurance" : 0.02813931, 
+            "Agriculture" : 0.028071290000000002, 
+            "Transportation" : 0.025486369999999998, 
+            "Entertainment" : 0.01705138, 
+            "Wholesalers" : 0.01321936, 
+            "Information" : 0.01265249, 
+            "Utilities" : 0.01256179, 
+            "Real estate" : 0.01251644, 
+            "Oil & Gas, and Mining" : 0.00129246, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.015414259999999999, 
+            "Professional" : 0.01412512, 
+            "Master's" : 0.08466753, 
+            "Bachelor's" : 0.11351380999999999, 
+            "Associate's" : 0.11348609, 
+            "Some College" : 0.17984224999999998, 
+            "High School" : 0.36026670000000005, 
+            "Some H.S." : 0.07841588, 
+            "Less than H.S." : 0.03089783, 
+            "None" : 0.00937054
+        }
+    }
+}

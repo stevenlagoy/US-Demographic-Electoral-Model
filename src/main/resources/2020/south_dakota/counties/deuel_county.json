@@ -1,0 +1,114 @@
+{
+    "name" : "Deuel County", 
+	"state" : "South Dakota", 
+	"FIPS" : "46039",
+    "population" : 4309, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.98978881, 
+            "Hispanic" : 0.00696217, 
+            "Black" : 0.0, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00301694, 
+            "Other" : 0.00023207
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0304, 
+            "80-84" : 0.03226, 
+            "75-79" : 0.03945, 
+            "70-74" : 0.03504, 
+            "67-69" : 0.03365, 
+            "65-66" : 0.038290000000000005, 
+            "62-64" : 0.04386, 
+            "60-61" : 0.02947, 
+            "55-59" : 0.07287, 
+            "50-54" : 0.0789, 
+            "45-49" : 0.06127, 
+            "40-44" : 0.05082, 
+            "35-39" : 0.05663, 
+            "30-34" : 0.053840000000000006, 
+            "25-29" : 0.04479, 
+            "22-24" : 0.02878, 
+            "21" : 0.00835, 
+            "20" : 0.0116, 
+            "18-19" : 0.01857, 
+            "15-17" : 0.04131, 
+            "10-14" : 0.07194, 
+            "5-9" : 0.061959999999999994, 
+            "0-4" : 0.05593
+        }, 
+        "household_types" : {
+            "Married" : 0.5778508800000001, 
+            "Single Female" : 0.04879386, 
+            "Single Male" : 0.03508772, 
+            "One-Person" : 0.30921053, 
+            "Other Non-Family" : 0.02905702
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.15411765, 
+                "male" : 0.25963149
+            }, 
+            "Now Married" : {
+                "female" : 0.64058824, 
+                "male" : 0.61250698
+            }, 
+            "Separated" : {
+                "female" : 0.0017647099999999998, 
+                "male" : 0.0033500799999999996
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01529412, 
+                "male" : 0.024008929999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.09647059000000001, 
+                "male" : 0.02903406
+            }, 
+            "Divorced" : {
+                "female" : 0.09176471, 
+                "male" : 0.07146845
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.67743814, 
+            "Unemployed" : 0.01426492, 
+            "Other" : 0.30829694
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.18564676, 
+            "Agriculture" : 0.17103567000000003, 
+            "Healthcare" : 0.10571551, 
+            "Retail" : 0.10055866, 
+            "Construction" : 0.09497206999999999, 
+            "Education" : 0.05070907, 
+            "Other Services" : 0.04899012, 
+            "Finance & Insurance" : 0.04469274, 
+            "Government" : 0.033519549999999995, 
+            "Transportation" : 0.0318006, 
+            "Wholesalers" : 0.03137086, 
+            "Hospitality" : 0.027932959999999996, 
+            "Information" : 0.02363558, 
+            "Utilities" : 0.0159003, 
+            "Professional" : 0.01461109, 
+            "Entertainment" : 0.00730554, 
+            "Administrative" : 0.00558659, 
+            "Real estate" : 0.00429738, 
+            "Oil & Gas, and Mining" : 0.00171895, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00760834, 
+            "Professional" : 0.006285150000000001, 
+            "Master's" : 0.02844856, 
+            "Bachelor's" : 0.15547469, 
+            "Associate's" : 0.10618591000000001, 
+            "Some College" : 0.19781674, 
+            "High School" : 0.41349653000000003, 
+            "Some H.S." : 0.03936487, 
+            "Less than H.S." : 0.03704929, 
+            "None" : 0.00826993
+        }
+    }
+}

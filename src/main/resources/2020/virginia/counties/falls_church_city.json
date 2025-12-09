@@ -1,0 +1,169 @@
+{
+    "name" : "Falls Church City", 
+	"state" : "Virginia", 
+	"FIPS" : "51610",
+    "population" : 13597, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.72089431, 
+            "Hispanic" : 0.09840406, 
+            "Black" : 0.054570860000000006, 
+            "Asian" : 0.09141722, 
+            "Mixed" : 0.03375745, 
+            "Other" : 0.00095609
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01552, 
+            "80-84" : 0.01324, 
+            "75-79" : 0.02611, 
+            "70-74" : 0.027360000000000002, 
+            "67-69" : 0.01942, 
+            "65-66" : 0.02273, 
+            "62-64" : 0.03802, 
+            "60-61" : 0.03721, 
+            "55-59" : 0.05678, 
+            "50-54" : 0.08574999999999999, 
+            "45-49" : 0.07502, 
+            "40-44" : 0.06913, 
+            "35-39" : 0.07127, 
+            "30-34" : 0.07002, 
+            "25-29" : 0.05847, 
+            "22-24" : 0.03273, 
+            "21" : 0.00699, 
+            "20" : 0.01184, 
+            "18-19" : 0.01552, 
+            "15-17" : 0.04008, 
+            "10-14" : 0.07127, 
+            "5-9" : 0.0709, 
+            "0-4" : 0.06465
+        }, 
+        "household_types" : {
+            "Married" : 0.49688738, 
+            "Single Female" : 0.09790606, 
+            "Single Male" : 0.021316730000000002, 
+            "One-Person" : 0.33163553999999995, 
+            "Other Non-Family" : 0.05225429
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.29957657, 
+                "male" : 0.33300762
+            }, 
+            "Now Married" : {
+                "female" : 0.46242061, 
+                "male" : 0.5260895099999999
+            }, 
+            "Separated" : {
+                "female" : 0.02328864, 
+                "male" : 0.027946059999999998
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02399435, 
+                "male" : 0.03556772
+            }, 
+            "Widowed" : {
+                "female" : 0.07745236, 
+                "male" : 0.00469025
+            }, 
+            "Divorced" : {
+                "female" : 0.11326747, 
+                "male" : 0.07269885000000001
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.29999265, 
+            "English" : 0.1709936, 
+            "German" : 0.17092006, 
+            "Irish" : 0.13819225, 
+            "Unclassified" : 0.09185850000000001, 
+            "Scottish" : 0.06611753000000001, 
+            "Italian" : 0.0530264, 
+            "American" : 0.0505994, 
+            "Polish" : 0.04317129, 
+            "European" : 0.03552254, 
+            "Russian" : 0.03552254, 
+            "Swedish" : 0.02640288, 
+            "Northern European" : 0.01654777, 
+            "French" : 0.01603295, 
+            "Norwegian" : 0.01456204, 
+            "British" : 0.01345885, 
+            "Subsaharan African" : 0.011914389999999999, 
+            "Welsh" : 0.011620209999999999, 
+            "Finnish" : 0.009708020000000001, 
+            "French Canadian" : 0.009708020000000001, 
+            "Central American" : 0.32765011, 
+            "Mexican" : 0.03251, 
+            "South American" : 0.29725723, 
+            "Salvadoran" : 0.02949, 
+            "Guatemalan" : 0.20385471, 
+            "Other Hispanic" : 0.02023, 
+            "Nicaraguan" : 0.12898443, 
+            "Puerto Rican" : 0.0128, 
+            "Peruvian" : 0.08969607, 
+            "Argentinean" : 0.0089, 
+            "Colombian" : 0.08154188, 
+            "Cuban" : 0.00809, 
+            "Honduran" : 0.07635285, 
+            "Costa Rican" : 0.00758, 
+            "Bolivian" : 0.06819867, 
+            "Uruguayan" : 0.006770000000000001, 
+            "Spaniard" : 0.06375093, 
+            "Spanish" : 0.00632, 
+            "Ecuadorian" : 0.056338030000000004, 
+            "Venezuelan" : 0.00559, 
+            "Indian" : 0.33950121000000005, 
+            "Chinese" : 0.03104, 
+            "Vietnamese" : 0.1536605, 
+            "Filipino" : 0.01405, 
+            "Korean" : 0.13757039000000001, 
+            "Indonesian" : 0.012580000000000001, 
+            "Cambodian" : 0.13193886, 
+            "Not Specified" : 0.01206, 
+            "Taiwanese" : 0.10136766, 
+            "Thai" : 0.00927, 
+            "Japanese" : 0.03378922, 
+            "Laotian" : 0.00309, 
+            "Mixed" : 0.028157679999999997
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.006451, 
+            "Employed" : 0.72877336, 
+            "Unemployed" : 0.040793090000000004, 
+            "Other" : 0.22398254
+        }, 
+        "industries" : {
+            "Professional" : 0.22624317000000002, 
+            "Government" : 0.21648008000000002, 
+            "Education" : 0.09489716, 
+            "Other Services" : 0.07524082, 
+            "Retail" : 0.0743296, 
+            "Healthcare" : 0.05415256, 
+            "Hospitality" : 0.04035407, 
+            "Real estate" : 0.03944285, 
+            "Administrative" : 0.03801093, 
+            "Finance & Insurance" : 0.03722989, 
+            "Manufacturing" : 0.03215309, 
+            "Information" : 0.02278053, 
+            "Construction" : 0.02004686, 
+            "Entertainment" : 0.01614163, 
+            "Transportation" : 0.005988019999999999, 
+            "Wholesalers" : 0.00481645, 
+            "Utilities" : 0.0016922699999999998, 
+            "Agriculture" : 0.0, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.05606775, 
+            "Professional" : 0.09080189000000001, 
+            "Master's" : 0.2811964, 
+            "Bachelor's" : 0.37403516000000003, 
+            "Associate's" : 0.029909949999999998, 
+            "Some College" : 0.08286878, 
+            "High School" : 0.06464407999999999, 
+            "Some H.S." : 0.01479417, 
+            "Less than H.S." : 0.00471698, 
+            "None" : 0.00096484
+        }
+    }
+}

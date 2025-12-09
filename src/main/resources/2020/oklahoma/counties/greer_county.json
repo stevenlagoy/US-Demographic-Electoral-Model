@@ -1,0 +1,114 @@
+{
+    "name" : "Greer County", 
+	"state" : "Oklahoma", 
+	"FIPS" : "40055",
+    "population" : 6081, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.7592501199999999, 
+            "Hispanic" : 0.10672587, 
+            "Black" : 0.07728992, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02088472, 
+            "Other" : 0.03584937
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03601, 
+            "80-84" : 0.024009999999999997, 
+            "75-79" : 0.030590000000000003, 
+            "70-74" : 0.0393, 
+            "67-69" : 0.01973, 
+            "65-66" : 0.03667, 
+            "62-64" : 0.02483, 
+            "60-61" : 0.020059999999999998, 
+            "55-59" : 0.08288000000000001, 
+            "50-54" : 0.07384, 
+            "45-49" : 0.04391, 
+            "40-44" : 0.07466, 
+            "35-39" : 0.07876999999999999, 
+            "30-34" : 0.07778, 
+            "25-29" : 0.045880000000000004, 
+            "22-24" : 0.03453, 
+            "21" : 0.01924, 
+            "20" : 0.00904, 
+            "18-19" : 0.03601, 
+            "15-17" : 0.03536, 
+            "10-14" : 0.04045, 
+            "5-9" : 0.05953, 
+            "0-4" : 0.056900000000000006
+        }, 
+        "household_types" : {
+            "Married" : 0.42809682000000004, 
+            "Single Female" : 0.13004271, 
+            "Single Male" : 0.046511630000000005, 
+            "One-Person" : 0.35358329, 
+            "Other Non-Family" : 0.041765540000000004
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.21984805000000002, 
+                "male" : 0.40483283999999997
+            }, 
+            "Now Married" : {
+                "female" : 0.43684710000000004, 
+                "male" : 0.29195631
+            }, 
+            "Separated" : {
+                "female" : 0.01424501, 
+                "male" : 0.048328369999999995
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01709402, 
+                "male" : 0.03972195
+            }, 
+            "Widowed" : {
+                "female" : 0.11728395000000001, 
+                "male" : 0.0387289
+            }, 
+            "Divorced" : {
+                "female" : 0.19468185999999998, 
+                "male" : 0.17643165
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.43709392, 
+            "Unemployed" : 0.028942709999999996, 
+            "Other" : 0.53396338
+        }, 
+        "industries" : {
+            "Healthcare" : 0.15045045, 
+            "Government" : 0.11711712, 
+            "Retail" : 0.0972973, 
+            "Oil & Gas, and Mining" : 0.07747748, 
+            "Education" : 0.07342342, 
+            "Construction" : 0.07027027000000001, 
+            "Other Services" : 0.06936937, 
+            "Hospitality" : 0.06846847, 
+            "Agriculture" : 0.058108110000000004, 
+            "Entertainment" : 0.03873874, 
+            "Transportation" : 0.036486489999999996, 
+            "Finance & Insurance" : 0.03333333, 
+            "Professional" : 0.02972973, 
+            "Manufacturing" : 0.02792793, 
+            "Real estate" : 0.02027027, 
+            "Information" : 0.01576577, 
+            "Administrative" : 0.01171171, 
+            "Utilities" : 0.00405405, 
+            "Wholesalers" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00092786, 
+            "Professional" : 0.0067269800000000005, 
+            "Master's" : 0.03201113, 
+            "Bachelor's" : 0.10438413, 
+            "Associate's" : 0.060310829999999996, 
+            "Some College" : 0.27882162, 
+            "High School" : 0.37485502, 
+            "Some H.S." : 0.11830202, 
+            "Less than H.S." : 0.02064486, 
+            "None" : 0.0030155399999999997
+        }
+    }
+}

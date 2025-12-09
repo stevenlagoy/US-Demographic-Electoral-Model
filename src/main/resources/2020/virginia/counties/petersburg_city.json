@@ -1,0 +1,146 @@
+{
+    "name" : "Petersburg City", 
+	"state" : "Virginia", 
+	"FIPS" : "51730",
+    "population" : 31997, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.14988905, 
+            "Hispanic" : 0.04203519, 
+            "Black" : 0.76813451, 
+            "Asian" : 0.01140732, 
+            "Mixed" : 0.023283429999999997, 
+            "Other" : 0.00525049
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02335, 
+            "80-84" : 0.02419, 
+            "75-79" : 0.02185, 
+            "70-74" : 0.0365, 
+            "67-69" : 0.03028, 
+            "65-66" : 0.02038, 
+            "62-64" : 0.042190000000000005, 
+            "60-61" : 0.02894, 
+            "55-59" : 0.06819, 
+            "50-54" : 0.07335, 
+            "45-49" : 0.07191, 
+            "40-44" : 0.04716, 
+            "35-39" : 0.05376, 
+            "30-34" : 0.06294, 
+            "25-29" : 0.08607, 
+            "22-24" : 0.0516, 
+            "21" : 0.01838, 
+            "20" : 0.01594, 
+            "18-19" : 0.01738, 
+            "15-17" : 0.03097, 
+            "10-14" : 0.046189999999999995, 
+            "5-9" : 0.058440000000000006, 
+            "0-4" : 0.07003999999999999
+        }, 
+        "household_types" : {
+            "Married" : 0.26436433000000004, 
+            "Single Female" : 0.25001898, 
+            "Single Male" : 0.040531309999999994, 
+            "One-Person" : 0.37753321, 
+            "Other Non-Family" : 0.06755218
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.42039801, 
+                "male" : 0.47696046000000003
+            }, 
+            "Now Married" : {
+                "female" : 0.24488668, 
+                "male" : 0.30244637999999996
+            }, 
+            "Separated" : {
+                "female" : 0.05396628, 
+                "male" : 0.03937668
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.021558869999999997, 
+                "male" : 0.02789879
+            }, 
+            "Widowed" : {
+                "female" : 0.13087341, 
+                "male" : 0.03007708
+            }, 
+            "Divorced" : {
+                "female" : 0.12831675, 
+                "male" : 0.12324062
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.7057849199999999, 
+            "Unclassified" : 0.14929525, 
+            "German" : 0.03687846, 
+            "American" : 0.03600338, 
+            "English" : 0.027783850000000002, 
+            "Irish" : 0.026252460000000002, 
+            "Subsaharan African" : 0.01862675, 
+            "African" : 0.01847048, 
+            "West Indian" : 0.00887583, 
+            "European" : 0.00825077, 
+            "Jamaican" : 0.00634434, 
+            "Italian" : 0.00631309, 
+            "Mexican" : 0.42807505, 
+            "Puerto Rican" : 0.01925, 
+            "Central American" : 0.39819319, 
+            "Guatemalan" : 0.01791, 
+            "South American" : 0.11188325, 
+            "Colombian" : 0.00503, 
+            "Peruvian" : 0.07922168, 
+            "Other Hispanic" : 0.00356, 
+            "Panamanian" : 0.03613621, 
+            "Salvadoran" : 0.0016300000000000002, 
+            "Dominican" : 0.0180681, 
+            "Spaniard" : 0.0008100000000000001, 
+            "Filipino" : 0.46575342, 
+            "Japanese" : 0.0053100000000000005, 
+            "Korean" : 0.21643836, 
+            "Indian" : 0.00247, 
+            "Thai" : 0.15616438, 
+            "Laotian" : 0.00178
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.011982489999999998, 
+            "Employed" : 0.49777248999999996, 
+            "Unemployed" : 0.0788079, 
+            "Other" : 0.41143713
+        }, 
+        "industries" : {
+            "Healthcare" : 0.20561685000000002, 
+            "Retail" : 0.14466476, 
+            "Manufacturing" : 0.11465165000000001, 
+            "Hospitality" : 0.09852635, 
+            "Government" : 0.07746316, 
+            "Transportation" : 0.06342103, 
+            "Administrative" : 0.06172363, 
+            "Education" : 0.05385387, 
+            "Other Services" : 0.044055239999999996, 
+            "Construction" : 0.03417946, 
+            "Professional" : 0.025229529999999997, 
+            "Finance & Insurance" : 0.0212175, 
+            "Wholesalers" : 0.01396497, 
+            "Entertainment" : 0.01226757, 
+            "Information" : 0.0101844, 
+            "Utilities" : 0.00894993, 
+            "Real estate" : 0.00856415, 
+            "Agriculture" : 0.00146594, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00759768, 
+            "Professional" : 0.00886397, 
+            "Master's" : 0.052324529999999994, 
+            "Bachelor's" : 0.09709659999999999, 
+            "Associate's" : 0.05426918, 
+            "Some College" : 0.23652315000000002, 
+            "High School" : 0.33009225999999997, 
+            "Some H.S." : 0.14195912, 
+            "Less than H.S." : 0.04897793, 
+            "None" : 0.02229559
+        }
+    }
+}

@@ -1,0 +1,136 @@
+{
+    "name" : "Norton City", 
+	"state" : "Virginia", 
+	"FIPS" : "51720",
+    "population" : 3978, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.86324786, 
+            "Hispanic" : 0.025892409999999998, 
+            "Black" : 0.059577679999999994, 
+            "Asian" : 0.0331825, 
+            "Mixed" : 0.0173454, 
+            "Other" : 0.00075415
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01131, 
+            "80-84" : 0.01207, 
+            "75-79" : 0.03017, 
+            "70-74" : 0.03846, 
+            "67-69" : 0.03469, 
+            "65-66" : 0.028149999999999998, 
+            "62-64" : 0.07868, 
+            "60-61" : 0.01257, 
+            "55-59" : 0.06234, 
+            "50-54" : 0.05882, 
+            "45-49" : 0.060579999999999995, 
+            "40-44" : 0.06486, 
+            "35-39" : 0.06109, 
+            "30-34" : 0.07994, 
+            "25-29" : 0.07014000000000001, 
+            "22-24" : 0.05178, 
+            "21" : 0.01433, 
+            "20" : 0.01383, 
+            "18-19" : 0.01307, 
+            "15-17" : 0.02665, 
+            "10-14" : 0.0641, 
+            "5-9" : 0.021869999999999997, 
+            "0-4" : 0.09050000000000001
+        }, 
+        "household_types" : {
+            "Married" : 0.30355221, 
+            "Single Female" : 0.12486544999999999, 
+            "Single Male" : 0.07750269, 
+            "One-Person" : 0.43218514999999996, 
+            "Other Non-Family" : 0.06189451
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.20740338000000003, 
+                "male" : 0.25017373
+            }, 
+            "Now Married" : {
+                "female" : 0.35220468, 
+                "male" : 0.42112578
+            }, 
+            "Separated" : {
+                "female" : 0.06586826, 
+                "male" : 0.02432245
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0190528, 
+                "male" : 0.04030577
+            }, 
+            "Widowed" : {
+                "female" : 0.07947741, 
+                "male" : 0.0514246
+            }, 
+            "Divorced" : {
+                "female" : 0.27599347, 
+                "male" : 0.21264766999999998
+            }
+        }, 
+        "ancestry" : {
+            "American" : 0.29210659, 
+            "Unclassified" : 0.20965309000000001, 
+            "Other" : 0.19155354, 
+            "Irish" : 0.10532931, 
+            "German" : 0.09627954000000001, 
+            "English" : 0.02916038, 
+            "Italian" : 0.02815485, 
+            "European" : 0.027400699999999997, 
+            "French" : 0.02187029, 
+            "Scottish" : 0.01407743, 
+            "Scotch-Irish" : 0.01382604, 
+            "British" : 0.00955254, 
+            "Hungarian" : 0.00904977, 
+            "Polish" : 0.00703871, 
+            "Greek" : 0.0052790300000000005, 
+            "Mexican" : 0.76699029, 
+            "Central American" : 0.01986, 
+            "Guatemalan" : 0.23300971, 
+            "Filipino" : 0.91666667, 
+            "Indian" : 0.03042
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.5375, 
+            "Unemployed" : 0.084375, 
+            "Other" : 0.378125
+        }, 
+        "industries" : {
+            "Healthcare" : 0.18488371999999997, 
+            "Retail" : 0.15232558, 
+            "Hospitality" : 0.11337209, 
+            "Administrative" : 0.10232557999999999, 
+            "Education" : 0.08779070000000001, 
+            "Professional" : 0.08023256, 
+            "Government" : 0.07616279, 
+            "Manufacturing" : 0.05755814, 
+            "Construction" : 0.03488372, 
+            "Oil & Gas, and Mining" : 0.03255814, 
+            "Other Services" : 0.03023256, 
+            "Information" : 0.01918605, 
+            "Agriculture" : 0.011627909999999998, 
+            "Utilities" : 0.00988372, 
+            "Entertainment" : 0.00697674, 
+            "Wholesalers" : 0.0, 
+            "Transportation" : 0.0, 
+            "Finance & Insurance" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0032142900000000003, 
+            "Professional" : 0.0032142900000000003, 
+            "Master's" : 0.045714290000000005, 
+            "Bachelor's" : 0.12107143000000001, 
+            "Associate's" : 0.1225, 
+            "Some College" : 0.30035713999999997, 
+            "High School" : 0.23178571, 
+            "Some H.S." : 0.10714285999999999, 
+            "Less than H.S." : 0.055, 
+            "None" : 0.01
+        }
+    }
+}

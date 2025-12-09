@@ -1,0 +1,114 @@
+{
+    "name" : "Saluda County", 
+	"state" : "South Carolina", 
+	"FIPS" : "45081",
+    "population" : 20113, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.58230995, 
+            "Hispanic" : 0.14652215, 
+            "Black" : 0.25645105, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.01372247, 
+            "Other" : 0.00099438
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02168, 
+            "80-84" : 0.02844, 
+            "75-79" : 0.02551, 
+            "70-74" : 0.05459, 
+            "67-69" : 0.02754, 
+            "65-66" : 0.023319999999999997, 
+            "62-64" : 0.03396, 
+            "60-61" : 0.02605, 
+            "55-59" : 0.07831, 
+            "50-54" : 0.07348, 
+            "45-49" : 0.06324, 
+            "40-44" : 0.05777, 
+            "35-39" : 0.06125, 
+            "30-34" : 0.06091, 
+            "25-29" : 0.05449, 
+            "22-24" : 0.036789999999999996, 
+            "21" : 0.00885, 
+            "20" : 0.01203, 
+            "18-19" : 0.02749, 
+            "15-17" : 0.0355, 
+            "10-14" : 0.058120000000000005, 
+            "5-9" : 0.06608, 
+            "0-4" : 0.06459
+        }, 
+        "household_types" : {
+            "Married" : 0.53377428, 
+            "Single Female" : 0.13256403, 
+            "Single Male" : 0.06445258, 
+            "One-Person" : 0.23290177, 
+            "Other Non-Family" : 0.03630735
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.27843471999999997, 
+                "male" : 0.35720449000000004
+            }, 
+            "Now Married" : {
+                "female" : 0.47287578, 
+                "male" : 0.46801430000000005
+            }, 
+            "Separated" : {
+                "female" : 0.022552720000000002, 
+                "male" : 0.0234192
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.016579299999999998, 
+                "male" : 0.04190805
+            }, 
+            "Widowed" : {
+                "female" : 0.12605144, 
+                "male" : 0.01774929
+            }, 
+            "Divorced" : {
+                "female" : 0.08350603, 
+                "male" : 0.09170467
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00509538, 
+            "Employed" : 0.52159324, 
+            "Unemployed" : 0.04300006, 
+            "Other" : 0.43031132
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.17095544000000001, 
+            "Retail" : 0.11246128000000001, 
+            "Healthcare" : 0.10793424, 
+            "Agriculture" : 0.08601381999999999, 
+            "Construction" : 0.07958065, 
+            "Education" : 0.07255181999999999, 
+            "Government" : 0.06468905999999999, 
+            "Other Services" : 0.048963549999999995, 
+            "Transportation" : 0.045627829999999994, 
+            "Administrative" : 0.03681201, 
+            "Finance & Insurance" : 0.03538242, 
+            "Hospitality" : 0.03121277, 
+            "Wholesalers" : 0.02704313, 
+            "Professional" : 0.02394568, 
+            "Utilities" : 0.02037169, 
+            "Information" : 0.01644031, 
+            "Entertainment" : 0.013581129999999999, 
+            "Real estate" : 0.00643317, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00496796, 
+            "Professional" : 0.006983939999999999, 
+            "Master's" : 0.04507164, 
+            "Bachelor's" : 0.10900713, 
+            "Associate's" : 0.09086327000000001, 
+            "Some College" : 0.15573475, 
+            "High School" : 0.36827705, 
+            "Some H.S." : 0.11469507999999999, 
+            "Less than H.S." : 0.06609547, 
+            "None" : 0.03830369
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name" : "Allendale County", 
+	"state" : "South Carolina", 
+	"FIPS" : "45005",
+    "population" : 9589, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.22692669, 
+            "Hispanic" : 0.028678689999999996, 
+            "Black" : 0.73938888, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00260715, 
+            "Other" : 0.00239858
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0121, 
+            "80-84" : 0.028050000000000002, 
+            "75-79" : 0.0121, 
+            "70-74" : 0.03827, 
+            "67-69" : 0.04474, 
+            "65-66" : 0.03243, 
+            "62-64" : 0.03191, 
+            "60-61" : 0.03275, 
+            "55-59" : 0.07665, 
+            "50-54" : 0.06507, 
+            "45-49" : 0.0584, 
+            "40-44" : 0.056420000000000005, 
+            "35-39" : 0.08207, 
+            "30-34" : 0.06966, 
+            "25-29" : 0.05016, 
+            "22-24" : 0.058609999999999995, 
+            "21" : 0.0146, 
+            "20" : 0.010320000000000001, 
+            "18-19" : 0.02638, 
+            "15-17" : 0.03275, 
+            "10-14" : 0.06174, 
+            "5-9" : 0.052140000000000006, 
+            "0-4" : 0.05266
+        }, 
+        "household_types" : {
+            "Married" : 0.31039618999999996, 
+            "Single Female" : 0.23801013000000001, 
+            "Single Male" : 0.06940721, 
+            "One-Person" : 0.36282395, 
+            "Other Non-Family" : 0.01936253
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.35354909, 
+                "male" : 0.53186559
+            }, 
+            "Now Married" : {
+                "female" : 0.30024476, 
+                "male" : 0.25701043
+            }, 
+            "Separated" : {
+                "female" : 0.05738374, 
+                "male" : 0.02804171
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.017677449999999997, 
+                "male" : 0.02387022
+            }, 
+            "Widowed" : {
+                "female" : 0.16018493, 
+                "male" : 0.0387022
+            }, 
+            "Divorced" : {
+                "female" : 0.11096002, 
+                "male" : 0.12050985
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.35179318000000004, 
+            "Unemployed" : 0.07565581, 
+            "Other" : 0.5725510100000001
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.21793948, 
+            "Healthcare" : 0.14769452, 
+            "Education" : 0.13004322999999998, 
+            "Retail" : 0.11995677, 
+            "Government" : 0.10554755, 
+            "Hospitality" : 0.05763689, 
+            "Agriculture" : 0.05151297, 
+            "Transportation" : 0.03782421, 
+            "Construction" : 0.03638329, 
+            "Other Services" : 0.028458209999999998, 
+            "Administrative" : 0.02053314, 
+            "Professional" : 0.015129680000000001, 
+            "Wholesalers" : 0.00936599, 
+            "Finance & Insurance" : 0.007564840000000001, 
+            "Utilities" : 0.006484149999999999, 
+            "Information" : 0.00432277, 
+            "Entertainment" : 0.00360231, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00347222, 
+            "Professional" : 0.0, 
+            "Master's" : 0.01539855, 
+            "Bachelor's" : 0.07940820999999999, 
+            "Associate's" : 0.07638889, 
+            "Some College" : 0.16425121, 
+            "High School" : 0.40685386, 
+            "Some H.S." : 0.16410024, 
+            "Less than H.S." : 0.07835145, 
+            "None" : 0.011775359999999999
+        }
+    }
+}

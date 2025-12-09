@@ -1,0 +1,114 @@
+{
+    "name" : "Motley County", 
+	"state" : "Texas", 
+	"FIPS" : "48345",
+    "population" : 1022, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.86399217, 
+            "Hispanic" : 0.11154599, 
+            "Black" : 0.00293542, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02152642, 
+            "Other" : 0.0
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03229, 
+            "80-84" : 0.04305, 
+            "75-79" : 0.05773, 
+            "70-74" : 0.08414999999999999, 
+            "67-69" : 0.04402999999999999, 
+            "65-66" : 0.04599, 
+            "62-64" : 0.03033, 
+            "60-61" : 0.01761, 
+            "55-59" : 0.05088, 
+            "50-54" : 0.06067, 
+            "45-49" : 0.06947, 
+            "40-44" : 0.042069999999999996, 
+            "35-39" : 0.01859, 
+            "30-34" : 0.07143, 
+            "25-29" : 0.023479999999999997, 
+            "22-24" : 0.041100000000000005, 
+            "21" : 0.02153, 
+            "20" : 0.00978, 
+            "18-19" : 0.03229, 
+            "15-17" : 0.051859999999999996, 
+            "10-14" : 0.058710000000000005, 
+            "5-9" : 0.04599, 
+            "0-4" : 0.04697
+        }, 
+        "household_types" : {
+            "Married" : 0.49263157999999996, 
+            "Single Female" : 0.07789474, 
+            "Single Male" : 0.01052632, 
+            "One-Person" : 0.39578947, 
+            "Other Non-Family" : 0.02315789
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14769975999999999, 
+                "male" : 0.23788546
+            }, 
+            "Now Married" : {
+                "female" : 0.5326876500000001, 
+                "male" : 0.52202643
+            }, 
+            "Separated" : {
+                "female" : 0.043583540000000004, 
+                "male" : 0.04845815
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.03874092, 
+                "male" : 0.0
+            }, 
+            "Widowed" : {
+                "female" : 0.15496368, 
+                "male" : 0.02643172
+            }, 
+            "Divorced" : {
+                "female" : 0.08232445999999999, 
+                "male" : 0.16519824
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.52892562, 
+            "Unemployed" : 0.05903188, 
+            "Other" : 0.41204250000000003
+        }, 
+        "industries" : {
+            "Agriculture" : 0.25, 
+            "Healthcare" : 0.12053571, 
+            "Construction" : 0.09821429, 
+            "Government" : 0.09151785999999999, 
+            "Retail" : 0.08928571, 
+            "Transportation" : 0.07366071, 
+            "Other Services" : 0.0625, 
+            "Education" : 0.05803571, 
+            "Hospitality" : 0.03794643, 
+            "Finance & Insurance" : 0.03571429, 
+            "Information" : 0.022321430000000003, 
+            "Entertainment" : 0.022321430000000003, 
+            "Administrative" : 0.01785714, 
+            "Wholesalers" : 0.00892857, 
+            "Manufacturing" : 0.00669643, 
+            "Utilities" : 0.00446429, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Real estate" : 0.0, 
+            "Professional" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01131542, 
+            "Professional" : 0.0, 
+            "Master's" : 0.01697313, 
+            "Bachelor's" : 0.145686, 
+            "Associate's" : 0.04384724, 
+            "Some College" : 0.31824611, 
+            "High School" : 0.34794908, 
+            "Some H.S." : 0.062234790000000005, 
+            "Less than H.S." : 0.05374823, 
+            "None" : 0.0
+        }
+    }
+}

@@ -1,0 +1,154 @@
+{
+    "name" : "Danville City", 
+	"state" : "Virginia", 
+	"FIPS" : "51590",
+    "population" : 42360, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.44386212999999997, 
+            "Hispanic" : 0.03293201, 
+            "Black" : 0.49119452, 
+            "Asian" : 0.01069405, 
+            "Mixed" : 0.019782809999999998, 
+            "Other" : 0.00153447
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.03274, 
+            "80-84" : 0.027200000000000002, 
+            "75-79" : 0.03466, 
+            "70-74" : 0.040510000000000004, 
+            "67-69" : 0.0339, 
+            "65-66" : 0.02703, 
+            "62-64" : 0.04315, 
+            "60-61" : 0.03019, 
+            "55-59" : 0.07035, 
+            "50-54" : 0.06582, 
+            "45-49" : 0.06006, 
+            "40-44" : 0.04995, 
+            "35-39" : 0.05152999999999999, 
+            "30-34" : 0.056870000000000004, 
+            "25-29" : 0.06457, 
+            "22-24" : 0.04256, 
+            "21" : 0.0128, 
+            "20" : 0.01348, 
+            "18-19" : 0.023559999999999998, 
+            "15-17" : 0.03444, 
+            "10-14" : 0.055670000000000004, 
+            "5-9" : 0.06629, 
+            "0-4" : 0.06268
+        }, 
+        "household_types" : {
+            "Married" : 0.33361926, 
+            "Single Female" : 0.19873479, 
+            "Single Male" : 0.04792795, 
+            "One-Person" : 0.37114673000000004, 
+            "Other Non-Family" : 0.04857128
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.30345805, 
+                "male" : 0.3804418
+            }, 
+            "Now Married" : {
+                "female" : 0.32733379, 
+                "male" : 0.40434052000000004
+            }, 
+            "Separated" : {
+                "female" : 0.070053, 
+                "male" : 0.042565559999999995
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02471533, 
+                "male" : 0.024221680000000002
+            }, 
+            "Widowed" : {
+                "female" : 0.13921393999999998, 
+                "male" : 0.03991732
+            }, 
+            "Divorced" : {
+                "female" : 0.13522589999999998, 
+                "male" : 0.10851311000000001
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.46520302, 
+            "Unclassified" : 0.21038716000000002, 
+            "American" : 0.16657223999999998, 
+            "Irish" : 0.05573654, 
+            "English" : 0.05512276, 
+            "German" : 0.04851275, 
+            "Italian" : 0.012370159999999998, 
+            "Scotch-Irish" : 0.01161473, 
+            "Subsaharan African" : 0.01010387, 
+            "Scottish" : 0.00991501, 
+            "African" : 0.008002829999999999, 
+            "Dutch" : 0.00620869, 
+            "European" : 0.0060906499999999995, 
+            "West Indian" : 0.00547686, 
+            "Polish" : 0.00542965, 
+            "Mexican" : 0.56287031, 
+            "Central American" : 0.020179999999999997, 
+            "South American" : 0.11454905, 
+            "Puerto Rican" : 0.00411, 
+            "Dominican" : 0.10204081999999999, 
+            "Honduran" : 0.00366, 
+            "Other Hispanic" : 0.07702436, 
+            "Colombian" : 0.0027600000000000003, 
+            "Salvadoran" : 0.0757077, 
+            "Venezuelan" : 0.00271, 
+            "Spanish" : 0.0757077, 
+            "Uruguayan" : 0.00271, 
+            "Bolivian" : 0.06319947, 
+            "Nicaraguan" : 0.00227, 
+            "Peruvian" : 0.03291639, 
+            "Indian" : 0.49668874, 
+            "Chinese" : 0.0053100000000000005, 
+            "Pakistani" : 0.16777042, 
+            "Filipino" : 0.00179, 
+            "Japanese" : 0.13465784, 
+            "Nepalese" : 0.0014399999999999999, 
+            "Korean" : 0.07505519, 
+            "Vietnamese" : 0.0008
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0008525099999999999, 
+            "Employed" : 0.49378252000000006, 
+            "Unemployed" : 0.06620219, 
+            "Other" : 0.43916277000000004
+        }, 
+        "industries" : {
+            "Healthcare" : 0.20164315, 
+            "Manufacturing" : 0.16074299, 
+            "Retail" : 0.12960648, 
+            "Education" : 0.08959932999999999, 
+            "Hospitality" : 0.08060962999999999, 
+            "Government" : 0.049354050000000003, 
+            "Construction" : 0.04631779, 
+            "Administrative" : 0.037625769999999996, 
+            "Other Services" : 0.0375067, 
+            "Professional" : 0.03530392, 
+            "Finance & Insurance" : 0.03375603, 
+            "Transportation" : 0.03089837, 
+            "Wholesalers" : 0.01732452, 
+            "Information" : 0.01464547, 
+            "Real estate" : 0.013038039999999999, 
+            "Entertainment" : 0.00791808, 
+            "Utilities" : 0.00773948, 
+            "Agriculture" : 0.0033934599999999996, 
+            "Oil & Gas, and Mining" : 0.00250045, 
+            "Management" : 0.00047628
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.008365909999999999, 
+            "Professional" : 0.01590894, 
+            "Master's" : 0.04320099, 
+            "Bachelor's" : 0.11461976, 
+            "Associate's" : 0.09634506, 
+            "Some College" : 0.23784544, 
+            "High School" : 0.28138929, 
+            "Some H.S." : 0.12833436, 
+            "Less than H.S." : 0.05585271, 
+            "None" : 0.01813756
+        }
+    }
+}

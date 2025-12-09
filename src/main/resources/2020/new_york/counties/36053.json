@@ -1,0 +1,166 @@
+{
+    "name" : "Madison County", 
+	"state" : "New York", 
+	"FIPS" : "36053",
+    "population" : 72089, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.93494153, 
+            "Hispanic" : 0.01721483, 
+            "Black" : 0.02054405, 
+            "Asian" : 0.00855886, 
+            "Mixed" : 0.011971309999999999, 
+            "Other" : 0.00676941
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01942, 
+            "80-84" : 0.01907, 
+            "75-79" : 0.02902, 
+            "70-74" : 0.04073, 
+            "67-69" : 0.02921, 
+            "65-66" : 0.02158, 
+            "62-64" : 0.0421, 
+            "60-61" : 0.02912, 
+            "55-59" : 0.07386999999999999, 
+            "50-54" : 0.07917, 
+            "45-49" : 0.07012, 
+            "40-44" : 0.056900000000000006, 
+            "35-39" : 0.04947, 
+            "30-34" : 0.050039999999999994, 
+            "25-29" : 0.05056, 
+            "22-24" : 0.0345, 
+            "21" : 0.02758, 
+            "20" : 0.025, 
+            "18-19" : 0.04999, 
+            "15-17" : 0.03949, 
+            "10-14" : 0.057370000000000004, 
+            "5-9" : 0.058890000000000005, 
+            "0-4" : 0.046799999999999994
+        }, 
+        "household_types" : {
+            "Married" : 0.51211669, 
+            "Single Female" : 0.09873282, 
+            "Single Male" : 0.0446767, 
+            "One-Person" : 0.27694192, 
+            "Other Non-Family" : 0.06753187
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.3124131, 
+                "male" : 0.37457068
+            }, 
+            "Now Married" : {
+                "female" : 0.44459534, 
+                "male" : 0.4611147
+            }, 
+            "Separated" : {
+                "female" : 0.027096059999999998, 
+                "male" : 0.023837860000000002
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.013774370000000001, 
+                "male" : 0.015642529999999998
+            }, 
+            "Widowed" : {
+                "female" : 0.08141753, 
+                "male" : 0.029210729999999997
+            }, 
+            "Divorced" : {
+                "female" : 0.12070359, 
+                "male" : 0.09562348999999999
+            }
+        }, 
+        "ancestry" : {
+            "American" : 0.27946011, 
+            "German" : 0.16200807, 
+            "Irish" : 0.15761073, 
+            "Unclassified" : 0.13413974, 
+            "English" : 0.12404111999999999, 
+            "Other" : 0.09934942, 
+            "Italian" : 0.08560252, 
+            "Polish" : 0.05089542, 
+            "French" : 0.04076905, 
+            "Dutch" : 0.02727184, 
+            "Welsh" : 0.01953141, 
+            "Scottish" : 0.01733968, 
+            "French Canadian" : 0.01622994, 
+            "European" : 0.00979345, 
+            "Swedish" : 0.00747687, 
+            "Russian" : 0.00620067, 
+            "Ukrainian" : 0.00614518, 
+            "Scotch-Irish" : 0.00511867, 
+            "Arab" : 0.00504931, 
+            "Puerto Rican" : 0.27997275, 
+            "Mexican" : 0.005699999999999999, 
+            "Other Hispanic" : 0.21389645999999998, 
+            "Central American" : 0.00436, 
+            "South American" : 0.20367847, 
+            "Spaniard" : 0.00415, 
+            "Honduran" : 0.13079019, 
+            "Spanish" : 0.00266, 
+            "Argentinean" : 0.12125341, 
+            "Cuban" : 0.00247, 
+            "Guatemalan" : 0.08651226, 
+            "Colombian" : 0.0017599999999999998, 
+            "Peruvian" : 0.05517711, 
+            "Salvadoran" : 0.0011200000000000001, 
+            "Panamanian" : 0.04564033, 
+            "Dominican" : 0.0009299999999999999, 
+            "Chilean" : 0.040190739999999996, 
+            "Ecuadorian" : 0.00082, 
+            "Costa Rican" : 0.038147139999999996, 
+            "Chinese" : 0.23987034000000002, 
+            "Filipino" : 0.0020499999999999997, 
+            "Japanese" : 0.16531605, 
+            "Indian" : 0.0014099999999999998, 
+            "Korean" : 0.16369530000000002, 
+            "Taiwanese" : 0.0014000000000000002, 
+            "Pakistani" : 0.12479741000000001, 
+            "Bangladeshi" : 0.00107, 
+            "Vietnamese" : 0.09562398999999999, 
+            "Cambodian" : 0.00082, 
+            "Laotian" : 0.07617504, 
+            "Thai" : 0.00065
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0013613, 
+            "Employed" : 0.55946019, 
+            "Unemployed" : 0.02857047, 
+            "Other" : 0.41060805
+        }, 
+        "industries" : {
+            "Education" : 0.15275316, 
+            "Healthcare" : 0.13620115, 
+            "Retail" : 0.10988614999999999, 
+            "Manufacturing" : 0.10571059999999999, 
+            "Hospitality" : 0.06449578, 
+            "Construction" : 0.060860950000000004, 
+            "Professional" : 0.051818920000000004, 
+            "Other Services" : 0.04548049, 
+            "Government" : 0.040253540000000004, 
+            "Finance & Insurance" : 0.03890174, 
+            "Entertainment" : 0.03739974, 
+            "Transportation" : 0.03544714, 
+            "Administrative" : 0.030100030000000003, 
+            "Agriculture" : 0.029228869999999997, 
+            "Wholesalers" : 0.024903119999999997, 
+            "Information" : 0.01901529, 
+            "Utilities" : 0.008411189999999999, 
+            "Real estate" : 0.00781039, 
+            "Oil & Gas, and Mining" : 0.0010814400000000001, 
+            "Management" : 0.00024032
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.014620010000000001, 
+            "Professional" : 0.01541822, 
+            "Master's" : 0.08719489, 
+            "Bachelor's" : 0.14987607, 
+            "Associate's" : 0.12366088, 
+            "Some College" : 0.17537704999999998, 
+            "High School" : 0.33773054, 
+            "Some H.S." : 0.06541192, 
+            "Less than H.S." : 0.022182080000000003, 
+            "None" : 0.00852834
+        }
+    }
+}

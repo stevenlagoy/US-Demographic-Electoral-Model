@@ -1,0 +1,156 @@
+{
+    "name" : "Sullivan County", 
+	"state" : "New Hampshire", 
+	"FIPS" : "33019",
+    "population" : 43051, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.95498362, 
+            "Hispanic" : 0.012357439999999999, 
+            "Black" : 0.006016120000000001, 
+            "Asian" : 0.007897610000000001, 
+            "Mixed" : 0.012380660000000002, 
+            "Other" : 0.006364539999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02144, 
+            "80-84" : 0.023860000000000003, 
+            "75-79" : 0.030270000000000002, 
+            "70-74" : 0.04502, 
+            "67-69" : 0.03473, 
+            "65-66" : 0.03138, 
+            "62-64" : 0.042859999999999995, 
+            "60-61" : 0.036539999999999996, 
+            "55-59" : 0.08664, 
+            "50-54" : 0.08174, 
+            "45-49" : 0.07333, 
+            "40-44" : 0.05865, 
+            "35-39" : 0.05884, 
+            "30-34" : 0.053540000000000004, 
+            "25-29" : 0.05147, 
+            "22-24" : 0.03356, 
+            "21" : 0.008289999999999999, 
+            "20" : 0.01087, 
+            "18-19" : 0.01965, 
+            "15-17" : 0.036840000000000005, 
+            "10-14" : 0.06223, 
+            "5-9" : 0.05143, 
+            "0-4" : 0.04683
+        }, 
+        "household_types" : {
+            "Married" : 0.49027349000000003, 
+            "Single Female" : 0.11328527, 
+            "Single Male" : 0.05280925, 
+            "One-Person" : 0.27680513, 
+            "Other Non-Family" : 0.06682687
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22813399, 
+                "male" : 0.27585623
+            }, 
+            "Now Married" : {
+                "female" : 0.46566046, 
+                "male" : 0.5060091400000001
+            }, 
+            "Separated" : {
+                "female" : 0.015744610000000003, 
+                "male" : 0.013711
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.021010909999999997, 
+                "male" : 0.02076398
+            }, 
+            "Widowed" : {
+                "female" : 0.11949617, 
+                "male" : 0.022174580000000003
+            }, 
+            "Divorced" : {
+                "female" : 0.14995385, 
+                "male" : 0.16148508
+            }
+        }, 
+        "ancestry" : {
+            "English" : 0.19692922, 
+            "Irish" : 0.16612854999999999, 
+            "Unclassified" : 0.16422383, 
+            "French" : 0.15755732, 
+            "Other" : 0.13179717, 
+            "German" : 0.10392325, 
+            "French Canadian" : 0.07416785, 
+            "Italian" : 0.07010290000000001, 
+            "American" : 0.05354115, 
+            "Scottish" : 0.04541126, 
+            "Polish" : 0.04527189, 
+            "Dutch" : 0.01607396, 
+            "Swedish" : 0.01426215, 
+            "Finnish" : 0.01393696, 
+            "European" : 0.0137279, 
+            "Canadian" : 0.01210193, 
+            "Scotch-Irish" : 0.01193933, 
+            "Norwegian" : 0.00884997, 
+            "Greek" : 0.00819958, 
+            "Danish" : 0.00736336, 
+            "Puerto Rican" : 0.4079602, 
+            "Other Hispanic" : 0.00571, 
+            "Mexican" : 0.21724710000000003, 
+            "South American" : 0.0030399999999999997, 
+            "Spanish" : 0.15754561, 
+            "Central American" : 0.00221, 
+            "Salvadoran" : 0.11608624000000001, 
+            "Colombian" : 0.0016300000000000002, 
+            "Argentinean" : 0.07131012, 
+            "Cuban" : 0.001, 
+            "Ecuadorian" : 0.06633499, 
+            "Spaniard" : 0.0009299999999999999, 
+            "Guatemalan" : 0.053067989999999995, 
+            "Nicaraguan" : 0.00074, 
+            "Chinese" : 0.46176470999999997, 
+            "Filipino" : 0.00365, 
+            "Korean" : 0.35294117999999997, 
+            "Vietnamese" : 0.0027900000000000004, 
+            "Japanese" : 0.1, 
+            "Indian" : 0.00079
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00025243, 
+            "Employed" : 0.60561524, 
+            "Unemployed" : 0.02824447, 
+            "Other" : 0.36588786
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.18868099000000002, 
+            "Healthcare" : 0.18673583000000002, 
+            "Retail" : 0.12217488, 
+            "Education" : 0.09637829, 
+            "Construction" : 0.06720082, 
+            "Hospitality" : 0.05020378, 
+            "Other Services" : 0.04158948, 
+            "Finance & Insurance" : 0.0354761, 
+            "Professional" : 0.03302149, 
+            "Administrative" : 0.03047425, 
+            "Government" : 0.03001112, 
+            "Transportation" : 0.02459244, 
+            "Wholesalers" : 0.02000741, 
+            "Information" : 0.01908114, 
+            "Entertainment" : 0.01718229, 
+            "Real estate" : 0.01463505, 
+            "Agriculture" : 0.01338459, 
+            "Utilities" : 0.00847536, 
+            "Oil & Gas, and Mining" : 0.0006947, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.010178119999999999, 
+            "Professional" : 0.01361323, 
+            "Master's" : 0.07159669, 
+            "Bachelor's" : 0.17251908, 
+            "Associate's" : 0.09265266999999999, 
+            "Some College" : 0.18479644, 
+            "High School" : 0.35903308, 
+            "Some H.S." : 0.06930662, 
+            "Less than H.S." : 0.02111959, 
+            "None" : 0.00518448
+        }
+    }
+}

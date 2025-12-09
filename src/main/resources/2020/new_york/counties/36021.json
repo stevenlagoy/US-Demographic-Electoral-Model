@@ -1,0 +1,165 @@
+{
+    "name" : "Columbia County", 
+	"state" : "New York", 
+	"FIPS" : "36021",
+    "population" : 61860, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.8728742300000001, 
+            "Hispanic" : 0.040122859999999996, 
+            "Black" : 0.04353379, 
+            "Asian" : 0.019026829999999998, 
+            "Mixed" : 0.02384416, 
+            "Other" : 0.0005981199999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.027450000000000002, 
+            "80-84" : 0.02572, 
+            "75-79" : 0.03527, 
+            "70-74" : 0.047060000000000005, 
+            "67-69" : 0.04229, 
+            "65-66" : 0.029079999999999998, 
+            "62-64" : 0.046180000000000006, 
+            "60-61" : 0.0359, 
+            "55-59" : 0.08285999999999999, 
+            "50-54" : 0.0827, 
+            "45-49" : 0.07289, 
+            "40-44" : 0.055380000000000006, 
+            "35-39" : 0.05343, 
+            "30-34" : 0.05065, 
+            "25-29" : 0.05239, 
+            "22-24" : 0.034249999999999996, 
+            "21" : 0.012920000000000001, 
+            "20" : 0.00786, 
+            "18-19" : 0.020110000000000003, 
+            "15-17" : 0.03784, 
+            "10-14" : 0.052910000000000006, 
+            "5-9" : 0.05163, 
+            "0-4" : 0.04321
+        }, 
+        "household_types" : {
+            "Married" : 0.47839494000000005, 
+            "Single Female" : 0.12006325000000001, 
+            "Single Male" : 0.03945444, 
+            "One-Person" : 0.28705278, 
+            "Other Non-Family" : 0.07503459
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.26379741, 
+                "male" : 0.33928979
+            }, 
+            "Now Married" : {
+                "female" : 0.45760466, 
+                "male" : 0.47467873
+            }, 
+            "Separated" : {
+                "female" : 0.01748808, 
+                "male" : 0.02627177
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02274964, 
+                "male" : 0.02699414
+            }, 
+            "Widowed" : {
+                "female" : 0.11094708, 
+                "male" : 0.02897118
+            }, 
+            "Divorced" : {
+                "female" : 0.12741312999999999, 
+                "male" : 0.10379439
+            }
+        }, 
+        "ancestry" : {
+            "Irish" : 0.22206596, 
+            "German" : 0.21480763, 
+            "Italian" : 0.16462981, 
+            "Other" : 0.0027500000000000003, 
+            "Unclassified" : 0.13656644, 
+            "English" : 0.09705787, 
+            "Polish" : 0.07245393, 
+            "Dutch" : 0.06375687000000001, 
+            "American" : 0.044859359999999994, 
+            "French" : 0.04458455, 
+            "Russian" : 0.0199806, 
+            "Scottish" : 0.01994827, 
+            "French Canadian" : 0.01627869, 
+            "Ukrainian" : 0.01395086, 
+            "West Indian" : 0.01220498, 
+            "Swedish" : 0.012107989999999999, 
+            "European" : 0.01015196, 
+            "Hungarian" : 0.00924669, 
+            "Scotch-Irish" : 0.007533140000000001, 
+            "Jamaican" : 0.00704817, 
+            "Puerto Rican" : 0.46547219, 
+            "Mexican" : 0.02016, 
+            "Central American" : 0.19820829, 
+            "Dominican" : 0.008579999999999999, 
+            "Guatemalan" : 0.12616648, 
+            "Other Hispanic" : 0.0054600000000000004, 
+            "South American" : 0.07838746, 
+            "Cuban" : 0.0033900000000000002, 
+            "Colombian" : 0.07652109, 
+            "Salvadoran" : 0.00331, 
+            "Panamanian" : 0.0537514, 
+            "Spaniard" : 0.00233, 
+            "Ecuadorian" : 0.05113848, 
+            "Honduran" : 0.00221, 
+            "Argentinean" : 0.0268757, 
+            "Spanish" : 0.00116, 
+            "Chilean" : 0.02500933, 
+            "Bangladeshi" : 0.30076466, 
+            "Indian" : 0.005719999999999999, 
+            "Chinese" : 0.23704333, 
+            "Filipino" : 0.00451, 
+            "Japanese" : 0.16907392000000002, 
+            "Korean" : 0.00322, 
+            "Cambodian" : 0.144435, 
+            "Vietnamese" : 0.03908241, 
+            "Indonesian" : 0.00074, 
+            "Sri Lankan" : 0.03738318, 
+            "Thai" : 0.0007099999999999999, 
+            "Nepalese" : 0.01274427
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 5.78e-05, 
+            "Employed" : 0.58159117, 
+            "Unemployed" : 0.03391202, 
+            "Other" : 0.38443900999999997
+        }, 
+        "industries" : {
+            "Healthcare" : 0.17976410999999998, 
+            "Retail" : 0.10422741, 
+            "Education" : 0.09958919, 
+            "Government" : 0.08607208999999999, 
+            "Construction" : 0.08140074, 
+            "Professional" : 0.06685661, 
+            "Manufacturing" : 0.05711635, 
+            "Hospitality" : 0.05406838, 
+            "Other Services" : 0.049330769999999996, 
+            "Agriculture" : 0.03780148, 
+            "Administrative" : 0.033428309999999996, 
+            "Transportation" : 0.03134111, 
+            "Finance & Insurance" : 0.029419559999999997, 
+            "Entertainment" : 0.02560959, 
+            "Wholesalers" : 0.020043730000000003, 
+            "Information" : 0.01974556, 
+            "Real estate" : 0.013749009999999999, 
+            "Utilities" : 0.006095939999999999, 
+            "Oil & Gas, and Mining" : 0.0035117900000000003, 
+            "Management" : 0.00082825
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01029936, 
+            "Professional" : 0.02296036, 
+            "Master's" : 0.11104065, 
+            "Bachelor's" : 0.1509042, 
+            "Associate's" : 0.11106252, 
+            "Some College" : 0.17191839, 
+            "High School" : 0.31094881, 
+            "Some H.S." : 0.07404168, 
+            "Less than H.S." : 0.0235289, 
+            "None" : 0.01329514
+        }
+    }
+}

@@ -1,0 +1,166 @@
+{
+    "name" : "Lackawanna County", 
+	"state" : "Pennsylvania", 
+	"FIPS" : "42069",
+    "population" : 213006, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.87388149, 
+            "Hispanic" : 0.05943025, 
+            "Black" : 0.02975034, 
+            "Asian" : 0.02295241, 
+            "Mixed" : 0.01227195, 
+            "Other" : 0.0017135700000000002
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.032709999999999996, 
+            "80-84" : 0.02524, 
+            "75-79" : 0.0308, 
+            "70-74" : 0.04383, 
+            "67-69" : 0.031139999999999998, 
+            "65-66" : 0.02427, 
+            "62-64" : 0.04061, 
+            "60-61" : 0.02697, 
+            "55-59" : 0.07226, 
+            "50-54" : 0.07246000000000001, 
+            "45-49" : 0.06628, 
+            "40-44" : 0.060129999999999996, 
+            "35-39" : 0.05395, 
+            "30-34" : 0.05852, 
+            "25-29" : 0.06394999999999999, 
+            "22-24" : 0.03666, 
+            "21" : 0.012849999999999999, 
+            "20" : 0.01695, 
+            "18-19" : 0.028999999999999998, 
+            "15-17" : 0.035750000000000004, 
+            "10-14" : 0.05742, 
+            "5-9" : 0.05564, 
+            "0-4" : 0.052610000000000004
+        }, 
+        "household_types" : {
+            "Married" : 0.44328080999999997, 
+            "Single Female" : 0.12033015000000001, 
+            "Single Male" : 0.04508418, 
+            "One-Person" : 0.32985418000000005, 
+            "Other Non-Family" : 0.06145068
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.31373372, 
+                "male" : 0.37171762
+            }, 
+            "Now Married" : {
+                "female" : 0.40529545, 
+                "male" : 0.46333525999999997
+            }, 
+            "Separated" : {
+                "female" : 0.02296846, 
+                "male" : 0.01722695
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01923367, 
+                "male" : 0.02112983
+            }, 
+            "Widowed" : {
+                "female" : 0.12519643, 
+                "male" : 0.03759035
+            }, 
+            "Divorced" : {
+                "female" : 0.11357227, 
+                "male" : 0.08899998999999999
+            }
+        }, 
+        "ancestry" : {
+            "Irish" : 0.24817611, 
+            "Italian" : 0.23283382, 
+            "Polish" : 0.17216415999999998, 
+            "German" : 0.16753988, 
+            "Other" : 0.13890689, 
+            "Unclassified" : 0.09669211000000001, 
+            "English" : 0.07013887, 
+            "Welsh" : 0.049895310000000005, 
+            "American" : 0.046261609999999995, 
+            "Russian" : 0.03422908, 
+            "Slovak" : 0.024778639999999998, 
+            "Lithuanian" : 0.01896191, 
+            "Ukrainian" : 0.01363342, 
+            "Dutch" : 0.01157244, 
+            "French" : 0.01091049, 
+            "Scottish" : 0.00973212, 
+            "Hungarian" : 0.00721106, 
+            "European" : 0.00509375, 
+            "Puerto Rican" : 0.50074283, 
+            "Mexican" : 0.03165, 
+            "Dominican" : 0.14856633, 
+            "South American" : 0.009389999999999999, 
+            "Central American" : 0.14366365, 
+            "Other Hispanic" : 0.00908, 
+            "Peruvian" : 0.08096864999999999, 
+            "Colombian" : 0.00512, 
+            "Honduran" : 0.07049473, 
+            "Cuban" : 0.00446, 
+            "Salvadoran" : 0.03461596, 
+            "Guatemalan" : 0.00219, 
+            "Ecuadorian" : 0.02228495, 
+            "Spaniard" : 0.0014099999999999998, 
+            "Argentinean" : 0.02131927, 
+            "Panamanian" : 0.00135, 
+            "Chilean" : 0.021244990000000002, 
+            "Uruguayan" : 0.00134, 
+            "Indian" : 0.30435672, 
+            "Chinese" : 0.00699, 
+            "Nepalese" : 0.19676825999999997, 
+            "Filipino" : 0.00452, 
+            "Korean" : 0.19431377000000002, 
+            "Bhutanese" : 0.00446, 
+            "Vietnamese" : 0.07056657999999999, 
+            "Indonesian" : 0.0016200000000000001, 
+            "Mixed" : 0.03968092, 
+            "Not Specified" : 0.00091, 
+            "Japanese" : 0.03784005, 
+            "Laotian" : 0.0008699999999999999, 
+            "Bangladeshi" : 0.028840249999999998, 
+            "Pakistani" : 0.00066
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0005935900000000001, 
+            "Employed" : 0.5545301, 
+            "Unemployed" : 0.03860598, 
+            "Other" : 0.40627032999999996
+        }, 
+        "industries" : {
+            "Healthcare" : 0.16551561, 
+            "Retail" : 0.12596107, 
+            "Education" : 0.11055301999999999, 
+            "Manufacturing" : 0.10953405, 
+            "Hospitality" : 0.07162634, 
+            "Construction" : 0.05527136, 
+            "Finance & Insurance" : 0.05237914, 
+            "Government" : 0.050300029999999996, 
+            "Transportation" : 0.0458742, 
+            "Professional" : 0.044494990000000005, 
+            "Other Services" : 0.04417592, 
+            "Wholesalers" : 0.0345832, 
+            "Administrative" : 0.032905500000000004, 
+            "Information" : 0.01728131, 
+            "Entertainment" : 0.0142244, 
+            "Real estate" : 0.011095440000000002, 
+            "Utilities" : 0.007091610000000001, 
+            "Agriculture" : 0.0034583199999999995, 
+            "Oil & Gas, and Mining" : 0.00325247, 
+            "Management" : 0.000422
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01057622, 
+            "Professional" : 0.01442879, 
+            "Master's" : 0.07149629, 
+            "Bachelor's" : 0.16449222, 
+            "Associate's" : 0.08963744, 
+            "Some College" : 0.17357281, 
+            "High School" : 0.37614342, 
+            "Some H.S." : 0.06929292000000001, 
+            "Less than H.S." : 0.01965681, 
+            "None" : 0.01070308
+        }
+    }
+}

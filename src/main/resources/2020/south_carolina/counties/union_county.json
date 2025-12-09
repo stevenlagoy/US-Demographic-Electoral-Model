@@ -1,0 +1,114 @@
+{
+    "name" : "Union County", 
+	"state" : "South Carolina", 
+	"FIPS" : "45087",
+    "population" : 27928, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.65393154, 
+            "Hispanic" : 0.012388999999999999, 
+            "Black" : 0.30843598, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.02298768, 
+            "Other" : 0.0022558
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01758, 
+            "80-84" : 0.02779, 
+            "75-79" : 0.03405, 
+            "70-74" : 0.042859999999999995, 
+            "67-69" : 0.03484, 
+            "65-66" : 0.029249999999999998, 
+            "62-64" : 0.03749, 
+            "60-61" : 0.03774, 
+            "55-59" : 0.07426, 
+            "50-54" : 0.07688, 
+            "45-49" : 0.06803, 
+            "40-44" : 0.06424, 
+            "35-39" : 0.05518, 
+            "30-34" : 0.05256, 
+            "25-29" : 0.05264, 
+            "22-24" : 0.031760000000000004, 
+            "21" : 0.00999, 
+            "20" : 0.01615, 
+            "18-19" : 0.01962, 
+            "15-17" : 0.04053, 
+            "10-14" : 0.061189999999999994, 
+            "5-9" : 0.060759999999999995, 
+            "0-4" : 0.0546
+        }, 
+        "household_types" : {
+            "Married" : 0.42352130000000004, 
+            "Single Female" : 0.1624418, 
+            "Single Male" : 0.07466805, 
+            "One-Person" : 0.31919295999999997, 
+            "Other Non-Family" : 0.020175890000000002
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.2465074, 
+                "male" : 0.33183486
+            }, 
+            "Now Married" : {
+                "female" : 0.41630156, 
+                "male" : 0.46247706
+            }, 
+            "Separated" : {
+                "female" : 0.042241879999999996, 
+                "male" : 0.03587156
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02430355, 
+                "male" : 0.01688073
+            }, 
+            "Widowed" : {
+                "female" : 0.13375217, 
+                "male" : 0.03422018
+            }, 
+            "Divorced" : {
+                "female" : 0.13689344, 
+                "male" : 0.1187156
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00331038, 
+            "Employed" : 0.49633651, 
+            "Unemployed" : 0.05477578, 
+            "Other" : 0.44557733
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.23548244000000002, 
+            "Retail" : 0.14868831, 
+            "Healthcare" : 0.12032014, 
+            "Education" : 0.09168519, 
+            "Other Services" : 0.05904847, 
+            "Construction" : 0.05584704, 
+            "Government" : 0.05584704, 
+            "Hospitality" : 0.043397069999999996, 
+            "Transportation" : 0.037172079999999996, 
+            "Administrative" : 0.0337928, 
+            "Wholesalers" : 0.026767449999999998, 
+            "Finance & Insurance" : 0.021698529999999997, 
+            "Professional" : 0.02027568, 
+            "Information" : 0.016540680000000002, 
+            "Utilities" : 0.01049355, 
+            "Entertainment" : 0.01004891, 
+            "Agriculture" : 0.008270340000000001, 
+            "Real estate" : 0.00364606, 
+            "Management" : 0.00097821, 
+            "Oil & Gas, and Mining" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0060913700000000005, 
+            "Professional" : 0.00375635, 
+            "Master's" : 0.03314721, 
+            "Bachelor's" : 0.08086294000000001, 
+            "Associate's" : 0.09624364999999999, 
+            "Some College" : 0.18543147000000001, 
+            "High School" : 0.3919797, 
+            "Some H.S." : 0.1322335, 
+            "Less than H.S." : 0.05588832, 
+            "None" : 0.01436548
+        }
+    }
+}

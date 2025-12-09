@@ -1,0 +1,163 @@
+{
+    "name" : "Grand Forks County", 
+	"state" : "North Dakota", 
+	"FIPS" : "38035",
+    "population" : 69793, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.85681945, 
+            "Hispanic" : 0.03789778, 
+            "Black" : 0.02864184, 
+            "Asian" : 0.02411417, 
+            "Mixed" : 0.02644964, 
+            "Other" : 0.02607711
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01676, 
+            "80-84" : 0.015220000000000001, 
+            "75-79" : 0.019459999999999998, 
+            "70-74" : 0.025619999999999997, 
+            "67-69" : 0.019530000000000002, 
+            "65-66" : 0.01652, 
+            "62-64" : 0.030019999999999998, 
+            "60-61" : 0.01963, 
+            "55-59" : 0.05837, 
+            "50-54" : 0.05756, 
+            "45-49" : 0.047400000000000005, 
+            "40-44" : 0.04702, 
+            "35-39" : 0.0496, 
+            "30-34" : 0.06724000000000001, 
+            "25-29" : 0.08789999999999999, 
+            "22-24" : 0.08671, 
+            "21" : 0.04247, 
+            "20" : 0.03619, 
+            "18-19" : 0.05333, 
+            "15-17" : 0.02957, 
+            "10-14" : 0.051609999999999996, 
+            "5-9" : 0.053899999999999997, 
+            "0-4" : 0.06836
+        }, 
+        "household_types" : {
+            "Married" : 0.43475561, 
+            "Single Female" : 0.07512676, 
+            "Single Male" : 0.05101583, 
+            "One-Person" : 0.32375565, 
+            "Other Non-Family" : 0.11534614
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.35352047, 
+                "male" : 0.44585219000000004
+            }, 
+            "Now Married" : {
+                "female" : 0.44750745999999997, 
+                "male" : 0.42684766
+            }, 
+            "Separated" : {
+                "female" : 0.010458970000000001, 
+                "male" : 0.01112787
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01822233, 
+                "male" : 0.02275851
+            }, 
+            "Widowed" : {
+                "female" : 0.0662761, 
+                "male" : 0.01323948
+            }, 
+            "Divorced" : {
+                "female" : 0.10401466, 
+                "male" : 0.08017429
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.30577565, 
+            "Norwegian" : 0.29722178, 
+            "Other" : 0.15197799, 
+            "Unclassified" : 0.1285659, 
+            "Irish" : 0.09526743, 
+            "Swedish" : 0.04711074, 
+            "Polish" : 0.04329947, 
+            "French" : 0.04328514, 
+            "English" : 0.04117891, 
+            "American" : 0.04079206, 
+            "Czech" : 0.023297469999999997, 
+            "Italian" : 0.01869815, 
+            "Scottish" : 0.01445704, 
+            "Dutch" : 0.0131102, 
+            "French Canadian" : 0.01266603, 
+            "Subsaharan African" : 0.009814739999999999, 
+            "Scandinavian" : 0.00965713, 
+            "Danish" : 0.00853954, 
+            "Russian" : 0.00795209, 
+            "Scotch-Irish" : 0.00716404, 
+            "Mexican" : 0.78539157, 
+            "Puerto Rican" : 0.02989, 
+            "South American" : 0.05760542, 
+            "Other Hispanic" : 0.00219, 
+            "Peruvian" : 0.0564759, 
+            "Central American" : 0.00215, 
+            "Cuban" : 0.04518072, 
+            "Spaniard" : 0.00172, 
+            "Dominican" : 0.04254518, 
+            "Colombian" : 0.0016200000000000001, 
+            "Nicaraguan" : 0.02371988, 
+            "Guatemalan" : 0.0009, 
+            "Honduran" : 0.01957831, 
+            "Chinese" : 0.24896019, 
+            "Filipino" : 0.006, 
+            "Nepalese" : 0.14438503, 
+            "Indian" : 0.0034799999999999996, 
+            "Bhutanese" : 0.14438503, 
+            "Korean" : 0.0034799999999999996, 
+            "Pakistani" : 0.13844326, 
+            "Japanese" : 0.00334, 
+            "Sri Lankan" : 0.09447414999999999, 
+            "Not Specified" : 0.00228, 
+            "Bangladeshi" : 0.05882353, 
+            "Mixed" : 0.0014199999999999998, 
+            "Laotian" : 0.042780750000000006, 
+            "Vietnamese" : 0.0010299999999999999
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.025641479999999998, 
+            "Employed" : 0.67210151, 
+            "Unemployed" : 0.024079470000000002, 
+            "Other" : 0.27817754
+        }, 
+        "industries" : {
+            "Healthcare" : 0.17487923, 
+            "Retail" : 0.14876616, 
+            "Education" : 0.13920877, 
+            "Hospitality" : 0.07961875, 
+            "Construction" : 0.07295992, 
+            "Manufacturing" : 0.054889669999999995, 
+            "Government" : 0.05052879, 
+            "Transportation" : 0.03817731, 
+            "Other Services" : 0.03679332, 
+            "Professional" : 0.03658441, 
+            "Finance & Insurance" : 0.03110067, 
+            "Agriculture" : 0.02880272, 
+            "Administrative" : 0.02642643, 
+            "Wholesalers" : 0.02394568, 
+            "Entertainment" : 0.01807024, 
+            "Information" : 0.01569395, 
+            "Real estate" : 0.012455929999999999, 
+            "Utilities" : 0.00757279, 
+            "Oil & Gas, and Mining" : 0.00308134, 
+            "Management" : 0.00044392
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01981155, 
+            "Professional" : 0.01797669, 
+            "Master's" : 0.07428713, 
+            "Bachelor's" : 0.21886933, 
+            "Associate's" : 0.12643194, 
+            "Some College" : 0.22806844, 
+            "High School" : 0.25120258, 
+            "Some H.S." : 0.041854699999999995, 
+            "Less than H.S." : 0.01524919, 
+            "None" : 0.00624845
+        }
+    }
+}

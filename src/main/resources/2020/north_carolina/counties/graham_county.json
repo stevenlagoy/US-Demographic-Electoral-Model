@@ -1,0 +1,114 @@
+{
+    "name" : "Graham County", 
+	"state" : "North Carolina", 
+	"FIPS" : "37075",
+    "population" : 8651, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.8779331899999999, 
+            "Hispanic" : 0.02993874, 
+            "Black" : 0.00393018, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00670443, 
+            "Other" : 0.08149347000000001
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.030979999999999997, 
+            "80-84" : 0.02497, 
+            "75-79" : 0.03676, 
+            "70-74" : 0.04104, 
+            "67-69" : 0.04011, 
+            "65-66" : 0.04508, 
+            "62-64" : 0.03329, 
+            "60-61" : 0.029009999999999998, 
+            "55-59" : 0.08288000000000001, 
+            "50-54" : 0.07063, 
+            "45-49" : 0.06254, 
+            "40-44" : 0.04936, 
+            "35-39" : 0.06034, 
+            "30-34" : 0.048659999999999995, 
+            "25-29" : 0.03838, 
+            "22-24" : 0.025550000000000003, 
+            "21" : 0.01248, 
+            "20" : 0.015260000000000001, 
+            "18-19" : 0.03988, 
+            "15-17" : 0.042190000000000005, 
+            "10-14" : 0.06751, 
+            "5-9" : 0.063, 
+            "0-4" : 0.04011
+        }, 
+        "household_types" : {
+            "Married" : 0.55381304, 
+            "Single Female" : 0.09317342999999999, 
+            "Single Male" : 0.04428044, 
+            "One-Person" : 0.27736777, 
+            "Other Non-Family" : 0.03136531
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.19651606000000002, 
+                "male" : 0.27477862999999997
+            }, 
+            "Now Married" : {
+                "female" : 0.49945563, 
+                "male" : 0.5461296800000001
+            }, 
+            "Separated" : {
+                "female" : 0.02367991, 
+                "male" : 0.01942302
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0206859, 
+                "male" : 0.01913739
+            }, 
+            "Widowed" : {
+                "female" : 0.12084921, 
+                "male" : 0.023421880000000003
+            }, 
+            "Divorced" : {
+                "female" : 0.13881328, 
+                "male" : 0.1171094
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.42048518, 
+            "Unemployed" : 0.04397787, 
+            "Other" : 0.5355369600000001
+        }, 
+        "industries" : {
+            "Healthcare" : 0.15182186, 
+            "Construction" : 0.15013495000000002, 
+            "Manufacturing" : 0.09581645999999999, 
+            "Education" : 0.09311741, 
+            "Hospitality" : 0.09075574, 
+            "Retail" : 0.08670715, 
+            "Government" : 0.06950067, 
+            "Entertainment" : 0.06410256, 
+            "Other Services" : 0.06275304, 
+            "Agriculture" : 0.02631579, 
+            "Information" : 0.025978409999999997, 
+            "Administrative" : 0.02024291, 
+            "Real estate" : 0.01450742, 
+            "Transportation" : 0.01012146, 
+            "Finance & Insurance" : 0.00978408, 
+            "Professional" : 0.00978408, 
+            "Utilities" : 0.00944669, 
+            "Wholesalers" : 0.00910931, 
+            "Oil & Gas, and Mining" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.00866089, 
+            "Master's" : 0.03847435, 
+            "Bachelor's" : 0.09277149, 
+            "Associate's" : 0.05063291, 
+            "Some College" : 0.24500333000000002, 
+            "High School" : 0.35459693999999997, 
+            "Some H.S." : 0.1317455, 
+            "Less than H.S." : 0.06179214, 
+            "None" : 0.01632245
+        }
+    }
+}

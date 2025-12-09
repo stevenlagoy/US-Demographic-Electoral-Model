@@ -1,0 +1,114 @@
+{
+    "name" : "Griggs County", 
+	"state" : "North Dakota", 
+	"FIPS" : "38039",
+    "population" : 2311, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.96235396, 
+            "Hispanic" : 0.00432713, 
+            "Black" : 0.01211597, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.010817829999999999, 
+            "Other" : 0.01038511
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.06491, 
+            "80-84" : 0.03938, 
+            "75-79" : 0.04197, 
+            "70-74" : 0.0727, 
+            "67-69" : 0.0489, 
+            "65-66" : 0.02683, 
+            "62-64" : 0.05495, 
+            "60-61" : 0.028130000000000002, 
+            "55-59" : 0.08308, 
+            "50-54" : 0.06663999999999999, 
+            "45-49" : 0.06274, 
+            "40-44" : 0.05582, 
+            "35-39" : 0.01774, 
+            "30-34" : 0.05019, 
+            "25-29" : 0.03548, 
+            "22-24" : 0.04111, 
+            "21" : 0.00216, 
+            "20" : 0.0017299999999999998, 
+            "18-19" : 0.01947, 
+            "15-17" : 0.04414, 
+            "10-14" : 0.038079999999999996, 
+            "5-9" : 0.048029999999999996, 
+            "0-4" : 0.05582
+        }, 
+        "household_types" : {
+            "Married" : 0.57607656, 
+            "Single Female" : 0.03636364, 
+            "Single Male" : 0.04401914, 
+            "One-Person" : 0.33971292, 
+            "Other Non-Family" : 0.0038277499999999996
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.14343029, 
+                "male" : 0.21298174
+            }, 
+            "Now Married" : {
+                "female" : 0.6218656, 
+                "male" : 0.61359026
+            }, 
+            "Separated" : {
+                "female" : 0.00200602, 
+                "male" : 0.01115619
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01003009, 
+                "male" : 0.01825558
+            }, 
+            "Widowed" : {
+                "female" : 0.17251755, 
+                "male" : 0.06490872
+            }, 
+            "Divorced" : {
+                "female" : 0.05015045, 
+                "male" : 0.07910751
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.63090349, 
+            "Unemployed" : 0.01026694, 
+            "Other" : 0.35882957
+        }, 
+        "industries" : {
+            "Agriculture" : 0.21806346999999998, 
+            "Healthcare" : 0.13995118, 
+            "Manufacturing" : 0.1285598, 
+            "Retail" : 0.09601302, 
+            "Construction" : 0.07323027, 
+            "Education" : 0.05451587, 
+            "Finance & Insurance" : 0.043938160000000004, 
+            "Transportation" : 0.0374288, 
+            "Wholesalers" : 0.036615129999999996, 
+            "Government" : 0.03498779, 
+            "Other Services" : 0.02766477, 
+            "Administrative" : 0.025223759999999998, 
+            "Professional" : 0.024410090000000002, 
+            "Hospitality" : 0.021969080000000002, 
+            "Information" : 0.01220504, 
+            "Entertainment" : 0.0081367, 
+            "Oil & Gas, and Mining" : 0.00569569, 
+            "Utilities" : 0.00569569, 
+            "Real estate" : 0.00569569, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0051963, 
+            "Professional" : 0.0, 
+            "Master's" : 0.015588910000000001, 
+            "Bachelor's" : 0.18187066999999998, 
+            "Associate's" : 0.12875289, 
+            "Some College" : 0.21709007, 
+            "High School" : 0.32794457, 
+            "Some H.S." : 0.05946882, 
+            "Less than H.S." : 0.06177829, 
+            "None" : 0.00230947
+        }
+    }
+}

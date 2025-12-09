@@ -1,0 +1,114 @@
+{
+    "name" : "Beaver County", 
+	"state" : "Oklahoma", 
+	"FIPS" : "40007",
+    "population" : 5479, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.7672933000000001, 
+            "Hispanic" : 0.21737542999999998, 
+            "Black" : 0.00164264, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00675306, 
+            "Other" : 0.006935569999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02062, 
+            "80-84" : 0.026099999999999998, 
+            "75-79" : 0.031939999999999996, 
+            "70-74" : 0.03961, 
+            "67-69" : 0.02902, 
+            "65-66" : 0.025550000000000003, 
+            "62-64" : 0.03833, 
+            "60-61" : 0.02373, 
+            "55-59" : 0.07574, 
+            "50-54" : 0.07739, 
+            "45-49" : 0.05731, 
+            "40-44" : 0.07118000000000001, 
+            "35-39" : 0.05147, 
+            "30-34" : 0.049640000000000004, 
+            "25-29" : 0.04599, 
+            "22-24" : 0.02628, 
+            "21" : 0.009130000000000001, 
+            "20" : 0.02044, 
+            "18-19" : 0.025550000000000003, 
+            "15-17" : 0.04325999999999999, 
+            "10-14" : 0.08231, 
+            "5-9" : 0.06953999999999999, 
+            "0-4" : 0.05986
+        }, 
+        "household_types" : {
+            "Married" : 0.59271682, 
+            "Single Female" : 0.07091519, 
+            "Single Male" : 0.05797796, 
+            "One-Person" : 0.23766172000000002, 
+            "Other Non-Family" : 0.04072832
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.18023788, 
+                "male" : 0.23066103999999998
+            }, 
+            "Now Married" : {
+                "female" : 0.563129, 
+                "male" : 0.5991561200000001
+            }, 
+            "Separated" : {
+                "female" : 0.007776760000000001, 
+                "male" : 0.00562588
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.037968890000000005, 
+                "male" : 0.04875762
+            }, 
+            "Widowed" : {
+                "female" : 0.10933211, 
+                "male" : 0.03844351
+            }, 
+            "Divorced" : {
+                "female" : 0.10155535, 
+                "male" : 0.07735584000000001
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00047237, 
+            "Employed" : 0.60817194, 
+            "Unemployed" : 0.019130849999999998, 
+            "Other" : 0.37222485
+        }, 
+        "industries" : {
+            "Oil & Gas, and Mining" : 0.12854369, 
+            "Retail" : 0.10990290999999999, 
+            "Agriculture" : 0.10873786, 
+            "Education" : 0.09669902999999999, 
+            "Healthcare" : 0.08970874000000001, 
+            "Manufacturing" : 0.08349515, 
+            "Construction" : 0.08038835000000001, 
+            "Other Services" : 0.05398058, 
+            "Transportation" : 0.05320388, 
+            "Government" : 0.04116505, 
+            "Hospitality" : 0.02796117, 
+            "Utilities" : 0.02601942, 
+            "Finance & Insurance" : 0.02485437, 
+            "Professional" : 0.02485437, 
+            "Entertainment" : 0.01980583, 
+            "Wholesalers" : 0.015533980000000001, 
+            "Administrative" : 0.00815534, 
+            "Real estate" : 0.00699029, 
+            "Information" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.007425739999999999, 
+            "Professional" : 0.00467547, 
+            "Master's" : 0.03465347, 
+            "Bachelor's" : 0.16859186, 
+            "Associate's" : 0.04235424, 
+            "Some College" : 0.20627063, 
+            "High School" : 0.37761276000000005, 
+            "Some H.S." : 0.07645765, 
+            "Less than H.S." : 0.07233223, 
+            "None" : 0.00962596
+        }
+    }
+}

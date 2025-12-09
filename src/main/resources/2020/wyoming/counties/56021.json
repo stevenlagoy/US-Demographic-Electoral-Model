@@ -1,0 +1,157 @@
+{
+    "name" : "Laramie County", 
+	"state" : "Wyoming", 
+	"FIPS" : "56021",
+    "population" : 96459, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.79024249, 
+            "Hispanic" : 0.14031868, 
+            "Black" : 0.02861319, 
+            "Asian" : 0.011611149999999999, 
+            "Mixed" : 0.0215843, 
+            "Other" : 0.007630179999999999
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.01952, 
+            "80-84" : 0.01703, 
+            "75-79" : 0.022860000000000002, 
+            "70-74" : 0.03407, 
+            "67-69" : 0.02675, 
+            "65-66" : 0.02098, 
+            "62-64" : 0.04044, 
+            "60-61" : 0.0227, 
+            "55-59" : 0.06876, 
+            "50-54" : 0.06896, 
+            "45-49" : 0.06049, 
+            "40-44" : 0.056369999999999996, 
+            "35-39" : 0.06164, 
+            "30-34" : 0.07176, 
+            "25-29" : 0.07487, 
+            "22-24" : 0.041609999999999994, 
+            "21" : 0.012920000000000001, 
+            "20" : 0.01856, 
+            "18-19" : 0.024820000000000002, 
+            "15-17" : 0.03611, 
+            "10-14" : 0.06307, 
+            "5-9" : 0.07078000000000001, 
+            "0-4" : 0.06492
+        }, 
+        "household_types" : {
+            "Married" : 0.50939457, 
+            "Single Female" : 0.11364488, 
+            "Single Male" : 0.05232589, 
+            "One-Person" : 0.26749103, 
+            "Other Non-Family" : 0.057143620000000006
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22410776999999998, 
+                "male" : 0.31270041
+            }, 
+            "Now Married" : {
+                "female" : 0.49351226, 
+                "male" : 0.50224457
+            }, 
+            "Separated" : {
+                "female" : 0.01879748, 
+                "male" : 0.02262525
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.02070334, 
+                "male" : 0.02301003
+            }, 
+            "Widowed" : {
+                "female" : 0.08417095, 
+                "male" : 0.02267655
+            }, 
+            "Divorced" : {
+                "female" : 0.1587082, 
+                "male" : 0.11674319999999999
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.25445008, 
+            "German" : 0.25354814000000003, 
+            "Unclassified" : 0.19132480999999998, 
+            "Irish" : 0.12133653000000001, 
+            "English" : 0.11716895, 
+            "American" : 0.057381890000000005, 
+            "Italian" : 0.04214226, 
+            "French" : 0.028934570000000003, 
+            "Norwegian" : 0.027731989999999998, 
+            "Scottish" : 0.025471960000000002, 
+            "Swedish" : 0.02427975, 
+            "Dutch" : 0.020412819999999998, 
+            "Scotch-Irish" : 0.01903399, 
+            "Polish" : 0.01647332, 
+            "European" : 0.01628671, 
+            "Welsh" : 0.01251309, 
+            "Czech" : 0.00878093, 
+            "Danish" : 0.00816927, 
+            "Russian" : 0.0071844, 
+            "British" : 0.00631356, 
+            "Mexican" : 0.66678835, 
+            "Other Hispanic" : 0.09468, 
+            "Spanish" : 0.26005695, 
+            "Spaniard" : 0.03693, 
+            "Puerto Rican" : 0.08994669999999999, 
+            "Central American" : 0.012769999999999998, 
+            "South American" : 0.03964372, 
+            "Salvadoran" : 0.00563, 
+            "Cuban" : 0.02737826, 
+            "Panamanian" : 0.0038900000000000002, 
+            "Spanish American" : 0.02482295, 
+            "Chinese" : 0.24196428999999997, 
+            "Filipino" : 0.0028100000000000004, 
+            "Korean" : 0.21071428999999997, 
+            "Indian" : 0.00245, 
+            "Japanese" : 0.15267856999999999, 
+            "Thai" : 0.0017699999999999999, 
+            "Not Specified" : 0.14196429, 
+            "Vietnamese" : 0.00165, 
+            "Mixed" : 0.14196429, 
+            "Cambodian" : 0.00165
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.027918980000000003, 
+            "Employed" : 0.6104837, 
+            "Unemployed" : 0.03617283, 
+            "Other" : 0.32542448
+        }, 
+        "industries" : {
+            "Retail" : 0.1443226, 
+            "Government" : 0.13807756, 
+            "Healthcare" : 0.12520119, 
+            "Education" : 0.08391098, 
+            "Construction" : 0.07219349, 
+            "Transportation" : 0.06081937, 
+            "Hospitality" : 0.060476, 
+            "Professional" : 0.04860828, 
+            "Administrative" : 0.041247290000000006, 
+            "Other Services" : 0.0395519, 
+            "Manufacturing" : 0.03897247, 
+            "Finance & Insurance" : 0.0330708, 
+            "Oil & Gas, and Mining" : 0.02448655, 
+            "Information" : 0.023113079999999998, 
+            "Entertainment" : 0.01603107, 
+            "Wholesalers" : 0.01525849, 
+            "Real estate" : 0.0146576, 
+            "Agriculture" : 0.01315535, 
+            "Utilities" : 0.00665279, 
+            "Management" : 0.00019314999999999998
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01364223, 
+            "Professional" : 0.017868520000000002, 
+            "Master's" : 0.06827327999999999, 
+            "Bachelor's" : 0.17674295999999998, 
+            "Associate's" : 0.12935254000000002, 
+            "Some College" : 0.26168834, 
+            "High School" : 0.26530866, 
+            "Some H.S." : 0.051119500000000005, 
+            "Less than H.S." : 0.013362540000000001, 
+            "None" : 0.00264143
+        }
+    }
+}

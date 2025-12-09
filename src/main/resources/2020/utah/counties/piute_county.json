@@ -1,0 +1,114 @@
+{
+    "name" : "Piute County", 
+	"state" : "Utah", 
+	"FIPS" : "49031",
+    "population" : 1859, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9521248, 
+            "Hispanic" : 0.043571809999999996, 
+            "Black" : 0.00053792, 
+            "Asian" : 0.0, 
+            "Mixed" : 0.00215169, 
+            "Other" : 0.0016137699999999998
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.0199, 
+            "80-84" : 0.03281, 
+            "75-79" : 0.04841, 
+            "70-74" : 0.08338, 
+            "67-69" : 0.04088, 
+            "65-66" : 0.03927, 
+            "62-64" : 0.03228, 
+            "60-61" : 0.05863, 
+            "55-59" : 0.04088, 
+            "50-54" : 0.04626, 
+            "45-49" : 0.04034, 
+            "40-44" : 0.04088, 
+            "35-39" : 0.07531, 
+            "30-34" : 0.08607, 
+            "25-29" : 0.03658, 
+            "22-24" : 0.02205, 
+            "21" : 0.0, 
+            "20" : 0.00699, 
+            "18-19" : 0.01291, 
+            "15-17" : 0.05056, 
+            "10-14" : 0.08499000000000001, 
+            "5-9" : 0.0581, 
+            "0-4" : 0.0425
+        }, 
+        "household_types" : {
+            "Married" : 0.61651376, 
+            "Single Female" : 0.06972476999999999, 
+            "Single Male" : 0.04954128, 
+            "One-Person" : 0.25504587, 
+            "Other Non-Family" : 0.00917431
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.29959514, 
+                "male" : 0.26390685999999997
+            }, 
+            "Now Married" : {
+                "female" : 0.48178138, 
+                "male" : 0.46959897
+            }, 
+            "Separated" : {
+                "female" : 0.03643725, 
+                "male" : 0.0
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.0026990599999999997, 
+                "male" : 0.08538163000000001
+            }, 
+            "Widowed" : {
+                "female" : 0.13630229, 
+                "male" : 0.05433376
+            }, 
+            "Divorced" : {
+                "female" : 0.04318489, 
+                "male" : 0.12677878
+            }
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.41244084000000003, 
+            "Unemployed" : 0.01622718, 
+            "Other" : 0.57133198
+        }, 
+        "industries" : {
+            "Education" : 0.1557377, 
+            "Hospitality" : 0.1442623, 
+            "Retail" : 0.12786885, 
+            "Manufacturing" : 0.11147541, 
+            "Healthcare" : 0.08688525, 
+            "Construction" : 0.08032787000000001, 
+            "Agriculture" : 0.06557377, 
+            "Transportation" : 0.06393443, 
+            "Government" : 0.06393443, 
+            "Other Services" : 0.029508200000000002, 
+            "Finance & Insurance" : 0.01803279, 
+            "Professional" : 0.01803279, 
+            "Entertainment" : 0.00983607, 
+            "Utilities" : 0.00819672, 
+            "Administrative" : 0.00819672, 
+            "Oil & Gas, and Mining" : 0.00491803, 
+            "Wholesalers" : 0.0032786900000000003, 
+            "Information" : 0.0, 
+            "Real estate" : 0.0, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.01490313, 
+            "Professional" : 0.0052161, 
+            "Master's" : 0.026080480000000003, 
+            "Bachelor's" : 0.16095379999999998, 
+            "Associate's" : 0.05439642, 
+            "Some College" : 0.19746647, 
+            "High School" : 0.37108793, 
+            "Some H.S." : 0.16393443000000002, 
+            "Less than H.S." : 0.00223547, 
+            "None" : 0.00372578
+        }
+    }
+}

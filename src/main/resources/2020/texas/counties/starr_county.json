@@ -1,0 +1,124 @@
+{
+    "name" : "Starr County", 
+	"state" : "Texas", 
+	"FIPS" : "48427",
+    "population" : 63008, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.007602210000000001, 
+            "Hispanic" : 0.98935056, 
+            "Black" : 0.00061897, 
+            "Asian" : 0.00082529, 
+            "Mixed" : 0.0013014200000000002, 
+            "Other" : 0.00030155000000000004
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.011160000000000002, 
+            "80-84" : 0.00997, 
+            "75-79" : 0.02722, 
+            "70-74" : 0.028759999999999997, 
+            "67-69" : 0.01659, 
+            "65-66" : 0.01784, 
+            "62-64" : 0.02657, 
+            "60-61" : 0.01476, 
+            "55-59" : 0.04165, 
+            "50-54" : 0.05025, 
+            "45-49" : 0.05726, 
+            "40-44" : 0.06011999999999999, 
+            "35-39" : 0.06158, 
+            "30-34" : 0.06136, 
+            "25-29" : 0.06583, 
+            "22-24" : 0.04287, 
+            "21" : 0.020550000000000002, 
+            "20" : 0.01857, 
+            "18-19" : 0.03361, 
+            "15-17" : 0.054580000000000004, 
+            "10-14" : 0.08932000000000001, 
+            "5-9" : 0.08810000000000001, 
+            "0-4" : 0.1015
+        }, 
+        "household_types" : {
+            "Married" : 0.52290523, 
+            "Single Female" : 0.24976879, 
+            "Single Male" : 0.051236199999999996, 
+            "One-Person" : 0.16690301000000002, 
+            "Other Non-Family" : 0.00918676
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.30185569, 
+                "male" : 0.38770262
+            }, 
+            "Now Married" : {
+                "female" : 0.37663271000000004, 
+                "male" : 0.46200119
+            }, 
+            "Separated" : {
+                "female" : 0.06725282, 
+                "male" : 0.037884009999999996
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.05292302, 
+                "male" : 0.03062864
+            }, 
+            "Widowed" : {
+                "female" : 0.09840639, 
+                "male" : 0.02746016
+            }, 
+            "Divorced" : {
+                "female" : 0.10292937, 
+                "male" : 0.05432337
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.94954609, 
+            "Unclassified" : 0.04101067, 
+            "American" : 0.005824660000000001, 
+            "Mexican" : 0.97287978, 
+            "Other Hispanic" : 0.9627500000000001, 
+            "Cuban" : 0.018764430000000002, 
+            "Filipino" : 0.55769231, 
+            "Korean" : 0.00046
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.47679486, 
+            "Unemployed" : 0.07905023, 
+            "Other" : 0.44415491
+        }, 
+        "industries" : {
+            "Healthcare" : 0.21163722, 
+            "Education" : 0.16080094, 
+            "Construction" : 0.1203298, 
+            "Retail" : 0.10690224000000001, 
+            "Other Services" : 0.06581861, 
+            "Hospitality" : 0.05187279, 
+            "Oil & Gas, and Mining" : 0.05088339, 
+            "Government" : 0.04537102, 
+            "Administrative" : 0.04051826, 
+            "Transportation" : 0.03797409, 
+            "Agriculture" : 0.02096584, 
+            "Manufacturing" : 0.01893993, 
+            "Finance & Insurance" : 0.01634865, 
+            "Professional" : 0.01404005, 
+            "Utilities" : 0.01253239, 
+            "Wholesalers" : 0.00899882, 
+            "Entertainment" : 0.007396939999999999, 
+            "Real estate" : 0.006595999999999999, 
+            "Information" : 0.00207303, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0020454600000000002, 
+            "Professional" : 0.00066261, 
+            "Master's" : 0.025035289999999998, 
+            "Bachelor's" : 0.06502262, 
+            "Associate's" : 0.03344761, 
+            "Some College" : 0.12019244999999999, 
+            "High School" : 0.23880037999999998, 
+            "Some H.S." : 0.17458442999999998, 
+            "Less than H.S." : 0.29048428000000004, 
+            "None" : 0.049724870000000004
+        }
+    }
+}

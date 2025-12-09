@@ -1,0 +1,154 @@
+{
+    "name" : "Windsor County", 
+	"state" : "Vermont", 
+	"FIPS" : "50027",
+    "population" : 55894, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.95128279, 
+            "Hispanic" : 0.01449172, 
+            "Black" : 0.00717429, 
+            "Asian" : 0.00831932, 
+            "Mixed" : 0.015600959999999999, 
+            "Other" : 0.00313093
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.023559999999999998, 
+            "80-84" : 0.02557, 
+            "75-79" : 0.03675, 
+            "70-74" : 0.05035, 
+            "67-69" : 0.03832, 
+            "65-66" : 0.03253, 
+            "62-64" : 0.04724999999999999, 
+            "60-61" : 0.03852, 
+            "55-59" : 0.08505000000000001, 
+            "50-54" : 0.08432, 
+            "45-49" : 0.06545, 
+            "40-44" : 0.05314, 
+            "35-39" : 0.05595, 
+            "30-34" : 0.05621, 
+            "25-29" : 0.05371000000000001, 
+            "22-24" : 0.02766, 
+            "21" : 0.01061, 
+            "20" : 0.00762, 
+            "18-19" : 0.01968, 
+            "15-17" : 0.03594, 
+            "10-14" : 0.054189999999999995, 
+            "5-9" : 0.05253, 
+            "0-4" : 0.0451
+        }, 
+        "household_types" : {
+            "Married" : 0.49334271, 
+            "Single Female" : 0.08447734000000001, 
+            "Single Male" : 0.036553089999999996, 
+            "One-Person" : 0.30656632, 
+            "Other Non-Family" : 0.07906054
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.22886513, 
+                "male" : 0.29183992
+            }, 
+            "Now Married" : {
+                "female" : 0.49757401, 
+                "male" : 0.52022696
+            }, 
+            "Separated" : {
+                "female" : 0.01488487, 
+                "male" : 0.00978863
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01574836, 
+                "male" : 0.017931390000000002
+            }, 
+            "Widowed" : {
+                "female" : 0.09078947, 
+                "male" : 0.03131497
+            }, 
+            "Divorced" : {
+                "female" : 0.15213816, 
+                "male" : 0.12889813
+            }
+        }, 
+        "ancestry" : {
+            "English" : 0.19882276999999998, 
+            "Unclassified" : 0.17080545, 
+            "Irish" : 0.16357749, 
+            "Other" : 0.13071170000000001, 
+            "German" : 0.11305327999999999, 
+            "French" : 0.11269546, 
+            "American" : 0.08446345000000001, 
+            "Italian" : 0.07319211, 
+            "Scottish" : 0.055551579999999996, 
+            "French Canadian" : 0.050363189999999995, 
+            "Polish" : 0.04250903, 
+            "Swedish" : 0.017926789999999998, 
+            "Scotch-Irish" : 0.014956879999999999, 
+            "Russian" : 0.014849540000000001, 
+            "Dutch" : 0.01416968, 
+            "European" : 0.014080220000000001, 
+            "Finnish" : 0.00966114, 
+            "Canadian" : 0.00919598, 
+            "Norwegian" : 0.00806884, 
+            "Welsh" : 0.00792572, 
+            "Mexican" : 0.32389163000000004, 
+            "Puerto Rican" : 0.00471, 
+            "South American" : 0.25369458, 
+            "Colombian" : 0.00369, 
+            "Other Hispanic" : 0.22167488, 
+            "Cuban" : 0.00322, 
+            "Spaniard" : 0.18472905999999997, 
+            "Central American" : 0.00268, 
+            "Chilean" : 0.09975369, 
+            "Guatemalan" : 0.00145, 
+            "Peruvian" : 0.07019704, 
+            "Korean" : 0.33978495000000003, 
+            "Indian" : 0.0028299999999999996, 
+            "Chinese" : 0.26021505, 
+            "Filipino" : 0.00216, 
+            "Vietnamese" : 0.17419355, 
+            "Taiwanese" : 0.00145, 
+            "Japanese" : 0.10107527
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00023495, 
+            "Employed" : 0.60651886, 
+            "Unemployed" : 0.028856419999999997, 
+            "Other" : 0.36438975999999995
+        }, 
+        "industries" : {
+            "Healthcare" : 0.1655867, 
+            "Education" : 0.12836315, 
+            "Manufacturing" : 0.10578955000000001, 
+            "Retail" : 0.10452175999999999, 
+            "Hospitality" : 0.08582195000000001, 
+            "Construction" : 0.07258065, 
+            "Professional" : 0.051556559999999994, 
+            "Administrative" : 0.03852655, 
+            "Other Services" : 0.03750528, 
+            "Government" : 0.035004930000000004, 
+            "Finance & Insurance" : 0.026834769999999997, 
+            "Entertainment" : 0.026517819999999998, 
+            "Agriculture" : 0.026200869999999998, 
+            "Transportation" : 0.02556698, 
+            "Wholesalers" : 0.021904490000000002, 
+            "Information" : 0.02134103, 
+            "Real estate" : 0.02003803, 
+            "Utilities" : 0.00574025, 
+            "Oil & Gas, and Mining" : 0.00059868, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.02336225, 
+            "Professional" : 0.02336225, 
+            "Master's" : 0.10358461000000001, 
+            "Bachelor's" : 0.20146643, 
+            "Associate's" : 0.08405617, 
+            "Some College" : 0.17383908, 
+            "High School" : 0.31480328, 
+            "Some H.S." : 0.051995969999999996, 
+            "Less than H.S." : 0.020271240000000003, 
+            "None" : 0.00325873
+        }
+    }
+}

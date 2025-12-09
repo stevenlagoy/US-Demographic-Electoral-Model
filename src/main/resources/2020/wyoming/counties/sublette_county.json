@@ -1,0 +1,141 @@
+{
+    "name" : "Sublette County", 
+	"state" : "Wyoming", 
+	"FIPS" : "56035",
+    "population" : 10032, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.9164673000000001, 
+            "Hispanic" : 0.07814992, 
+            "Black" : 0.0, 
+            "Asian" : 0.00099681, 
+            "Mixed" : 0.0043859599999999995, 
+            "Other" : 0.0
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.00937, 
+            "80-84" : 0.023330000000000004, 
+            "75-79" : 0.00857, 
+            "70-74" : 0.031, 
+            "67-69" : 0.011160000000000002, 
+            "65-66" : 0.04994, 
+            "62-64" : 0.04306, 
+            "60-61" : 0.029009999999999998, 
+            "55-59" : 0.07136999999999999, 
+            "50-54" : 0.08503, 
+            "45-49" : 0.061900000000000004, 
+            "40-44" : 0.05054, 
+            "35-39" : 0.09589, 
+            "30-34" : 0.06589, 
+            "25-29" : 0.05931, 
+            "22-24" : 0.00927, 
+            "21" : 0.011859999999999999, 
+            "20" : 0.01525, 
+            "18-19" : 0.02721, 
+            "15-17" : 0.040069999999999995, 
+            "10-14" : 0.06719, 
+            "5-9" : 0.06709, 
+            "0-4" : 0.06669
+        }, 
+        "household_types" : {
+            "Married" : 0.63502966, 
+            "Single Female" : 0.05494849, 
+            "Single Male" : 0.02185451, 
+            "One-Person" : 0.24664377, 
+            "Other Non-Family" : 0.04152357
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.19773095999999998, 
+                "male" : 0.26889198000000003
+            }, 
+            "Now Married" : {
+                "female" : 0.58887088, 
+                "male" : 0.44042652
+            }, 
+            "Separated" : {
+                "female" : 0.005402489999999999, 
+                "male" : 0.00625869
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.01512696, 
+                "male" : 0.03732035
+            }, 
+            "Widowed" : {
+                "female" : 0.07860616000000001, 
+                "male" : 0.03082986
+            }, 
+            "Divorced" : {
+                "female" : 0.11426256, 
+                "male" : 0.2162726
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.27820973, 
+            "American" : 0.19926236, 
+            "English" : 0.19856459, 
+            "Unclassified" : 0.1155303, 
+            "Irish" : 0.113437, 
+            "Other" : 0.11313796, 
+            "Welsh" : 0.034589310000000005, 
+            "French" : 0.032296649999999996, 
+            "Swedish" : 0.02900718, 
+            "Italian" : 0.02372408, 
+            "Dutch" : 0.023126, 
+            "Scottish" : 0.023126, 
+            "Scotch-Irish" : 0.01684609, 
+            "Norwegian" : 0.01395534, 
+            "Danish" : 0.01325758, 
+            "European" : 0.01196172, 
+            "Swiss" : 0.00897129, 
+            "Polish" : 0.00817384, 
+            "Czech" : 0.00807416, 
+            "Russian" : 0.00598086, 
+            "Mexican" : 0.73852041, 
+            "Other Hispanic" : 0.05772, 
+            "Korean" : 0.5, 
+            "Indian" : 0.0005, 
+            "Mongolian" : 0.4
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.0, 
+            "Employed" : 0.7025427999999999, 
+            "Unemployed" : 0.020140989999999998, 
+            "Other" : 0.27731621
+        }, 
+        "industries" : {
+            "Oil & Gas, and Mining" : 0.2560473, 
+            "Government" : 0.08618527000000001, 
+            "Retail" : 0.08242250000000001, 
+            "Education" : 0.07991399, 
+            "Agriculture" : 0.07507615000000001, 
+            "Hospitality" : 0.06844651, 
+            "Other Services" : 0.05662068, 
+            "Healthcare" : 0.047661709999999996, 
+            "Professional" : 0.0451532, 
+            "Construction" : 0.03941946, 
+            "Transportation" : 0.03135639, 
+            "Real estate" : 0.02669772, 
+            "Finance & Insurance" : 0.023472499999999997, 
+            "Manufacturing" : 0.02203906, 
+            "Wholesalers" : 0.0173804, 
+            "Administrative" : 0.01146748, 
+            "Utilities" : 0.0112883, 
+            "Information" : 0.01003404, 
+            "Entertainment" : 0.00931733, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.0, 
+            "Professional" : 0.00401376, 
+            "Master's" : 0.05547592, 
+            "Bachelor's" : 0.18405963, 
+            "Associate's" : 0.08686927000000001, 
+            "Some College" : 0.24756307, 
+            "High School" : 0.37543005, 
+            "Some H.S." : 0.02952982, 
+            "Less than H.S." : 0.01705849, 
+            "None" : 0.0
+        }
+    }
+}

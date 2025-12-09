@@ -1,0 +1,150 @@
+{
+    "name" : "Scioto County", 
+	"state" : "Ohio", 
+	"FIPS" : "39145",
+    "population" : 77366, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.93542383, 
+            "Hispanic" : 0.01134865, 
+            "Black" : 0.02790632, 
+            "Asian" : 0.00420081, 
+            "Mixed" : 0.015097069999999999, 
+            "Other" : 0.0060233199999999995
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02174, 
+            "80-84" : 0.02299, 
+            "75-79" : 0.03, 
+            "70-74" : 0.038610000000000005, 
+            "67-69" : 0.027690000000000003, 
+            "65-66" : 0.02474, 
+            "62-64" : 0.03407, 
+            "60-61" : 0.02842, 
+            "55-59" : 0.07437, 
+            "50-54" : 0.06953000000000001, 
+            "45-49" : 0.06301, 
+            "40-44" : 0.06116, 
+            "35-39" : 0.06416000000000001, 
+            "30-34" : 0.06173, 
+            "25-29" : 0.0644, 
+            "22-24" : 0.036789999999999996, 
+            "21" : 0.01525, 
+            "20" : 0.01414, 
+            "18-19" : 0.026770000000000002, 
+            "15-17" : 0.040279999999999996, 
+            "10-14" : 0.06946, 
+            "5-9" : 0.0553, 
+            "0-4" : 0.055389999999999995
+        }, 
+        "household_types" : {
+            "Married" : 0.4656122, 
+            "Single Female" : 0.11810733000000001, 
+            "Single Male" : 0.05265632, 
+            "One-Person" : 0.30206864, 
+            "Other Non-Family" : 0.06155551
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.24468808, 
+                "male" : 0.32732132999999997
+            }, 
+            "Now Married" : {
+                "female" : 0.43190241, 
+                "male" : 0.45656865
+            }, 
+            "Separated" : {
+                "female" : 0.02578752, 
+                "male" : 0.02003285
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.030142060000000002, 
+                "male" : 0.02721505
+            }, 
+            "Widowed" : {
+                "female" : 0.12155652, 
+                "male" : 0.02927631
+            }, 
+            "Divorced" : {
+                "female" : 0.14592341, 
+                "male" : 0.13958582
+            }
+        }, 
+        "ancestry" : {
+            "Unclassified" : 0.32215702, 
+            "Other" : 0.20074709999999998, 
+            "German" : 0.19923480999999998, 
+            "Irish" : 0.14342218, 
+            "American" : 0.10651966, 
+            "English" : 0.08801024, 
+            "Italian" : 0.022038099999999998, 
+            "Scottish" : 0.02057751, 
+            "French" : 0.01836724, 
+            "Welsh" : 0.014037170000000002, 
+            "Scotch-Irish" : 0.01380451, 
+            "Dutch" : 0.01212419, 
+            "European" : 0.0071607699999999995, 
+            "Polish" : 0.00524778, 
+            "Mexican" : 0.69917012, 
+            "Puerto Rican" : 0.00871, 
+            "South American" : 0.19190871, 
+            "Chilean" : 0.0023899999999999998, 
+            "Central American" : 0.04564314999999999, 
+            "Cuban" : 0.00057, 
+            "Panamanian" : 0.031120329999999998, 
+            "Guatemalan" : 0.00039, 
+            "Other Hispanic" : 0.02593361, 
+            "Dominican" : 0.00032, 
+            "Honduran" : 0.02178423, 
+            "Bolivian" : 0.00027, 
+            "Colombian" : 0.010373440000000001, 
+            "Chinese" : 0.6492307700000001, 
+            "Indian" : 0.0027300000000000002, 
+            "Filipino" : 0.19692308, 
+            "Vietnamese" : 0.00083, 
+            "Japanese" : 0.05230769, 
+            "Korean" : 0.00021999999999999998, 
+            "Sri Lankan" : 0.030769229999999998
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00056118, 
+            "Employed" : 0.45031987, 
+            "Unemployed" : 0.044316890000000005, 
+            "Other" : 0.50480207
+        }, 
+        "industries" : {
+            "Healthcare" : 0.21743929, 
+            "Retail" : 0.14252653, 
+            "Education" : 0.10293385000000001, 
+            "Manufacturing" : 0.09673859, 
+            "Hospitality" : 0.08794416999999999, 
+            "Government" : 0.060955640000000005, 
+            "Construction" : 0.05696788, 
+            "Transportation" : 0.04963326999999999, 
+            "Other Services" : 0.0440433, 
+            "Administrative" : 0.02631204, 
+            "Professional" : 0.022965179999999998, 
+            "Finance & Insurance" : 0.02211066, 
+            "Wholesalers" : 0.0152033, 
+            "Utilities" : 0.01459802, 
+            "Real estate" : 0.011500390000000001, 
+            "Information" : 0.01078829, 
+            "Entertainment" : 0.0077262699999999995, 
+            "Agriculture" : 0.00541195, 
+            "Oil & Gas, and Mining" : 0.00420138, 
+            "Management" : 0.0
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00540266, 
+            "Professional" : 0.0073792400000000005, 
+            "Master's" : 0.046515570000000006, 
+            "Bachelor's" : 0.09064040999999999, 
+            "Associate's" : 0.08358119, 
+            "Some College" : 0.20138549, 
+            "High School" : 0.40629118, 
+            "Some H.S." : 0.10820376, 
+            "Less than H.S." : 0.03958812, 
+            "None" : 0.01101239
+        }
+    }
+}

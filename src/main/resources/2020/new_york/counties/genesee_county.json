@@ -1,0 +1,156 @@
+{
+    "name" : "Genesee County", 
+	"state" : "New York", 
+	"FIPS" : "36037",
+    "population" : 59053, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.90898007, 
+            "Hispanic" : 0.02814421, 
+            "Black" : 0.024892889999999997, 
+            "Asian" : 0.00657037, 
+            "Mixed" : 0.01998205, 
+            "Other" : 0.01143041
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.027530000000000002, 
+            "80-84" : 0.021019999999999997, 
+            "75-79" : 0.03267, 
+            "70-74" : 0.04425, 
+            "67-69" : 0.03013, 
+            "65-66" : 0.01836, 
+            "62-64" : 0.028079999999999997, 
+            "60-61" : 0.027690000000000003, 
+            "55-59" : 0.08824, 
+            "50-54" : 0.08281000000000001, 
+            "45-49" : 0.07168000000000001, 
+            "40-44" : 0.06311, 
+            "35-39" : 0.04907, 
+            "30-34" : 0.05734, 
+            "25-29" : 0.059930000000000004, 
+            "22-24" : 0.04352, 
+            "21" : 0.012889999999999999, 
+            "20" : 0.00992, 
+            "18-19" : 0.0232, 
+            "15-17" : 0.039900000000000005, 
+            "10-14" : 0.053869999999999994, 
+            "5-9" : 0.06357, 
+            "0-4" : 0.051239999999999994
+        }, 
+        "household_types" : {
+            "Married" : 0.51504722, 
+            "Single Female" : 0.09452256, 
+            "Single Male" : 0.0478489, 
+            "One-Person" : 0.28440714, 
+            "Other Non-Family" : 0.05817419
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.24002426, 
+                "male" : 0.31925114
+            }, 
+            "Now Married" : {
+                "female" : 0.49973721, 
+                "male" : 0.5090528400000001
+            }, 
+            "Separated" : {
+                "female" : 0.028865980000000003, 
+                "male" : 0.02003531
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.020861130000000002, 
+                "male" : 0.02139015
+            }, 
+            "Widowed" : {
+                "female" : 0.09314736, 
+                "male" : 0.02438724
+            }, 
+            "Divorced" : {
+                "female" : 0.11736406, 
+                "male" : 0.10588331999999999
+            }
+        }, 
+        "ancestry" : {
+            "German" : 0.29429496, 
+            "Irish" : 0.18053273999999997, 
+            "Italian" : 0.15944998999999999, 
+            "English" : 0.15779046, 
+            "Unclassified" : 0.14856146, 
+            "Other" : 0.12900276, 
+            "Polish" : 0.10797081, 
+            "American" : 0.04570471, 
+            "French" : 0.026247609999999998, 
+            "Dutch" : 0.02457115, 
+            "Scottish" : 0.01832252, 
+            "French Canadian" : 0.01358102, 
+            "European" : 0.013073, 
+            "Swedish" : 0.012175499999999999, 
+            "Scotch-Irish" : 0.00741707, 
+            "Welsh" : 0.00679051, 
+            "Norwegian" : 0.00570674, 
+            "Canadian" : 0.00555433, 
+            "Mexican" : 0.40632053999999995, 
+            "Puerto Rican" : 0.012190000000000001, 
+            "Central American" : 0.36907449, 
+            "Other Hispanic" : 0.01107, 
+            "Cuban" : 0.06715576000000001, 
+            "Panamanian" : 0.00202, 
+            "Dominican" : 0.05756208, 
+            "Guatemalan" : 0.0017299999999999998, 
+            "South American" : 0.05417607, 
+            "Spaniard" : 0.0016300000000000002, 
+            "Venezuelan" : 0.03103837, 
+            "Colombian" : 0.0009299999999999999, 
+            "Nicaraguan" : 0.02539503, 
+            "Indian" : 0.28092784000000004, 
+            "Korean" : 0.00185, 
+            "Filipino" : 0.18041237, 
+            "Chinese" : 0.0011899999999999999, 
+            "Not Specified" : 0.17010308999999998, 
+            "Vietnamese" : 0.0011200000000000001, 
+            "Japanese" : 0.14690722, 
+            "Taiwanese" : 0.00097, 
+            "Pakistani" : 0.054123710000000005
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00039253000000000004, 
+            "Employed" : 0.61563094, 
+            "Unemployed" : 0.03536898, 
+            "Other" : 0.34860755
+        }, 
+        "industries" : {
+            "Manufacturing" : 0.1492332, 
+            "Healthcare" : 0.13685023, 
+            "Retail" : 0.10621162, 
+            "Education" : 0.09869459000000001, 
+            "Hospitality" : 0.06933119, 
+            "Construction" : 0.06379409, 
+            "Other Services" : 0.058055640000000006, 
+            "Government" : 0.0566462, 
+            "Administrative" : 0.040605390000000005, 
+            "Professional" : 0.03808853, 
+            "Transportation" : 0.03228296, 
+            "Wholesalers" : 0.03194738, 
+            "Agriculture" : 0.03188026, 
+            "Finance & Insurance" : 0.03141045, 
+            "Entertainment" : 0.02493372, 
+            "Information" : 0.013054129999999999, 
+            "Real estate" : 0.00835599, 
+            "Utilities" : 0.006678079999999999, 
+            "Oil & Gas, and Mining" : 0.00164435, 
+            "Management" : 0.00030202
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.00641753, 
+            "Professional" : 0.009023139999999999, 
+            "Master's" : 0.07143719, 
+            "Bachelor's" : 0.12543125, 
+            "Associate's" : 0.14422543, 
+            "Some College" : 0.19397331999999998, 
+            "High School" : 0.35880238, 
+            "Some H.S." : 0.06769765, 
+            "Less than H.S." : 0.01592318, 
+            "None" : 0.00706893
+        }
+    }
+}

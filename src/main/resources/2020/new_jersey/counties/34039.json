@@ -1,0 +1,167 @@
+{
+    "name" : "Union County", 
+	"state" : "New Jersey", 
+	"FIPS" : "34039",
+    "population" : 550436, 
+    "demographics" : {
+        "race_and_ethnicity" : {
+            "White" : 0.41384284, 
+            "Hispanic" : 0.2900646, 
+            "Black" : 0.21243887, 
+            "Asian" : 0.04832351, 
+            "Mixed" : 0.01461932, 
+            "Other" : 0.02071085
+        }, 
+        "age_and_sex" : {
+            "85+" : 0.02073, 
+            "80-84" : 0.01909, 
+            "75-79" : 0.01982, 
+            "70-74" : 0.02927, 
+            "67-69" : 0.02383, 
+            "65-66" : 0.01891, 
+            "62-64" : 0.030270000000000002, 
+            "60-61" : 0.023780000000000003, 
+            "55-59" : 0.0689, 
+            "50-54" : 0.07589, 
+            "45-49" : 0.0742, 
+            "40-44" : 0.07031, 
+            "35-39" : 0.06953999999999999, 
+            "30-34" : 0.06652, 
+            "25-29" : 0.06299, 
+            "22-24" : 0.0375, 
+            "21" : 0.01307, 
+            "20" : 0.0127, 
+            "18-19" : 0.02437, 
+            "15-17" : 0.04056, 
+            "10-14" : 0.06727, 
+            "5-9" : 0.0665, 
+            "0-4" : 0.06398
+        }, 
+        "household_types" : {
+            "Married" : 0.49824496, 
+            "Single Female" : 0.15985874, 
+            "Single Male" : 0.05820536, 
+            "One-Person" : 0.24550805, 
+            "Other Non-Family" : 0.03818289
+        }, 
+        "marital_status" : {
+            "Never Married" : {
+                "female" : 0.34948154000000003, 
+                "male" : 0.39367371
+            }, 
+            "Now Married" : {
+                "female" : 0.41124167, 
+                "male" : 0.46198773000000004
+            }, 
+            "Separated" : {
+                "female" : 0.02731294, 
+                "male" : 0.021881719999999997
+            }, 
+            "Absent Spouse" : {
+                "female" : 0.025691130000000003, 
+                "male" : 0.0358039
+            }, 
+            "Widowed" : {
+                "female" : 0.09032330999999999, 
+                "male" : 0.027007979999999997
+            }, 
+            "Divorced" : {
+                "female" : 0.09594939999999999, 
+                "male" : 0.05964497
+            }
+        }, 
+        "ancestry" : {
+            "Other" : 0.47134453, 
+            "Unclassified" : 0.13002965, 
+            "Italian" : 0.10280396, 
+            "Irish" : 0.08251822, 
+            "American" : 0.06315902000000001, 
+            "German" : 0.060350339999999995, 
+            "Polish" : 0.04871229, 
+            "West Indian" : 0.03864209, 
+            "Portuguese" : 0.0320237, 
+            "English" : 0.024720399999999997, 
+            "Haitian" : 0.02404094, 
+            "Russian" : 0.01445945, 
+            "Subsaharan African" : 0.01148544, 
+            "Brazilian" : 0.00849508, 
+            "Jamaican" : 0.00795551, 
+            "Ukrainian" : 0.00732329, 
+            "Scottish" : 0.006923599999999999, 
+            "Arab" : 0.00673648, 
+            "French" : 0.0066292899999999995, 
+            "Hungarian" : 0.0060624699999999995, 
+            "South American" : 0.30624664, 
+            "Central American" : 0.09207000000000001, 
+            "Puerto Rican" : 0.2051172, 
+            "Colombian" : 0.061669999999999996, 
+            "Dominican" : 0.17493851, 
+            "Salvadoran" : 0.052590000000000005, 
+            "Cuban" : 0.12428616999999999, 
+            "Mexican" : 0.037360000000000004, 
+            "Ecuadorian" : 0.10760147999999999, 
+            "Peruvian" : 0.03235, 
+            "Guatemalan" : 0.09436128999999999, 
+            "Other Hispanic" : 0.028370000000000003, 
+            "Honduran" : 0.08504300000000001, 
+            "Uruguayan" : 0.02557, 
+            "Costa Rican" : 0.0701289, 
+            "Spaniard" : 0.02108, 
+            "Argentinean" : 0.07002617, 
+            "Nicaraguan" : 0.02105, 
+            "Spanish" : 0.06739747, 
+            "Chilean" : 0.020259999999999997, 
+            "Filipino" : 0.30283093, 
+            "Indian" : 0.01463, 
+            "Chinese" : 0.2916651, 
+            "Korean" : 0.01409, 
+            "Vietnamese" : 0.23959547, 
+            "Pakistani" : 0.01158, 
+            "Japanese" : 0.052633559999999996, 
+            "Mixed" : 0.00254, 
+            "Bangladeshi" : 0.02293319, 
+            "Not Specified" : 0.00111, 
+            "Nepalese" : 0.017857810000000002
+        }, 
+        "employment_status" : {
+            "Armed Forces" : 0.00046345999999999996, 
+            "Employed" : 0.6269253100000001, 
+            "Unemployed" : 0.0580983, 
+            "Other" : 0.31451293
+        }, 
+        "industries" : {
+            "Healthcare" : 0.12886224000000002, 
+            "Retail" : 0.10350319000000001, 
+            "Manufacturing" : 0.09263502000000001, 
+            "Education" : 0.09148384, 
+            "Transportation" : 0.08232590000000001, 
+            "Professional" : 0.07502529, 
+            "Finance & Insurance" : 0.0726604, 
+            "Hospitality" : 0.05711764, 
+            "Construction" : 0.055973810000000006, 
+            "Administrative" : 0.05402453, 
+            "Other Services" : 0.04694827, 
+            "Government" : 0.03768734, 
+            "Wholesalers" : 0.0355321, 
+            "Information" : 0.02471175, 
+            "Real estate" : 0.017227239999999998, 
+            "Entertainment" : 0.01533312, 
+            "Utilities" : 0.0070247700000000005, 
+            "Management" : 0.0009746399999999999, 
+            "Agriculture" : 0.00075029, 
+            "Oil & Gas, and Mining" : 0.00019861
+        }, 
+        "educational_attainment" : {
+            "Doctorate" : 0.013590040000000001, 
+            "Professional" : 0.02434186, 
+            "Master's" : 0.09305754000000001, 
+            "Bachelor's" : 0.20295034999999997, 
+            "Associate's" : 0.05727385, 
+            "Some College" : 0.1717353, 
+            "High School" : 0.29485427000000003, 
+            "Some H.S." : 0.06311741, 
+            "Less than H.S." : 0.061300730000000005, 
+            "None" : 0.017778640000000002
+        }
+    }
+}
