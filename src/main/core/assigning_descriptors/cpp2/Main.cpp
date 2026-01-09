@@ -3,6 +3,8 @@
 #include "County.h"
 #include "utils.h"
 
+#include <chrono>
+
 #include <vector>
 #include <iostream>
 #include <array>
@@ -18,18 +20,19 @@ using json = nlohmann::json;
 
 using namespace std;
 
-#define RESOURCES_DIR "../../../resources/"
+#define RESOURCES_DIR "../../../resources/2020/"
 #define LOGS_DIR "../../../../../logs/"
 
 atomic<bool> stopRequested = false;
 
 struct Simulation {
-    uint32_t nationalPopulation;
+    uint32_t nationalPopulation = 0;
     array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
     vector<unique_ptr<County>> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
-    uint32_t tries;
-    uint16_t threadNum;
+    uint32_t tries = 0;
+    uint16_t threadNum = 0;
+    double temperature = STARTING_TEMPERATURE;
 
     Simulation() = default;
 
@@ -48,6 +51,11 @@ struct Simulation {
                 c->getDemographics(),
                 &descriptors
             );
+            // Add descriptors
+            for (const auto& di : c->getDescriptorIndices()) {
+                if (!newCounty->hasDescriptor(di))
+                    newCounty->addDescriptor(di);
+            }
             counties.push_back(move(newCounty));
         }
     }
@@ -202,7 +210,8 @@ int main() {
         cout << "Best score across workers: " << setprecision(12) << bestScore << "\n";
         // Writing is done in the main loop whenever a best score is found
         cout << "Best simulation saved to " << LOGS_DIR << "cpplog.json\n";
-    } else {
+    }
+    else {
         cout << "No successful simulations completed.\n";
     }
 
@@ -311,7 +320,7 @@ void Simulation::initialize() {
             // Add nation (index 0)
             // countyPtr->addDescriptor(0); // This is done in the county's constructor
             // Add state descriptor
-            logger.logLine("Assigning descriptor ", stateDescriptorIndex, " to county ", countyPtr->getName());
+            logger.logLine("Assigning descriptor ", descriptors[stateDescriptorIndex].getName(), " (", stateDescriptorIndex, ") to county ", countyPtr->getName());
             countyPtr->addDescriptor(stateDescriptorIndex);
 
             counties.emplace_back(move(countyPtr));
@@ -345,9 +354,10 @@ void Simulation::run() {
     Change ch{[](){}};
     double prevScore = 0, newScore = 0;
     while (iter++ < max_iter && tries < MAX_TRIES && !stopRequested) {
+        temperature = clamp(temperature - TEMPERATURE_STEP, 0.0, 1.0);
         // cout << iter << " ";
         // Chance that a change made is to a descriptor rather than a county
-        if (randomChance(0.99)) {
+        if (randomChance(CHANGE_DESCRIPTOR_CHANCE)) {
             // cout << "D ";
             // Change a descriptor
             // Choose a descriptor
@@ -383,9 +393,18 @@ void Simulation::run() {
 
         // Evaluate
         newScore = score();
-        if (newScore < prevScore) { // If not better, revert
-            ch.undo();
-            ++tries;
+        if (newScore < prevScore) { // The change made the simulation worse
+            // Temperature check
+            if (randomChance(this->temperature)) {
+                // Keep the change
+                prevScore = newScore;
+                tries = 0;
+            }
+            else {
+                // Undo the change
+                ch.undo();
+                ++tries;
+            }
         }
         else { // Keep the change
             prevScore = newScore;
@@ -393,22 +412,23 @@ void Simulation::run() {
         }
 
         // Print details
-        if (iter % 10000 == 0)
+        if (iter % PRINT_TSTATUS_EVERY == 0)
             logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] ",
             "Iter: ", setw(8), iter, ", ",
+            "Temp: ", setw(8), to_string(temperature), ", ",
             "Acc: ", fixed, setprecision(12), setw(14), newScore * 100, "% ",
             progressBar(newScore, 100));
         // cout << newScore << endl;
     }
 
     if (stopRequested) {
-        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation interrupted by user.");
+        logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation interrupted by user.");
     }
     else if (tries >= MAX_TRIES) {
-        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] ", to_string(MAX_TRIES), " iterations without improvement. Dropping out.");
+        logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] ", to_string(MAX_TRIES), " iterations without improvement. Dropping out.");
     }
     else {
-        logger.logLine("\n[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation limit reached.");
+        logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation limit reached.");
     }
 
 }

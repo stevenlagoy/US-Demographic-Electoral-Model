@@ -19,7 +19,7 @@ County::County(
     const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
 ) : descriptorsRef{descriptorsRef}, name{name}, countyFIPS{countyFIPS}, population{population}, demographics{demographics}
 {
-    addDescriptor(0);
+    addDescriptor(0); // Add the national descriptor
     recalculate();
 }
 
@@ -61,7 +61,7 @@ bool County::hasDescriptor(size_t descIndex) const noexcept {
     return descriptorIndices.find(descIndex) != descriptorIndices.end();
 }
 
-void County::addDescriptor(size_t descIndex) noexcept {
+void County::addDescriptor(size_t descIndex) noexcept {    
     descriptorIndices.emplace(descIndex);
     recalculate();
 }

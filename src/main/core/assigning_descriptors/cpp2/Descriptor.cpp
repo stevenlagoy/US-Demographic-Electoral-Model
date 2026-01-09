@@ -57,13 +57,9 @@ json Descriptor::toJson() const {
     }
     for (size_t i = 0; i < effects.size(); ++i) {
         const auto& key = (*demographicsRef)[i];
-        double value = effects[i];
-        if (value != 0.0) effectsJson[key] = value;
+        effectsJson[key] = effects[i];
     }
-    json res = {
-        { name, effectsJson}
-    };
-    return res;
+    return { { name, effectsJson } };
 }
 
 std::ostream& operator<<(std::ostream& os, const Descriptor& obj) {

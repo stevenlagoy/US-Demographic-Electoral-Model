@@ -10,7 +10,17 @@
 
 #define MAX_TRIES 500000
 
+// Temperature is the probability that a worse change is accepted
+#define STARTING_TEMPERATURE 1.0
+#define TEMPERATURE_STEP 0.000001
+
+#define CHANGE_DESCRIPTOR_CHANCE 0.99
+#define CHANGE_COUNTY_CHANCE = 1.0 - CHANGE_DESCRIPTOR_CHANCE;
+
 #define MIN_THREADS 1u
 #define MAX_THREADS 100u
+
+// Number of iterations between each time a thread will print its status (iteration count, temperature, accuracy)
+#define PRINT_TSTATUS_EVERY 10000
 
 #endif
