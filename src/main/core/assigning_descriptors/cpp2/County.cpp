@@ -1,4 +1,5 @@
 #include "County.h"
+#include <iostream>
 
 // Determine descDemographics from descriptor membership
 void County::recalculate() {
@@ -10,14 +11,16 @@ void County::recalculate() {
             descDemographics[i] += effects[i];
         }
     }
+
     score = compareDemographics(demographics, descDemographics, "js");
 }
 
 County::County(
     const std::string& name, std::string countyFIPS, uint32_t population,
+    const std::vector<std::string> neighborCountyFIPS,
     const std::array<double, NUMBER_DEMOGRAPHICS>& demographics,
     const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
-) : descriptorsRef{descriptorsRef}, name{name}, countyFIPS{countyFIPS}, population{population}, demographics{demographics}
+) : descriptorsRef{descriptorsRef}, name{name}, countyFIPS{countyFIPS}, population{population}, demographics{demographics}, neighborCountyFIPS{neighborCountyFIPS}
 {
     addDescriptor(0); // Add the national descriptor
     recalculate();
@@ -31,6 +34,7 @@ County::County(const County& other)
       demographics(other.demographics),
       descDemographics(other.descDemographics),
       descriptorIndices(other.descriptorIndices),
+      neighborCountyFIPS(other.neighborCountyFIPS),
       score(other.score)
 {}
 
@@ -61,6 +65,16 @@ bool County::hasDescriptor(size_t descIndex) const noexcept {
     return descriptorIndices.find(descIndex) != descriptorIndices.end();
 }
 
+bool County::hasDescriptor(const Descriptor desc) const noexcept {
+    auto it = std::find(descriptorsRef->cbegin(), descriptorsRef->cend(), desc);
+    size_t index{0};
+    if (it != descriptorsRef->cend()) {
+        index = std::distance(descriptorsRef->cbegin(), it);
+    }
+    else return false;
+    return hasDescriptor(index);
+}
+
 void County::addDescriptor(size_t descIndex) noexcept {    
     descriptorIndices.emplace(descIndex);
     recalculate();
@@ -82,6 +96,18 @@ void County::addOrRemoveDescriptor(size_t descIndex) noexcept {
 }
 
 double County::getScore() const { return score; }
+
+std::vector<std::string> County::getNeighborCountyFIPS() const noexcept {
+    return neighborCountyFIPS;
+}
+
+bool County::hasNeighbor(std::string neighborFIPS) const {
+    return std::find(neighborCountyFIPS.cbegin(), neighborCountyFIPS.cend(), neighborFIPS) != neighborCountyFIPS.cend();
+}
+
+bool County::hasNeighbor(const County& c) const {
+    return this->hasNeighbor(c.getCountyFIPS());
+}
 
 // "Autauga County" (01001) : {"USA", "AL", "1", "2", ...};
 std::string County::toString() const {

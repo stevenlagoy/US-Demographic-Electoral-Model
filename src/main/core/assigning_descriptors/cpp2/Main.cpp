@@ -4,11 +4,11 @@
 #include "utils.h"
 
 #include <chrono>
-
 #include <vector>
 #include <iostream>
 #include <array>
 #include <string>
+#include <format>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -26,10 +26,12 @@ using namespace std;
 atomic<bool> stopRequested = false;
 
 struct Simulation {
+    chrono::steady_clock::time_point startTime = chrono::steady_clock::now();
     uint32_t nationalPopulation = 0;
     array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
     vector<unique_ptr<County>> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
+    uint64_t iter = 0;
     uint32_t tries = 0;
     uint16_t threadNum = 0;
     double temperature = STARTING_TEMPERATURE;
@@ -44,13 +46,7 @@ struct Simulation {
     {
         counties.reserve(other.counties.size());
         for (const auto& c : other.counties) {
-            auto newCounty = make_unique<County>(
-                c->getName(),
-                c->getCountyFIPS(),
-                c->getPopulation(),
-                c->getDemographics(),
-                &descriptors
-            );
+            auto newCounty = make_unique<County>(*c);
             // Add descriptors
             for (const auto& di : c->getDescriptorIndices()) {
                 if (!newCounty->hasDescriptor(di))
@@ -58,6 +54,7 @@ struct Simulation {
             }
             counties.push_back(move(newCounty));
         }
+        assert(this->counties.size() == other.counties.size());
     }
 
     // Deep copy assignment
@@ -69,15 +66,10 @@ struct Simulation {
         counties.clear();
         counties.reserve(other.counties.size());
         for (const auto& c : other.counties) {
-            auto newCounty = make_unique<County>(
-                c->getName(),
-                c->getCountyFIPS(),
-                c->getPopulation(),
-                c->getDemographics(),
-                &descriptors
-            );
+            auto newCounty = make_unique<County>(*c);
             counties.push_back(move(newCounty));
         }
+        assert(this->counties.size() == other.counties.size());
         return *this;
     }
 
@@ -88,6 +80,11 @@ struct Simulation {
     void initialize();
     void run();
     double score();
+    double scoreAccuracy();
+    double scoreSpecificity();
+    double scoreParsimony();
+    double scoreLocality();
+    void logStatus();
     json formatResults();
 };
 
@@ -134,11 +131,18 @@ public:
 };
 
 string progressBar(double percent, int width) {
-    int filled = static_cast<int>(width * percent);
+    int filled = static_cast<int>((width - 2) * percent);
     string res;
-    for (int i = 0; i < width; i++) {
-        res += (i <= filled ? "#" : "_");
+    const char startChar = '['; // '▕'
+    const char filledChar = '#'; // '█'
+    const char emptyChar = '-'; // '─'
+    const char endChar = ']'; // '▏'
+    
+    res += startChar;
+    for (int i = 0; i < (width - 2); i++) {
+        res += (i <= filled ? filledChar : emptyChar);
     }
+    res += endChar;
     return res;
 }
 
@@ -232,6 +236,7 @@ int main() {
 
 void Simulation::initialize() {
     counties.clear();
+    this->startTime = chrono::steady_clock::now();
 
     // Read demographic names
     // Can use nation data for this, as all files have same demographic keys
@@ -263,7 +268,6 @@ void Simulation::initialize() {
     for (const string& abbr : statesAbbreviations) {
         descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
         stateToDescriptor[abbr] = descriptorsMade; // Map abbreviation to descriptor index
-        logger.logLine(abbr, descriptorsMade);
         ++descriptorsMade;
     }
 
@@ -275,9 +279,21 @@ void Simulation::initialize() {
         ++descriptorsMade;
     }
 
+    // Read county adjacencies
+    string adjacenciesFile = RESOURCES_DIR "adjacencies.json";
+    json adjacenciesJson = freadJson(adjacenciesFile);
+    map<string, vector<string>> adjacencies{};
+    for (const auto& i : adjacenciesJson.items()) {
+        vector<string> neighbors{};
+        for (const auto& v : i.value()) {
+            neighbors.emplace_back(v);
+        }
+        adjacencies[i.key()] = neighbors;
+    }
+
     // Read Counties and assign fixed descriptors
     for (const string& state : listDirectories(RESOURCES_DIR)) {
-        logger.logLine("Initializing ", state);
+        // logger.logLine("Initializing ", state);
         string countyDir = RESOURCES_DIR + state + "/counties/";
 
         // Convert state name to abbreviation
@@ -314,13 +330,14 @@ void Simulation::initialize() {
                 j.value("name", string()),
                 j.value("FIPS", string()),
                 j.value("population", uint32_t()),
+                adjacencies[j.value("FIPS", string())],
                 demoArray,
                 &descriptors
             );
             // Add nation (index 0)
             // countyPtr->addDescriptor(0); // This is done in the county's constructor
             // Add state descriptor
-            logger.logLine("Assigning descriptor ", descriptors[stateDescriptorIndex].getName(), " (", stateDescriptorIndex, ") to county ", countyPtr->getName());
+            // logger.logLine("Assigning descriptor ", descriptors[stateDescriptorIndex].getName(), " (", stateDescriptorIndex, ") to county ", countyPtr->getName());
             countyPtr->addDescriptor(stateDescriptorIndex);
 
             counties.emplace_back(move(countyPtr));
@@ -350,10 +367,9 @@ void Simulation::run() {
         void undo() { if (undo_fn) undo_fn(); }
     };
 
-    uint64_t max_iter = 10'000'000, iter = 0;
     Change ch{[](){}};
     double prevScore = 0, newScore = 0;
-    while (iter++ < max_iter && tries < MAX_TRIES && !stopRequested) {
+    while (iter++ < MAX_ITERATIONS && tries < MAX_TRIES && !stopRequested) {
         temperature = clamp(temperature - TEMPERATURE_STEP, 0.0, 1.0);
         // cout << iter << " ";
         // Chance that a change made is to a descriptor rather than a county
@@ -412,12 +428,7 @@ void Simulation::run() {
         }
 
         // Print details
-        if (iter % PRINT_TSTATUS_EVERY == 0)
-            logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] ",
-            "Iter: ", setw(8), iter, ", ",
-            "Temp: ", setw(8), to_string(temperature), ", ",
-            "Acc: ", fixed, setprecision(12), setw(14), newScore * 100, "% ",
-            progressBar(newScore, 100));
+        this->logStatus();
         // cout << newScore << endl;
     }
 
@@ -437,12 +448,96 @@ double Simulation::score() {
     // Loop through counties
     // Use county accuracy * ratio county pop / national pop
     // Sum all values for total accuracy
-    return accumulate(
+
+    return this->scoreAccuracy();
+
+    // double accuracy, specificity, parsimony, locality;
+    // accuracy   = this->scoreAccuracy();
+    // specificty = this->scoreSpecificity();
+    // parsimony  = this->scoreParsimony();
+    // locality   = this->scoreLocality();
+
+    // accuracy *= ACCURACY_SCORE_WEIGHT;
+    // specificity *= SPECIFICITY_SCORE_WEIGHT;
+    // parsimony *= PARSIMONY_SCORE_WEIGHT;
+    // locality *= LOCALITY_SCORE_WEIGHT;
+
+    // double totalScore = accuracy + specificity + parsimony + locality;
+
+    // logger.logLine(std::format(
+    //     "Score: Acc = {}, Spc = {}, Par = {}, Loc = {}, TOTAL = {}",
+    //     to_string(accuracy), to_string(specificity), to_string(parsimony), to_string(locality), to_string(totalScore)
+    // ));
+
+    // return totalScore;
+}
+
+double Simulation::scoreAccuracy() {
+    // Accuracy is the sum of each county's accuracy weighted by its population
+    // 1.0 -> perfectly accurate; 0.0 -> completely innacurate or empty
+    double accuracy = accumulate(
         counties.begin(), counties.end(), 0.0,
         [this](double total, const unique_ptr<County>& c) {
             return total + c->getScore() * (static_cast<double>(c->getPopulation()) / nationalPopulation);
         }
     );
+    return accuracy;
+}
+
+double Simulation::scoreSpecificity() {
+    // Specificity is the sum of squares of each descriptor's effects
+    // >=1.0 -> Every descriptor has 100% effects across the board; 0% -> Every descriptor has no effects
+    double specificity = accumulate(
+        descriptors.cbegin(), descriptors.cend(), 0.0,
+        [this](double total, const Descriptor& d) {
+            return total + d.getScore();
+        }
+    ) / counties.size();
+    return specificity;
+}
+
+double Simulation::scoreParsimony() {
+    // Parsimony is inverse to the number of used descriptors
+    // 1.0 -> no descriptors were used; 0.0 -> all possible descriptors were used
+    size_t numEffectualDescriptors = std::count_if(descriptors.cbegin(), descriptors.cend(), [](const auto& d){ return d.hasAnyEffect(); });
+    double parsimony = 1.0 - numEffectualDescriptors / NUMBER_DESCRIPTORS;
+    return parsimony;
+}
+
+double Simulation::scoreLocality() {
+    // Locality compares actual to expected number of member neighbors for member counties
+    // >=1.0 -> Every descriptor's members each have the expected number of neighbors; 0.0 -> No descriptor has any members which are neighbors
+    double locality = 0.0;
+    for (const auto& descriptor : descriptors) {
+        // Find counties which are members of the descriptor
+        vector<County> memberCounties;
+        for (const auto& county : counties) {
+            if (county->hasDescriptor(descriptor)) memberCounties.push_back(*county);
+        }
+        // For each member county, determine number of other member counties which are neighbors
+        int numNeighbors = 0;
+        for (const auto& c1 : memberCounties) {
+            for (const auto& c2 : memberCounties) {
+                if (c1.hasNeighbor(c2)) numNeighbors++;
+            }
+        }
+        double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY);
+        locality += numNeighbors / expectedNeighbors;
+    }
+    locality /= NUMBER_DESCRIPTORS;
+    return locality;
+}
+
+void Simulation::logStatus() {
+    double currScore = score();
+    if (iter % PRINT_TSTATUS_EVERY == 0)
+        logger.logLine(
+            "[T", setfill('0'), setw(2), to_string(threadNum), "] ",
+            "Iter: ", setw(7), iter, ", ",
+            "Temp: ", setw(8), to_string(temperature), ", ",
+            "Acc: ", fixed, setprecision(12), setw(14), currScore * 100, "% ",
+            progressBar(currScore, 100)
+        );
 }
 
 json Simulation::formatResults() {
@@ -469,6 +564,20 @@ json Simulation::formatResults() {
     }
     */
 
+    // Simulation details json
+    json simDetails = {
+        { "total_accuracy", score() },
+        { "sim_runtime", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - this->startTime).count() },
+        { "number_counties", this->counties.size() },
+        { "number_descriptors", NUMBER_DESCRIPTORS },
+        { "number_demographics", NUMBER_DEMOGRAPHICS },
+        { "starting_temperature", STARTING_TEMPERATURE },
+        { "temperature_step", TEMPERATURE_STEP },
+        { "max_change_amount", MAX_CHANGE_AMT },
+        { "change_descriptor_chance", CHANGE_DESCRIPTOR_CHANCE },
+        { "change_county_chance", CHANGE_COUNTY_CHANCE }
+    };
+
     // Counties json
     json allCounties = json::object();
     for (const auto& c : counties) {
@@ -485,7 +594,7 @@ json Simulation::formatResults() {
 
     // Combine for simulation json
     json simJson = {
-        { "accuracy", score()},
+        { "details", simDetails },
         { "counties", allCounties },
         { "descriptors", allDescriptors }
     };

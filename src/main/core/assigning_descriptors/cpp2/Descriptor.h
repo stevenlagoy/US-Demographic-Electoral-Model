@@ -14,6 +14,8 @@ private:
     std::string name;
     std::array<double, NUMBER_DEMOGRAPHICS> effects{}; // Initialize with zeroes
     bool membershipModifiable; // Descriptors with modifiable membership can have the counties they apply to change.
+    void recalculate();
+    double score;
 public:
     Descriptor();
     explicit Descriptor(
@@ -27,6 +29,8 @@ public:
     double getEffect(size_t index) const;
     void setEffect(size_t index, const double value);
     void addEffect(size_t index, const double value);
+    bool hasAnyEffect() const;
+    double getScore() const noexcept;
     bool isMembershipModifiable() const noexcept;
     bool operator==(const Descriptor& other) const;
     std::string toString() const noexcept;

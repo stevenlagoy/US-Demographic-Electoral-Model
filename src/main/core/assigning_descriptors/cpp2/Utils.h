@@ -1,16 +1,19 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <string>
-#include <map>
-#include <random>
-#include <chrono>
 #include <algorithm>
-#include <windows.h>
-#include <iostream>
+#include <chrono>
 #include <cmath>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <random>
 #include <sstream>
+#include <string>
+#include <type_traits>
+#include <vector>
+#include <windows.h>
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
@@ -54,5 +57,24 @@ T& randomItem(std::array<T, N>& arr) {
 }
 
 bool randomChance(float chance);
+
+template<typename T>
+concept Number = std::is_arithmetic_v<T>;
+
+template <Number T>
+double std_dev(const std::vector<T>& vec) {
+    int n = vec.size();
+    if (n == 0) return 0.0;
+
+    double sum = std::accumulate(vec.cbegin(), vec.cend(), 0.0);
+    double mean = sum / n;
+    double squared_diff_sum = 0.0;
+    for (const T& value : vec) {
+        squared_diff_sum += std::pow(value - mean, 2);
+    }
+    double variance = squared_diff_sum / n;
+    double std_dev = std::sqrt(variance);
+    return std_dev;
+}
 
 #endif

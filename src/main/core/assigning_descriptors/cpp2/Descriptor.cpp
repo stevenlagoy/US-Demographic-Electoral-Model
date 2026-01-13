@@ -1,6 +1,17 @@
 #include "Descriptor.h"
 #include <sstream>
+#include <iostream>
 #include <tuple>
+#include <algorithm>
+
+void Descriptor::recalculate() {
+    score = std::accumulate(
+        effects.cbegin(), effects.cend(), 0.0,
+        [this](double total, double e) {
+            return total + std::pow(e, 2);
+        }
+    );
+}
 
 Descriptor::Descriptor() : Descriptor("", nullptr) {}
 
@@ -8,7 +19,9 @@ Descriptor::Descriptor(
     const std::string& name,
     const std::array<std::string, NUMBER_DEMOGRAPHICS>* demographicsRef,
     bool membershipModifiable
-) : demographicsRef{demographicsRef}, name{name}, membershipModifiable{membershipModifiable} {}
+) : demographicsRef{demographicsRef}, name{name}, membershipModifiable{membershipModifiable} {
+    recalculate();
+}
 
 std::string Descriptor::getName() const noexcept { return name; }
 
@@ -18,18 +31,29 @@ const std::array<double, NUMBER_DEMOGRAPHICS >& Descriptor::getEffects() const n
 
 void Descriptor::setEffects(const std::array<double, NUMBER_DEMOGRAPHICS>& effects) {
     this->effects = effects;
+    recalculate();
 }
 
 double Descriptor::getEffect(const size_t index) const {
-    return effects.at(index);
+    return effects[index];
 }
 
 void Descriptor::setEffect(const size_t index, const double value) {
-    effects.at(index) = std::max(value, 0.0);
+    effects[index] = std::max(value, 0.0);
+    recalculate();
 }
 
 void Descriptor::addEffect(const size_t index, const double value) {
     effects[index] = std::max(effects[index] + value, 0.0);
+    recalculate();
+}
+
+bool Descriptor::hasAnyEffect() const {
+    return 0.0 == std::accumulate(effects.cbegin(), effects.cend(), 0.0);
+}
+
+double Descriptor::getScore() const noexcept {
+    return score;
 }
 
 bool Descriptor::isMembershipModifiable() const noexcept { return membershipModifiable; }

@@ -22,11 +22,13 @@ private:
     const std::array<double, NUMBER_DEMOGRAPHICS> demographics;
     std::array<double, NUMBER_DEMOGRAPHICS> descDemographics;
     std::unordered_set<size_t> descriptorIndices{};
+    const std::vector<std::string> neighborCountyFIPS;
     void recalculate();
     double score;
 public:
     County(
         const std::string& name, std::string countyFIPS, uint32_t population,
+        const std::vector<std::string> neighborCountyFIPS,
         const std::array<double, NUMBER_DEMOGRAPHICS>& demographics,
         const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
     );
@@ -39,10 +41,14 @@ public:
     const std::array<double, NUMBER_DEMOGRAPHICS>& getDescriptorDemographics() const noexcept;
     const std::unordered_set<size_t>& getDescriptorIndices() const noexcept;
     bool hasDescriptor(size_t descIndex) const noexcept;
+    bool hasDescriptor(const Descriptor desc) const noexcept;
     void addDescriptor(size_t descIndex) noexcept;
     void removeDescriptor(size_t descIndex) noexcept;
     void addOrRemoveDescriptor(size_t descIndex) noexcept; // Adds if not present, removes if present
     double getScore() const;
+    std::vector<std::string> getNeighborCountyFIPS() const noexcept;
+    bool hasNeighbor(std::string neighborFIPS) const;
+    bool hasNeighbor(const County& c) const;
     std::string toString() const;
     json toJson() const;
     friend std::ostream& operator<<(std::ostream& os, const County& obj);
