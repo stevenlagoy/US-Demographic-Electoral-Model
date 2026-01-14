@@ -1,4 +1,7 @@
 # Computational Model of Demographic Archetypes and Electoral Outcomes in the United States
+
+[<b>Visualization Website</b>](https://stevenlagoy.github.io/demographics-visualizer/)
+
 ## Summary
 I propose to create a computational model of U.S. regionalism based on mixtures of demographic archetype “groups,” and to analyze how accurately these archetypical categorizations predict historical electoral outcomes using methods in data science. The objective of this project is to apply modern computer modeling and machine learning techniques to give insight into identity-informed voting behavior in the United States.
 ## Introduction
