@@ -23,9 +23,9 @@ private:
     std::array<double, NUMBER_DEMOGRAPHICS> descDemographics;
     std::unordered_set<size_t> descriptorIndices{};
     const std::vector<std::string> neighborCountyFIPS;
-    void recalculate();
     double score;
 public:
+    void recalculate();
     County(
         const std::string& name, std::string countyFIPS, uint32_t population,
         const std::vector<std::string> neighborCountyFIPS,

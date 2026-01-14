@@ -3,14 +3,15 @@
 #include <iostream>
 #include <tuple>
 #include <algorithm>
+#include <cmath>
 
 void Descriptor::recalculate() {
     score = std::accumulate(
         effects.cbegin(), effects.cend(), 0.0,
         [this](double total, double e) {
-            return total + std::pow(e, 2);
+            return total + std::abs(std::pow(e, 2));
         }
-    );
+    ) / (1 * 1 * effects.size());
 }
 
 Descriptor::Descriptor() : Descriptor("", nullptr) {}
@@ -49,7 +50,8 @@ void Descriptor::addEffect(const size_t index, const double value) {
 }
 
 bool Descriptor::hasAnyEffect() const {
-    return 0.0 == std::accumulate(effects.cbegin(), effects.cend(), 0.0);
+    double totalEffect = std::accumulate(effects.cbegin(), effects.cend(), 0.0);
+    return totalEffect != 0.0;
 }
 
 double Descriptor::getScore() const noexcept {

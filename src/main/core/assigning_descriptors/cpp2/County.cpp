@@ -1,5 +1,6 @@
 #include "County.h"
 #include <iostream>
+#include <algorithm>
 
 // Determine descDemographics from descriptor membership
 void County::recalculate() {
@@ -8,10 +9,14 @@ void County::recalculate() {
         const auto& desc = descriptorsRef->at(idx);
         const auto& effects = desc.getEffects();
         for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
-            descDemographics[i] += effects[i];
+            descDemographics[i] = std::clamp(descDemographics[i] + effects[i], 0.0, 1.0);
         }
     }
-
+    double totalEffects = std::accumulate(descDemographics.cbegin(), descDemographics.cend(), 0.0);
+    if (totalEffects == 0.0) {
+        score = 0.0;
+        return;
+    }
     score = compareDemographics(demographics, descDemographics, "js");
 }
 
@@ -95,7 +100,9 @@ void County::addOrRemoveDescriptor(size_t descIndex) noexcept {
     }
 }
 
-double County::getScore() const { return score; }
+double County::getScore() const {
+    return score;
+}
 
 std::vector<std::string> County::getNeighborCountyFIPS() const noexcept {
     return neighborCountyFIPS;

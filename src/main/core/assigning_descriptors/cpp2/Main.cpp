@@ -4,6 +4,7 @@
 #include "utils.h"
 
 #include <chrono>
+#include <cmath>
 #include <vector>
 #include <iostream>
 #include <array>
@@ -28,7 +29,7 @@ atomic<bool> stopRequested = false;
 struct Simulation {
     chrono::steady_clock::time_point startTime = chrono::steady_clock::now();
     uint32_t nationalPopulation = 0;
-    array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
+    array<Descriptor, NUMBER_DESCRIPTORS> *descriptors;
     vector<unique_ptr<County>> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
     uint64_t iter = 0;
@@ -36,7 +37,21 @@ struct Simulation {
     uint16_t threadNum = 0;
     double temperature = STARTING_TEMPERATURE;
 
-    Simulation() = default;
+    Simulation()
+        : nationalPopulation{0},
+          iter{0},
+          tries{0},
+          threadNum{0},
+          temperature{STARTING_TEMPERATURE}
+    {
+        descriptors = new array<Descriptor, NUMBER_DESCRIPTORS>();
+        counties = vector<unique_ptr<County>>();
+        demographicNames = array<string, NUMBER_DEMOGRAPHICS>();
+    }
+
+    ~Simulation() {
+        delete descriptors;
+    }
 
     // Deep copy constructor
     Simulation(const Simulation& other)
@@ -54,6 +69,8 @@ struct Simulation {
             }
             counties.push_back(move(newCounty));
         }
+        assert(this->descriptors->size() == other.descriptors->size() && this->descriptors->size() == NUMBER_DESCRIPTORS);
+        assert(this->demographicNames.size() == other.demographicNames.size() && this->demographicNames.size() == NUMBER_DEMOGRAPHICS);
         assert(this->counties.size() == other.counties.size());
     }
 
@@ -69,6 +86,8 @@ struct Simulation {
             auto newCounty = make_unique<County>(*c);
             counties.push_back(move(newCounty));
         }
+        assert(this->descriptors->size() == other.descriptors->size() && this->descriptors->size() == NUMBER_DESCRIPTORS);
+        assert(this->demographicNames.size() == other.demographicNames.size() && this->demographicNames.size() == NUMBER_DEMOGRAPHICS);
         assert(this->counties.size() == other.counties.size());
         return *this;
     }
@@ -130,33 +149,83 @@ public:
     }
 };
 
-string progressBar(double percent, int width) {
+string progressBar(double percent, int width, bool showPercent = true) {
     int filled = static_cast<int>((width - 2) * percent);
-    string res;
-    const char startChar = '['; // '▕'
-    const char filledChar = '#'; // '█'
-    const char emptyChar = '-'; // '─'
-    const char endChar = ']'; // '▏'
+    ostringstream res;
+    const string startSymbol  = "["; //"▕";
+    const string filledSymbol = "#"; //"█";
+    const string emptySymbol  = "-"; //"─";
+    const string endSymbol    = "]"; //"▏";
+    const string lowColor = ESC CSI FG_RED SGR;
+    const string midColor = ESC CSI FG_YELLOW SGR;
+    const string highColor = ESC CSI FG_GREEN SGR;
+    const string percentLabelColor = ESC CSI BG_WHITE SEP FG_BLACK SGR;
     
-    res += startChar;
-    for (int i = 0; i < (width - 2); i++) {
-        res += (i <= filled ? filledChar : emptyChar);
+    // Determine location to show percent
+    // Try to avoid covering the current value
+    // If not possible, put percentage after the bar
+    // Do not exceed width, even with percentage after the bar
+    // Favor the middle, then the right side, then the left side
+    // Center between the percent and the ends of the bar
+    int percentLabelWidth = min(width / 4, 12);
+    int wholePartWidth = max(1, (int)(log10(percent)));
+    int decimalPartWidth = percentLabelWidth - wholePartWidth - 2; // Subtract 2 for the decimal and percent sign
+    int percentLabelCenter = percent < 0.5 ? (width - filled) / 2 + filled : filled / 2;
+    // Snap to quarters
+    // .0-.375 = .25  .375-.625 = .5  .625-1.0 = .75
+    if (percentLabelCenter < (3 * width / 8)) {
+        percentLabelCenter = (1 * width / 4);
     }
-    res += endChar;
-    return res;
+    else if (percentLabelCenter < (5 * width / 8)) {
+        percentLabelCenter = (2 * width / 4);
+    }
+    else {
+        percentLabelCenter = (3 * width / 4);
+    }
+    int percentLabelAround = percentLabelWidth / 2;
+    int percentLabelStart = percentLabelCenter - percentLabelAround;
+    int percentLabelEnd = percentLabelStart + percentLabelWidth;
+    if (percentLabelStart < 1 || percentLabelEnd > width - 1) {
+        // Place the percent label after the progress bar
+        width -= percentLabelWidth;
+        percentLabelStart = width + 1;
+    }
+
+    res << startSymbol;
+    for (int i = 1; i < (width - 1); i++) {
+        if (i == percentLabelStart && showPercent) {
+            res << percentLabelColor << fixed << setprecision(decimalPartWidth) << percent * 100 << "%" << RESET;
+        }
+        if (i >= percentLabelStart && i <= percentLabelEnd && showPercent) continue;
+        string color = i > 2 * (width / 3) ? highColor : i > (width / 3) ? midColor : lowColor;
+        res << (i <= filled ? (color + filledSymbol + RESET) : emptySymbol);
+    }
+    res << endSymbol;
+    return res.str();
 }
 
 ThreadSafeLogger logger;
 
-int main() {
+int main(int argc, char* argv[]) {
     
+    cout << HIDE_CURSOR;
+
+    if (argc > 2) {
+        std::cerr << "Usage: " << argv[0] << " [-debug]";
+        return -1;
+    }
+    bool isDebug = false;
+    if (argc == 2 && (string(argv[1]) == "-d" || string(argv[1]) == "-debug")) {
+        isDebug = true;
+    }
+
     // Add console handler for user interrupt
     if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
         cerr << "Error: Coult not set control handler.\n";
         return 1;
     }
 
-    const unsigned int workers = min(max(MIN_THREADS, thread::hardware_concurrency()), MAX_THREADS);
+    const unsigned int workers = min(max(MIN_THREADS, thread::hardware_concurrency()), isDebug ? MAX_DEBUG_THREADS : MAX_THREADS);
     logger << "Starting " << workers << " parallel simulations..." << endl;
 
     mutex bestMutex;
@@ -182,17 +251,16 @@ int main() {
                 sim.run();
                 double s = sim.score();
 
-                json simJson = sim.formatResults();
                 {
                     lock_guard<mutex> lk(bestMutex);
                     if (s > bestScore) {
                         bestScore = s;
-                        bestSimJson = simJson;
+                        bestSimJson = sim.formatResults();
                         // Write to log file
                         ofstream o(LOGS_DIR "cpplog.json");
                         o << bestSimJson.dump(4);
                         o.close();
-                        logger.logLine("[T", w, "] NEW BEST SCORE: ", setprecision(12), bestScore);
+                        logger.logLine("[T", w, "] BEST SCORE: ", setprecision(12), bestScore);
                     }
                 }
             }
@@ -260,13 +328,13 @@ void Simulation::initialize() {
     size_t descriptorsMade = 0;
     // Create fixed-membership descriptors
     // Nation
-    descriptors[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
+    (*descriptors)[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
     ++descriptorsMade;
 
     // Each State
     map<string, size_t> stateToDescriptor;
     for (const string& abbr : statesAbbreviations) {
-        descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
+        (*descriptors)[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
         stateToDescriptor[abbr] = descriptorsMade; // Map abbreviation to descriptor index
         ++descriptorsMade;
     }
@@ -275,7 +343,7 @@ void Simulation::initialize() {
     while (descriptorsMade < NUMBER_DESCRIPTORS) {
         string name = to_string(descriptorsMade);
         name.append(3 - name.length(), '0'); // Pad forwards with zeroes
-        descriptors[descriptorsMade] = Descriptor(name, &demographicNames);
+        (*descriptors)[descriptorsMade] = Descriptor(name, &demographicNames);
         ++descriptorsMade;
     }
 
@@ -321,6 +389,10 @@ void Simulation::initialize() {
             array<double, NUMBER_DEMOGRAPHICS> demoArray;
             map<string, double> flat;
             flattenJson(j["demographics"], flat);
+            if (flat.size() != NUMBER_DEMOGRAPHICS) {
+                logger.logLine(file + " Flat size: " + to_string(flat.size()) + " NUMBER_DEMOGRAPHICS " + to_string(NUMBER_DEMOGRAPHICS));
+            }
+            assert(flat.size() <= NUMBER_DEMOGRAPHICS);
             size_t i = 0;
             for (const auto& [k, v] : flat) {
                 demoArray[i++] = v;
@@ -332,7 +404,7 @@ void Simulation::initialize() {
                 j.value("population", uint32_t()),
                 adjacencies[j.value("FIPS", string())],
                 demoArray,
-                &descriptors
+                descriptors
             );
             // Add nation (index 0)
             // countyPtr->addDescriptor(0); // This is done in the county's constructor
@@ -378,15 +450,21 @@ void Simulation::run() {
             // Change a descriptor
             // Choose a descriptor
             size_t d = randomInt(0, NUMBER_DESCRIPTORS);
+            assert(d < NUMBER_DESCRIPTORS);
             // Choose an effect to modify
             size_t e = randomInt(0, NUMBER_DEMOGRAPHICS);
+            assert(e < NUMBER_DEMOGRAPHICS);
             // Choose an amount to modify by
             double change = randomDouble(-MAX_CHANGE_AMT, MAX_CHANGE_AMT);
             // Make the change
-            double prev = descriptors[d].getEffect(e);
-            descriptors[d].addEffect(e, change);
+            double prev = (*descriptors)[d].getEffect(e);
+            (*descriptors)[d].addEffect(e, change);
+            // Propegate change to member counties
+            // for (const County& c : counties) {
+            //     if (c.hasDescriptor(d)) c.recalculate();
+            // }
             ch = Change([this, d, e, prev]() mutable {
-                descriptors[d].setEffect(e, prev);
+                (*descriptors)[d].setEffect(e, prev);
             });
         }
         else {
@@ -398,7 +476,7 @@ void Simulation::run() {
             size_t d;
             do {
                 d = randomInt(0, NUMBER_DESCRIPTORS);
-            } while (!descriptors[d].isMembershipModifiable());
+            } while (!(*descriptors)[d].isMembershipModifiable());
             // If county is a member, remove membership
             // If county not a member, add membership
             c.addOrRemoveDescriptor(d);
@@ -428,7 +506,8 @@ void Simulation::run() {
         }
 
         // Print details
-        this->logStatus();
+        if (iter % PRINT_TSTATUS_EVERY == 0)
+            this->logStatus();
         // cout << newScore << endl;
     }
 
@@ -441,7 +520,6 @@ void Simulation::run() {
     else {
         logger.logLine("[T", setfill('0'), setw(2), to_string(threadNum), "] Simulation limit reached.");
     }
-
 }
 
 double Simulation::score() {
@@ -449,27 +527,20 @@ double Simulation::score() {
     // Use county accuracy * ratio county pop / national pop
     // Sum all values for total accuracy
 
-    return this->scoreAccuracy();
+    double accuracy, specificity, parsimony, locality;
+    accuracy    = this->scoreAccuracy();
+    specificity = this->scoreSpecificity();
+    parsimony   = this->scoreParsimony();
+    locality    = 0.0; //this->scoreLocality();
 
-    // double accuracy, specificity, parsimony, locality;
-    // accuracy   = this->scoreAccuracy();
-    // specificty = this->scoreSpecificity();
-    // parsimony  = this->scoreParsimony();
-    // locality   = this->scoreLocality();
+    accuracy    *= ACCURACY_SCORE_WEIGHT;
+    specificity *= SPECIFICITY_SCORE_WEIGHT;
+    parsimony   *= PARSIMONY_SCORE_WEIGHT;
+    locality    *= LOCALITY_SCORE_WEIGHT;
 
-    // accuracy *= ACCURACY_SCORE_WEIGHT;
-    // specificity *= SPECIFICITY_SCORE_WEIGHT;
-    // parsimony *= PARSIMONY_SCORE_WEIGHT;
-    // locality *= LOCALITY_SCORE_WEIGHT;
+    double totalScore = accuracy + specificity + parsimony + locality;
 
-    // double totalScore = accuracy + specificity + parsimony + locality;
-
-    // logger.logLine(std::format(
-    //     "Score: Acc = {}, Spc = {}, Par = {}, Loc = {}, TOTAL = {}",
-    //     to_string(accuracy), to_string(specificity), to_string(parsimony), to_string(locality), to_string(totalScore)
-    // ));
-
-    // return totalScore;
+    return totalScore;
 }
 
 double Simulation::scoreAccuracy() {
@@ -488,18 +559,18 @@ double Simulation::scoreSpecificity() {
     // Specificity is the sum of squares of each descriptor's effects
     // >=1.0 -> Every descriptor has 100% effects across the board; 0% -> Every descriptor has no effects
     double specificity = accumulate(
-        descriptors.cbegin(), descriptors.cend(), 0.0,
+        descriptors->cbegin(), descriptors->cend(), 0.0,
         [this](double total, const Descriptor& d) {
             return total + d.getScore();
         }
-    ) / counties.size();
-    return specificity;
+    ) / descriptors->size();
+    return min(specificity, 1.0);
 }
 
 double Simulation::scoreParsimony() {
     // Parsimony is inverse to the number of used descriptors
     // 1.0 -> no descriptors were used; 0.0 -> all possible descriptors were used
-    size_t numEffectualDescriptors = std::count_if(descriptors.cbegin(), descriptors.cend(), [](const auto& d){ return d.hasAnyEffect(); });
+    size_t numEffectualDescriptors = std::count_if(descriptors->cbegin(), descriptors->cend(), [](const Descriptor& d){ return d.hasAnyEffect(); });
     double parsimony = 1.0 - numEffectualDescriptors / NUMBER_DESCRIPTORS;
     return parsimony;
 }
@@ -508,12 +579,14 @@ double Simulation::scoreLocality() {
     // Locality compares actual to expected number of member neighbors for member counties
     // >=1.0 -> Every descriptor's members each have the expected number of neighbors; 0.0 -> No descriptor has any members which are neighbors
     double locality = 0.0;
-    for (const auto& descriptor : descriptors) {
+    for (const auto& descriptor : (*descriptors)) {
+        if (descriptor.getName().starts_with("$")) continue; // Skip national and state descriptors
         // Find counties which are members of the descriptor
         vector<County> memberCounties;
         for (const auto& county : counties) {
             if (county->hasDescriptor(descriptor)) memberCounties.push_back(*county);
         }
+        if (memberCounties.size() == 0) return 0.0;
         // For each member county, determine number of other member counties which are neighbors
         int numNeighbors = 0;
         for (const auto& c1 : memberCounties) {
@@ -522,6 +595,7 @@ double Simulation::scoreLocality() {
             }
         }
         double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY);
+        if (expectedNeighbors == 0) return 0.0; // Should not occur after we check memberCounties.size != 0
         locality += numNeighbors / expectedNeighbors;
     }
     locality /= NUMBER_DESCRIPTORS;
@@ -530,14 +604,21 @@ double Simulation::scoreLocality() {
 
 void Simulation::logStatus() {
     double currScore = score();
-    if (iter % PRINT_TSTATUS_EVERY == 0)
-        logger.logLine(
-            "[T", setfill('0'), setw(2), to_string(threadNum), "] ",
-            "Iter: ", setw(7), iter, ", ",
-            "Temp: ", setw(8), to_string(temperature), ", ",
-            "Acc: ", fixed, setprecision(12), setw(14), currScore * 100, "% ",
-            progressBar(currScore, 100)
-        );
+    int lineNum = threadNum + 1;
+    logger.logLine(
+        ESC, CSI, to_string(lineNum), SEP, "1", CUP,
+        CLEAR_LINE,
+        ESC, CSI, FG_BRIGHT_WHITE, SGR,
+        " [T", setfill('0'), setw(2), to_string(threadNum), "] ",
+        "Iter=", setw(7), iter, " ",
+        "Temp=", setw(8), to_string(temperature), " ",
+        "Acc:", progressBar(scoreAccuracy(), 20), " ",
+        "Spc:", progressBar(scoreSpecificity(), 20), " ",
+        "Par:", progressBar(scoreParsimony(), 20), " ",
+        "Loc:", progressBar(scoreLocality(), 20), " ",
+        "TOTAL:", progressBar(currScore, 100),
+        RESET
+    );
 }
 
 json Simulation::formatResults() {
@@ -566,7 +647,11 @@ json Simulation::formatResults() {
 
     // Simulation details json
     json simDetails = {
-        { "total_accuracy", score() },
+        { "score_total", score() },
+        { "score_accuracy", scoreAccuracy() },
+        { "score_specificity", scoreSpecificity() },
+        { "score_parsimony", scoreParsimony() },
+        { "score_locality", scoreLocality() },
         { "sim_runtime", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - this->startTime).count() },
         { "number_counties", this->counties.size() },
         { "number_descriptors", NUMBER_DESCRIPTORS },
@@ -587,7 +672,7 @@ json Simulation::formatResults() {
 
     // Descriptors json
     json allDescriptors = json::object();
-    for (const auto& d : descriptors) {
+    for (const auto& d : (*descriptors)) {
         auto descJson = d.toJson();
         allDescriptors.update(descJson);
     }
