@@ -1,6 +1,7 @@
 #ifndef COUNTY_H
 #define COUNTY_H
 
+#include <array>
 #include <string>
 #include <cstdint>
 #include <array>
@@ -33,6 +34,7 @@ public:
         const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
     );
     County(const County& other);
+    ~County() = default;
     const std::string& getName() const noexcept;
     std::string getStateFIPS() const noexcept;
     uint32_t getPopulation() const noexcept;
@@ -51,6 +53,7 @@ public:
     bool hasNeighbor(const County& c) const;
     std::string toString() const;
     json toJson() const;
+    bool operator==(const County& other) const;
     friend std::ostream& operator<<(std::ostream& os, const County& obj);
 };
 

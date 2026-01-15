@@ -144,6 +144,12 @@ json County::toJson() const {
     return res;
 }
 
+bool County::operator==(const County& other) const {
+    return this->name == other.name
+        && this->countyFIPS == other.countyFIPS
+        && this->population == other.population;
+}
+
 std::ostream& operator<<(std::ostream& os, const County& obj) {
     os << obj.toString();
     return os;

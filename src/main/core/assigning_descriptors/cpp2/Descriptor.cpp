@@ -5,13 +5,45 @@
 #include <algorithm>
 #include <cmath>
 
-void Descriptor::recalculate() {
-    score = std::accumulate(
+#include "County.h" // Resolve forward declaration of County
+
+void Descriptor::recalculateSpecificity() {
+    specificityScore = std::accumulate(
         effects.cbegin(), effects.cend(), 0.0,
         [this](double total, double e) {
             return total + std::abs(std::pow(e, 2));
         }
     ) / (1 * 1 * effects.size());
+}
+
+void Descriptor::recalculateLocality() {
+    if (!membershipModifiable) {
+        localityScore = 1.0;
+        return;
+    }
+    if (memberCounties.size() == 0) {
+        localityScore = 0.0;
+        return;
+    }
+
+    int numNeighbors = 0;
+    for (const auto& c1 : memberCounties) {
+        for (const auto& c2 : memberCounties) {
+            if (c1->hasNeighbor(*c2)) numNeighbors++;
+        }
+    }
+    double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY);
+    if (expectedNeighbors == 0) {
+        // Should not occur after we check memberCounties.size != 0
+        localityScore = 0.0;
+        return;
+    }
+    if (numNeighbors > 0) {
+        localityScore = numNeighbors / expectedNeighbors;
+    }
+    else {
+        localityScore = 0.0; // Did this for debugging
+    }
 }
 
 Descriptor::Descriptor() : Descriptor("", nullptr) {}
@@ -20,8 +52,9 @@ Descriptor::Descriptor(
     const std::string& name,
     const std::array<std::string, NUMBER_DEMOGRAPHICS>* demographicsRef,
     bool membershipModifiable
-) : demographicsRef{demographicsRef}, name{name}, membershipModifiable{membershipModifiable} {
-    recalculate();
+) : demographicsRef{demographicsRef}, name{name}, memberCounties{}, membershipModifiable{membershipModifiable} {
+    recalculateSpecificity();
+    recalculateLocality();
 }
 
 std::string Descriptor::getName() const noexcept { return name; }
@@ -32,7 +65,7 @@ const std::array<double, NUMBER_DEMOGRAPHICS >& Descriptor::getEffects() const n
 
 void Descriptor::setEffects(const std::array<double, NUMBER_DEMOGRAPHICS>& effects) {
     this->effects = effects;
-    recalculate();
+    recalculateSpecificity();
 }
 
 double Descriptor::getEffect(const size_t index) const {
@@ -41,12 +74,12 @@ double Descriptor::getEffect(const size_t index) const {
 
 void Descriptor::setEffect(const size_t index, const double value) {
     effects[index] = std::max(value, 0.0);
-    recalculate();
+    recalculateSpecificity();
 }
 
 void Descriptor::addEffect(const size_t index, const double value) {
     effects[index] = std::max(effects[index] + value, 0.0);
-    recalculate();
+    recalculateSpecificity();
 }
 
 bool Descriptor::hasAnyEffect() const {
@@ -54,8 +87,52 @@ bool Descriptor::hasAnyEffect() const {
     return totalEffect != 0.0;
 }
 
-double Descriptor::getScore() const noexcept {
-    return score;
+std::vector<const County*> Descriptor::getMemberCounties() const noexcept {
+    return memberCounties;
+}
+
+bool Descriptor::hasMemberCounty(const County& county) const noexcept {
+    const auto& it = std::find_if(memberCounties.cbegin(), memberCounties.cend(), [county](const auto* c) {
+        return c != nullptr && *c == county;
+    });
+    return it != memberCounties.cend();
+}
+
+bool Descriptor::addMemberCounty(const County* county) {
+    bool present = hasMemberCounty(*county);
+    if (!present) {
+        memberCounties.push_back(county);
+        recalculateLocality();
+    }
+    return !present;
+}
+
+bool Descriptor::removeMemberCounty(const County* county) {
+    bool present = hasMemberCounty(*county);
+    if (present) {
+        memberCounties.erase(std::remove(memberCounties.begin(), memberCounties.end(), county), memberCounties.end());
+        recalculateLocality();
+    }
+    return present;
+}
+
+bool Descriptor::addOrRemoveMemberCounty(const County* county) {
+    if (hasMemberCounty(*county)) {
+        removeMemberCounty(county);
+        return false;
+    }
+    else {
+        addMemberCounty(county);
+        return true;
+    }
+}
+
+double Descriptor::getSpecificityScore() const noexcept {
+    return specificityScore;
+}
+
+double Descriptor::getLocalityScore() const noexcept {
+    return localityScore;
 }
 
 bool Descriptor::isMembershipModifiable() const noexcept { return membershipModifiable; }

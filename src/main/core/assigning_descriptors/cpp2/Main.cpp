@@ -29,7 +29,7 @@ atomic<bool> stopRequested = false;
 struct Simulation {
     chrono::steady_clock::time_point startTime = chrono::steady_clock::now();
     uint32_t nationalPopulation = 0;
-    array<Descriptor, NUMBER_DESCRIPTORS> *descriptors;
+    array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
     vector<unique_ptr<County>> counties;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
     uint64_t iter = 0;
@@ -44,14 +44,12 @@ struct Simulation {
           threadNum{0},
           temperature{STARTING_TEMPERATURE}
     {
-        descriptors = new array<Descriptor, NUMBER_DESCRIPTORS>();
+        descriptors = array<Descriptor, NUMBER_DESCRIPTORS>();
         counties = vector<unique_ptr<County>>();
         demographicNames = array<string, NUMBER_DEMOGRAPHICS>();
     }
 
-    ~Simulation() {
-        delete descriptors;
-    }
+    ~Simulation() = default;
 
     // Deep copy constructor
     Simulation(const Simulation& other)
@@ -69,7 +67,7 @@ struct Simulation {
             }
             counties.push_back(move(newCounty));
         }
-        assert(this->descriptors->size() == other.descriptors->size() && this->descriptors->size() == NUMBER_DESCRIPTORS);
+        assert(this->descriptors.size() == other.descriptors.size() && this->descriptors.size() == NUMBER_DESCRIPTORS);
         assert(this->demographicNames.size() == other.demographicNames.size() && this->demographicNames.size() == NUMBER_DEMOGRAPHICS);
         assert(this->counties.size() == other.counties.size());
     }
@@ -86,7 +84,7 @@ struct Simulation {
             auto newCounty = make_unique<County>(*c);
             counties.push_back(move(newCounty));
         }
-        assert(this->descriptors->size() == other.descriptors->size() && this->descriptors->size() == NUMBER_DESCRIPTORS);
+        assert(this->descriptors.size() == other.descriptors.size() && this->descriptors.size() == NUMBER_DESCRIPTORS);
         assert(this->demographicNames.size() == other.demographicNames.size() && this->demographicNames.size() == NUMBER_DEMOGRAPHICS);
         assert(this->counties.size() == other.counties.size());
         return *this;
@@ -159,7 +157,7 @@ string progressBar(double percent, int width, bool showPercent = true) {
     const string lowColor = ESC CSI FG_RED SGR;
     const string midColor = ESC CSI FG_YELLOW SGR;
     const string highColor = ESC CSI FG_GREEN SGR;
-    const string percentLabelColor = ESC CSI BG_WHITE SEP FG_BLACK SGR;
+    const string percentLabelColor = ESC CSI FG_BRIGHT_WHITE SGR;
     
     // Determine location to show percent
     // Try to avoid covering the current value
@@ -328,13 +326,13 @@ void Simulation::initialize() {
     size_t descriptorsMade = 0;
     // Create fixed-membership descriptors
     // Nation
-    (*descriptors)[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
+    descriptors[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
     ++descriptorsMade;
 
     // Each State
     map<string, size_t> stateToDescriptor;
     for (const string& abbr : statesAbbreviations) {
-        (*descriptors)[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
+        descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
         stateToDescriptor[abbr] = descriptorsMade; // Map abbreviation to descriptor index
         ++descriptorsMade;
     }
@@ -343,7 +341,7 @@ void Simulation::initialize() {
     while (descriptorsMade < NUMBER_DESCRIPTORS) {
         string name = to_string(descriptorsMade);
         name.append(3 - name.length(), '0'); // Pad forwards with zeroes
-        (*descriptors)[descriptorsMade] = Descriptor(name, &demographicNames);
+        descriptors[descriptorsMade] = Descriptor(name, &demographicNames);
         ++descriptorsMade;
     }
 
@@ -404,13 +402,15 @@ void Simulation::initialize() {
                 j.value("population", uint32_t()),
                 adjacencies[j.value("FIPS", string())],
                 demoArray,
-                descriptors
+                &descriptors
             );
             // Add nation (index 0)
             // countyPtr->addDescriptor(0); // This is done in the county's constructor
             // Add state descriptor
             // logger.logLine("Assigning descriptor ", descriptors[stateDescriptorIndex].getName(), " (", stateDescriptorIndex, ") to county ", countyPtr->getName());
             countyPtr->addDescriptor(stateDescriptorIndex);
+            descriptors[stateDescriptorIndex].addMemberCounty(&(*countyPtr)); // Add to state descriptor
+            descriptors[0].addMemberCounty(&(*countyPtr)); // Add to national descriptor
 
             counties.emplace_back(move(countyPtr));
         }
@@ -457,14 +457,14 @@ void Simulation::run() {
             // Choose an amount to modify by
             double change = randomDouble(-MAX_CHANGE_AMT, MAX_CHANGE_AMT);
             // Make the change
-            double prev = (*descriptors)[d].getEffect(e);
-            (*descriptors)[d].addEffect(e, change);
+            double prev = descriptors[d].getEffect(e);
+            descriptors[d].addEffect(e, change);
             // Propegate change to member counties
             // for (const County& c : counties) {
             //     if (c.hasDescriptor(d)) c.recalculate();
             // }
             ch = Change([this, d, e, prev]() mutable {
-                (*descriptors)[d].setEffect(e, prev);
+                descriptors[d].setEffect(e, prev);
             });
         }
         else {
@@ -476,12 +476,14 @@ void Simulation::run() {
             size_t d;
             do {
                 d = randomInt(0, NUMBER_DESCRIPTORS);
-            } while (!(*descriptors)[d].isMembershipModifiable());
+            } while (!descriptors[d].isMembershipModifiable());
             // If county is a member, remove membership
             // If county not a member, add membership
             c.addOrRemoveDescriptor(d);
-            ch = Change([&c, d]() mutable {
+            descriptors[d].addOrRemoveMemberCounty(&c);
+            ch = Change([&c, d, this]() mutable {
                 c.addOrRemoveDescriptor(d);
+                descriptors[d].addOrRemoveMemberCounty(&c);
             });
         }
 
@@ -531,7 +533,7 @@ double Simulation::score() {
     accuracy    = this->scoreAccuracy();
     specificity = this->scoreSpecificity();
     parsimony   = this->scoreParsimony();
-    locality    = 0.0; //this->scoreLocality();
+    locality    = this->scoreLocality();
 
     accuracy    *= ACCURACY_SCORE_WEIGHT;
     specificity *= SPECIFICITY_SCORE_WEIGHT;
@@ -559,18 +561,18 @@ double Simulation::scoreSpecificity() {
     // Specificity is the sum of squares of each descriptor's effects
     // >=1.0 -> Every descriptor has 100% effects across the board; 0% -> Every descriptor has no effects
     double specificity = accumulate(
-        descriptors->cbegin(), descriptors->cend(), 0.0,
+        descriptors.cbegin(), descriptors.cend(), 0.0,
         [this](double total, const Descriptor& d) {
-            return total + d.getScore();
+            return total + d.getSpecificityScore();
         }
-    ) / descriptors->size();
+    ) / descriptors.size();
     return min(specificity, 1.0);
 }
 
 double Simulation::scoreParsimony() {
     // Parsimony is inverse to the number of used descriptors
     // 1.0 -> no descriptors were used; 0.0 -> all possible descriptors were used
-    size_t numEffectualDescriptors = std::count_if(descriptors->cbegin(), descriptors->cend(), [](const Descriptor& d){ return d.hasAnyEffect(); });
+    size_t numEffectualDescriptors = std::count_if(descriptors.cbegin(), descriptors.cend(), [](const Descriptor& d){ return d.hasAnyEffect(); });
     double parsimony = 1.0 - numEffectualDescriptors / NUMBER_DESCRIPTORS;
     return parsimony;
 }
@@ -578,27 +580,7 @@ double Simulation::scoreParsimony() {
 double Simulation::scoreLocality() {
     // Locality compares actual to expected number of member neighbors for member counties
     // >=1.0 -> Every descriptor's members each have the expected number of neighbors; 0.0 -> No descriptor has any members which are neighbors
-    double locality = 0.0;
-    for (const auto& descriptor : (*descriptors)) {
-        if (descriptor.getName().starts_with("$")) continue; // Skip national and state descriptors
-        // Find counties which are members of the descriptor
-        vector<County> memberCounties;
-        for (const auto& county : counties) {
-            if (county->hasDescriptor(descriptor)) memberCounties.push_back(*county);
-        }
-        if (memberCounties.size() == 0) return 0.0;
-        // For each member county, determine number of other member counties which are neighbors
-        int numNeighbors = 0;
-        for (const auto& c1 : memberCounties) {
-            for (const auto& c2 : memberCounties) {
-                if (c1.hasNeighbor(c2)) numNeighbors++;
-            }
-        }
-        double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY);
-        if (expectedNeighbors == 0) return 0.0; // Should not occur after we check memberCounties.size != 0
-        locality += numNeighbors / expectedNeighbors;
-    }
-    locality /= NUMBER_DESCRIPTORS;
+    double locality = accumulate(descriptors.cbegin(), descriptors.cend(), 0.0, [](double total, const Descriptor& d) { return total + d.getLocalityScore(); }) / NUMBER_DESCRIPTORS;
     return locality;
 }
 
@@ -616,7 +598,7 @@ void Simulation::logStatus() {
         "Spc:", progressBar(scoreSpecificity(), 20), " ",
         "Par:", progressBar(scoreParsimony(), 20), " ",
         "Loc:", progressBar(scoreLocality(), 20), " ",
-        "TOTAL:", progressBar(currScore, 100),
+        "TOTAL:", progressBar(currScore, 50),
         RESET
     );
 }
@@ -672,7 +654,7 @@ json Simulation::formatResults() {
 
     // Descriptors json
     json allDescriptors = json::object();
-    for (const auto& d : (*descriptors)) {
+    for (const auto& d : descriptors) {
         auto descJson = d.toJson();
         allDescriptors.update(descJson);
     }
