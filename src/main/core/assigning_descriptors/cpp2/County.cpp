@@ -22,9 +22,9 @@ void County::recalculate() {
 
 County::County(
     const std::string& name, std::string countyFIPS, uint32_t population,
-    const std::vector<std::string> neighborCountyFIPS,
+    const std::unordered_set<std::string> neighborCountyFIPS,
     const std::array<double, NUMBER_DEMOGRAPHICS>& demographics,
-    const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
+    std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
 ) : descriptorsRef{descriptorsRef}, name{name}, countyFIPS{countyFIPS}, population{population}, demographics{demographics}, neighborCountyFIPS{neighborCountyFIPS}
 {
     addDescriptor(0); // Add the national descriptor
@@ -42,6 +42,10 @@ County::County(const County& other)
       neighborCountyFIPS(other.neighborCountyFIPS),
       score(other.score)
 {}
+
+void County::setDescriptorsRef(std::array<Descriptor, NUMBER_DESCRIPTORS>* ref) {
+    descriptorsRef = ref;
+}
 
 const std::string& County::getName() const noexcept { return name; }
 
@@ -104,12 +108,12 @@ double County::getScore() const {
     return score;
 }
 
-std::vector<std::string> County::getNeighborCountyFIPS() const noexcept {
+std::unordered_set<std::string> County::getNeighborCountyFIPS() const noexcept {
     return neighborCountyFIPS;
 }
 
 bool County::hasNeighbor(std::string neighborFIPS) const {
-    return std::find(neighborCountyFIPS.cbegin(), neighborCountyFIPS.cend(), neighborFIPS) != neighborCountyFIPS.cend();
+    return neighborCountyFIPS.find(neighborFIPS) != neighborCountyFIPS.end();
 }
 
 bool County::hasNeighbor(const County& c) const {

@@ -8,31 +8,34 @@
 #include "County.h" // Resolve forward declaration of County
 
 void Descriptor::recalculateSpecificity() {
+    if (effects.empty()) {
+        specificityScore = 0.0;
+        return;
+    }
     specificityScore = std::accumulate(
         effects.cbegin(), effects.cend(), 0.0,
         [this](double total, double e) {
             return total + std::abs(std::pow(e, 2));
         }
-    ) / (1 * 1 * effects.size());
+    ) / (1 * 1 * static_cast<double>(effects.size()));
 }
 
 void Descriptor::recalculateLocality() {
-    if (!membershipModifiable) {
-        localityScore = 1.0;
-        return;
-    }
-    if (memberCounties.size() == 0) {
-        localityScore = 0.0;
+    if (!membershipModifiable || memberCounties.empty()) {
+        localityScore = membershipModifiable ? 0.0 : 1.0;
         return;
     }
 
     int numNeighbors = 0;
-    for (const auto& c1 : memberCounties) {
-        for (const auto& c2 : memberCounties) {
-            if (c1->hasNeighbor(*c2)) numNeighbors++;
+    // Make a temp iterable copy of memberCounties
+    std::vector<const County*> members;
+    for (auto& it : memberCounties) members.push_back(it);
+    for (size_t i = 0; i < members.size(); ++i) {
+        for (size_t j = i + 1; j < members.size(); ++j) {
+            if (members[i]->hasNeighbor(*members[j])) numNeighbors++;
         }
     }
-    double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY);
+    double expectedNeighbors(memberCounties.size() * EXPECTED_NEIGHBORS_PER_COUNTY * 0.5);
     if (expectedNeighbors == 0) {
         // Should not occur after we check memberCounties.size != 0
         localityScore = 0.0;
@@ -46,15 +49,26 @@ void Descriptor::recalculateLocality() {
     }
 }
 
-Descriptor::Descriptor() : Descriptor("", nullptr) {}
-
 Descriptor::Descriptor(
+    std::vector<std::unique_ptr<County>>* countiesRef,
     const std::string& name,
     const std::array<std::string, NUMBER_DEMOGRAPHICS>* demographicsRef,
     bool membershipModifiable
-) : demographicsRef{demographicsRef}, name{name}, memberCounties{}, membershipModifiable{membershipModifiable} {
+)
+    : countiesRef{countiesRef},
+      demographicsRef{demographicsRef},
+      name{name},
+      memberCounties{},
+      membershipModifiable{membershipModifiable},
+      specificityScore{0.0},
+      localityScore{membershipModifiable ? 0.0 : 1.0}
+{
     recalculateSpecificity();
     recalculateLocality();
+}
+
+void Descriptor::setCountiesRef(std::vector<std::unique_ptr<County>>* ref) {
+    countiesRef = ref;
 }
 
 std::string Descriptor::getName() const noexcept { return name; }
@@ -87,44 +101,30 @@ bool Descriptor::hasAnyEffect() const {
     return totalEffect != 0.0;
 }
 
-std::vector<const County*> Descriptor::getMemberCounties() const noexcept {
+const std::unordered_set<County*>& Descriptor::getMemberCounties() const noexcept {
     return memberCounties;
 }
 
-bool Descriptor::hasMemberCounty(const County& county) const noexcept {
-    const auto& it = std::find_if(memberCounties.cbegin(), memberCounties.cend(), [county](const auto* c) {
-        return c != nullptr && *c == county;
-    });
-    return it != memberCounties.cend();
+bool Descriptor::hasMemberCounty(County* county) const noexcept {
+    return memberCounties.find(county) != memberCounties.end();
 }
 
-bool Descriptor::addMemberCounty(const County* county) {
-    bool present = hasMemberCounty(*county);
-    if (!present) {
-        memberCounties.push_back(county);
-        recalculateLocality();
-    }
-    return !present;
+void Descriptor::addMemberCounty(County* county) {
+    memberCounties.insert(county);
+    recalculateLocality();
 }
 
-bool Descriptor::removeMemberCounty(const County* county) {
-    bool present = hasMemberCounty(*county);
-    if (present) {
-        memberCounties.erase(std::remove(memberCounties.begin(), memberCounties.end(), county), memberCounties.end());
-        recalculateLocality();
-    }
-    return present;
+void Descriptor::removeMemberCounty(County* county) {
+    memberCounties.erase(county);
+    recalculateLocality();
 }
 
-bool Descriptor::addOrRemoveMemberCounty(const County* county) {
-    if (hasMemberCounty(*county)) {
-        removeMemberCounty(county);
-        return false;
-    }
-    else {
-        addMemberCounty(county);
-        return true;
-    }
+void Descriptor::addOrRemoveMemberCounty(County* county) {
+    hasMemberCounty(county) ? removeMemberCounty(county) : addMemberCounty(county);
+}
+
+void Descriptor::clearMemberCounties() {
+    memberCounties.clear();
 }
 
 double Descriptor::getSpecificityScore() const noexcept {

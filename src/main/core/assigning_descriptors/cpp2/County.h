@@ -16,25 +16,26 @@
 
 class County {
 private:
-    const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef; // Reference from main for all descriptors
+    std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef; // Reference from main for all descriptors
     const std::string name;
     const std::string countyFIPS; // FIPS code of the county - first 2 digits are state fips
     const uint32_t population;
     const std::array<double, NUMBER_DEMOGRAPHICS> demographics;
     std::array<double, NUMBER_DEMOGRAPHICS> descDemographics;
     std::unordered_set<size_t> descriptorIndices{};
-    const std::vector<std::string> neighborCountyFIPS;
+    const std::unordered_set<std::string> neighborCountyFIPS;
     double score;
 public:
     void recalculate();
     County(
         const std::string& name, std::string countyFIPS, uint32_t population,
-        const std::vector<std::string> neighborCountyFIPS,
+        const std::unordered_set<std::string> neighborCountyFIPS,
         const std::array<double, NUMBER_DEMOGRAPHICS>& demographics,
-        const std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
+        std::array<Descriptor, NUMBER_DESCRIPTORS>* descriptorsRef
     );
     County(const County& other);
     ~County() = default;
+    void setDescriptorsRef(std::array<Descriptor, NUMBER_DESCRIPTORS>* ref);
     const std::string& getName() const noexcept;
     std::string getStateFIPS() const noexcept;
     uint32_t getPopulation() const noexcept;
@@ -48,7 +49,7 @@ public:
     void removeDescriptor(size_t descIndex) noexcept;
     void addOrRemoveDescriptor(size_t descIndex) noexcept; // Adds if not present, removes if present
     double getScore() const;
-    std::vector<std::string> getNeighborCountyFIPS() const noexcept;
+    std::unordered_set<std::string> getNeighborCountyFIPS() const noexcept;
     bool hasNeighbor(std::string neighborFIPS) const;
     bool hasNeighbor(const County& c) const;
     std::string toString() const;

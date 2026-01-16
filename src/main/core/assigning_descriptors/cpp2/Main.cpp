@@ -26,47 +26,45 @@ using namespace std;
 
 atomic<bool> stopRequested = false;
 
+// SIMULATION -------------------------------------------------------------------------------------
 struct Simulation {
     chrono::steady_clock::time_point startTime = chrono::steady_clock::now();
     uint32_t nationalPopulation = 0;
     array<Descriptor, NUMBER_DESCRIPTORS> descriptors;
     vector<unique_ptr<County>> counties;
+    unordered_map<string, County*> fipsToCounty;
     array<string, NUMBER_DEMOGRAPHICS> demographicNames;
     uint64_t iter = 0;
     uint32_t tries = 0;
     uint16_t threadNum = 0;
     double temperature = STARTING_TEMPERATURE;
 
-    Simulation()
-        : nationalPopulation{0},
-          iter{0},
-          tries{0},
-          threadNum{0},
-          temperature{STARTING_TEMPERATURE}
-    {
-        descriptors = array<Descriptor, NUMBER_DESCRIPTORS>();
-        counties = vector<unique_ptr<County>>();
-        demographicNames = array<string, NUMBER_DEMOGRAPHICS>();
-    }
+    Simulation() = default;
 
     ~Simulation() = default;
 
-    // Deep copy constructor
+    // Copy constructor
     Simulation(const Simulation& other)
         : nationalPopulation(other.nationalPopulation),
           descriptors(other.descriptors),
           demographicNames(other.demographicNames)
     {
+        for (auto& d : descriptors)
+            d.clearMemberCounties();
+        
         counties.reserve(other.counties.size());
         for (const auto& c : other.counties) {
             auto newCounty = make_unique<County>(*c);
-            // Add descriptors
-            for (const auto& di : c->getDescriptorIndices()) {
-                if (!newCounty->hasDescriptor(di))
-                    newCounty->addDescriptor(di);
-            }
             counties.push_back(move(newCounty));
         }
+
+        for (const auto& c : counties) {
+            for (size_t di : c->getDescriptorIndices()) {
+                descriptors[di].addMemberCounty(c.get());
+            }
+            c->setDescriptorsRef(&descriptors);
+        }
+
         assert(this->descriptors.size() == other.descriptors.size() && this->descriptors.size() == NUMBER_DESCRIPTORS);
         assert(this->demographicNames.size() == other.demographicNames.size() && this->demographicNames.size() == NUMBER_DEMOGRAPHICS);
         assert(this->counties.size() == other.counties.size());
@@ -326,13 +324,13 @@ void Simulation::initialize() {
     size_t descriptorsMade = 0;
     // Create fixed-membership descriptors
     // Nation
-    descriptors[descriptorsMade] = Descriptor("$$USA", &demographicNames, false);
+    descriptors[descriptorsMade] = Descriptor(&counties, "$$USA", &demographicNames, false);
     ++descriptorsMade;
 
     // Each State
     map<string, size_t> stateToDescriptor;
     for (const string& abbr : statesAbbreviations) {
-        descriptors[descriptorsMade] = Descriptor("$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
+        descriptors[descriptorsMade] = Descriptor(&counties, "$" + abbr, &demographicNames, false); // Dollar sign for lexicographic primacy when sorting
         stateToDescriptor[abbr] = descriptorsMade; // Map abbreviation to descriptor index
         ++descriptorsMade;
     }
@@ -341,18 +339,18 @@ void Simulation::initialize() {
     while (descriptorsMade < NUMBER_DESCRIPTORS) {
         string name = to_string(descriptorsMade);
         name.append(3 - name.length(), '0'); // Pad forwards with zeroes
-        descriptors[descriptorsMade] = Descriptor(name, &demographicNames);
+        descriptors[descriptorsMade] = Descriptor(&counties, name, &demographicNames);
         ++descriptorsMade;
     }
 
     // Read county adjacencies
     string adjacenciesFile = RESOURCES_DIR "adjacencies.json";
     json adjacenciesJson = freadJson(adjacenciesFile);
-    map<string, vector<string>> adjacencies{};
+    map<string, unordered_set<string>> adjacencies{};
     for (const auto& i : adjacenciesJson.items()) {
-        vector<string> neighbors{};
+        unordered_set<string> neighbors{};
         for (const auto& v : i.value()) {
-            neighbors.emplace_back(v);
+            neighbors.insert(v);
         }
         adjacencies[i.key()] = neighbors;
     }
@@ -412,6 +410,7 @@ void Simulation::initialize() {
             descriptors[stateDescriptorIndex].addMemberCounty(&(*countyPtr)); // Add to state descriptor
             descriptors[0].addMemberCounty(&(*countyPtr)); // Add to national descriptor
 
+            fipsToCounty[countyPtr->getCountyFIPS()] = countyPtr.get();
             counties.emplace_back(move(countyPtr));
         }
     }
@@ -444,13 +443,14 @@ void Simulation::run() {
     while (iter++ < MAX_ITERATIONS && tries < MAX_TRIES && !stopRequested) {
         temperature = clamp(temperature - TEMPERATURE_STEP, 0.0, 1.0);
         // cout << iter << " ";
-        // Chance that a change made is to a descriptor rather than a county
-        if (randomChance(CHANGE_DESCRIPTOR_CHANCE)) {
+
+        // Choose a descriptor
+        size_t d = randomInt(0, NUMBER_DESCRIPTORS);
+        assert(d < NUMBER_DESCRIPTORS);
+
+        // Chance that a change made is to a descriptor effect
+        if (randomChance(CHANGE_DESCRIPTOR_EFFECT_CHANCE)) {
             // cout << "D ";
-            // Change a descriptor
-            // Choose a descriptor
-            size_t d = randomInt(0, NUMBER_DESCRIPTORS);
-            assert(d < NUMBER_DESCRIPTORS);
             // Choose an effect to modify
             size_t e = randomInt(0, NUMBER_DEMOGRAPHICS);
             assert(e < NUMBER_DEMOGRAPHICS);
@@ -467,24 +467,50 @@ void Simulation::run() {
                 descriptors[d].setEffect(e, prev);
             });
         }
+        // Chance that a change is made to a county membership
         else {
             // cout << "C ";
-            // Change a county
-            // Choose a county
-            County& c = *counties[randomInt(0, counties.size())];
-            // Choose a membership-modifiable descriptor
-            size_t d;
-            do {
+            
+            // Make sure descriptor is membership modifiable
+            while (!descriptors[d].isMembershipModifiable()) {
                 d = randomInt(0, NUMBER_DESCRIPTORS);
-            } while (!descriptors[d].isMembershipModifiable());
-            // If county is a member, remove membership
-            // If county not a member, add membership
-            c.addOrRemoveDescriptor(d);
-            descriptors[d].addOrRemoveMemberCounty(&c);
-            ch = Change([&c, d, this]() mutable {
+            }
+
+            // Determine whether to add or remove a bordering county or a random county
+            if (randomChance(ADD_REMOVE_BORDER_COUNTY_CHANCE)) {
+                // Add or remove a bordering county
+                // Gather already-present and bordering counties
+                unordered_set<County*> borderingCounties;
+                for (County* c : descriptors[d].getMemberCounties()) {
+                    borderingCounties.insert(c);
+                    for (const string& neighborFIPS : c->getNeighborCountyFIPS()) {
+                        auto it = fipsToCounty.find(neighborFIPS);
+                        if (it != fipsToCounty.cend()) borderingCounties.insert(it->second);
+                    }
+                }
+                vector<County*> bordering(borderingCounties.begin(), borderingCounties.end());
+                if (bordering.empty()) continue; // Skip if there are no bordering counties
+                // Select a county from the bordering counties
+                County* c = bordering[randomInt(0, bordering.size())];
+                // Toggle membership
+                c->addOrRemoveDescriptor(d);
+                descriptors[d].addOrRemoveMemberCounty(c);
+                ch = Change([c, d, this]() mutable {
+                    c->addOrRemoveDescriptor(d);
+                    descriptors[d].addOrRemoveMemberCounty(c);
+                });
+            }
+            else {
+                // Add a random county
+                County& c = *counties[randomInt(0, counties.size())];
+                // Toggle membership
                 c.addOrRemoveDescriptor(d);
                 descriptors[d].addOrRemoveMemberCounty(&c);
-            });
+                ch = Change([&c, d, this]() mutable {
+                    c.addOrRemoveDescriptor(d);
+                    descriptors[d].addOrRemoveMemberCounty(&c);
+                });
+            }
         }
 
         // Evaluate
@@ -573,7 +599,7 @@ double Simulation::scoreParsimony() {
     // Parsimony is inverse to the number of used descriptors
     // 1.0 -> no descriptors were used; 0.0 -> all possible descriptors were used
     size_t numEffectualDescriptors = std::count_if(descriptors.cbegin(), descriptors.cend(), [](const Descriptor& d){ return d.hasAnyEffect(); });
-    double parsimony = 1.0 - numEffectualDescriptors / NUMBER_DESCRIPTORS;
+    double parsimony = 1.0 - static_cast<double>(numEffectualDescriptors) / static_cast<double>(NUMBER_DESCRIPTORS);
     return parsimony;
 }
 
@@ -631,18 +657,30 @@ json Simulation::formatResults() {
     json simDetails = {
         { "score_total", score() },
         { "score_accuracy", scoreAccuracy() },
+        { "score_accuracy_weight", ACCURACY_SCORE_WEIGHT },
         { "score_specificity", scoreSpecificity() },
+        { "score_specificity_weight", SPECIFICITY_SCORE_WEIGHT },
         { "score_parsimony", scoreParsimony() },
+        { "score_parsimony_weight", PARSIMONY_SCORE_WEIGHT },
         { "score_locality", scoreLocality() },
-        { "sim_runtime", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - this->startTime).count() },
+        { "score_locality_weight", LOCALITY_SCORE_WEIGHT },
+
         { "number_counties", this->counties.size() },
         { "number_descriptors", NUMBER_DESCRIPTORS },
         { "number_demographics", NUMBER_DEMOGRAPHICS },
         { "starting_temperature", STARTING_TEMPERATURE },
         { "temperature_step", TEMPERATURE_STEP },
-        { "max_change_amount", MAX_CHANGE_AMT },
-        { "change_descriptor_chance", CHANGE_DESCRIPTOR_CHANCE },
-        { "change_county_chance", CHANGE_COUNTY_CHANCE }
+        { "max_effect_change_amount", MAX_CHANGE_AMT },
+        { "change_descriptor_effect_chance", CHANGE_DESCRIPTOR_EFFECT_CHANCE },
+        { "change_county_membership_chance", CHANGE_COUNTY_MEMBERSHIP_CHANCE },
+        { "add_remove_border_county_chance", ADD_REMOVE_BORDER_COUNTY_CHANCE },
+        { "add_remove_random_county_chance", ADD_REMOVE_RANDOM_COUNTY_CHANCE },
+
+        { "expected_neighbors_per_county", EXPECTED_NEIGHBORS_PER_COUNTY },
+        
+        { "sim_runtime", chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - this->startTime).count() },
+        { "sim_iterations", this->iter },
+        { "model_creation_date", format("{:%Y-%m-%d}", chrono::system_clock::now()) }
     };
 
     // Counties json
@@ -661,7 +699,7 @@ json Simulation::formatResults() {
 
     // Combine for simulation json
     json simJson = {
-        { "details", simDetails },
+        { "_details", simDetails },
         { "counties", allCounties },
         { "descriptors", allDescriptors }
     };
