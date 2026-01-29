@@ -145,61 +145,6 @@ public:
     }
 };
 
-string progressBar(double percent, int width, bool showPercent = true) {
-    int filled = static_cast<int>((width - 2) * percent);
-    ostringstream res;
-    const string startSymbol  = "["; //"▕";
-    const string filledSymbol = "#"; //"█";
-    const string emptySymbol  = "-"; //"─";
-    const string endSymbol    = "]"; //"▏";
-    const string lowColor = ESC CSI FG_RED SGR;
-    const string midColor = ESC CSI FG_YELLOW SGR;
-    const string highColor = ESC CSI FG_GREEN SGR;
-    const string percentLabelColor = ESC CSI FG_BRIGHT_WHITE SGR;
-    
-    // Determine location to show percent
-    // Try to avoid covering the current value
-    // If not possible, put percentage after the bar
-    // Do not exceed width, even with percentage after the bar
-    // Favor the middle, then the right side, then the left side
-    // Center between the percent and the ends of the bar
-    int percentLabelWidth = min(width / 4, 12);
-    int wholePartWidth = max(1, (int)(log10(percent)));
-    int decimalPartWidth = percentLabelWidth - wholePartWidth - 2; // Subtract 2 for the decimal and percent sign
-    int percentLabelCenter = percent < 0.5 ? (width - filled) / 2 + filled : filled / 2;
-    // Snap to quarters
-    // .0-.375 = .25  .375-.625 = .5  .625-1.0 = .75
-    if (percentLabelCenter < (3 * width / 8)) {
-        percentLabelCenter = (1 * width / 4);
-    }
-    else if (percentLabelCenter < (5 * width / 8)) {
-        percentLabelCenter = (2 * width / 4);
-    }
-    else {
-        percentLabelCenter = (3 * width / 4);
-    }
-    int percentLabelAround = percentLabelWidth / 2;
-    int percentLabelStart = percentLabelCenter - percentLabelAround;
-    int percentLabelEnd = percentLabelStart + percentLabelWidth;
-    if (percentLabelStart < 1 || percentLabelEnd > width - 1) {
-        // Place the percent label after the progress bar
-        width -= percentLabelWidth;
-        percentLabelStart = width + 1;
-    }
-
-    res << startSymbol;
-    for (int i = 1; i < (width - 1); i++) {
-        if (i == percentLabelStart && showPercent) {
-            res << percentLabelColor << fixed << setprecision(decimalPartWidth) << percent * 100 << "%" << RESET;
-        }
-        if (i >= percentLabelStart && i <= percentLabelEnd && showPercent) continue;
-        string color = i > 2 * (width / 3) ? highColor : i > (width / 3) ? midColor : lowColor;
-        res << (i <= filled ? (color + filledSymbol + RESET) : emptySymbol);
-    }
-    res << endSymbol;
-    return res.str();
-}
-
 ThreadSafeLogger logger;
 
 int main(int argc, char* argv[]) {
