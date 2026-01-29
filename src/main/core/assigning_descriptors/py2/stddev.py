@@ -3,7 +3,7 @@ import json
 import math
 
 def main() -> None:
-    with open('similarities.json', 'r', encoding='utf-8') as file:
+    with open('src\\main\\core\\assigning_descriptors\\py2\\similarities.json', 'r', encoding='utf-8') as file:
         data: Dict[str, Dict[str, float]] = json.load(file)
     values: List[float] = []
     for sims in data.values():

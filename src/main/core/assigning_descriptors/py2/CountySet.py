@@ -6,8 +6,9 @@ from Demographics import Demographics
 from HasDemographics import HasDemographics
 
 class CountySet(HasDemographics):
-    def __init__(self, *counties: County):
+    def __init__(self, group_num: int, *counties: County):
         super().__init__({})
+        self.group_num = group_num
         self.counties = counties
         self.update_total_pop()
         self.average_counties()

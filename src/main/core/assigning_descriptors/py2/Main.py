@@ -56,18 +56,43 @@ def create_counties() -> List[County]:
             county.neighbors.add(neighbor)
             neighbor.neighbors.add(county) # County relationships are bidirectional / mutual
     
+    # Renormalize county demographics
+    # Use square of difference from national average demographics
+    # Find national average
+    print("Normalizing county demographics...")
+    national_demographics: Dict[str, float] = {}
+    national_population: int = 0
+    for FIPS, county in counties.items():
+        national_population += county.population
+        for demographic, value in county.demographics.demographics.items():
+            national_demographics.setdefault(demographic, 0.0)
+            national_demographics[demographic] += value * county.population
+    for demographic in national_demographics:
+        national_demographics[demographic] /= national_population
+    # Recompute county demographics as square of difference
+    for FIPS, county in counties.items():
+        for demographic, value in county.demographics.demographics.items():
+            diffsq = (value - national_demographics[demographic]) ** 2
+            county.demographics.demographics[demographic] = diffsq
+
     # Read county similarities
-    with open('src\\main\\core\\assigning_descriptors\\py2\\similarities.json', 'r', encoding='utf-8') as similarities_file:
-        similarities_data: Dict[str, Dict[str, float]] = json.load(similarities_file)
-        for FIPS, sims in similarities_data.items():
-            similarities: Dict[HasDemographics, float] = {}
-            for o_FIPS, sim in sims.items():
-                similarities[counties[o_FIPS]] = sim
-            counties[FIPS].similarities = similarities
+    try:
+        with open('src\\main\\core\\assigning_descriptors\\py2\\similarities.json', 'r', encoding='utf-8') as similarities_file:
+            similarities_data: Dict[str, Dict[str, float]] = json.load(similarities_file)
+            for FIPS, sims in similarities_data.items():
+                similarities: Dict[HasDemographics, float] = {}
+                for o_FIPS, sim in sims.items():
+                    similarities[counties[o_FIPS]] = sim
+                counties[FIPS].similarities = similarities
+    except FileNotFoundError as e:
+        precompute_county_similarities([v for _, v in counties.items()])
 
     return [v for _, v in counties.items()]
 
 def precompute_county_similarities(counties: List[County]) -> None:
+
+    print("Computing county similarities...")
+
     for i, c1 in enumerate(counties):
         if i % 50 == 0: print(i)
         for j, c2 in enumerate(counties):
@@ -85,17 +110,21 @@ def precompute_county_similarities(counties: List[County]) -> None:
 
 def main():
 
-    MEAN_SIMILARITY = 0.852854096943476
-    STDDEV_SIMILARITY = 0.04941103134279599
-    SIMILARITY_THRESHOLD = MEAN_SIMILARITY + (2.0 * STDDEV_SIMILARITY)
+    # L1
+    # MEAN_SIMILARITY = 0.852854096943476
+    # STDDEV_SIMILARITY = 0.04941103134279599
+
+    # L2
+    MEAN_SIMILARITY = 0.5267051127808406
+    STDDEV_SIMILARITY = 0.14870511593212166
+    SIMILARITY_THRESHOLD = MEAN_SIMILARITY + (0.5 * STDDEV_SIMILARITY)
 
     DESIRED_GROUPS = 1
 
     print("Creating counties...")
     counties: List[County] = create_counties() # Treat counties as immutable
     # Create initial singleton county sets
-    countySets: List[CountySet] = [CountySet(c) for c in counties]
-    # precompute_county_similarities(counties) # Only perform once, county demographics will not change
+    countySets: List[CountySet] = [CountySet(i, c) for i, c in enumerate(counties)]
     print("Counties created!")
 
     # Build an initial heap of pairwise similarities
@@ -130,7 +159,7 @@ def main():
         # Finish if the maximum similarity is lower than the acceptable threshold
         if sim < SIMILARITY_THRESHOLD: break
 
-        new_cs = CountySet(*cs1.counties, *cs2.counties)
+        new_cs = CountySet(min(cs1.group_num, cs2.group_num), *cs1.counties, *cs2.counties)
         countySets.append(new_cs)
         countySets.remove(cs1)
         countySets.remove(cs2)
@@ -141,41 +170,14 @@ def main():
             heapq.heappush(heap, (-new_sim, counter, new_cs, cs))
             counter += 1
 
-        # print("Finding max sim")
-        # for i, cs1 in enumerate(countySets):
-        #     if i % 50 == 0 and iteration == 0: print(i)
-        #     for j, cs2 in enumerate(countySets):
-        #         if i <= j: continue # Lower triangle
-        #         sim = cs1.compare_to(cs2) # Comparison is symmetric, result cached inside cs1 and cs2
-        #         if sim > 0.0 and sim == max_sim[1]: # Tie: store the one with higher combined population
-        #             cs1_old, cs2_old = countySets[max_sim[0][0]], countySets[max_sim[0][1]]
-        #             pop_old = cs1_old.total_pop + cs2_old.total_pop
-        #             pop_new = cs1.total_pop + cs2.total_pop
-        #             if (pop_new > pop_old): # Pop of candidate maximum is greater
-        #                 max_sim = ((i, j), sim)
-        #         if sim > max_sim[1]:
-        #             max_sim = ((i, j), sim) # Store highest similarity
-
-        # Finish if the maximum similarity is lower than the acceptable threshold
-        # if max_sim[1] < SIMILARITY_THRESHOLD: break
-
-        # # Merge CountySets with highest similarity
-        # cs1, cs2 = countySets[max_sim[0][0]], countySets[max_sim[0][1]]
-        # countySets.append(CountySet(*cs1.counties, *cs2.counties))
-        # for cs in countySets:
-        #     if cs1 in cs.similarities: cs.similarities.pop(cs1)
-        #     if cs2 in cs.similarities: cs.similarities.pop(cs2)
-        # countySets.remove(cs1)
-        # countySets.remove(cs2)
-
-        print(f"{iteration} (k={len(countySets)}): ({cs1.counties[0].FIPS}, {cs2.counties[0].FIPS}), {sim}")
+        print(f"{iteration} (k={len(countySets)}): ({cs1.group_num, cs2.group_num}) {sim}")
 
         iteration += 1
 
     # Print the results
     json_data: Dict[str, Dict[str, Any]] = {}
     for cs in countySets:
-        set_name = cs.counties[0].FIPS
+        set_name = str(cs.group_num)
         members = [c.FIPS for c in cs.counties]
         demos: Dict[str, float] = {}
         for FIPS, val in cs.demographics.demographics.items():
