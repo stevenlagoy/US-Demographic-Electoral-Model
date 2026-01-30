@@ -53,7 +53,7 @@
 // The number of demographic keys used in the dataset
 #define NUMBER_DEMOGRAPHICS 223
 // The number of descriptors we will create (including fixed-membership [USA, AL, etc])
-#define NUMBER_DESCRIPTORS 750
+#define NUMBER_DESCRIPTORS 750 // UNUSED
 // Maximum change (positive or negative) to a descriptor effect from one permutation - percentage
 #define MAX_CHANGE_AMT 0.25
 
@@ -68,6 +68,9 @@
 #define CHANGE_DESCRIPTOR_EFFECT_CHANCE 0.8
 #define CHANGE_COUNTY_MEMBERSHIP_CHANCE 1.0 - CHANGE_DESCRIPTOR_EFFECT_CHANCE
 
+#define ADD_DESCRIPTOR_TO_COUNTY_CHANCE 0.5
+#define REMOVE_DESCRIPTOR_FROM_COUNTY_CHANCE 1.0 - ADD_DESCRIPTOR_TO_COUNTY_CHANCE
+
 #define ADD_REMOVE_BORDER_COUNTY_CHANCE 0.9
 #define ADD_REMOVE_RANDOM_COUNTY_CHANCE 1.0 - ADD_REMOVE_BORDER_COUNTY_CHANCE
 
@@ -78,10 +81,10 @@
 #define EXPECTED_NEIGHBORS_PER_COUNTY 7
 
 // Score weights
-#define ACCURACY_SCORE_WEIGHT    0.45 //0.500
-#define SPECIFICITY_SCORE_WEIGHT 0.10 //0.100
-#define PARSIMONY_SCORE_WEIGHT   0.00 //0.025
-#define LOCALITY_SCORE_WEIGHT    0.55 //0.375
+#define ACCURACY_SCORE_WEIGHT    0.50 //0.500
+#define SPECIFICITY_SCORE_WEIGHT 0.0 //0.100
+#define PARSIMONY_SCORE_WEIGHT   0.50 //0.025
+#define LOCALITY_SCORE_WEIGHT    0.0 //0.375
 
 // Number of iterations between each time a thread will print its status (iteration count, temperature, accuracy)
 #define PRINT_TSTATUS_EVERY 10000

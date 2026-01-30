@@ -3,17 +3,36 @@
 #include <algorithm>
 #include <sstream>
 
+#include "County.h"
+
 void Descriptor::recalculate() {
-    score = 0.0;
+    demographics.fill(0.0);
+    uint64_t membersTotalPopulation{0};
+    for (const auto& cIdx : memberCountiesIndices) {
+        const auto& county = (*countiesPtr)[cIdx];
+        membersTotalPopulation += county->getPopulation();
+        const auto& countyDemographics = county->getDemographics();
+        for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+            demographics[i] += countyDemographics[i] * county->getPopulation();
+        }
+    }
+    for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+        demographics[i] /= membersTotalPopulation;
+    }
 }
 
 Descriptor::Descriptor(
     const std::string name,
     const size_t index,
     std::vector<std::unique_ptr<County>>* countiesPtr,
+    std::vector<size_t> memberCountiesIndices,
     bool membershipModifiable
-) : name{name}, index{index}, countiesPtr{countiesPtr}, membershipModifiable{membershipModifiable}
+) : name{name}, index{index}, countiesPtr{countiesPtr},
+    membershipModifiable{membershipModifiable}
 {
+    for (auto& idx : memberCountiesIndices) {
+        this->memberCountiesIndices.insert(idx);
+    }
     this->recalculate();
 }
 
@@ -29,31 +48,51 @@ bool Descriptor::isMembershipModifiable() const noexcept {
     return membershipModifiable;
 }
 
-const std::unordered_set<std::string>& Descriptor::getMemberCountiesFIPS() const noexcept {
+const std::unordered_set<size_t>& Descriptor::getMemberCountiesIndices() const noexcept {
+    return memberCountiesIndices;
+}
+
+std::vector<std::string> Descriptor::getMemberCountiesFIPS() const {
+    std::vector<std::string> memberCountiesFIPS;
+    for (const auto& cIdx : memberCountiesIndices) {
+        const auto& county = (*countiesPtr)[cIdx];
+        memberCountiesFIPS.push_back(county->getFIPS());
+    }
     return memberCountiesFIPS;
 }
 
-bool Descriptor::hasMemberCounty(const std::string& countyFIPS) const noexcept {
-    return memberCountiesFIPS.count(countyFIPS) != 0;
+void Descriptor::clearMemberCounties() noexcept {
+    memberCountiesIndices.clear();
 }
 
-void Descriptor::addMemberCounty(const std::string& countyFIPS) {
-    memberCountiesFIPS.insert(countyFIPS);
+bool Descriptor::hasMemberCounty(size_t countyIndex) const noexcept {
+    return memberCountiesIndices.count(countyIndex) != 0;
 }
 
-void Descriptor::removeMemberCounty(const std::string& countyFIPS) {
-    memberCountiesFIPS.erase(countyFIPS);
+void Descriptor::addMemberCounty(size_t countyIndex) {
+    memberCountiesIndices.insert(countyIndex);
+    this->recalculate();
 }
 
-void Descriptor::addOrRemoveMemberCounty(const std::string& countyFIPS) {
-    if (hasMemberCounty(countyFIPS))
-        removeMemberCounty(countyFIPS);
+void Descriptor::removeMemberCounty(size_t countyIndex) {
+    memberCountiesIndices.erase(countyIndex);
+    this->recalculate();
+}
+
+void Descriptor::addOrRemoveMemberCounty(size_t countyIndex) {
+    if (hasMemberCounty(countyIndex))
+        removeMemberCounty(countyIndex);
     else
-        addMemberCounty(countyFIPS);
+        addMemberCounty(countyIndex);
 }
 
 const std::array<double, NUMBER_DEMOGRAPHICS>& Descriptor::getDemographics() const noexcept {
     return demographics;
+}
+
+void Descriptor::setCountiesPtr(std::vector<std::unique_ptr<County>>* countiesPtr) {
+    this->countiesPtr = countiesPtr;
+    this->recalculate();
 }
 
 double Descriptor::getScore() const noexcept {
@@ -64,7 +103,7 @@ std::string Descriptor::to_string() const {
     std::ostringstream oss{};
     oss << this->name << " [" << this->index << "] {";
     bool first = true;
-    for (const auto& cFIPS : memberCountiesFIPS) {
+    for (const auto& cFIPS : getMemberCountiesFIPS()) {
         oss << (first ? "" : ", ") << cFIPS;
     }
     oss << "}" << ";";
@@ -74,8 +113,8 @@ std::string Descriptor::to_string() const {
 nlohmann::json Descriptor::to_json() const {
     return nlohmann::json{
         { "name", name },
-        { "number_members", memberCountiesFIPS.size() },
-        { "members", memberCountiesFIPS },
+        { "number_members", memberCountiesIndices.size() },
+        { "members", getMemberCountiesFIPS() },
         { "score", score }
     };
 }

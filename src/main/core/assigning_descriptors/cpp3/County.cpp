@@ -3,42 +3,38 @@
 #include <algorithm>
 #include <sstream>
 
+#include "Utils.h"
+#include "Descriptor.h"
+
 void County::recalculate() {
-    this->score = 0.0;
+    descriptorsDemographics.fill(0.0);
+    for (size_t idx : descriptorIndices) {
+        const auto& descriptor = (*descriptorsPtr)[idx];
+        const auto& descriptorDemographics = descriptor->getDemographics();
+        for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+            descriptorsDemographics[i] = std::clamp(descriptorsDemographics[i] + descriptorDemographics[i], 0.0, 1.0);
+        }
+    }
+    score = compareDemographics(demographics, descriptorsDemographics, "js");
 }
 
 County::County(
     const std::string& name,
     const std::string& FIPS,
+    size_t index,
     const uint32_t population,
-    std::unordered_set<std::string> neighbors,
     const std::array<double, NUMBER_DEMOGRAPHICS> demographics,
-    std::array<Descriptor, NUMBER_DESCRIPTORS>* const descriptorsPtr
-) : name{name}, FIPS{FIPS}, population{population},
-    neighbors{neighbors}, demographics{demographics},
-    descriptorsPtr{descriptorsPtr}
-{
-    this->recalculate();
-}
-
-County::County(
-    const std::string& name,
-    const std::string& FIPS,
-    const uint32_t population,
-    std::vector<std::string> neighbors,
-    const std::array<double, NUMBER_DEMOGRAPHICS> demographics,
-    std::array<Descriptor, NUMBER_DESCRIPTORS>* const descriptorsPtr
-) : name{name}, FIPS{FIPS}, population{population},
-    neighbors{neighbors.begin(), neighbors.end()}, demographics{demographics},
-    descriptorsPtr{descriptorsPtr}
+    std::vector<std::unique_ptr<Descriptor>>* descriptorsPtr
+) : name{name}, FIPS{FIPS}, index{index}, population{population},
+    demographics{demographics}, descriptorsPtr{descriptorsPtr}
 {
     this->recalculate();
 }
 
 County::County(
     const County& other
-) : name{other.name}, FIPS{other.FIPS}, population{other.population},
-    neighbors{other.neighbors}, demographics{other.demographics},
+) : name{other.name}, FIPS{other.FIPS}, index{other.index}, population{other.population},
+    neighborsIndices{other.neighborsIndices}, demographics{other.demographics},
     descriptorsPtr{other.descriptorsPtr}
 {
     this->recalculate();
@@ -52,6 +48,14 @@ const std::string& County::getFIPS() const noexcept {
     return FIPS;
 }
 
+std::string County::getStateFIPS() const {
+    return FIPS.substr(0, 2);
+}
+
+size_t County::getIndex() const noexcept {
+    return index;
+}
+
 uint32_t County::getPopulation() const noexcept{
     return population;
 }
@@ -60,24 +64,25 @@ double County::getScore() const noexcept {
     return score;
 }
 
-const std::unordered_set<std::string>& County::getNeighbors() const noexcept {
-    return neighbors;
+const std::unordered_set<size_t>& County::getNeighborsIndices() const noexcept {
+    return neighborsIndices;
 }
 
-bool County::hasNeighbor(const std::string& neighborFIPS) const noexcept {
-    return neighbors.count(neighborFIPS) != 0;
+bool County::hasNeighbor(size_t neighborIndex) const noexcept {
+    return neighborsIndices.count(neighborIndex) != 0;
 }
 
-bool County::hasNeighbor(const County& c) const noexcept {
-    return hasNeighbor(c.FIPS);
+void County::addNeighbor(size_t neighborIndex) noexcept {
+    neighborsIndices.insert(neighborIndex);
 }
 
 const std::array<double, NUMBER_DEMOGRAPHICS>& County::getDemographics() const noexcept {
     return demographics;
 }
 
-void County::setDescriptorsPtr(std::array<Descriptor, NUMBER_DESCRIPTORS>* const descriptorsPtr) {
+void County::setDescriptorsPtr(std::vector<std::unique_ptr<Descriptor>>* descriptorsPtr) {
     this->descriptorsPtr = descriptorsPtr;
+    this->recalculate();
 }
 
 const std::unordered_set<size_t>& County::getDescriptorIndices() const noexcept {
@@ -94,6 +99,7 @@ bool County::hasDescriptor(const Descriptor& d) const {
 
 void County::addDescriptor(size_t descriptorIndex) noexcept {
     descriptorIndices.insert(descriptorIndex);
+    this->recalculate();
 }
 
 void County::addDescriptor(const Descriptor& d) {
@@ -102,10 +108,11 @@ void County::addDescriptor(const Descriptor& d) {
 
 void County::removeDescriptor(size_t descriptorIndex) noexcept {
     descriptorIndices.erase(descriptorIndex);
+    this->recalculate();
 }
 
 void County::removeDescriptor(const Descriptor& d) {
-    descriptorIndices.erase(d.getIndex());
+    this->removeDescriptor(d.getIndex());
 }
 
 void County::addOrRemoveDescriptor(size_t descriptorIndex) noexcept {
@@ -128,7 +135,7 @@ std::string County::to_string() const {
 nlohmann::json County::to_json() const {
     std::vector<std::string> descriptorsNames{};
     for (const size_t index : descriptorIndices) {
-        descriptorsNames.push_back((*descriptorsPtr)[index].getName());
+        descriptorsNames.push_back((*descriptorsPtr)[index]->getName());
     }
     return nlohmann::json{
         { "name", name },

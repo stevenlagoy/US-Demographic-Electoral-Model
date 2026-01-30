@@ -9,18 +9,18 @@
 #include <array>
 #include <memory>
 #include <ostream>
+#include <limits>
 #include "../../../../lib/json.hpp"
 
-// Forward declare County
-class County;
+class County; // Forward-declare County
 
 class Descriptor {
 private:
     const std::string name;
-    const size_t index;
-    std::unordered_set<std::string> memberCountiesFIPS;
-    std::array<double, NUMBER_DEMOGRAPHICS> demographics;
+    const size_t index = std::numeric_limits<size_t>::max(); // Initialize to max value to detect errors
     std::vector<std::unique_ptr<County>>* countiesPtr;
+    std::unordered_set<size_t> memberCountiesIndices;
+    std::array<double, NUMBER_DEMOGRAPHICS> demographics;
     
     const bool membershipModifiable = true;
 
@@ -28,11 +28,12 @@ private:
 
     void recalculate();
 public:
-    Descriptor() = default;
+    Descriptor() = delete;
     explicit Descriptor(
         const std::string name,
         const size_t index,
         std::vector<std::unique_ptr<County>>* countiesPtr,
+        std::vector<size_t> memberCountiesIndices = {},
         bool membershipModifiable = true
     );
     ~Descriptor() = default;
@@ -40,12 +41,15 @@ public:
     const std::string& getName() const noexcept;
     size_t getIndex() const noexcept;
     bool isMembershipModifiable() const noexcept;
-    const std::unordered_set<std::string>& getMemberCountiesFIPS() const noexcept;
-    bool hasMemberCounty(const std::string& countyFIPS) const noexcept;
-    void addMemberCounty(const std::string& countyFIPS);
-    void removeMemberCounty(const std::string& countyFIPS);
-    void addOrRemoveMemberCounty(const std::string& countyFIPS);
+    const std::unordered_set<size_t>& getMemberCountiesIndices() const noexcept;
+    std::vector<std::string> getMemberCountiesFIPS() const;
+    void clearMemberCounties() noexcept;
+    bool hasMemberCounty(size_t countyIndex) const noexcept;
+    void addMemberCounty(size_t countyIndex);
+    void removeMemberCounty(size_t countyIndex);
+    void addOrRemoveMemberCounty(size_t countyIndex);
     const std::array<double, NUMBER_DEMOGRAPHICS>& getDemographics() const noexcept;
+    void setCountiesPtr(std::vector<std::unique_ptr<County>>* countiesPtr);
     
     double getScore() const noexcept;
 

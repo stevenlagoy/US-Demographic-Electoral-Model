@@ -164,6 +164,60 @@ std::map<std::string, std::string> stateNameToAbbr = {
     {"wyoming", "WY"}
 };
 
+std::map<std::string, std::string> stateFIPSToName = {
+    { "01", "alabama" },
+    { "02", "alaska" },
+    { "04", "arizona" },
+    { "05", "arkansas" },
+    { "06", "california" },
+    { "08", "colorado" },
+    { "09", "connecticut" },
+    { "10", "delaware" },
+    { "11", "district_of_columbia" },
+    { "12", "florida" },
+    { "13", "georgia" },
+    { "15", "hawaii" },
+    { "16", "idaho" },
+    { "17", "illinois" },
+    { "18", "indiana" },
+    { "19", "iowa" },
+    { "20", "kansas" },
+    { "21", "kentucky" },
+    { "22", "louisiana" },
+    { "23", "maine" },
+    { "24", "maryland" },
+    { "25", "massachusetts" },
+    { "26", "michigan" },
+    { "27", "minnesota" },
+    { "28", "mississippi" },
+    { "29", "missouri" },
+    { "30", "montana" },
+    { "31", "nebraska" },
+    { "32", "nevada" },
+    { "33", "new_hampshire" },
+    { "34", "new_jersey" },
+    { "35", "new_mexico" },
+    { "36", "new_york" },
+    { "37", "north_carolina" },
+    { "38", "north_dakota" },
+    { "39", "ohio" },
+    { "40", "oklahoma" },
+    { "41", "oregon" },
+    { "42", "pennsylvania" },
+    { "44", "rhode_island" },
+    { "45", "south_carolina" },
+    { "46", "south_dakota" },
+    { "47", "tennessee" },
+    { "48", "texas" },
+    { "49", "utah" },
+    { "50", "vermont" },
+    { "51", "virginia" },
+    { "53", "washington" },
+    { "54", "west_virginia" },
+    { "55", "wisconsin" },
+    { "56", "wyoming" }
+};
+
 template <size_t N>
 void normalize(std::array<double, N>& arr, int level = 1) {
     double sum = std::accumulate(arr.cbegin(), arr.cend(), 0.0, [level](double acc, double val) { return acc + std::pow(val, level); });
@@ -246,11 +300,13 @@ double compareDemographics(const std::array<double, NUMBER_DEMOGRAPHICS>& expect
 }
 
 int randomInt(int min, int max) {
+    if (max <= min) throw std::out_of_range("randomInt: max must be greater than min (" + std::to_string(min) + " >= " + std::to_string(max) + ")");
     std::uniform_int_distribution<int> dist(min, max - 1);
     return dist(rng());
 }
 
 double randomDouble(double min, double max) {
+    if (max <= min) throw std::out_of_range("randomDouble: max must be greater than min (" + std::to_string(min) + " >= " + std::to_string(max) + ")");
     std::uniform_real_distribution<double> dist(min, max);
     return dist(rng());
 }
@@ -262,17 +318,17 @@ bool randomChance(float chance) {
     return dist(rng()) < chance;
 }
 
-string progressBar(double percent, int width, bool showPercent) {
+std::string progressBar(double percent, int width, bool showPercent) {
     int filled = static_cast<int>((width - 2) * percent);
-    ostringstream res;
-    const string startSymbol  = "["; //"▕";
-    const string filledSymbol = "#"; //"█";
-    const string emptySymbol  = "-"; //"─";
-    const string endSymbol    = "]"; //"▏";
-    const string lowColor = ESC CSI FG_RED SGR;
-    const string midColor = ESC CSI FG_YELLOW SGR;
-    const string highColor = ESC CSI FG_GREEN SGR;
-    const string percentLabelColor = ESC CSI FG_BRIGHT_WHITE SGR;
+    std::ostringstream res;
+    const std::string startSymbol  = "["; //"▕";
+    const std::string filledSymbol = "#"; //"█";
+    const std::string emptySymbol  = "-"; //"─";
+    const std::string endSymbol    = "]"; //"▏";
+    const std::string lowColor = ESC CSI FG_RED SGR;
+    const std::string midColor = ESC CSI FG_YELLOW SGR;
+    const std::string highColor = ESC CSI FG_GREEN SGR;
+    const std::string percentLabelColor = ESC CSI FG_BRIGHT_WHITE SGR;
     
     // Determine location to show percent
     // Try to avoid covering the current value
@@ -280,8 +336,8 @@ string progressBar(double percent, int width, bool showPercent) {
     // Do not exceed width, even with percentage after the bar
     // Favor the middle, then the right side, then the left side
     // Center between the percent and the ends of the bar
-    int percentLabelWidth = min(width / 4, 12);
-    int wholePartWidth = max(1, (int)(log10(percent)));
+    int percentLabelWidth = std::min(width / 4, 12);
+    int wholePartWidth = std::max(1, (int)(std::log10(percent)));
     int decimalPartWidth = percentLabelWidth - wholePartWidth - 2; // Subtract 2 for the decimal and percent sign
     int percentLabelCenter = percent < 0.5 ? (width - filled) / 2 + filled : filled / 2;
     // Snap to quarters
@@ -307,10 +363,10 @@ string progressBar(double percent, int width, bool showPercent) {
     res << startSymbol;
     for (int i = 1; i < (width - 1); i++) {
         if (i == percentLabelStart && showPercent) {
-            res << percentLabelColor << fixed << setprecision(decimalPartWidth) << percent * 100 << "%" << RESET;
+            res << percentLabelColor << std::fixed << std::setprecision(decimalPartWidth) << percent * 100 << "%" << RESET;
         }
         if (i >= percentLabelStart && i <= percentLabelEnd && showPercent) continue;
-        string color = i > 2 * (width / 3) ? highColor : i > (width / 3) ? midColor : lowColor;
+        std::string color = i > 2 * (width / 3) ? highColor : i > (width / 3) ? midColor : lowColor;
         res << (i <= filled ? (color + filledSymbol + RESET) : emptySymbol);
     }
     res << endSymbol;
