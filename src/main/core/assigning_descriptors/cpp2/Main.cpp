@@ -1,7 +1,7 @@
 #include "Constants.h"
 #include "Descriptor.h"
 #include "County.h"
-#include "utils.h"
+#include "Utils.h"
 
 #include <chrono>
 #include <cmath>
@@ -110,40 +110,6 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
     }
     return FALSE;
 }
-
-class ThreadSafeLogger {
-private:
-    static inline mutex logMutex;
-public:
-    template<typename T>
-    ThreadSafeLogger& operator<<(const T& value) {
-        lock_guard<mutex> lock(logMutex);
-        cout << value;
-        return *this;
-    }
-
-    ThreadSafeLogger& operator<<(ostream& (*manip)(ostream&)) {
-        lock_guard<mutex> lock(logMutex);
-        cout << manip;
-        return *this;
-    }
-
-    template<typename... Args>
-    static void log(Args&&... args) {
-        std::ostringstream oss;
-        (oss << ... << std::forward<Args>(args)); // fold expression to write all args
-        std::lock_guard<std::mutex> lock(logMutex);
-        std::cout << oss.str() << std::flush;
-    }
-
-    template<typename... Args>
-    static void logLine(Args&&... args) {
-        std::ostringstream oss;
-        (oss << ... << std::forward<Args>(args));
-        std::lock_guard<std::mutex> lock(logMutex);
-        std::cout << oss.str() << std::endl;
-    }
-};
 
 ThreadSafeLogger logger;
 

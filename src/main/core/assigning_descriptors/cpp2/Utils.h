@@ -2,15 +2,22 @@
 #define UTILS_H
 
 #include <algorithm>
+#include <array>
+#include <atomic>
 #include <chrono>
 #include <cmath>
+#include <format>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <map>
+#include <mutex>
 #include <numeric>
 #include <random>
 #include <sstream>
 #include <string>
+#include <string>
+#include <thread>
 #include <type_traits>
 #include <vector>
 #include <windows.h>
@@ -41,6 +48,8 @@ extern std::array<std::string, 51> statesAbbreviations;
 
 extern std::map<std::string, std::string> stateNameToAbbr;
 
+extern std::map<std::string, std::string> stateFIPSToName;
+
 std::vector<std::string> listDirectories(const std::string& path);
 
 std::vector<std::string> listFiles(const std::string& path);
@@ -53,7 +62,16 @@ double randomDouble(double min, double max);
 
 template<typename T, size_t N>
 T& randomItem(std::array<T, N>& arr) {
+    if (arr.size() == 0) throw std::out_of_range("randomItem(arr): array is empty");
+    if (arr.size() == 1) return arr[0];
     return arr[randomInt(0, static_cast<int>(N-1))];
+}
+
+template<typename T>
+T& randomItem(std::vector<T>& vec) {
+    if (vec.empty()) throw std::out_of_range("randomItem(vec): vector is empty");
+    if (vec.size() == 1) return vec[0];
+    return vec[randomInt(0, static_cast<int>(vec.size() - 1))];
 }
 
 bool randomChance(float chance);
@@ -76,5 +94,41 @@ double std_dev(const std::vector<T>& vec) {
     double std_dev = std::sqrt(variance);
     return std_dev;
 }
+
+class ThreadSafeLogger {
+private:
+    static inline std::mutex logMutex;
+public:
+    template<typename T>
+    ThreadSafeLogger& operator<<(const T& value) {
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << value;
+        return *this;
+    }
+
+    ThreadSafeLogger& operator<<(std::ostream& (*manip)(std::ostream&)) {
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << manip;
+        return *this;
+    }
+
+    template<typename... Args>
+    static void log(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args)); // fold expression to write all args
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << oss.str() << std::flush;
+    }
+
+    template<typename... Args>
+    static void logLine(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args));
+        std::lock_guard<std::mutex> lock(logMutex);
+        std::cout << oss.str() << std::endl;
+    }
+};
+
+std::string progressBar(double percent, int width, bool showPercent = true);
 
 #endif
