@@ -6,17 +6,22 @@
 #include "County.h"
 
 void Descriptor::recalculate() {
+    // Determine this descriptor's demographics based on the average member counties
     demographics.fill(0.0);
     uint64_t membersTotalPopulation{0};
+    // Loop through member counties
     for (const auto& cIdx : memberCountiesIndices) {
         const auto& county = (*countiesPtr)[cIdx];
         membersTotalPopulation += county->getPopulation();
+        // Get each member's demographics
         const auto& countyDemographics = county->getDemographics();
         for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+            // Add each demographic weighted by county population
             demographics[i] += countyDemographics[i] * county->getPopulation();
         }
     }
     for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+        // Normalize per population
         demographics[i] /= membersTotalPopulation;
     }
 }

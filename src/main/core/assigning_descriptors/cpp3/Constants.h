@@ -56,6 +56,8 @@
 #define NUMBER_DESCRIPTORS 750 // UNUSED
 // Maximum change (positive or negative) to a descriptor effect from one permutation - percentage
 #define MAX_CHANGE_AMT 0.25
+// Approximate number of counties: DO NOT USE AS EXACT
+#define NUMBER_COUNTIES 3100
 
 #define MAX_ITERATIONS 100'000'000
 #define MAX_TRIES 1000000

@@ -19,13 +19,14 @@ private:
     const std::string FIPS;
     const size_t index = std::numeric_limits<size_t>::max(); // Initialize to max value to detect errors
     const uint32_t population;
-    std::unordered_set<size_t> neighborsIndices;
-    const std::array<double, NUMBER_DEMOGRAPHICS> demographics;
+    std::unordered_set<size_t> neighborsIndices; // Indices of 
+    const std::array<double, NUMBER_DEMOGRAPHICS> demographics; // Actual demographics
     std::vector<std::unique_ptr<Descriptor>>* descriptorsPtr;
     double score;
 
     std::unordered_set<size_t> descriptorIndices;
-    std::array<double, NUMBER_DEMOGRAPHICS> descriptorsDemographics;
+    std::array<double, NUMBER_DEMOGRAPHICS> descriptorsDemographics; // Demographics given by average of descriptor memberships
+    std::array<double, NUMBER_DEMOGRAPHICS> missingDemographics; // Difference between expected and actual demographics
 
     void recalculate();
 public:
@@ -61,6 +62,9 @@ public:
     void removeDescriptor(const Descriptor& d);
     void addOrRemoveDescriptor(size_t descriptorIndex) noexcept;
     void addOrRemoveDescriptor(const Descriptor& d);
+
+    const std::array<double, NUMBER_DEMOGRAPHICS>& getDescriptorsDemographics() const noexcept;
+    const std::array<double, NUMBER_DEMOGRAPHICS>& getMissingDemographics() const noexcept;
 
     std::string to_string() const;
     nlohmann::json to_json() const;

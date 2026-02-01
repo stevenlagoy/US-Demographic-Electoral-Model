@@ -372,3 +372,14 @@ std::string progressBar(double percent, int width, bool showPercent) {
     res << endSymbol;
     return res.str();
 }
+
+std::vector<std::vector<double>> vectorToSquareMatrix(const std::vector<double>& vec) {
+    std::vector<std::vector<double>> res;
+    for (size_t i = 0; i < vec.size(); ++i) {
+        for (size_t j = 0; j <= i; ++j) {
+            res[i][j] = vec[i] * vec[j];
+            res[j][i] = vec[j] * vec[i];
+        }
+    }
+    return res;
+}

@@ -8,14 +8,25 @@
 
 void County::recalculate() {
     descriptorsDemographics.fill(0.0);
+    // Loop through the descriptors of which this county is a member
     for (size_t idx : descriptorIndices) {
         const auto& descriptor = (*descriptorsPtr)[idx];
+        // Get the demographics of each
         const auto& descriptorDemographics = descriptor->getDemographics();
         for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
-            descriptorsDemographics[i] = std::clamp(descriptorsDemographics[i] + descriptorDemographics[i], 0.0, 1.0);
+            descriptorsDemographics[i] += descriptorDemographics[i];
         }
     }
+    // Clamp the demographics to [0, 1]
+    for (size_t i = 0; i < descriptorsDemographics.size(); ++i) {
+        descriptorsDemographics[i] = std::clamp(descriptorsDemographics[i], 0.0, 1.0);
+    }
+
+    // Determine score and missing demographics
     score = compareDemographics(demographics, descriptorsDemographics, "js");
+    missingDemographics = subtract(demographics, descriptorsDemographics); // actual - predicted
+    // Expected = 0.50, Actual = 0.25, Difference = 0.25. 25% missing
+    // Expected = 0.25, Actual = 0.50, Difference = -0.25. -25% missing, or 25% excess
 }
 
 County::County(
@@ -124,6 +135,14 @@ void County::addOrRemoveDescriptor(size_t descriptorIndex) noexcept {
 
 void County::addOrRemoveDescriptor(const Descriptor& d) {
     this->addOrRemoveDescriptor(d.getIndex());
+}
+
+const std::array<double, NUMBER_DEMOGRAPHICS>& County::getDescriptorsDemographics() const noexcept {
+    return descriptorsDemographics;
+}
+
+const std::array<double, NUMBER_DEMOGRAPHICS>& County::getMissingDemographics() const noexcept {
+    return missingDemographics;
 }
 
 std::string County::to_string() const {

@@ -16,8 +16,12 @@
 #include <atomic>
 #include <thread>
 #include <mutex>
+
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
+
+#include "../../../../lib/Eigen/Dense"
+using Eigen::MatrixXd;
 
 using namespace std;
 
@@ -28,17 +32,8 @@ using namespace std;
 
 struct Simulation {
 
-    struct Change {
-        function<void()> undo_fn;
-        Change(function<void()> fn) : undo_fn(fn) {}
-        void undo() { if (undo_fn) undo_fn(); }
-    };
-
     uint32_t nationalPopulation = 0;
-    uint64_t iter = 0;
-    uint32_t tries = 0;
     uint16_t threadNum = 0;
-    double temperature = STARTING_TEMPERATURE;
     chrono::steady_clock::time_point startTime = chrono::steady_clock::now();
     vector<unique_ptr<Descriptor>> descriptors;
     vector<unique_ptr<County>> counties;
@@ -105,14 +100,8 @@ struct Simulation {
     void createCounties();
     void createDescriptors();
     void run();
-    Change iteration();
-    void cleanup();
 
     double score();
-    double scoreAccuracy();
-    double scoreSpecificity();
-    double scoreParsimony();
-    double scoreLocality();
 
     string to_string();
     json to_json();
@@ -128,6 +117,7 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
 }
 
 ThreadSafeLogger logger;
+bool isDebug = false;
 
 int main(int argc, char* argv[]) {
 
@@ -137,7 +127,6 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: " << argv[0] << " [-debug]";
         return -1;
     }
-    bool isDebug = false;
     if (argc == 2 && (string(argv[1]) == "-d" || string(argv[1]) == "-debug")) {
         isDebug = true;
     }
@@ -154,57 +143,7 @@ int main(int argc, char* argv[]) {
     logger.logLine("Initializing base model...");
     baseSim.initialize();
 
-    // Clone sim into different threads / workers
-    mutex bestMutex;
-    double bestScore = 0.0;
-    json bestSimJson;
-    const uint8_t workers = clamp(thread::hardware_concurrency(), MIN_THREADS, isDebug ? MAX_DEBUG_THREADS : MAX_THREADS);
-    vector<thread> threads(workers);
-    logger.logLine("Running simulation on " + ::to_string(workers) + " threads...");
-    for (auto w = 0; w < workers; ++w) {
-        threads.emplace_back([&, w]() {
-            try {
-                Simulation sim = baseSim; // Copy base simulation
-                sim.threadNum = w;
-
-                logger.logLine("[" + ::to_string(sim.threadNum) + "] Running...");
-                sim.run();
-                double s = sim.score();
-                {
-                    lock_guard<mutex> lock(bestMutex);
-                    if (s > bestScore) {
-                        bestScore = s;
-                        bestSimJson = sim.to_json();
-                        // Write to log file
-                        ofstream ofs(LOG_FILE);
-                        ofs << bestSimJson.dump(4);
-                        ofs.close();
-                    }
-                }
-            }
-            catch (const exception& ex) {
-                logger.logLine("[", w, "] Exception: ", ex.what());
-            }
-            catch (...) {
-                logger.logLine("[", w, "] Unknwon exception encountered");
-            }
-        });
-    }
-    
-    // Join threads
-    for (auto& t : threads) {
-        if (t.joinable()) t.join();
-    }
-
-    // Print best simulation
-    if (bestScore > 0.0) {
-        ostringstream oss;
-        oss << setprecision(12) << bestScore;
-        logger.logLine("Best score across workers: " + oss.str() + ". Saved to " + LOG_FILE);
-    }
-    else {
-        logger.logLine("No successful simulations completed.");
-    }
+    baseSim.run();
 
     return 0;
 }
@@ -213,19 +152,20 @@ void Simulation::initialize() {
     startTime = chrono::steady_clock::now();
     auto initStart = chrono::system_clock::now();
     time_t start_c = chrono::system_clock::to_time_t(initStart);
-    ostringstream oss;
-    oss << put_time(localtime(&start_c), "%T");
-    logger.logLine("Beginning initialization at " + oss.str());
-    oss.clear();
+    ostringstream oss1;
+    oss1 << put_time(localtime(&start_c), "%T");
+    logger.logLine("Beginning initialization at " + oss1.str());
     
     createCounties();
     createDescriptors();
+    this->_INITIALIZED = true;
 
     auto initEnd = chrono::system_clock::now();
     time_t end_c = chrono::system_clock::to_time_t(initEnd);
     auto msElapsed = chrono::duration_cast<chrono::milliseconds>(initEnd - initStart).count();
-    oss << put_time(localtime(&end_c), "%T");
-    logger.logLine("Successfully initialized at " + oss.str() + " (" + ::to_string(msElapsed) + "ms elapsed)");
+    ostringstream oss2;
+    oss2 << put_time(localtime(&end_c), "%T");
+    logger.logLine("Successfully initialized at " + oss2.str() + " (" + ::to_string(msElapsed) + "ms elapsed)");
 }
 
 void Simulation::createCounties() {
@@ -245,7 +185,8 @@ void Simulation::createCounties() {
 
     // Create counties
     size_t countiesMade{0};
-    vector<vector<string>> countiesNeighborsFIPS; 
+    vector<vector<string>> countiesNeighborsFIPS;
+    counties.reserve(NUMBER_COUNTIES); // NUMBER_COUNTIES is approximate - allow implementation to resize if needed
     for (const string& state : listDirectories(RESOURCES_DIR)) {
         string countyDir = RESOURCES_DIR + state + "/counties/";
         for (const string& fileName : listFiles(countyDir)) {
@@ -272,11 +213,14 @@ void Simulation::createCounties() {
                 demosArr[idx] = val;
             }
 
+            uint32_t pop = j["population"];
+            nationalPopulation += pop;
+
             counties.emplace_back(make_unique<County>(
                 j["name"],
                 j["FIPS"],
                 countiesMade,
-                j["population"],
+                pop,
                 demosArr,
                 &(this->descriptors)
             ));
@@ -358,135 +302,92 @@ void Simulation::createDescriptors() {
 
 void Simulation::run() {
 
-    Change ch([](){});
-    double prevScore = 0, newScore = 0;
-    for (iter = 0; iter < MAX_ITERATIONS && tries < MAX_TRIES && !stopRequested; ++iter) {
-        temperature = clamp(temperature - TEMPERATURE_STEP, 0.0, 1.0);
+    if (!_INITIALIZED) return;
 
-        ch = this->iteration();
+    // min[d_k, c(i)] ( 1/P * ∑[i] ( p_i * ||r_i - d_(c(i))|| ^ 2 ) )
 
-        newScore = score();
-        if (newScore < prevScore) { // The change made the simulation worse
-            if (randomChance(temperature)) { // Temperature check
-                // Keep the change
-                prevScore = newScore;
-                tries = 0;
+    // Build residual matrix: NUMBER_DEMOGRAPHICS x counties.size()
+    auto residual = make_unique<vector<array<double, NUMBER_DEMOGRAPHICS>>>();
+    residual->reserve(counties.size());
+    for (size_t i = 0; i < counties.size(); ++i) {
+        residual->emplace_back(counties[i]->getMissingDemographics());
+    }
+
+    // Create covariance matrix: NUMBER_DEMOGRAPHICS x NUMBER_DEMOGRAPHICS
+    // Covariance is symmetric positive semidefinite
+    auto covariance = make_unique<array<array<double, NUMBER_DEMOGRAPHICS>, NUMBER_DEMOGRAPHICS>>();
+    for (auto& row : (*covariance)) row.fill(0.0);
+    for (size_t i = 0; i < counties.size(); ++i) {
+        uint32_t population = counties[i]->getPopulation();
+        auto cov = vectorToSquareMatrix((*residual)[i]);
+        for (size_t row = 0; row < cov.size(); ++row) {
+            for (size_t col = 0; col < cov[row].size(); ++col) {
+                (*covariance)[row][col] += (cov[row][col] * population) / nationalPopulation;
             }
-            else {
-                // Undo the change
-                ch.undo();
-                ++tries;
+        }
+    }
+    // Check for invalid values
+    for (size_t i = 0; i < NUMBER_DEMOGRAPHICS; ++i) {
+        for (size_t j = 0; j < NUMBER_DEMOGRAPHICS; ++j) {
+            if (!isfinite((*covariance)[i][j])) {
+                logger.logLine("Covariance matrix contains NaN or Inf at (", i, ",", j, ")");
+                return;
             }
         }
-        else { // Keep the change
-            prevScore = newScore;
-            tries = 0;
+    }
+
+    if (isDebug) {
+        ofstream ofs(LOGS_DIR "covariance.txt");
+        for (const auto& row : (*covariance)) {
+            for (const auto& col : row) {
+                ofs << scientific << setprecision(3) << showpoint << col << " ";
+            }
+            ofs << "\n";
         }
-
-        this->cleanup();
-
-        // Print details
-        if (!!(iter % PRINT_TSTATUS_EVERY)) {
-            logger.logLine(this->to_string());
-        }
-
+        ofs.close();
     }
 
-    // Print termination details
-    ostringstream oss;
-    oss << setfill('0') << setw(2) << threadNum;
-    logger.log("[", oss.str(), "] ");
-    if (stopRequested) {
-        logger.logLine("Simulation interrupted by user.");
-    }
-    else if (tries >= MAX_TRIES) {
-        logger.logLine(::to_string(MAX_TRIES), " iterations without improvement. Dropping out.");
-    }
-    else {
-        logger.logLine("Simulation limit of ", ::to_string(MAX_ITERATIONS), " iterations reached.");
-    }
-}
+    // Eigen Decomposition with PCA
+    // C_v_j = λ_j * v_j
 
-Simulation::Change Simulation::iteration() {
-    
-    // Choose a county
-    if (counties.empty()) {
-        logger.logLine("[" + ::to_string(threadNum) + "] Counties is empty in iteration()");
-    }
-    auto& county = randomItem(counties);
-    // Choose whether to add or remove a descriptor
-    vector<size_t> modifiableDescriptorIndices;
-    if (randomChance(ADD_DESCRIPTOR_TO_COUNTY_CHANCE)) { // Add
-        // Get the modifiable descriptors from the simulation
-        for (const auto& d : this->descriptors) {
-            if (d->isMembershipModifiable())
-                modifiableDescriptorIndices.push_back(d->getIndex());
-        }
-    }
-    else { // Remove
-        // Get the modifiable descriptors from the county's membership
-        for (const auto& dIdx : county->getDescriptorIndices()) {
-            if (this->descriptors[dIdx]->isMembershipModifiable())
-                modifiableDescriptorIndices.push_back(dIdx);
-        }
-    }
-    // Choose a descriptor
-    if (modifiableDescriptorIndices.size() == 0) return Change([](){}); // No applicable modifiable descriptors were found
-    const auto& dIdx = randomItem(modifiableDescriptorIndices);
-    const auto& descriptor = descriptors[dIdx];
-    // Add or remove the county
-    county->addOrRemoveDescriptor(dIdx);
-    descriptor->addOrRemoveMemberCounty(county->getIndex());
+    MatrixXd eigen = toEigen(*covariance);
+    PCAResult result = computePCA(eigen);
+    int k = chooseComponentCount(result.eigenvalues);
+    logger.logLine("Number of PCA components kept: " + ::to_string(k));
 
-    return Change([&]() mutable {
-        county->addOrRemoveDescriptor(dIdx);
-        descriptor->addOrRemoveMemberCounty(county->getIndex());
-    });
-}
+    // Precompute PCA projection matrix (NUMBER_DESCRIPTORS x k)
+    Eigen::MatrixXd Vk = result.eigenvectors.leftCols(k);
 
-void Simulation::cleanup() {
-    // Find and delete any empty descriptors
-    erase_if(descriptors, [](auto& d) {
-        return d->getMemberCountiesIndices().empty();
-    }); // Smart pointer also deletes the descriptor
+    // Build PCA-space county points
+    vector<CountyPoint> points;
+    points.reserve(counties.size());
+
+    for (size_t i = 0; i < counties.size(); ++i) {
+        Eigen::VectorXd r(NUMBER_DEMOGRAPHICS);
+        const auto& resArr = (*residual)[i];
+        for (size_t d = 0; d < NUMBER_DEMOGRAPHICS; ++d)
+            r(d) = resArr[d];
+        
+        Eigen::VectorXd z = Vk.transpose() * r;
+
+        points.push_back({ z, (double)counties[i]->getPopulation(), -1 });
+    }
 }
 
 double Simulation::score() {
 
-    double totalScore{0};
-
-    totalScore += this->scoreAccuracy() * ACCURACY_SCORE_WEIGHT;
-    totalScore += this->scoreParsimony() * PARSIMONY_SCORE_WEIGHT;
-
-    return totalScore;
-}
-
-double Simulation::scoreAccuracy() {
     double accuracyScore{0};
     for (const auto& c : counties) {
         accuracyScore += c->getScore();
     }
     accuracyScore /= counties.size();
     return accuracyScore;
+
 }
-
-double Simulation::scoreSpecificity() { return 0.0; }
-
-double Simulation::scoreParsimony() {
-
-    // Count the number of descriptors which have one or more memebr counties
-    int descriptorsCount = count_if(descriptors.cbegin(), descriptors.cend(), [](const auto& d) {
-        return !(d->getMemberCountiesIndices().empty());
-    });
-    
-    return 1.0 / (descriptorsCount - 51); // Subtract 51 for fixed-membership descriptors. Consider making this calculated or constant
-}
-
-double Simulation::scoreLocality() { return 0.0; }
 
 string Simulation::to_string() {
     stringstream ss;
-    ss << "[" << setfill('0') << setw(2) << threadNum << "] Iter: " << iter << ", Temp: " << setprecision(6) << temperature << ", Score: " << score();
+    ss << "[" << setfill('0') << setw(2) << threadNum << "] " << score();
     return ss.str();
 }
 

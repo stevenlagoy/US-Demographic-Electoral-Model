@@ -24,6 +24,9 @@
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
+#include "../../../../lib/Eigen/Dense"
+#include "../../../../lib/Eigen/Eigenvalues"
+
 #include "Constants.h"
 
 inline std::mt19937& rng() {
@@ -130,5 +133,124 @@ public:
 };
 
 std::string progressBar(double percent, int width, bool showPercent = true);
+
+template<size_t N>
+std::array<double, N> subtract(const std::array<double, N>& arr1, const std::array<double, N>& arr2) {
+    std::array<double, N> res;
+    for (size_t i = 0; i < arr1.size(); ++i) {
+        res[i] = arr1[i] - arr2[i];
+    }
+    return res;
+}
+
+template<size_t N>
+std::array<std::array<double, N>, N> vectorToSquareMatrix(const std::array<double, N>& vec) {
+    // Multply vec by vec_transform for an N x N matrix
+    std::array<std::array<double, N>, N> res;
+    for (size_t i = 0; i < vec.size(); ++i) {
+        for (size_t j = 0; j <= i; ++j) { // Symmetric, so only need to do lower triangle
+            res[i][j] = vec[i] * vec[j];
+            res[j][i] = vec[j] * vec[i];
+        }
+    }
+    return res;
+}
+
+std::vector<std::vector<double>> vectorToSquareMatrix(const std::vector<double>& vec);
+
+template<size_t D>
+inline Eigen::MatrixXd toEigen(const std::array<std::array<double, D>, D>& matrix) {
+    Eigen::MatrixXd m(D, D);
+    for (size_t i = 0; i < D; ++i)
+        for (size_t j = 0; j < D; ++j)
+            m(i, j) = matrix[i][j];
+    return m;
+}
+
+struct PCAResult {
+    Eigen::VectorXd eigenvalues;  // descending
+    Eigen::MatrixXd eigenvectors; // columns
+};
+
+inline PCAResult computePCA(const Eigen::MatrixXd& cov, size_t D = NUMBER_DEMOGRAPHICS) {
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(cov);
+
+    Eigen::VectorXd vals = solver.eigenvalues();
+    Eigen::MatrixXd vecs = solver.eigenvectors();
+
+    // Reverse order
+    Eigen::VectorXd vals_desc(D);
+    Eigen::MatrixXd vecs_desc(D, D);
+
+    for (size_t i = 0; i < D; ++i) {
+        vals_desc(i) = vals(D - 1 - i);
+        vecs_desc.col(i) = vecs.col(D - 1 - i);
+    }
+
+    return { vals_desc, vecs_desc };
+}
+
+inline int chooseComponentCount(const Eigen::VectorXd& eigenvalues, double threshold = 0.999) {
+    double total = eigenvalues.sum();
+    double running{0.0};
+
+    for (int i = 0; i < eigenvalues.size(); ++i) {
+        running += eigenvalues(i);
+        if (running / total >= threshold)
+            return i + 1;
+    }
+    return eigenvalues.size();
+}
+
+inline Eigen::VectorXd projectCounty(const Eigen::VectorXd& residual, const Eigen::MatrixXd& eigenvectors, int k) {
+    return eigenvectors.leftCols(k).transpose() * residual;
+}
+
+struct CountyPoint {
+    Eigen::VectorXd z;
+    double population;
+    int cluster = -1;
+};
+
+template <size_t N>
+double determinant(const std::array<std::array<double, N>, N>& matrix) {
+    // Base case
+    if constexpr (N == 1) return matrix[0][0];
+    else if constexpr (N == 2) {
+        double det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        return det;
+    }
+    else {
+        // Recursive case
+        double det{};
+        bool step = false;
+        for (size_t i = 0; i < matrix.size(); ++i) {
+            std::array<std::array<double, N-1>, N-1> submat;
+            for (size_t row = 1; row < matrix.size(); ++row) {
+                for (size_t col = 0; col < matrix.size(); ++col) {
+                    if (col == i) continue; // Skip own column
+                    submat[row-1][col > i ? col - 1 : col] = matrix[row][col];
+                }
+            }
+            double product = matrix[0][i] * determinant(submat);
+            det = step ? det - product : det + product;
+            step = !step;
+        }
+        return det;
+    }
+}
+
+template <size_t N>
+std::array<std::array<double, N>, N> identity() {
+    std::array<std::array<double, N>, N> identityMatrix{};
+    for (size_t i = 0; i < N; ++i) {
+        for (size_t j = 0; j < N; ++j) {
+            if (i == j) {
+                identityMatrix[i][j] = 1.0;
+            }
+        }
+    }
+    return identityMatrix;
+}
 
 #endif
