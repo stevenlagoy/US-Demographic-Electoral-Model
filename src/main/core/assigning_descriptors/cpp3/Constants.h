@@ -59,6 +59,9 @@
 // Approximate number of counties: DO NOT USE AS EXACT
 #define NUMBER_COUNTIES 3100
 
+// Percentage compared to national average at which a demographic modifier is considered impactful
+#define IMPACTFUL_DEMOGRAPHIC_BOUNDARY 0.01
+
 #define MAX_ITERATIONS 100'000'000
 #define MAX_TRIES 1000000
 

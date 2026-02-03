@@ -24,6 +24,9 @@
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
+// Eigen please don't segfault
+#define EIGEN_DONT_ALIGN_STATICALLY
+#define EIGEN_DONT_VECTORIZE
 #include "../../../../lib/Eigen/Dense"
 #include "../../../../lib/Eigen/Eigenvalues"
 

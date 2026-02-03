@@ -120,6 +120,7 @@ nlohmann::json Descriptor::to_json() const {
         { "name", name },
         { "number_members", memberCountiesIndices.size() },
         { "members", getMemberCountiesFIPS() },
+        { "demographics", getDemographics() },
         { "score", score }
     };
 }

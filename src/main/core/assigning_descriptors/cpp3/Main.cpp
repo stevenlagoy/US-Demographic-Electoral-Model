@@ -8,6 +8,8 @@
 #include <vector>
 #include <iostream>
 #include <array>
+#include <random>
+#include <limits>
 #include <string>
 #include <format>
 #include <fstream>
@@ -20,6 +22,9 @@
 #include "../../../../lib/json.hpp"
 using json = nlohmann::json;
 
+// Eigen please don't segfault
+#define EIGEN_DONT_ALIGN_STATICALLY
+#define EIGEN_DONT_VECTORIZE
 #include "../../../../lib/Eigen/Dense"
 using Eigen::MatrixXd;
 
@@ -107,6 +112,11 @@ struct Simulation {
     json to_json();
 };
 
+struct Cluster {
+    Eigen::VectorXd center;
+    double popSum = 0.0;
+};
+
 atomic<bool> stopRequested = false;
 BOOL WINAPI ConsoleHandler(DWORD signal) {
     if (signal == CTRL_C_EVENT) {
@@ -144,6 +154,14 @@ int main(int argc, char* argv[]) {
     baseSim.initialize();
 
     baseSim.run();
+
+    json simJson = baseSim.to_json();
+
+    ofstream ofs(LOG_FILE);
+    ofs << simJson.dump(4);
+    ofs.close();
+
+    logger.logLine("Done!");
 
     return 0;
 }
@@ -263,6 +281,9 @@ void Simulation::createDescriptors() {
         memberCountiesIndices,
         false
     ));
+    for (const auto& c : counties) {
+        c->addDescriptor(descriptorsMade);
+    }
     descriptorsMade++;
 
     // Create state descriptors
@@ -274,8 +295,9 @@ void Simulation::createDescriptors() {
         FIPSToIndex[FIPS] = descriptorsMade;
         vector<size_t> memberCountiesIndices;
         for (const auto& c : counties) {
-            if (c->getStateFIPS() == FIPS)
+            if (c->getStateFIPS() == FIPS) {
                 memberCountiesIndices.push_back(c->getIndex());
+            }
         }
         descriptors.emplace_back(make_unique<Descriptor>(
             "$" + abbr,
@@ -284,19 +306,56 @@ void Simulation::createDescriptors() {
             memberCountiesIndices,
             false
         ));
+        for (const auto& c : counties) {
+            if (c->getStateFIPS() == FIPS) {
+                // Must do this after creating the descriptor
+                c->addDescriptor(descriptorsMade);
+            }
+        }
+
         descriptorsMade++;
     }
+}
 
-    // Create initial singleton descriptors
-    for (const auto& c : counties) {
-        vector<size_t> singleton{c->getIndex()};
-        descriptors.emplace_back(make_unique<Descriptor>(
-            "DESCRIPTOR_" + ::to_string(descriptorsMade),
-            descriptorsMade,
-            &(this->counties),
-            singleton
-        ));
-        descriptorsMade++;
+void weightedKMeans(vector<CountyPoint>& pts, int K, int maxIter = 50) {
+    int N = pts.size();
+    int dim = pts[0].z.size();
+
+    std::mt19937 gen(42);
+    std::uniform_int_distribution<> dis(0, N-1);
+
+    vector<Cluster> clusters(K);
+    for (int k = 0; k < K; ++k)
+        clusters[k].center = pts[dis(gen)].z;
+
+    for (int iter = 0; iter < maxIter; ++iter) {
+        for (auto& p : pts) {
+            double bestDist = std::numeric_limits<double>::max();
+            int bestK = 0;
+            for (int k = 0; k < K; ++k) {
+                double dist = (p.z - clusters[k].center).squaredNorm();
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestK = k;
+                }
+            }
+            p.cluster = bestK;
+        }
+
+        // Update
+        for (auto& c : clusters) {
+            c.center.setZero(dim);
+            c.popSum = 0.0;
+        }
+
+        for (const auto& p : pts) {
+            clusters[p.cluster].center += p.population * p.z;
+            clusters[p.cluster].popSum += p.population;
+        }
+
+        for (auto& c : clusters) {
+            if (c.popSum > 0) c.center /= c.popSum;
+        }
     }
 }
 
@@ -331,9 +390,17 @@ void Simulation::run() {
         for (size_t j = 0; j < NUMBER_DEMOGRAPHICS; ++j) {
             if (!isfinite((*covariance)[i][j])) {
                 logger.logLine("Covariance matrix contains NaN or Inf at (", i, ",", j, ")");
-                return;
+                return; // Early out
             }
         }
+    }
+    if (NUMBER_DEMOGRAPHICS == 0 || demographicNames.size() == 0) {
+        logger.logLine("NUMBER_DEMOGRAPHICS = " + ::to_string(NUMBER_DEMOGRAPHICS) + ", demographicNames.size() == " + ::to_string(demographicNames.size()));
+        return;
+    }
+    if (nationalPopulation == 0) {
+        logger.logLine("nationalPopulation = " + ::to_string(nationalPopulation));
+        return;
     }
 
     if (isDebug) {
@@ -372,6 +439,48 @@ void Simulation::run() {
 
         points.push_back({ z, (double)counties[i]->getPopulation(), -1 });
     }
+
+    weightedKMeans(points, k);
+
+    // Turn cluster centers back into demographic space
+    for (int c = 0; c < k; ++c) {
+        logger.logLine("Clustering #", ::to_string(c));
+        Eigen::VectorXd center = Eigen::VectorXd::Zero(k);
+        double popSum = 0;
+
+        for (size_t i = 0; i < points.size(); ++i) {
+            if (points[i].cluster == c) {
+                center += points[i].population * points[i].z;
+                popSum += points[i].population;
+            }
+        }
+        if (popSum == 0) continue;
+        center /= popSum;
+
+        // Back-projection to original demographics
+        Eigen::VectorXd demoVec = Vk * center;
+        
+        array<double, NUMBER_DEMOGRAPHICS> demoArr{};
+        for (size_t d = 0; d < NUMBER_DEMOGRAPHICS; ++d) demoArr[d] = demoVec(d);
+
+        // Create a descriptor with no members
+        size_t idx = descriptors.size();
+        descriptors.emplace_back(make_unique<Descriptor>(
+            "DESC_" + ::to_string(idx),
+            idx,
+            &counties,
+            vector<size_t>{},
+            true
+        ));
+
+        // Assign the counties in this cluster
+        for (size_t i = 0; i < points.size(); ++i) {
+            if (points[i].cluster == c) {
+                descriptors.back()->addMemberCounty(i);
+                counties[i]->addDescriptor(idx);
+            }
+        }
+    }
 }
 
 double Simulation::score() {
@@ -389,6 +498,32 @@ string Simulation::to_string() {
     stringstream ss;
     ss << "[" << setfill('0') << setw(2) << threadNum << "] " << score();
     return ss.str();
+}
+
+json demographicsJson(const Simulation& sim, const std::array<double, NUMBER_DEMOGRAPHICS>& demographics) {
+
+    if (sim.demographicNames.size() != demographics.size()) {
+        throw runtime_error("The demographics are missized");
+    }
+
+    array<double, NUMBER_DEMOGRAPHICS> nationalDemographics;
+    for (const auto& d : sim.descriptors) {
+        if (d->getName() == "$$USA") {
+            nationalDemographics = d->getDemographics();
+            break;
+        }
+    }
+    if (nationalDemographics.empty()) {
+        throw runtime_error("Could not find the national descriptor or demographics.");
+    }
+
+    json demographicsJson;
+    for (size_t i = 0; i < demographics.size(); ++i) {
+        double demoVal = demographics[i] - nationalDemographics[i];
+        if (demoVal >= IMPACTFUL_DEMOGRAPHIC_BOUNDARY || demoVal <= -IMPACTFUL_DEMOGRAPHIC_BOUNDARY) demographicsJson[sim.demographicNames[i]] = demoVal;
+    }
+
+    return demographicsJson;
 }
 
 json Simulation::to_json() {
@@ -425,17 +560,18 @@ json Simulation::to_json() {
     };
 
     // Counties json
-    json countiesJson = {};
+    json countiesJson = json::object();
     for (const auto& c : counties) {
         auto countyJson = c->to_json();
-        countiesJson.update(countyJson);
+        countiesJson[c->getFIPS()] = countyJson;
     }
 
     // Descriptors json
-    json descriptorsJson = {};
+    json descriptorsJson = json::object();
     for (const auto& d : descriptors) {
         auto descriptorJson = d->to_json();
-        descriptorsJson.update(descriptorJson);
+        descriptorJson["demographics"] = demographicsJson(*this, d->getDemographics());
+        descriptorsJson[d->getName()] = descriptorJson;
     }
     
     // Combine
