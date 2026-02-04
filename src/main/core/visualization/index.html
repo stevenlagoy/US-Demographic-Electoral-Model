@@ -4,6 +4,7 @@
     <title>US Demographic Visualizer</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -17,37 +18,24 @@
     <main>
         <div id="controls">
             <button id="reset-button">Reset View</button>
-            <select id="demographic-select">
-                <option value="">-- Select demographic --</option>
-                <option value="White">Race/Ethnicity: White</option>
-                <option value="Hispanic">Race/Ethnicity: Hispanic</option>
-                <option value="Black">Race/Ethnicity: Black</option>
-                <option value="Asian">Race/Ethnicity: Asian</option>
-                <option value="Mixed">Race/Ethnicity: Mixed</option>
-                <option value="Other">Race/Ethnicity: Other</option>
-                <option value="Married">Household Type: Married</option>
-                <option value="Single Female">Household Type: Single Female</option>
-                <option value="Single Male">Household Type: Single Male</option>
-                <option value="One-Person">Household Type: One-Person</option>
-                <option value="Other Non-Family">Household Type: Other Non-Family</option>
-                <option value="Doctorate">Education: Doctorate</option>
-                <option value="Professional">Education: Professional</option>
-                <option value="Master's">Education: Master's Degree</option>
-                <option value="Bachelor's">Education: Bachelor's Degree</option>
-                <option value="Associate's">Education: Associate's Degree</option>
-                <option value="Some College">Education: Some College</option>
-                <option value="High School">Education: High School Diploma</option>
-                <option value="Some H.S.">Education: Some High School</option>
-                <option value="Less than H.S.">Education: Less than High School</option>
-                <option value="None">Education: No Formal Education</option>
-            </select>
+            <div id="load-descriptors">
+                <label for="load-descriptors-input">Load Descriptors</label>
+                <input type="file" id="load-descriptors-input" accept=".json">
+            </div>
+            <select id="demographic-select"></select>
             <select id="scale-select">
                 <option value="raw">Raw % per county</option>
                 <option value="relative">Relative to US pop</option>
+                <option value="count">Count of members</option>
             </select>
+            <form id="search-form">
+                <input type="search" id="search-input" placeholder="Search for a map feature">
+                <div id="suggestions" class="suggestions"></div>
+                <button type="submit">Search</button>
+            </form>
         </div>
         <div id="map"></div>
-        <div id="infobox">Click on a county-equivalent to see demographic details.</div>
+        <div id="infobox">Click on a map feature to see demographic details. <br> Zoom in or out to see the nation, states, or counties.</div>
     </main>
     <footer>
         <p>Made by <a id="profile" href="https://stevenlagoy.github.io/">Steven LaGoy</a></p>
