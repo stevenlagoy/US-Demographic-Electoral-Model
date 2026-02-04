@@ -465,8 +465,10 @@ void Simulation::run() {
 
         // Create a descriptor with no members
         size_t idx = descriptors.size();
+        stringstream ss;
+        ss << "DESC_" << std::setfill('0') << std::right << std::setw(3) << ::to_string(idx);
         descriptors.emplace_back(make_unique<Descriptor>(
-            "DESC_" + ::to_string(idx),
+            ss.str(),
             idx,
             &counties,
             vector<size_t>{},
@@ -500,7 +502,7 @@ string Simulation::to_string() {
     return ss.str();
 }
 
-json demographicsJson(const Simulation& sim, const std::array<double, NUMBER_DEMOGRAPHICS>& demographics) {
+json demographicsJson(const Simulation& sim, const std::array<double, NUMBER_DEMOGRAPHICS>& demographics, bool subtract_from_national = true) {
 
     if (sim.demographicNames.size() != demographics.size()) {
         throw runtime_error("The demographics are missized");
@@ -517,10 +519,17 @@ json demographicsJson(const Simulation& sim, const std::array<double, NUMBER_DEM
         throw runtime_error("Could not find the national descriptor or demographics.");
     }
 
-    json demographicsJson;
+    vector<pair<string, double>> sortedDemographics;
     for (size_t i = 0; i < demographics.size(); ++i) {
-        double demoVal = demographics[i] - nationalDemographics[i];
-        if (demoVal >= IMPACTFUL_DEMOGRAPHIC_BOUNDARY || demoVal <= -IMPACTFUL_DEMOGRAPHIC_BOUNDARY) demographicsJson[sim.demographicNames[i]] = demoVal;
+        double demoVal = demographics[i] - (subtract_from_national ? nationalDemographics[i] : 0);
+        if (demoVal >= IMPACTFUL_DEMOGRAPHIC_BOUNDARY || demoVal <= -IMPACTFUL_DEMOGRAPHIC_BOUNDARY)
+            sortedDemographics.emplace_back(sim.demographicNames[i], demoVal);
+    }
+    sort(sortedDemographics.begin(), sortedDemographics.end(), [](const auto& a, const auto& b) { return abs(a.second) > abs(b.second); });
+    
+    json demographicsJson;
+    for (const auto& [name, value] : sortedDemographics) {
+        demographicsJson.push_back({ {"name", name}, {"value", value} });
     }
 
     return demographicsJson;
@@ -573,6 +582,8 @@ json Simulation::to_json() {
         descriptorJson["demographics"] = demographicsJson(*this, d->getDemographics());
         descriptorsJson[d->getName()] = descriptorJson;
     }
+    // Add the national demographics
+    descriptorsJson["$$USA"]["demographics"] = demographicsJson(*this, descriptors[0]->getDemographics(), false);
     
     // Combine
     json simJson = {

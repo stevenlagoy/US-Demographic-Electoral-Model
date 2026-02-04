@@ -159,6 +159,8 @@ nlohmann::json County::to_json() const {
     return nlohmann::json{
         { "name", name },
         { "FIPS", FIPS },
+        { "state", stateFIPSToName[getStateFIPS()] },
+        { "population", population },
         { "score", score },
         { "number_descriptors", descriptorIndices.size() },
         { "descriptors", descriptorsNames }
