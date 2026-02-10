@@ -564,6 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillColor: "#cccccc",
                 weight: 1,
                 opacity: 1,
+
                 color: "#333",
                 fillOpacity: 0.6,
                 interactive: true // <-- make sure polygons can be clicked
@@ -572,12 +573,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    function formatDescriptorInfo(descInfo) {
+        let html = `
+            <h3>${descInfo.name}</h3>
+            <b>Number Members:</b> ${descInfo.number_members}<br>
+        `;
+        html += "<b>Demographics:</b><br><ul>";
+        for (const demographic of descInfo.demographics) {
+            html += `<li>${demographic.name.replace("->", "→")}: ${demographic.value.toFixed(5)}</li>`;
+        }
+        html += "</ul><br>";
+        html += "<b>Members:</b><br><ul>";
+        for (const memberFIPS of descInfo.members) {
+            const match = geojsonCounties.getLayers().find(layer => layer.feature.id === memberFIPS);
+            html += `<li>[${memberFIPS}] ${match.feature.properties.name}, ${toTitleCase(match.feature.properties.state.replaceAll("_", " "))}</li>`;
+        }
+        html += "</ul><br>";
+        return html;
+    }
+
     document.getElementById("demographic-select").addEventListener("change", (e) => {
         if (descriptorsObject) {
             selectedDescriptor = e.target.value;
+            console.log(selectedDescriptor);
             if (geojsonNation) geojsonNation.setStyle(style);
             if (geojsonStates) geojsonStates.setStyle(style);
             if (geojsonCounties) geojsonCounties.setStyle(style);
+            const descriptorInfoBox = document.getElementById("descriptor-info");
+            const descriptorInfo = descriptorsObject.descriptors[selectedDescriptor];
+            console.log(descriptorInfo);
+            if (descriptorInfoBox && descriptorInfo) {
+                descriptorInfoBox.style.visibility = "visible";
+                descriptorInfoBox.innerHTML = formatDescriptorInfo(descriptorInfo);
+            }
         }
         else {
             selectedDemographic = e.target.value;
@@ -658,16 +686,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     html += `<li>${key}:<ul>`;
                     for (const subkey in values[key]) {
                         const val = values[key][subkey];
+                        if (val === 0.0) continue;
                         html += `<li>${subkey}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
                     }
                     html += `</ul></li>`;
                 }
                 else {
                     const val = values[key];
+                    if (val === 0.0) continue;
                     html += `<li>${key}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
                 }
             }
             html += '</ul>';
+        }
+        return html;
+    }
+
+    function formatDescriptors(desc) {
+        let html = '';
+        for (let descriptor of desc.sort()) {
+            html += descriptor + "<br>"
         }
         return html;
     }
@@ -695,19 +733,41 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch(datapath)
-            .then(res => res.json())
-            .then(data => {
-                const infobox = document.getElementById("infobox");
-                infobox.innerHTML = `
-                    <b>${data.name}</b><br>
-                    Population: ${data.population}<br>
-                    Demographics: <br>
-                    ${formatDemographics(data.demographics)}
-                `;
-                infobox.scrollTop = 0;
-            })
-            .catch(err => console.error("Failed to load feature JSON", err));
+        if (descriptorsFileSelected && props.descriptors && props.demographics) {
+            infobox.innerHTML = `
+                <h3><b>${props.name}</b></h3>
+                Population: ${props.population}<br><br>
+                <b>Descriptors:</b><br>
+                ${formatDescriptors(props.descriptors)}
+                <br>Demographics:<br>
+                ${formatDemographics(props.demographics)}
+            `;
+        }
+
+        else if (props.demographics) {
+            infobox.innerHTML = `
+                <h3><b>${props.name}</b></h3>
+                Population: ${props.population}<br>
+                Demographics:<br>
+                ${formatDemographics(props.demographics)}
+            `;
+        }
+        else {
+            fetch(datapath)
+                .then(res => res.json())
+                .then(data => {
+                    const infobox = document.getElementById("infobox");
+                    infobox.innerHTML = `
+                        <b>${data.name}</b><br>
+                        Population: ${data.population}<br>
+                        Demographics: <br>
+                        ${formatDemographics(data.demographics)}
+                    `;
+                    infobox.scrollTop = 0;
+                })
+                .catch(err => console.error("Failed to load feature JSON", err));
+        }
+
 
         if (selectedLayer) {
             geojsonCounties.resetStyle(selectedLayer);
@@ -750,7 +810,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (select) {
             if (!descriptorsObject) {
                 select.innerHTML = `
-                    <option value="">-- Select demographic --</option>
+                    <option value="">-- Select Demographic --</option>
                     <option class="race-ethnicity" value="White">Race/Ethnicity: White</option>
                     <option class="race-ethnicity" value="Hispanic">Race/Ethnicity: Hispanic</option>
                     <option class="race-ethnicity" value="Black">Race/Ethnicity: Black</option>
@@ -954,6 +1014,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Reset infobox text
         document.getElementById("infobox").innerHTML = "Click on a county or county-equivalent to see demographic details.";
+        document.getElementById("descriptor-info").style.visibility = 'hidden';
     }
 
     let legend = L.control({ position: 'bottomleft' });
@@ -1043,6 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('load-descriptors-input').addEventListener('change', handleLoadDescriptorsInput, false);
+    let descriptorsFileSelected = false;
 
     function handleLoadDescriptorsInput(event) {
         const file = event.target.files[0];
@@ -1091,6 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Reapply style if a descriptor is selected
                     if (selectedDescriptor) geojsonCounties.setStyle(style);
                 }
+                descriptorsFileSelected = true;
 
             } catch (error) {
                 console.error('Error parsing JSON:', error);

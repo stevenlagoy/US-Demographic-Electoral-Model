@@ -71,6 +71,23 @@ main {
     box-shadow: 2px 2px 5px;
 }
 
+#descriptor-info {
+    position: absolute;
+    right: 320px;
+    width: 475px;
+    height: 300px;
+    bottom: 25px;
+    word-wrap: break-word;
+    background: white;
+    padding: 10px;
+    border: 1px solid #333;
+    z-index: 1000;
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 5px;
+    visibility: hidden;
+}
+
 .race-ethnicity {
     background-color: palevioletred;
 }
