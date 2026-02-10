@@ -275,7 +275,7 @@ void Simulation::createDescriptors() {
         memberCountiesIndices.push_back(c->getIndex());
     }
     descriptors.emplace_back(make_unique<Descriptor>(
-        "$$USA",
+        NATIONAL_DESCRIPTOR_NAME,
         descriptorsMade,
         &(this->counties),
         memberCountiesIndices,
@@ -285,6 +285,50 @@ void Simulation::createDescriptors() {
         c->addDescriptor(descriptorsMade);
     }
     descriptorsMade++;
+
+    // Create census region and division descriptors
+    map<string, size_t> regionToIndex;
+    map<string, size_t> divisionToIndex;
+    for (const auto& [division, region] : censusDivisionToCensusRegion) {
+        if (regionToIndex.count(region) == 0) {
+            vector<size_t> memberCountiesIndices;
+            for (const auto& c : counties) {
+                if (censusDivisionToCensusRegion[stateNameToCensusDivision[stateFIPSToName[c->getStateFIPS()]]] == region)
+                    memberCountiesIndices.push_back(c->getIndex());
+            }
+            descriptors.emplace_back(make_unique<Descriptor>(
+                REGION_DESCRIPTOR_PREFIX + region,
+                descriptorsMade,
+                &(this->counties),
+                memberCountiesIndices
+            ));
+            for (const auto idx : memberCountiesIndices) {
+                counties[idx]->addDescriptor(descriptorsMade);
+                // Must do this after creating the descriptor
+            }
+            regionToIndex[region] = descriptorsMade;
+            descriptorsMade++;
+        }
+        if (divisionToIndex.count(division) == 0) {
+            vector<size_t> memberCountiesIndices;
+            for (const auto& c : counties) {
+                if (stateNameToCensusDivision[stateFIPSToName[c->getStateFIPS()]] == division)
+                    memberCountiesIndices.push_back(c->getIndex());
+            }
+            descriptors.emplace_back(make_unique<Descriptor>(
+                DIVISION_DESCRIPTOR_PREFIX + division,
+                descriptorsMade,
+                &(this->counties),
+                memberCountiesIndices
+            ));
+            for (const auto idx : memberCountiesIndices) {
+                counties[idx]->addDescriptor(descriptorsMade);
+                // Must do this after creating the descriptor
+            }
+            divisionToIndex[division] = descriptorsMade;
+            descriptorsMade++;
+        }
+    }
 
     // Create state descriptors
     map<string, size_t> FIPSToIndex;
@@ -300,19 +344,16 @@ void Simulation::createDescriptors() {
             }
         }
         descriptors.emplace_back(make_unique<Descriptor>(
-            "$" + abbr,
+            STATE_DESCRIPTOR_PREFIX + abbr,
             descriptorsMade,
             &(this->counties),
             memberCountiesIndices,
             false
         ));
-        for (const auto& c : counties) {
-            if (c->getStateFIPS() == FIPS) {
-                // Must do this after creating the descriptor
-                c->addDescriptor(descriptorsMade);
-            }
+        for (const auto idx : memberCountiesIndices) {
+            counties[idx]->addDescriptor(descriptorsMade);
+            // Must do this after creating the descriptor
         }
-
         descriptorsMade++;
     }
 }
@@ -510,7 +551,7 @@ json demographicsJson(const Simulation& sim, const std::array<double, NUMBER_DEM
 
     array<double, NUMBER_DEMOGRAPHICS> nationalDemographics;
     for (const auto& d : sim.descriptors) {
-        if (d->getName() == "$$USA") {
+        if (d->getName() == "$$$$USA") {
             nationalDemographics = d->getDemographics();
             break;
         }
@@ -583,7 +624,7 @@ json Simulation::to_json() {
         descriptorsJson[d->getName()] = descriptorJson;
     }
     // Add the national demographics
-    descriptorsJson["$$USA"]["demographics"] = demographicsJson(*this, descriptors[0]->getDemographics(), false);
+    descriptorsJson["$$$$USA"]["demographics"] = demographicsJson(*this, descriptors[0]->getDemographics(), false);
     
     // Combine
     json simJson = {

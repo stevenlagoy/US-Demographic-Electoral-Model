@@ -218,6 +218,72 @@ std::map<std::string, std::string> stateFIPSToName = {
     { "56", "wyoming" }
 };
 
+std::map<std::string, std::string> stateNameToCensusDivision = {
+    { "alabama", "EAST_SOUTH_CENTRAL" },
+    { "alaska", "PACIFIC" },
+    { "arizona", "MOUNTAIN" },
+    { "arkansas", "WEST_SOUTH_CENTRAL" },
+    { "california", "PACIFIC" },
+    { "colorado", "MOUNTAIN" },
+    { "connecticut", "NEW_ENGLAND" },
+    { "delaware", "SOUTH_ATLANTIC" },
+    { "district_of_columbia", "SOUTH_ATLANTIC" },
+    { "florida", "SOUTH_ATLANTIC" },
+    { "georgia", "SOUTH_ATLANTIC" },
+    { "hawaii", "PACIFIC" },
+    { "idaho", "MOUNTAIN" },
+    { "illinois", "EAST_NORTH_CENTRAL" },
+    { "indiana", "EAST_NORTH_CENTRAL" },
+    { "iowa", "WEST_NORTH_CENTRAL" },
+    { "kansas", "WEST_NORTH_CENTRAL" },
+    { "kentucky", "EAST_SOUTH_CENTRAL" },
+    { "louisiana", "WEST_SOUTH_CENTRAL" },
+    { "maine", "NEW_ENGLAND" },
+    { "maryland", "SOUTH_ATLANTIC" },
+    { "massachusetts", "NEW_ENGLAND" },
+    { "michigan", "EAST_NORTH_CENTRAL" },
+    { "minnesota", "WEST_NORTH_CENTRAL" },
+    { "mississippi", "EAST_SOUTH_CENTRAL" },
+    { "missouri", "WEST_NORTH_CENTRAL" },
+    { "montana", "MOUNTAIN" },
+    { "nebraska", "WEST_NORTH_CENTRAL" },
+    { "nevada", "MOUNTAIN" },
+    { "new_hampshire", "NEW_ENGLAND" },
+    { "new_jersey", "MID_ATLANTIC" },
+    { "new_mexico", "MOUNTAIN" },
+    { "new_york", "MID_ATLANTIC" },
+    { "north_carolina", "SOUTH_ATLANTIC" },
+    { "north_dakota", "WEST_NORTH_CENTRAL" },
+    { "ohio", "EAST_NORTH_CENTRAL" },
+    { "oklahoma", "WEST_SOUTH_CENTRAL" },
+    { "oregon", "PACIFIC" },
+    { "pennsylvania", "MID_ATLANTIC" },
+    { "rhode_island", "NEW_ENGLAND" },
+    { "south_carolina", "SOUTH_ATLANTIC" },
+    { "south_dakota", "WEST_NORTH_CENTRAL" },
+    { "tennessee", "EAST_SOUTH_CENTRAL" },
+    { "texas", "WEST_SOUTH_CENTRAL" },
+    { "utah", "MOUNTAIN" },
+    { "vermont", "NEW_ENGLAND" },
+    { "virginia", "SOUTH_ATLANTIC" },
+    { "washington", "PACIFIC" },
+    { "west_virginia", "SOUTH_ATLANTIC" },
+    { "wisconsin", "EAST_NORTH_CENTRAL" },
+    { "wyoming", "MOUNTAIN" }
+};
+
+std::map<std::string, std::string> censusDivisionToCensusRegion = {
+    { "NEW_ENGLAND", "NORTHEAST" },
+    { "MID_ATLANTIC", "NORTHEAST" },
+    { "SOUTH_ATLANTIC", "SOUTH" },
+    { "EAST_SOUTH_CENTRAL", "SOUTH" },
+    { "WEST_SOUTH_CENTRAL", "SOUTH" },
+    { "EAST_NORTH_CENTRAL", "MIDWEST" },
+    { "WEST_NORTH_CENTRAL", "MIDWEST" },
+    { "MOUNTAIN", "WEST" },
+    { "PACIFIC", "WEST" },
+};
+
 template <size_t N>
 void normalize(std::array<double, N>& arr, int level = 1) {
     double sum = std::accumulate(arr.cbegin(), arr.cend(), 0.0, [level](double acc, double val) { return acc + std::pow(val, level); });
