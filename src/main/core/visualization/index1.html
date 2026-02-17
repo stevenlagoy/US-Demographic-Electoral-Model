@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>US Demographic Visualizer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="main1.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>US Demographic Visualizer</h1>
+    </header>
+    <main>
+        <div id="controls">
+            <div class="vertical">
+                <button id="reset-view" title="Reset view modes and camera position">Reset View</button>
+                <form id="feature-search">
+                    <input type="search" id="feature-search-input" placeholder="Search for a map feature" title="Type in the name of a State or County">
+                    <div id="suggestions"></div>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <form>
+                <fieldset id="shape-mode" title="Control what shapes are shown on the map">
+                    <legend>Shape Mode</legend>
+                    <div>
+                        <input type="radio" id="shape-auto" name="shape-mode" value="AUTO" checked>
+                        <label for="shape-auto">Auto</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="shape-nation" name="shape-mode" value="NATION">
+                        <label for="shape-nation">Nation</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="shape-state" name="shape-mode" value="STATE">
+                        <label for="shape-state">State</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="shape-county" name="shape-mode" value="COUNTY">
+                        <label for="shape-county">County</label>
+                    </div>
+                </fieldset>
+                <fieldset id="view-mode" title="Control what kind of data is shown">
+                    <legend>View Mode</legend>
+                    <div>
+                        <input type="radio" id="view-demographics" name="view-mode" value="DEMOGRAPHICS" checked>
+                        <label for="view-demographics">Demographics</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="view-electoral" name="view-mode" value="ELECTORAL">
+                        <label for="view-electoral">Electoral</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="view-descriptors18" name="view-mode" value="DESCRIPTORS_18">
+                        <label for="view-descriptors18">Descriptors (v18)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="view-descriptors11" name="view-mode" value="DESCRIPTORS_11">
+                        <label for="view-descriptors11">Descriptors (v11)</label>
+                    </div>
+                </fieldset>
+                <fieldset id="shading-mode" title="Control how areas on the map are shaded based on their data">
+                    <legend>Shading Mode</legend>
+                    <div>
+                        <input type="radio" id="shading-raw" name="shading-mode" value="RAW" checked>
+                        <label for="shading-raw">Raw % Per</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="shading-relative" name="shading-mode" value="RELATIVE">
+                        <label for="shading-relative">Relative to US avg</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="shading-count" name="shading-mode" value="COUNT">
+                        <label for="shading-count">Count of members</label>
+                    </div>
+                </fieldset>
+                <select name="primary-select" id="primary-select"></select>
+            </form>
+        </div>
+        <div id="map"></div>
+        <div id="map-infobox"></div>
+        <!-- <div id="other-infobox"></div> -->
+    </main>
+    <footer>
+        <p>Made by <a id="profile" href="https://stevenlagoy.github.io/">Steven LaGoy</a></p>
+        <p>Purdue University Fort Wayne</p>
+        <p>Fall 2025 - Spring 2026</p>
+    </footer>
+</body>
+</html>

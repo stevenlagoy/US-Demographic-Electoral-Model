@@ -1,0 +1,54 @@
+Main Features:
+
+Map Display
+  - Movement
+  - Zooming
+
+Viewing modes:
+  - Demographics
+  - Electoral Results
+  - Descriptors
+
+Shading modes (demographics viewer):
+  - % Per County
+  - Relative to US average
+  - Count of members
+
+Shading modes (electoral viewer):
+  - Republican Party
+  - Democratic Party
+  - Libertarian Party
+  - Green Party
+
+Shading modes (descriptors viewer):
+  - County pairwise similarities
+  - Descriptor membership
+
+Selector:
+  - Single Demographic
+  - Electoral Year
+  - Descriptor
+
+Legend
+    Depends on selected shading mode
+
+Infoboxes:
+  - County / State details
+  - Descriptor details
+
+Controls
+  - Zoom level and shape mode (automatic, nation, state, county)
+  - Reset button
+  - Search bar
+
+When the user first comes to the page, should be in Demographics mode with % per county filter and automatic shapes
+When zooming in, should change automatically to county shapes, when zooming out to nation shapes
+Selecting another shape mode should keep that mode active all the time
+When selecting a nation, state, or county, should show that county's details in the county info panel, and pairwise similarity between that county and all others
+When right clicking, should deselect the selected object
+Hovering over a map entity, should show the name of the entity. If the entity is shaded, should show the value.
+Zooming with scroll wheel or pinch, panning with left click, middle click, or dragging.
+Reset button should deselect all objects, set the shape mode to automatic, deselect from the selection box, and saccade the camera to the default position.
+Selecting an object and then zooming to the next shape level should keep that object selected still. IE the borders of a state remain selected.
+Selecting an object and then zooming to the previous shape level should keep the details in the info panel but not show the borders of the selected object.
+Possible to have a descriptor or election year selected at the same time as a county- the details for these can be in a separate box.
