@@ -65,7 +65,7 @@ main {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: clamp(150px, 20vw, 300px);
+    width: clamp(150px, 20vw, 450px);
     bottom: 25px;
     word-wrap: break-word;
     background: white;
@@ -75,6 +75,31 @@ main {
     overflow-y: auto;
     box-sizing: border-box;
     box-shadow: 2px 2px 5px;
+
+    table {
+        thead {
+            background-color: black;
+            color: white;
+        }
+        tbody {
+            background-color: lightgray;
+        }
+        td, th {
+            padding: 8px;
+        }
+        tr.democrat {
+            background-color: cornflowerblue;
+        }
+        tr.republican {
+            background-color: lightcoral;
+        }
+        tr.green {
+            background-color: lightgreen;
+        }
+        tr.libertarian {
+            background-color: lightyellow;
+        }
+    }
 }
 
 #other-infobox {
@@ -167,6 +192,15 @@ div#controls {
             color: black;
         }
     }
+
+    #feature-search {
+        display: flex;
+        flex-direction: column;
+
+        input {
+            height: 2.5em;
+        }
+    }
 }
 
 @media (max-width: 1200px) {
@@ -222,13 +256,7 @@ div#controls {
         box-sizing: border-box;
     }
 
-    .suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        width: 100%;
-        background: white;
+    #search-suggestions {
         border: 1px solid #ccc;
         max-height: 200px;
         overflow-y: auto;
@@ -244,7 +272,7 @@ div#controls {
 
     #feature-search {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         gap: 6px;
         position: relative;
@@ -286,20 +314,17 @@ div#controls {
     background-color: black;
 }
 
-.suggestions { 
-    position: absolute;
+#search-suggestions { 
     background: white;
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
-    width: 200px;
     display: none;
-    z-index: 1000;
-}
 
-.suggestions * {
-    border: 1px solid #ccc;
-    cursor: pointer;
+    * {
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
 }
 
 .info.legend {

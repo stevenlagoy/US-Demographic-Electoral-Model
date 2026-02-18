@@ -4,6 +4,19 @@ String.prototype.toTitleCase = function() {
     });
 }
 
+String.prototype.addCommas = function() {
+    let res = "";
+    let i = 0;
+    for (const char of this.split('').reverse().join('')) {
+        console.log(char)
+        res += char;
+        i++;
+        if (i % 3 == 0) res += ",";
+    }
+    res = res.split('').reverse().join('').replace(/^,/, "");
+    return res;
+}
+
 const ShapeMode = {
     AUTO: "auto",
     NATION: "nation",
@@ -16,8 +29,8 @@ let currentShapeMode = ShapeMode.AUTO;
 const ViewMode = {
     DEMOGRAPHICS: "demographics",
     ELECTORAL: "electoral",
-    DESCRIPTORS_18: "descriptors18",
-    DESCRIPTORS_11: "descriptors11"
+    DESCRIPTORS18: "descriptors18",
+    DESCRIPTORS11: "descriptors11"
 };
 Object.freeze(ViewMode);
 let currentViewMode = ViewMode.DEMOGRAPHICS;
@@ -54,6 +67,16 @@ function resetView() {
     document.getElementById("feature-search").value = "";
     // Clear the info box(es)
     displayMapEntityInfo();
+}
+
+function saccadeTo(FIPS) {
+    let match = geoJSONCounties.getLayers().find(layer => layer.feature.id === FIPS);
+    if (!match) match = geoJSONStates.getLayers().find(layer => layer.feature.id === FIPS);
+    if (match) {
+        map.fitBounds(match.getBounds());
+        resetLayer(selectedLayer);
+        highlightLayer(match);
+    } 
 }
 
 function getShadingColor(value, max=1.0, mode=ShadingMode.RELATIVE) {
@@ -119,27 +142,72 @@ function getDescriptorCloseness(descriptors1, descriptors2) {
 }
 
 function updateShapeMode(mode) {
+    const shapeModeInput = document.getElementById(`shape-${mode}`);
+    shapeModeInput.checked = true;
     currentShapeMode = mode;
     updateLayerVisibility();
 }
 
-function updateViewMode(mode) {
+let primarySelectOptions = {};
+async function updateViewMode(mode) {
+    const viewModeInput = document.getElementById(`view-${mode}`);
+    viewModeInput.checked = true;
     currentViewMode = mode;
+    const primarySelect = document.getElementById("primary-select");
+    if (primarySelectOptions[mode]) { // Lazy load the options
+        primarySelect.innerHTML = primarySelectOptions[mode];
+        return;
+    }
+    switch (mode) {
+        case ViewMode.DEMOGRAPHICS :
+            primarySelect.innerHTML = `<option value="">--Select a Demographic--</option>`;
+            const demographics = nation.features[0].demographics;
+            for (const category in demographics)    
+                for (const demographic in demographics[category]) {
+                    primarySelect.innerHTML += `
+                        <option class=${category} value=${demographic}>${category.replace(/_/g, " ").toTitleCase()}: ${demographic}</option>
+                    `;
+                }
+            primarySelectOptions[mode] = primarySelect.innerHTML;
+            break;
+        case ViewMode.ELECTORAL :
+            await loadElectoralData();
+            primarySelect.innerHTML = '';
+            const elections = Object.keys(counties.features[0].electoralData);
+            let mostRecent = elections[0];
+            for (const election of elections) {
+                primarySelect.innerHTML += `
+                    <option value=${election}>${election} Election</option>
+                `;
+                if (election > mostRecent) mostRecent = election;
+            }
+            primarySelect.value = mostRecent;
+            primarySelectOptions[mode] = primarySelect.innerHTML;
+            break;
+        case ViewMode.DESCRIPTORS18 :
+            break;
+        case ViewMode.DESCRIPTORS11 :
+            break;
+    }
 }
 
 function updateShadingMode(mode) {
+    const shadingModeInput = document.getElementById(`shading-${mode}`);
+    shadingModeInput.checked = true;
     currentShadingMode = mode;
 }
 
 let selectedLayer = null;
 
 let geoJSONNation = null;
+let nation = null;
 let geoJSONStates = null;
+let states = null;
 let geoJSONCounties = null;
+let counties = null;
 
-function loadMapData(map) {
-    let nation, states, counties;
-    fetch("us-states.json").then(res => res.json()).then(topoData => {
+async function loadMapData(map) {
+    await fetch("us-states.json").then(res => res.json()).then(topoData => {
         nation = topojson.feature(topoData, topoData.objects.nation);
         states = topojson.feature(topoData, topoData.objects.states);
         counties = topojson.feature(topoData, topoData.objects.counties);
@@ -175,6 +243,7 @@ function loadMapData(map) {
                 f.name = countyData.name;
                 f.population = countyData.population;
                 f.demographics = countyData.demographics;
+                f.state = countyData.state;
             });
 
             // Create and add layers
@@ -183,7 +252,26 @@ function loadMapData(map) {
             geoJSONCounties = L.geoJSON(counties, {style, onEachFeature});
         });
     });
+}
 
+async function loadElectoralData(map) {
+    await fetch("elections.json").then(res => res.json()).then(electoralData => {
+        for (const FIPS in electoralData) {
+            const data = electoralData[FIPS];
+            const county = counties.features.find(c => c.id === FIPS);
+            const state = states.features.find(s => s.id === FIPS);
+            if (county) {
+                county.electoralData = data;
+            }
+            else if (state) {
+                state.electoralData = data;
+            }
+            else {
+                console.log(`No county or state found with FIPS: ${FIPS}.`);
+                continue;
+            }
+        }
+    });
 }
 
 function style(feature) {
@@ -199,17 +287,21 @@ function style(feature) {
     }
     switch (currentViewMode) {
         case ViewMode.DEMOGRAPHICS :
+            return {
+                fillColor: getShadingColor()
+            }
             break;
         case ViewMode.ELECTORAL :
             break;
-        case ViewMode.DESCRIPTORS_18 :
+        case ViewMode.DESCRIPTORS18 :
             break;
-        case ViewMode.DESCRIPTORS_11 :
+        case ViewMode.DESCRIPTORS11 :
             break;
     }
 }
 
 function resetLayer(layer) {
+    if (!layer) return;
     layer.setStyle({
         weight: 1,
         color: "#333",
@@ -232,7 +324,6 @@ function onEachFeature(feature, layer) {
         click: () => {
             if (selectedLayer) resetLayer(selectedLayer);
             highlightLayer(layer);
-            console.log(feature);
             displayMapEntityInfo(feature);
         },
         mouseover: () => {
@@ -266,17 +357,25 @@ function updateLayerVisibility() {
 }
 
 function displayMapEntityInfo(properties) {
-    console.log(properties);
     const mapInfobox = document.getElementById("map-infobox");
     if (!properties) {
-        mapInfobox.innerHTML = `<h3>Click on a state, county, or the nation to see demographic details.</h3>`;
+        mapInfobox.innerHTML = `<h3>Click on a state, county, or the nation to see details.</h3>`;
     }
     else {
         mapInfobox.innerHTML = `
             <h2>${properties.name}</h2>
-            <h3>Population:</h3> ${properties.population}
-            <h3>Demographics:</h3> ${formatDemographics(properties.demographics)}
+            ${properties.state ? `<h3>${properties.state}</h3>` : ""}
+            ${properties.id ? `<h4>FIPS: ${properties.id}</h4>` : ""}
+            <h3>Population:</h3>${properties.population.toString().addCommas()} (2020 census)
         `;
+        switch(currentViewMode) {
+            case ViewMode.DEMOGRAPHICS :
+                mapInfobox.innerHTML += `<h3>Demographics:</h3> ${formatDemographics(properties.demographics)}`;
+                break;
+            case ViewMode.ELECTORAL :
+                mapInfobox.innerHTML += `<h3>Electoral History:</h3> ${formatElectoralData(properties.electoralData, properties.population)}`;
+                break;
+        }
     }
 }
 
@@ -306,7 +405,36 @@ function formatDemographics(demographics) {
     return html;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function formatElectoralData(electoralData, population) {
+    let html = '';
+    for (const year in electoralData) {
+        data = electoralData[year];
+        totalVotes = data.reduce((acc, cur) => acc + parseInt(cur.votes, 10), 0);
+        html += `
+            <h4>${year} Election</h4>
+            <p>Total Votes: ${totalVotes.toString().addCommas()}</p>
+            <p>Turnout (based on 2020 population): ${(totalVotes / population * 100).toFixed(1)}%</p>
+            <table><thead><tr>
+                <th>Candidate</th>
+                <th>Party</th>
+                <th>Votes</th>
+                <th>%</th>
+            </tr></thead><tbody>
+        `;
+        for (const result in data) {
+            html += `<tr class=${data[result].party.toLowerCase()}>
+                <td>${data[result].candidate.toTitleCase()}</td>
+                <td>${data[result].party.toTitleCase()}</td>
+                <td>${data[result].votes.toString().addCommas()}</td>
+                <td>${(parseInt(data[result].votes, 10) / totalVotes * 100).toFixed(1)}%</td>
+            </tr>`
+        }
+        html += `</tbody></table>`;
+    }
+    return html;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
 
     // Basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -357,7 +485,51 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLayerVisibility();
     });
 
-    loadMapData(map);
-
+    await loadMapData(map);
+    
     displayMapEntityInfo();
+
+    updateViewMode(currentViewMode);
+
+    const featureSearchInput = document.getElementById("feature-search-input");
+    const searchSuggestionsBox = document.getElementById("search-suggestions");
+    featureSearchInput.addEventListener("input", e => {
+        const query = featureSearchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
+        searchSuggestionsBox.innerHTML = "";
+        if (!query) {
+            searchSuggestionsBox.style.display = "none";
+            return;
+        }
+
+        const matches = [
+            ...states.features.filter(s => s.name?.replaceAll(/[.,'-\s]/g, "").toLowerCase().includes(query)),
+            ...counties.features.filter(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}, ${c.state}`.toLowerCase().includes(query)),
+        ].slice(0, 10); // Limit to 10 results
+
+        if (matches.length === 0) {
+            searchSuggestionsBox.style.display = "none";
+            return;
+        }
+
+        matches.forEach(match => {
+            const div = document.createElement("div");
+            div.textContent = match.state ?
+                `${match.name}, ${match.state}` : // county
+                `${match.name}`; // state
+            div.addEventListener("click", () => {
+                if (match.state) { // Match is a county
+                    featureSearchInput.value = `${match.name}, ${match.state}`;
+                    updateShapeMode(ShapeMode.COUNTY);
+                }
+                else { // Match is a state
+                    featureSearchInput.value = `${match.name}`;
+                    updateShapeMode(ShapeMode.STATE);
+                }
+                searchSuggestionsBox.style.display = "none";
+                saccadeTo(match.id);
+            });
+            searchSuggestionsBox.appendChild(div);
+        });
+        searchSuggestionsBox.style.display = "block";
+    });
 });
