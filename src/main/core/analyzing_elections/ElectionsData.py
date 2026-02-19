@@ -73,6 +73,7 @@ def main() -> None:
         if key == "38000": key = "29095"
         name = fields[headers.index("county_name")]
         state = fields[headers.index("state")]
+        mode = fields[headers.index("mode")]
         if "DISTRICT" in name and state == "ALASKA": continue
         res.setdefault(key, {})
         year = fields[headers.index("year")]
@@ -82,14 +83,25 @@ def main() -> None:
         votes = int(fields[headers.index("candidatevotes")])
         for entry in res[key][year]:
             if entry["candidate"] == candidate and entry["party"] == party:
-                index = res[key][year].index(entry)
-                votes += int(entry["votes"])
-                res[key][year].pop(index)
+                if mode != "TOTAL VOTES":
+                    votes += int(entry["votes"])
+                res[key][year].remove(entry)
         res[key][year].append({
             "candidate": candidate,
             "party": party,
             "votes": votes,
         })
+    for key in res:
+        for year in res[key]:
+            has_dup = False
+            for result in res[key][year]:
+                if result["candidate"] == "TOTAL VOTES CAST":
+                    has_dup = True
+            if not has_dup: continue
+            for result in res[key][year]:
+                result["votes"] = result["votes"] // 2
+                if result["candidate"] == "TOTAL VOTES CAST":
+                    res[key][year].remove(result)
     
     json.dump(res, open("src\\main\\core\\visualization\\elections.json", 'w', encoding='utf-8'), indent=4, separators=(", ", " : "))
 
