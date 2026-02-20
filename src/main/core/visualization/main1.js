@@ -42,7 +42,11 @@ const ShadingMode = {
 Object.freeze(ShadingMode);
 let currentShadingMode = ShadingMode.RAW;
 
-let currentPrimarySelected = '';
+let currentPrimarySelecteds = {
+    DEMOGRAPHICS: '',
+    ELECTORAL: '',
+    DESCRIPTORS18: '',
+};
 
 const center = [45, -96];
 const defaultZoom = 4;
@@ -56,16 +60,27 @@ function resetView() {
         document.getElementById(d).checked = true;
         // This will also clear the primary select value
     });
-    currentShapeMode = ShapeMode.AUTO;
-    currentViewMode = ViewMode.DEMOGRAPHICS;
-    currentShadingMode = ShadingMode.RAW;
+    updateShapeMode(ShapeMode.AUTO);
+    updateViewMode(ViewMode.DEMOGRAPHICS);
+    updateShadingMode(ShadingMode.RAW);
     updateLayerVisibility();
     // Clear selected layer
     resetLayer(selectedLayer);
+    selectedLayer = null;
+    refreshStyles();
     // Clear the search input
     document.getElementById("feature-search").value = "";
-    // Clear the info box(es)
+    // Clear the info box
     displayMapEntityInfo();
+    // Clear primarySelecteds
+    currentPrimarySelecteds = {
+        DEMOGRAPHICS: '',
+        ELECTORAL: '',
+        DESCRIPTORS18: '',
+    };
+    const primarySelect = document.getElementById('primary-select');
+    primarySelect.value = '';
+    primarySelect.dispatchEvent(new Event('change'));
 }
 
 function saccadeTo(FIPS) {
@@ -78,7 +93,33 @@ function saccadeTo(FIPS) {
     } 
 }
 
-function getShadingColor(value, max=1.0) {
+function jensenShannonDistance(v1, v2) {
+    function kullbackLeibler(p, q) {
+        let d = [];
+        for (let i = 0; i < p.length; p++) {
+            if (p[i] && q[i]) d[i] = p[i] * Math.log2(p[i]/q[i]);
+        }
+        return d.reduce((acc, cur) => cur + acc, 0.0);
+    }
+    function normalize(vec) {
+        let newVec = [];
+        const sum = vec.reduce((acc, cur) => acc + (typeof cur === 'number' ? cur : 0.0), 0.0);
+        vec.forEach(val => newVec.push(val / sum));
+        return newVec;
+    }
+    nv1 = normalize(v1);
+    nv2 = normalize(v2);
+    let m = [];
+    for (let i = 0; i < nv1.length; i++) {
+        m[i] = (nv1[i] + nv2[i]) / 2;
+    }
+    const js = (kullbackLeibler(nv1, m) + kullbackLeibler(nv2, m)) / 2; // Get Jensen-Shannon Divergence
+    const scale = 300;
+    const sim = ((1 - js) - (1 - 1 / scale)) * scale; // Scale and invert
+    return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
+}
+
+function getShadingColor(value, max=1.0, national=0.0, scale=100_000) {
     switch (currentShadingMode) {
         case ShadingMode.RAW :
             return value >= max * .90 ? "#520016" :
@@ -92,39 +133,44 @@ function getShadingColor(value, max=1.0) {
                    value >= max * .10 ? "#FFEDA0" :
                                    "#FFFFFF" ;
         case ShadingMode.RELATIVE :
-            return value >= max * .90 ? "#260080" :
-                   value >= max * .75 ? "#2600BD" :
-                   value >= max * .60 ? "#1C1AE3" :
-                   value >= max * .45 ? "#2A4EFC" :
-                   value >= max * .30 ? "#3C8DFD" :
-                   value >= max * .15 ? "#4CB2FE" :
-                   value >= max * .00 ? "#A0EDFF" :
-                                        "#FFFFFF" ;
-        case ShadingMode.COUNT : 
-            return value > max * 0.95 ? "#003000" :
-                   value > max * 0.90 ? "#004000" :
-                   value > max * 0.85 ? "#005000" :
-                   value > max * 0.80 ? "#006000" :
-                   value > max * 0.75 ? "#007000" :
-                   value > max * 0.70 ? "#008000" :
-                   value > max * 0.65 ? "#009000" :
-                   value > max * 0.60 ? "#00A000" :
-                   value > max * 0.55 ? "#00B000" :
-                   value > max * 0.50 ? "#00C000" :
-                   value > max * 0.45 ? "#00D000" :
-                   value > max * 0.40 ? "#00E000" :
-                   value > max * 0.35 ? "#00F000" :
-                   value > max * 0.30 ? "#20FF20" :
-                   value > max * 0.25 ? "#40FF40" :
-                   value > max * 0.20 ? "#60FF60" :
-                   value > max * 0.15 ? "#80FF80" :
-                   value > max * 0.10 ? "#A0FFA0" :
-                   value > max * 0.05 ? "#C0FFC0" :
-                                        "#FFFFFF" ;
+            const diff = value - national;
+            return diff >= max *  .500 ? "#27427B" :
+                   diff >= max *  .370 ? "#235A9E" :
+                   diff >= max *  .250 ? "#4E8CDB" :
+                   diff >= max *  .120 ? "#6592BE" :
+                   diff >= max *  .001 ? "#B0F0FF" :
+                   diff >= max * -.001 ? "#FFFFFF" :
+                   diff >= max * -.150 ? "#F8E172" :
+                   diff >= max * -.250 ? "#DC9633" :
+                   diff >= max * -.360 ? "#D67E25" :
+                   diff >= max * -.500 ? "#CC6A19" :
+                                         "#A7521F" ;
+        case ShadingMode.COUNT :
+            value = value / scale * 100_000;
+            return value > 100_000 ? "#003000" :
+                   value > 75_000  ? "#004000" :
+                   value > 50_000  ? "#005000" :
+                   value > 25_000  ? "#006000" :
+                   value > 12_000  ? "#007000" :
+                   value > 9000    ? "#008000" :
+                   value > 7500    ? "#009000" :
+                   value > 6000    ? "#00A000" :
+                   value > 5000    ? "#00B000" :
+                   value > 4000    ? "#00C000" :
+                   value > 3000    ? "#00D000" :
+                   value > 2500    ? "#00E000" :
+                   value > 2000    ? "#00F000" :
+                   value > 1500    ? "#20FF20" :
+                   value > 1250    ? "#40FF40" :
+                   value > 1000    ? "#60FF60" :
+                   value > 750     ? "#80FF80" :
+                   value > 500     ? "#A0FFA0" :
+                   value > 250     ? "#C0FFC0" :
+                                     "#FFFFFF" ;
     }
 }
 
-function getPartyColor(democratic, republican, year) {
+function getPartyColor(democratic, republican, year, scale=100_000) {
     // Democratic is % or # votes for democratic candidate, Repubican is % or # votes for republican candidate
     
     let total, margin;
@@ -135,14 +181,14 @@ function getPartyColor(democratic, republican, year) {
             democratic /= total;
             republican /= total;
             margin = republican - democratic;
-            return margin >  0.75 ? "#F00000" :
-                   margin >  0.50 ? "#FF4040" :
-                   margin >  0.25 ? "#FF8080" :
-                   margin >  0.00 ? "#FFC0C0" :
+            return margin >  0.25 ? "#F00000" :
+                   margin >  0.12 ? "#FF3030" :
+                   margin >  0.08 ? "#FF6060" :
+                   margin >  0.00 ? "#FFA0A0" :
                    margin === 0.0 ? "#FFFFFF" :
-                   margin > -0.25 ? "#C0C0FF" :
-                   margin > -0.50 ? "#8080FF" :
-                   margin > -0.75 ? "#4040FF" :
+                   margin > -0.08 ? "#A0A0FF" :
+                   margin > -0.12 ? "#6060FF" :
+                   margin > -0.25 ? "#3030FF" :
                                     "#0000FF" ;
         case ShadingMode.RELATIVE :
             total = democratic + republican;
@@ -157,34 +203,72 @@ function getPartyColor(democratic, republican, year) {
             const nationMargin = nationRepublican - nationDemocratic;
 
             const diff = margin - nationMargin;
-            return diff >  0.75 ? "#F00000" :
-                   diff >  0.50 ? "#FF4040" :
-                   diff >  0.25 ? "#FF8080" :
+            return diff >  0.25 ? "#F00000" :
+                   diff >  0.12 ? "#FF4040" :
+                   diff >  0.08 ? "#FF8080" :
                    diff >  0.00 ? "#FFC0C0" :
                    diff === 0.0 ? "#FFFFFF" :
-                   diff > -0.25 ? "#C0C0FF" :
-                   diff > -0.50 ? "#8080FF" :
-                   diff > -0.75 ? "#4040FF" :
+                   diff > -0.08 ? "#C0C0FF" :
+                   diff > -0.12 ? "#8080FF" :
+                   diff > -0.25 ? "#4040FF" :
                                   "#0000FF" ;
         case ShadingMode.COUNT :
-            break;
+            value = (democratic + republican) / scale * 100_000;
+            return value > 100_000 ? "#003000" :
+                   value > 75_000  ? "#004000" :
+                   value > 50_000  ? "#005000" :
+                   value > 25_000  ? "#006000" :
+                   value > 12_000  ? "#007000" :
+                   value > 9000    ? "#008000" :
+                   value > 7500    ? "#009000" :
+                   value > 6000    ? "#00A000" :
+                   value > 5000    ? "#00B000" :
+                   value > 4000    ? "#00C000" :
+                   value > 3000    ? "#00D000" :
+                   value > 2500    ? "#00E000" :
+                   value > 2000    ? "#00F000" :
+                   value > 1500    ? "#20FF20" :
+                   value > 1250    ? "#40FF40" :
+                   value > 1000    ? "#60FF60" :
+                   value > 750     ? "#80FF80" :
+                   value > 500     ? "#A0FFA0" :
+                   value > 250     ? "#C0FFC0" :
+                                     "#FFFFFF" ;
     }
 }
 
-function getDescriptorCloseness(descriptors1, descriptors2) {
+function getDemographicCloseness(demographics1, demographics2) {
+    const v1 = [], v2 = [];
+    for (const category in demographics1) {
+        for (const demographic in demographics1[category]) {
+            if (!demographics1[category]?.[demographic] || !demographics2[category]?.[demographic]) continue;
+            v1.push(demographics1[category][demographic]);
+            v2.push(demographics2[category][demographic]);
+        }
+    }
+    return jensenShannonDistance(v1, v2);
+}
+
+function getDescriptorCloseness(descriptors1, descriptors2, bias=1) {
+    // Bias gives a baseline number of descriptors known to be shared by all map entities
     if (!descriptors1 || !descriptors2) return 0.0;
     let closeness1 = 0.0, closeness2 = 0.0;
     descriptors1.forEach(d => {
         if (descriptors2.includes(d)) {
-            closeness1 += (1/ descriptors1.length);
+            closeness1 += (1 / descriptors1.length);
         }
     });
+    closeness1 -= bias / descriptors1.length;
+    closeness1 *= 1 + bias / (descriptors1.length - bias);
     descriptors2.forEach(d => {
         if (descriptors1.includes(d)) {
             closeness2 += (1 / descriptors2.length);
         }
     });
-    return (closeness1 + closeness2) / 2;
+    closeness2 -= bias / descriptors2.length;
+    closeness2 *= 1 + bias / (descriptors2.length - bias);
+    const sim = (closeness1 + closeness2) / 2;
+    return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
 }
 
 function updateShapeMode(mode) {
@@ -203,9 +287,29 @@ async function updateViewMode(mode) {
     const primarySelect = document.getElementById("primary-select");
     if (primarySelectOptions[mode]) { // Lazy load the options
         primarySelect.innerHTML = primarySelectOptions[mode];
+        if (mode === ViewMode.DESCRIPTORS18) {
+            displayDescriptorInfo(null);
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
+        }
+        else {
+            displayMapEntityInfo(null);
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+        }
+        if (mode === ViewMode.ELECTORAL) {
+            document.getElementById("shading-count-label").innerHTML = "Count of voters";
+            const elections = Object.keys(nation.features[0].electoralData);
+            let mostRecent = elections[0];
+            for (const election of elections) {
+                if (election > mostRecent) mostRecent = election;
+            }
+            if (!currentPrimarySelecteds[currentViewMode]) currentPrimarySelecteds[currentViewMode] = mostRecent;
+        }
+        else {
+            document.getElementById("shading-count-label").innerHTML = "Count of members";
+        }
+        primarySelect.value = currentPrimarySelecteds[currentViewMode];
+        primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
         refreshStyles();
-        if (mode === ViewMode.DESCRIPTORS18) displayDescriptorInfo(null);
-        else displayMapEntityInfo(null);
         return;
     }
     switch (mode) {
@@ -219,12 +323,15 @@ async function updateViewMode(mode) {
                     `;
                 }
             primarySelectOptions[mode] = primarySelect.innerHTML;
+            primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+            document.getElementById("shading-count-label").innerHTML = "Count of members";
             displayMapEntityInfo(null);
             break;
         case ViewMode.ELECTORAL :
             await loadElectoralData();
             primarySelect.innerHTML = '';
-            const elections = Object.keys(counties.features[0].electoralData);
+            const elections = Object.keys(nation.features[0].electoralData);
             let mostRecent = elections[0];
             for (const election of elections) {
                 primarySelect.innerHTML += `
@@ -235,6 +342,8 @@ async function updateViewMode(mode) {
             primarySelect.value = mostRecent;
             primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
             primarySelectOptions[mode] = primarySelect.innerHTML;
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+            document.getElementById("shading-count-label").innerHTML = "Count of voters";
             displayMapEntityInfo(null);
             break;
         case ViewMode.DESCRIPTORS18 :
@@ -246,6 +355,8 @@ async function updateViewMode(mode) {
                 `;
             }
             primarySelectOptions[mode] = primarySelect.innerHTML;
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
+            document.getElementById("shading-count-label").innerHTML = "Count of members";
             displayDescriptorInfo(null);
             break;
         case ViewMode.DESCRIPTORS11 :
@@ -322,17 +433,36 @@ async function loadElectoralData(map) {
     await fetch("elections.json").then(res => res.json()).then(electoralData => {
         for (const FIPS in electoralData) {
             const data = electoralData[FIPS];
-            const county = counties.features.find(c => c.id === FIPS);
-            const state = states.features.find(s => s.id === FIPS);
-            if (county) {
-                county.electoralData = data;
+            if (FIPS.length === 5) { // County
+                const county = counties.features.find(c => c.id === FIPS);
+                if (county) {
+                    county.electoralData = data;
+                    // Check for realistic values
+                    for (const year in county.electoralData) {
+                        const data = county.electoralData[year];
+                        const totalVotes = data.reduce((acc, cur) => acc + cur.votes, 0);
+                        const turnout = totalVotes / county.population;
+                        if (turnout < 0.1 || turnout > 1.5)
+                            console.log(`Turnout of ${turnout.toFixed(3)} in [${county.id}] ${county.name}, ${county.state} in ${year} is dubious.`);
+                    }
+                }
+                else {
+                    console.log(`No county found with FIPS: ${FIPS}.`);
+                    continue;
+                }
             }
-            else if (state) {
-                state.electoralData = data;
+            else if (FIPS.length === 2) { // State
+                const state = states.features.find(s => s.id === FIPS);
+                if (state) {
+                    state.electoralData = data;
+                }
+                else {
+                    console.log(`No county found with FIPS: ${FIPS}.`);
+                    continue;
+                }
             }
             else {
-                console.log(`No county or state found with FIPS: ${FIPS}.`);
-                continue;
+                console.log(`Unclear whether FIPS code is county or state: ${FIPS}`);
             }
         }
     });
@@ -348,10 +478,10 @@ async function loadElectoralData(map) {
                     for (const res of county.electoralData[year]) {
                         const stateMatch = stateResults[year].find(r => r.candidate == res.candidate);
                         if (stateMatch) stateMatch.votes += res.votes;
-                        else stateResults[year].push(res);
+                        else stateResults[year].push({...res}); // Clone county electoralData. Wow this bug was hard to find.
                         const nationMatch = nationResults[year].find(r => r.candidate == res.candidate);
                         if (nationMatch) nationMatch.votes += res.votes;
-                        else nationResults[year].push(res);
+                        else nationResults[year].push({...res}); // Clone county electoralData. I love implicit references I love implicit references I love implicit references I love
                     }
                 }
             }
@@ -365,7 +495,6 @@ const descriptors = [];
 
 async function loadDescriptorData(map) {
     await fetch("descriptors_18.json").then(res => res.json()).then(descriptorsData => {
-        console.log(descriptorsData);
         for (const c in descriptorsData.counties) {
             const countyData = descriptorsData.counties[c]
             const county = counties.features.find(f => f.id === countyData.FIPS);
@@ -467,28 +596,101 @@ const maxDemographicValues = {}; // Cache each demographic's maximum value among
 function style(feature) {
     const blankStyle = {
         fillColor: "#cccccc",
-        weight: 1,
+        weight: 0.75,
         opacity: 1,
         color: "#333",
         fillOpacity: 0.6,
         interactive: true
     };
-    if (!currentPrimarySelected) return blankStyle; 
+    const blankStyleNoOverwrite = {
+        fillColor: "#cccccc",
+        fillOpacity: 0.6,
+        interactive: true
+    };
+    if (!currentPrimarySelecteds[currentViewMode]) {
+        if (!selectedLayer) return blankStyle;
+        if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+            const similarity = getDemographicCloseness(feature.demographics, selectedLayer?.feature.demographics);
+            const shade = 256 - Math.round(256 * similarity);
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: `#${shade.toString(16).padStart(2, '0')}FF${shade.toString(16).padStart(2, '0')}`,
+                    fillOpacity: 0.6,
+                    interactive: true
+                }
+            }
+            return {
+                fillColor: `#${shade.toString(16).padStart(2, '0')}FF${shade.toString(16).padStart(2, '0')}`,
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            }
+        }
+        else if (currentViewMode === ViewMode.DESCRIPTORS18) {
+            const similarity = getDescriptorCloseness(feature.descriptors, selectedLayer?.feature.descriptors);
+            // For similarity between 0-128, vary the shade (light). Between 128-256, vary the green channel (dark)
+            let shade = 256 - Math.round(512 * similarity);
+            shade = shade > 255 ? 255 : shade < 0 ? 0 : shade;
+            let greenChannel = 512 - Math.round(448 * similarity);
+            greenChannel = greenChannel > 255 ? 255 : greenChannel < 0 ? 0 : greenChannel;
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: `#${shade.toString(16).padStart(2, '0')}${greenChannel.toString(16).padStart(2, '0')}${shade.toString(16).padStart(2, '0')}`,
+                    fillOpacity: 0.6,
+                    interactive: true
+                }
+            }
+            return {
+                fillColor: `#${shade.toString(16).padStart(2, '0')}${greenChannel.toString(16).padStart(2, '0')}${shade.toString(16).padStart(2, '0')}`,
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            }
+        }
+    }
     switch (currentViewMode) {
         case ViewMode.DEMOGRAPHICS :
-            const [selectedDemoCategory, selectedDemographic] = currentPrimarySelected?.split(":");
+            const [selectedDemoCategory, selectedDemographic] = currentPrimarySelecteds[currentViewMode]?.split(":");
             if (!feature.demographics) return blankStyle;
-            let highestPercent = maxDemographicValues[currentPrimarySelected];
+            let highestPercent = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
             if (!highestPercent) {
-                const ranked = counties.features.sort((a, b) => {
-                    return (b.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0) - (a.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0)
-                });
+                const ranked = counties.features.sort((a, b) => (b.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0) - (a.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0));
                 highestPercent = ranked[0].demographics[selectedDemoCategory][selectedDemographic];
             }
-            maxDemographicValues[currentPrimarySelected] = highestPercent;
+            maxDemographicValues[currentPrimarySelecteds[currentViewMode]] = highestPercent;
+            const nationalPercent = nation.features[0].demographics[selectedDemoCategory][selectedDemographic];
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                return {
+                    fillColor: getShadingColor(
+                        currentShadingMode === ShadingMode.COUNT ?
+                        feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
+                        feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
+                        highestPercent, nationalPercent,
+                        currentShapeMode === ShapeMode.NATION ? 400_000_000 :
+                        currentShapeMode === ShapeMode.STATE  ? 10_000_000 :
+                                                                200_000
+                    ),
+                    fillOpacity: 0.6,
+                    interactive: true
+                };
+            }
             return {
-                fillColor: getShadingColor(feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0, highestPercent),
-                weight: 1,
+                fillColor: getShadingColor(
+                    currentShadingMode === ShadingMode.COUNT ?
+                    feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
+                    feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
+                    highestPercent, nationalPercent,
+                    currentShapeMode === ShapeMode.NATION ? 400_000_000 :
+                    currentShapeMode === ShapeMode.STATE  ? 10_000_000 :
+                                                            200_000
+                ),
+                weight: 0.75,
                 opacity: 1,
                 color: "#333",
                 fillOpacity: 0.6,
@@ -496,28 +698,55 @@ function style(feature) {
             };
         case ViewMode.ELECTORAL :
             if (!feature.electoralData) return blankStyle;
-            rep_votes = feature.electoralData[currentPrimarySelected]?.find(r => r.party == "REPUBLICAN")?.votes;
-            dem_votes = feature.electoralData[currentPrimarySelected]?.find(r => r.party == "DEMOCRAT")?.votes;
+            rep_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "REPUBLICAN")?.votes;
+            dem_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "DEMOCRAT")?.votes;
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: getPartyColor(
+                        dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
+                        currentShapeMode === ShapeMode.NATION ? 800_000_000 :
+                        currentShapeMode === ShapeMode.STATE  ? 40_000_000 :
+                                                                800_000
+                    ),
+                    fillOpacity: 0.7,
+                    interactive: true
+                }
+            }
             return {
-                fillColor: getPartyColor(dem_votes, rep_votes, currentPrimarySelected),
-                weight: 1,
+                fillColor: getPartyColor(
+                    dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
+                    currentShapeMode === ShapeMode.NATION ? 800_000_000 :
+                    currentShapeMode === ShapeMode.STATE  ? 40_000_000 :
+                                                            800_000
+                ),
+                weight: 0.75,
                 opacity: 1,
                 color: "#333",
-                fillOpacity: 0.6,
+                fillOpacity: 0.7,
                 interactive: true
             };
         case ViewMode.DESCRIPTORS18 :
             if (!feature.descriptors) return blankStyle;
-            if (feature.descriptors.find(d => d == currentPrimarySelected)) { // Is member
+            if (feature.descriptors.find(d => d == currentPrimarySelecteds[currentViewMode])) { // Is member
+                if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                    return {
+                        fillColor: "#6060ff",
+                        fillOpacity: 0.6,
+                        interactive: true
+                    };
+                }
                 return {
                     fillColor: "#6060ff",
-                    weight: 1,
+                    weight: 0.75,
                     opacity: 1,
                     color: "#333",
                     fillOpacity: 0.6,
                     interactive: true
                 };
             }
+            if (feature === selectedLayer?.feature) // Don't overwrite highlighting
+                return blankStyleNoOverwrite;
             return blankStyle;
         case ViewMode.DESCRIPTORS11 :
             break;
@@ -527,7 +756,7 @@ function style(feature) {
 function resetLayer(layer) {
     if (!layer) return;
     layer.setStyle({
-        weight: 1,
+        weight: 0.75,
         color: "#333",
         fillOpacity: 0.6
     });
@@ -547,6 +776,9 @@ function highlightLayer(layer) {
         color: "#ff7800",
     });
     selectedLayer.bringToFront();
+    refreshStyles();
+    console.log(layer);
+    if (layer.feature.state) updateShapeMode(ShapeMode.COUNTY);
 }
 
 function onEachFeature(feature, layer) {
@@ -554,11 +786,12 @@ function onEachFeature(feature, layer) {
         click: () => {
             if (selectedLayer) resetLayer(selectedLayer);
             highlightLayer(layer);
-            if (currentViewMode !== ViewMode.DESCRIPTORS18) displayMapEntityInfo(feature);
+            if (currentViewMode !== ViewMode.DESCRIPTORS18 || !currentPrimarySelecteds[currentViewMode])
+                displayMapEntityInfo(feature);
         },
         mouseover: () => {
             if (layer !== selectedLayer)
-                layer.setStyle({ weight: 4, color: "#555" });
+                layer.setStyle({ weight: 3, color: "#555" });
         },
         mouseout: () => {
             if (layer !== selectedLayer)
@@ -605,6 +838,9 @@ function displayMapEntityInfo(properties) {
             case ViewMode.ELECTORAL :
                 mapInfobox.innerHTML += `<h3>Electoral History:</h3> ${formatElectoralData(properties.electoralData, properties.population)}`;
                 break;
+            case ViewMode.DESCRIPTORS18 :
+                mapInfobox.innerHTML += `<h3>Descriptors:</h3> <p># Memberships: ${properties.descriptors.length}</p> ${formatDescritorMemberships(properties.descriptors)}`;
+                break;
         }
     }
 }
@@ -612,10 +848,9 @@ function displayMapEntityInfo(properties) {
 function displayDescriptorInfo(descriptor) {
     const mapInfobox = document.getElementById("map-infobox");
     if (!descriptor) {
-        mapInfobox.innerHTML = `<h3>Select a descriptor to see details.</h3>`;
+        mapInfobox.innerHTML = `<h3>Click on a state, county, the nation, or select a descriptor to see details.</h3>`;
     }
     else {
-        console.log(descriptor);
         mapInfobox.innerHTML = `
             <h2>${descriptor.name}</h2>
             <h3>Demographics:</h3> ${formatDescriptorDemographics(descriptor.demographics)}
@@ -661,11 +896,22 @@ function formatDescriptorDemographics(descriptorDemographics) {
     return html;
 }
 
+// For a descriptor to format its members
 function formatDescriptorMembers(members) {
     let html = `<ul>`;
     for (const member of members) {
         const county = counties.features.find(c => c.id === member);
         html += `<li>[${member}] ${county.name}, ${county.state}</li>`;
+    }
+    html += `</ul>`;
+    return html;
+}
+
+// For a county or state to format its memberships
+function formatDescritorMemberships(memberships) {
+    let html = `<ul>`;
+    for (const membership of memberships) {
+        html += `<li>${membership}</li>`;
     }
     html += `</ul>`;
     return html;
@@ -742,12 +988,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const primarySelect = document.getElementById("primary-select");
     primarySelect.addEventListener('change', event => {
-        currentPrimarySelected = event.target.value;
+        currentPrimarySelecteds[currentViewMode] = event.target.value;
         refreshStyles();
         updateLayerVisibility();
-        if (currentViewMode === ViewMode.DESCRIPTORS18) {
-            const descriptor = descriptors.find(d => d.name === currentPrimarySelected);
+        if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS18) {
+            const descriptor = descriptors.find(d => d.name === currentPrimarySelecteds[currentViewMode]);
+            if (!descriptor.name.includes("$")) updateShapeMode(ShapeMode.COUNTY);
+            else if (!descriptor.name.includes("$$$$")) updateShapeMode(ShapeMode.STATE); // && currentShapeMode !== ShapeMode.COUNTY
+            else updateShapeMode(ShapeMode.AUTO);
             displayDescriptorInfo(descriptor);
+        }
+        if (!currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS18) {
+            if (selectedLayer) {
+                highlightLayer(selectedLayer);
+                displayMapEntityInfo(selectedLayer?.feature);
+            }
+            else {
+                displayDescriptorInfo(null);
+            }
         }
     });
 
@@ -774,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateShapeMode(ShapeMode.STATE);
         }
         else {
-            bestMatch = counties.features.find(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}, ${c.state}`.toLowerCase().includes(query));
+            bestMatch = counties.features.find(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}${c.state}`.toLowerCase().includes(query));
             if (!bestMatch) return;
             featureSearchInput.value = `${bestMatch.name}, ${bestMatch.state}`;
             updateShapeMode(ShapeMode.COUNTY);
@@ -793,7 +1051,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const matches = [
             ...states.features.filter(s => s.name?.replaceAll(/[.,'-\s]/g, "").toLowerCase().includes(query)),
-            ...counties.features.filter(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}, ${c.state}`.toLowerCase().includes(query)),
+            ...counties.features.filter(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}${c.state}`.toLowerCase().includes(query)),
         ].slice(0, 10); // Limit to 10 results
 
         if (matches.length === 0) {
@@ -884,4 +1142,4 @@ const stateAbbrs = {
     'West Virginia': 'WV',
     'Wisconsin': 'WI',
     'Wyoming': 'WY',
-}
+};
