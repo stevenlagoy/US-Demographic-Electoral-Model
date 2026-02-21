@@ -337,6 +337,7 @@ div#controls {
 }
 
 .info.legend {
+  width: 10em;
   padding: 6px 8px;
   font: 14px/16px Arial, Helvetica, sans-serif;
   background: rgba(255, 255, 255, 0.8);
@@ -348,6 +349,8 @@ div#controls {
 }
 
 .info.legend i {
+  border: 2px solid black;
+  border-radius: 0.37em;
   width: 18px;
   height: 18px;
   float: left;

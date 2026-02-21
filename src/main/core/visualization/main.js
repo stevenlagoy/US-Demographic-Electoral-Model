@@ -51,6 +51,193 @@ let currentPrimarySelecteds = {
 const center = [45, -96];
 const defaultZoom = 4;
 const map = L.map('map').setView(center, defaultZoom);
+const legend = L.control({ position: 'bottomleft' });
+
+legend.onAdd = function(map) {
+    const div = L.DomUtil.create('div', 'info legend');
+    updateLegend(div);
+    return div;
+}
+
+function updateLegend(div, grades=[], text='') {
+    div.innerHTML = '';
+    div.style.display = "block";
+    if (text) {
+        div.innerHTML = `<p>${text}</p>`;
+        return;
+    }
+    let from, to;
+    for (let i = 0; i < grades.length; i++) {
+        const epsilon = 0.001;
+        if (currentShadingMode === ShadingMode.RAW) {
+            switch (currentViewMode) {
+                case ViewMode.DEMOGRAPHICS :
+                    from = grades[i]?.value, to = grades[i+1]?.value;
+                    if (from > to) [from, to] = [to, from];
+                    from += epsilon;
+                    div.innerHTML += `
+                        <div><i style="background:${grades[i].color}"></i><p>
+                        ${to === undefined ? `<` : ``}
+                        ${(from * 100).toFixed(1)}%
+                        ${to !== undefined ? `&ndash; ${(to * 100).toFixed(1)}%` : ``}
+                        </p></div>
+                    `;
+                    break;
+                case ViewMode.ELECTORAL :
+                    from = grades[i-1]?.value;
+                    to = grades[i]?.value;
+                    if (to < 0) {
+                        from = grades[i]?.value;
+                        to = grades[i-1]?.value;
+                    }
+                    div.innerHTML += `
+                        <div><i style="background:${grades[i].color}"></i><p>
+                        ${grades[i].label}
+                        ${grades[i].label !== 'Toss-Up' ? `<br>(${from && from != -1 ? `` : `>=`}
+                            ${to > 0 ? 'R' : 'D'}+${Math.round(Math.abs(to) * 100)}${from && from != -1 ? ` &ndash; ${to > 0 ? 'R' : 'D'}+${Math.round(Math.abs(from) * 100)}` : ``})`
+                            : ``}
+                        </p></div>
+                    `;
+                    break;
+            }
+        }
+        else if (currentShadingMode === ShadingMode.RELATIVE) {
+            let from = grades[i-1]?.value, to = grades[i]?.value;
+            from += 1;
+            to = (to || -1) + 1;
+            if (from > to) [from, to] = [to, from];
+            div.innerHTML += `
+                <div><i style="background:${grades[i].color}"></i><p>
+                ${from ? `${(from * 100).toFixed(1)}%` : `<=`}
+                ${to - from < epsilon ? `` : ` ${from ? `&ndash;` : ``} ${(to * 100).toFixed(1)}%`}
+                <br>of US average
+                </p></div>
+            `;
+        }
+    }
+}
+
+function updateLegendForCurrentContext() {
+    let grades = [];
+    let text = '';
+    if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.RAW) {
+        let max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
+        console.log(maxDemographicValues, currentPrimarySelecteds[currentViewMode]);
+        grades = [
+            {value: max * .9, color: '#520016'},
+            {value: max * .8, color: '#680020'},
+            {value: max * .7, color: '#800026'},
+            {value: max * .6, color: '#BD0026'},
+            {value: max * .5, color: '#E31A1C'},
+            {value: max * .4, color: '#FC4E2A'},
+            {value: max * .3, color: '#FD8D3C'},
+            {value: max * .2, color: '#FEB24C'},
+            {value: max * .1, color: '#FFEDA0'},
+            {value: max * .0, color: '#FFFFFF'},
+        ];
+    }
+    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.RELATIVE) {
+        let max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
+        grades = [
+            {value: max *  .500, color: '#27427B'},
+            {value: max *  .370, color: '#235A9E'},
+            {value: max *  .250, color: '#4E8CDB'},
+            {value: max *  .120, color: '#6592BE'},
+            {value: max *  .001, color: '#B0F0FF'},
+            {value: max * -.001, color: '#FFFFFF'},
+            {value: max * -.150, color: '#F8E172'},
+            {value: max * -.250, color: '#DC9633'},
+            {value: max * -.360, color: '#D67E25'},
+            {value: max * -.500, color: '#CC6A19'},
+            {value: max * -.999, color: '#A7521F'},
+        ];
+    }
+    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
+        let scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                          200_000     ;
+        grades = [
+            {value: scale * (100_000 / 100_000), color: '#003000'},
+            {value: scale * ( 75_000 / 100_000), color: '#004000'},
+            {value: scale * ( 50_000 / 100_000), color: '#005000'},
+            {value: scale * ( 25_000 / 100_000), color: '#006000'},
+            {value: scale * ( 12_000 / 100_000), color: '#007000'},
+            {value: scale * (   9000 / 100_000), color: '#008000'},
+            {value: scale * (   7500 / 100_000), color: '#009000'},
+            {value: scale * (   6000 / 100_000), color: '#00A000'},
+            {value: scale * (   5000 / 100_000), color: '#00B000'},
+            {value: scale * (   4000 / 100_000), color: '#00C000'},
+            {value: scale * (   3000 / 100_000), color: '#00D000'},
+            {value: scale * (   2500 / 100_000), color: '#00E000'},
+            {value: scale * (   2000 / 100_000), color: '#00F000'},
+            {value: scale * (   1500 / 100_000), color: '#20FF20'},
+            {value: scale * (   1250 / 100_000), color: '#40FF40'},
+            {value: scale * (   1000 / 100_000), color: '#60FF60'},
+            {value: scale * (    750 / 100_000), color: '#80FF80'},
+            {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+            {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+            {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+        ];
+    }
+    else if (currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
+        let scale = getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 5_000_000  :
+                                                          350_000    ;
+        grades = [
+            {value: scale * (100_000 / 100_000), color: '#003000'},
+            {value: scale * ( 75_000 / 100_000), color: '#004000'},
+            {value: scale * ( 50_000 / 100_000), color: '#005000'},
+            {value: scale * ( 25_000 / 100_000), color: '#006000'},
+            {value: scale * ( 12_000 / 100_000), color: '#007000'},
+            {value: scale * (   9000 / 100_000), color: '#008000'},
+            {value: scale * (   7500 / 100_000), color: '#009000'},
+            {value: scale * (   6000 / 100_000), color: '#00A000'},
+            {value: scale * (   5000 / 100_000), color: '#00B000'},
+            {value: scale * (   4000 / 100_000), color: '#00C000'},
+            {value: scale * (   3000 / 100_000), color: '#00D000'},
+            {value: scale * (   2500 / 100_000), color: '#00E000'},
+            {value: scale * (   2000 / 100_000), color: '#00F000'},
+            {value: scale * (   1500 / 100_000), color: '#20FF20'},
+            {value: scale * (   1250 / 100_000), color: '#40FF40'},
+            {value: scale * (   1000 / 100_000), color: '#60FF60'},
+            {value: scale * (    750 / 100_000), color: '#80FF80'},
+            {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+            {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+            {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+        ];
+    }
+    else if (selectedLayer && currentViewMode === ViewMode.ELECTORAL && currentShadingMode !== ShadingMode.COUNT) {
+        text = 'Green saturation indicates the selected and shaded state or county have similar demographics';
+    }
+    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.RAW) {
+        grades = [
+            {value:  0.25, color: '#F00000', label: 'Strong <b>Ⓡ</b>'},
+            {value:  0.12, color: '#FF3030', label: 'Safe <b>Ⓡ</b>'},
+            {value:  0.07, color: '#FF6060', label: 'Competitive <b>Ⓡ</b>'},
+            {value:  0.01, color: '#FFA0A0', label: 'Leans <b>Ⓡ</b>'},
+            {value: -0.01, color: '#FFFFFF', label: 'Toss-Up'},
+            {value: -0.07, color: '#A0A0FF', label: 'Leans <b>Ⓓ</b>'},
+            {value: -0.12, color: '#6060FF', label: 'Competitive <b>Ⓓ</b>'},
+            {value: -0.25, color: '#3030FF', label: 'Safe <b>Ⓓ</b>'},
+            {value: -1.00, color: '#0000FF', label: 'Strong <b>Ⓓ</b>'},
+        ];
+    }
+    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.RELATIVE) {
+        text = 'Red / Blue shading indicates Republican / Democrat lean relative to US election result';
+    }
+    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.COUNT) {
+        text = 'Green saturation and darker tint indicates more total voters in the shaded state or county';
+    }
+    else if (selectedLayer && currentViewMode === ViewMode.DESCRIPTORS18) {
+        text = 'Green saturation and darker tint indicates the selected and shaded state or county have similar descriptors';
+    }
+    updateLegend(legend._container, grades, text);
+}
+
+function clearLegend(div) {
+    div.innerHTML = '';
+    div.style.display = "none";
+}
 
 function resetView() {
     // Saccade to default position
@@ -81,6 +268,8 @@ function resetView() {
     const primarySelect = document.getElementById('primary-select');
     primarySelect.value = '';
     primarySelect.dispatchEvent(new Event('change'));
+    // Clear legend
+    clearLegend(legend._container);
 }
 
 function saccadeTo(FIPS) {
@@ -119,54 +308,75 @@ function jensenShannonDistance(v1, v2) {
     return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
 }
 
-function getShadingColor(value, max=1.0, national=0.0, scale=100_000) {
+function getShadingColor(value, max=1.0, national=0.0, scale=100_000, update_legend=true) {
+    let grades;
     switch (currentShadingMode) {
         case ShadingMode.RAW :
-            return value >= max * .90 ? "#520016" :
-                   value >= max * .80 ? "#680020" :
-                   value >= max * .70 ? "#800026" :
-                   value >= max * .60 ? "#BD0026" :
-                   value >= max * .50 ? "#E31A1C" :
-                   value >= max * .40 ? "#FC4E2A" :
-                   value >= max * .30 ? "#FD8D3C" :
-                   value >= max * .20 ? "#FEB24C" :
-                   value >= max * .10 ? "#FFEDA0" :
-                                   "#FFFFFF" ;
+            grades = [
+                {value: max * .9, color: '#520016'},
+                {value: max * .8, color: '#680020'},
+                {value: max * .7, color: '#800026'},
+                {value: max * .6, color: '#BD0026'},
+                {value: max * .5, color: '#E31A1C'},
+                {value: max * .4, color: '#FC4E2A'},
+                {value: max * .3, color: '#FD8D3C'},
+                {value: max * .2, color: '#FEB24C'},
+                {value: max * .1, color: '#FFEDA0'},
+                {value: max * .0, color: '#FFFFFF'},
+            ];
+            // if (update_legend && legend._container) updateLegend(legend._container, grades);
+            for (const grade of grades) {
+                if (value >= grade.value) return grade.color;
+            }
+            return '#FFFFFF';
         case ShadingMode.RELATIVE :
             const diff = value - national;
-            return diff >= max *  .500 ? "#27427B" :
-                   diff >= max *  .370 ? "#235A9E" :
-                   diff >= max *  .250 ? "#4E8CDB" :
-                   diff >= max *  .120 ? "#6592BE" :
-                   diff >= max *  .001 ? "#B0F0FF" :
-                   diff >= max * -.001 ? "#FFFFFF" :
-                   diff >= max * -.150 ? "#F8E172" :
-                   diff >= max * -.250 ? "#DC9633" :
-                   diff >= max * -.360 ? "#D67E25" :
-                   diff >= max * -.500 ? "#CC6A19" :
-                                         "#A7521F" ;
+            grades = [
+                {value: max *  .500, color: '#27427B'},
+                {value: max *  .370, color: '#235A9E'},
+                {value: max *  .250, color: '#4E8CDB'},
+                {value: max *  .120, color: '#6592BE'},
+                {value: max *  .001, color: '#B0F0FF'},
+                {value: max * -.001, color: '#FFFFFF'},
+                {value: max * -.150, color: '#F8E172'},
+                {value: max * -.250, color: '#DC9633'},
+                {value: max * -.360, color: '#D67E25'},
+                {value: max * -.500, color: '#CC6A19'},
+                {value: max * -.999, color: '#A7521F'},
+            ];
+            // if (updateLegend && legend._container) updateLegend(legend._container, grades);
+            for (const grade of grades) {
+                if (diff >= grade.value) return grade.color;
+            }
+            return "#000";
         case ShadingMode.COUNT :
             value = value / scale * 100_000;
-            return value > 100_000 ? "#003000" :
-                   value > 75_000  ? "#004000" :
-                   value > 50_000  ? "#005000" :
-                   value > 25_000  ? "#006000" :
-                   value > 12_000  ? "#007000" :
-                   value > 9000    ? "#008000" :
-                   value > 7500    ? "#009000" :
-                   value > 6000    ? "#00A000" :
-                   value > 5000    ? "#00B000" :
-                   value > 4000    ? "#00C000" :
-                   value > 3000    ? "#00D000" :
-                   value > 2500    ? "#00E000" :
-                   value > 2000    ? "#00F000" :
-                   value > 1500    ? "#20FF20" :
-                   value > 1250    ? "#40FF40" :
-                   value > 1000    ? "#60FF60" :
-                   value > 750     ? "#80FF80" :
-                   value > 500     ? "#A0FFA0" :
-                   value > 250     ? "#C0FFC0" :
-                                     "#FFFFFF" ;
+            grades = [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ];
+            for (const grade of grades) {
+                if (value > grade.value) return grade.color;
+            }
+            return "#FFFFFF" ;
     }
 }
 
@@ -174,6 +384,7 @@ function getPartyColor(democratic, republican, year, scale=100_000) {
     // Democratic is % or # votes for democratic candidate, Repubican is % or # votes for republican candidate
     
     let total, margin;
+    let grades;
 
     switch (currentShadingMode) {
         case ShadingMode.RAW :
@@ -181,15 +392,22 @@ function getPartyColor(democratic, republican, year, scale=100_000) {
             democratic /= total;
             republican /= total;
             margin = republican - democratic;
-            return margin >  0.25 ? "#F00000" :
-                   margin >  0.12 ? "#FF3030" :
-                   margin >  0.08 ? "#FF6060" :
-                   margin >  0.00 ? "#FFA0A0" :
-                   margin === 0.0 ? "#FFFFFF" :
-                   margin > -0.08 ? "#A0A0FF" :
-                   margin > -0.12 ? "#6060FF" :
-                   margin > -0.25 ? "#3030FF" :
-                                    "#0000FF" ;
+            grades = [
+                {value:  0.25, color: '#F00000', label: 'Strong <b>Ⓡ</b>'},
+                {value:  0.12, color: '#FF3030', label: 'Safe <b>Ⓡ</b>'},
+                {value:  0.07, color: '#FF6060', label: 'Competitive <b>Ⓡ</b>'},
+                {value:  0.01, color: '#FFA0A0', label: 'Leans <b>Ⓡ</b>'},
+                {value: -0.01, color: '#FFFFFF', label: 'Toss-Up'},
+                {value: -0.07, color: '#A0A0FF', label: 'Leans <b>Ⓓ</b>'},
+                {value: -0.12, color: '#6060FF', label: 'Competitive <b>Ⓓ</b>'},
+                {value: -0.25, color: '#3030FF', label: 'Safe <b>Ⓓ</b>'},
+                {value: -1.00, color: '#0000FF', label: 'Strong <b>Ⓓ</b>'},
+            ];
+            // updateLegend(legend._container, grades);
+            for (const grade of grades) {
+                if (margin > grade.value) return grade.color;
+            }
+            return '#000';
         case ShadingMode.RELATIVE :
             total = democratic + republican;
             democratic /= total;
@@ -201,7 +419,7 @@ function getPartyColor(democratic, republican, year, scale=100_000) {
             nationDemocratic /= nationTotal;
             nationRepublican /= nationTotal;
             const nationMargin = nationRepublican - nationDemocratic;
-
+            // updateLegend(legend._container, [], 'Red / Blue shading indicates Republican / Democrat lean relative to US election result');
             const diff = margin - nationMargin;
             return diff >  0.25 ? "#F00000" :
                    diff >  0.12 ? "#FF4040" :
@@ -214,26 +432,33 @@ function getPartyColor(democratic, republican, year, scale=100_000) {
                                   "#0000FF" ;
         case ShadingMode.COUNT :
             value = (democratic + republican) / scale * 100_000;
-            return value > 100_000 ? "#003000" :
-                   value > 75_000  ? "#004000" :
-                   value > 50_000  ? "#005000" :
-                   value > 25_000  ? "#006000" :
-                   value > 12_000  ? "#007000" :
-                   value > 9000    ? "#008000" :
-                   value > 7500    ? "#009000" :
-                   value > 6000    ? "#00A000" :
-                   value > 5000    ? "#00B000" :
-                   value > 4000    ? "#00C000" :
-                   value > 3000    ? "#00D000" :
-                   value > 2500    ? "#00E000" :
-                   value > 2000    ? "#00F000" :
-                   value > 1500    ? "#20FF20" :
-                   value > 1250    ? "#40FF40" :
-                   value > 1000    ? "#60FF60" :
-                   value > 750     ? "#80FF80" :
-                   value > 500     ? "#A0FFA0" :
-                   value > 250     ? "#C0FFC0" :
-                                     "#FFFFFF" ;
+            // updateLegend(legend._container, [], 'Green saturation and darker tint indicates more total voters in the shaded state or county');
+            grades = [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ];
+            for (const grade of grades) {
+                if (value > grade.value) return grade.color;
+            }
+            return "#FFFFFF" ;
     }
 }
 
@@ -285,6 +510,7 @@ async function updateViewMode(mode) {
     viewModeInput.checked = true;
     currentViewMode = mode;
     const primarySelect = document.getElementById("primary-select");
+    clearLegend(legend._container);
     if (primarySelectOptions[mode]) { // Lazy load the options
         primarySelect.innerHTML = primarySelectOptions[mode];
         if (mode === ViewMode.DESCRIPTORS18) {
@@ -363,6 +589,7 @@ async function updateViewMode(mode) {
             break;
     }
     refreshStyles();
+    updateLegendForCurrentContext();
 }
 
 function updateShadingMode(mode) {
@@ -370,6 +597,7 @@ function updateShadingMode(mode) {
     shadingModeInput.checked = true;
     currentShadingMode = mode;
     refreshStyles();
+    updateLegendForCurrentContext();
 }
 
 let selectedLayer = null;
@@ -442,7 +670,7 @@ async function loadElectoralData(map) {
                         const data = county.electoralData[year];
                         const totalVotes = data.reduce((acc, cur) => acc + cur.votes, 0);
                         const turnout = totalVotes / county.population;
-                        if (turnout < 0.1 || turnout > 1.5)
+                        if (turnout < 0.1 || turnout > 1.2)
                             console.log(`Turnout of ${turnout.toFixed(3)} in [${county.id}] ${county.name}, ${county.state} in ${year} is dubious.`);
                     }
                 }
@@ -607,10 +835,39 @@ function style(feature) {
         fillOpacity: 0.6,
         interactive: true
     };
-    if (!currentPrimarySelecteds[currentViewMode]) {
-        if (!selectedLayer) return blankStyle;
-        if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+    if (!currentPrimarySelecteds[currentViewMode]) { // When there is no primary selected
+        if (currentShadingMode === ShadingMode.COUNT) {
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                // This branch should never execute
+                return {
+                    fillColor: getShadingColor(
+                        feature.population, 1.0, 0.0,
+                        getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 5_000_000 :
+                                                              350_000
+                    ),
+                    fillOpacity: 0.6,
+                    interactive: true
+                };
+            }
+            return {
+                fillColor: getShadingColor(
+                    feature.population, 1.0, 0.0,
+                    getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 5_000_000 :
+                                                          350_000
+                ),
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            };
+        }
+        else if (!selectedLayer) return blankStyle;
+        else if (currentViewMode === ViewMode.DEMOGRAPHICS) {
             const similarity = getDemographicCloseness(feature.demographics, selectedLayer?.feature.demographics);
+            // updateLegend(legend._container, [], "Green saturation indicates the selected and shaded state or county have similar demographics");
             const shade = 256 - Math.round(256 * similarity);
             if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
                 selectedLayer.bringToFront();
@@ -632,6 +889,7 @@ function style(feature) {
         else if (currentViewMode === ViewMode.DESCRIPTORS18) {
             const similarity = getDescriptorCloseness(feature.descriptors, selectedLayer?.feature.descriptors);
             // For similarity between 0-128, vary the shade (light). Between 128-256, vary the green channel (dark)
+            // updateLegend(legend._container, [], "Green saturation and darker tint indicates the selected and shaded state or county have similar descriptors");
             let shade = 256 - Math.round(512 * similarity);
             shade = shade > 255 ? 255 : shade < 0 ? 0 : shade;
             let greenChannel = 512 - Math.round(448 * similarity);
@@ -672,9 +930,9 @@ function style(feature) {
                         feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
                         feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
                         highestPercent, nationalPercent,
-                        currentShapeMode === ShapeMode.NATION ? 400_000_000 :
-                        currentShapeMode === ShapeMode.STATE  ? 10_000_000 :
-                                                                200_000
+                        getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                              200_000
                     ),
                     fillOpacity: 0.6,
                     interactive: true
@@ -686,9 +944,9 @@ function style(feature) {
                     feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
                     feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
                     highestPercent, nationalPercent,
-                    currentShapeMode === ShapeMode.NATION ? 400_000_000 :
-                    currentShapeMode === ShapeMode.STATE  ? 10_000_000 :
-                                                            200_000
+                    getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                          200_000
                 ),
                 weight: 0.75,
                 opacity: 1,
@@ -705,9 +963,9 @@ function style(feature) {
                 return {
                     fillColor: getPartyColor(
                         dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
-                        currentShapeMode === ShapeMode.NATION ? 800_000_000 :
-                        currentShapeMode === ShapeMode.STATE  ? 40_000_000 :
-                                                                800_000
+                        getZoomLevel() === ShapeMode.NATION ? 800_000_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 40_000_000 :
+                                                              800_000
                     ),
                     fillOpacity: 0.7,
                     interactive: true
@@ -716,9 +974,9 @@ function style(feature) {
             return {
                 fillColor: getPartyColor(
                     dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
-                    currentShapeMode === ShapeMode.NATION ? 800_000_000 :
-                    currentShapeMode === ShapeMode.STATE  ? 40_000_000 :
-                                                            800_000
+                    getZoomLevel() === ShapeMode.NATION ? 800_000_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 40_000_000 :
+                                                          800_000
                 ),
                 weight: 0.75,
                 opacity: 1,
@@ -777,7 +1035,6 @@ function highlightLayer(layer) {
     });
     selectedLayer.bringToFront();
     refreshStyles();
-    console.log(layer);
     if (layer.feature.state) updateShapeMode(ShapeMode.COUNTY);
 }
 
@@ -788,6 +1045,7 @@ function onEachFeature(feature, layer) {
             highlightLayer(layer);
             if (currentViewMode !== ViewMode.DESCRIPTORS18 || !currentPrimarySelecteds[currentViewMode])
                 displayMapEntityInfo(feature);
+            updateLegendForCurrentContext();
         },
         mouseover: () => {
             if (layer !== selectedLayer)
@@ -801,13 +1059,12 @@ function onEachFeature(feature, layer) {
 }
 
 function updateLayerVisibility() {
-    const zoom = map.getZoom();
-    if ((currentShapeMode === ShapeMode.AUTO && zoom <= 4) || currentShapeMode === ShapeMode.NATION) {
+    if (getZoomLevel() === ShapeMode.NATION || currentShapeMode === ShapeMode.NATION) {
         map.addLayer(geoJSONNation);
         map.removeLayer(geoJSONStates);
         map.removeLayer(geoJSONCounties);
     }
-    else if ((currentShapeMode === ShapeMode.AUTO && zoom <= 6) || currentShapeMode === ShapeMode.STATE) {
+    else if (getZoomLevel() === ShapeMode.STATE || currentShapeMode === ShapeMode.STATE) {
         map.removeLayer(geoJSONNation);
         map.addLayer(geoJSONStates);
         map.removeLayer(geoJSONCounties);
@@ -816,6 +1073,20 @@ function updateLayerVisibility() {
         map.removeLayer(geoJSONNation);
         map.removeLayer(geoJSONStates);
         map.addLayer(geoJSONCounties);
+    }
+    refreshStyles();
+}
+
+function getZoomLevel() {
+    const zoom = map.getZoom();
+    if (currentShapeMode === ShapeMode.AUTO && zoom <= 4 || currentShapeMode === ShapeMode.NATION) {
+        return ShapeMode.NATION;
+    }
+    else if (currentShapeMode === ShapeMode.AUTO && zoom <= 6 || currentShapeMode === ShapeMode.STATE) {
+        return ShapeMode.STATE;
+    }
+    else {
+        return ShapeMode.COUNTY;
     }
 }
 
@@ -956,6 +1227,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.addEventListener('resize', () => map.invalidateSize());
 
+    legend.addTo(map);
+    clearLegend(legend._container);
+
     const shapeModeSelect = document.getElementById("shape-mode");
     shapeModeSelect.addEventListener('change', event => {
         const selectedMode = ShapeMode[event.target.value];
@@ -991,6 +1265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentPrimarySelecteds[currentViewMode] = event.target.value;
         refreshStyles();
         updateLayerVisibility();
+        updateLegendForCurrentContext();
         if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS18) {
             const descriptor = descriptors.find(d => d.name === currentPrimarySelecteds[currentViewMode]);
             if (!descriptor.name.includes("$")) updateShapeMode(ShapeMode.COUNTY);
@@ -1007,6 +1282,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 displayDescriptorInfo(null);
             }
         }
+    });
+
+    const clearPrimarySelectButton = document.getElementById("clear-primary-select-button");
+    clearPrimarySelectButton.addEventListener('click', event => {
+        event.preventDefault();
+        // Clear primarySelecteds
+        currentPrimarySelecteds[currentViewMode] = '';
+        primarySelect.value = '';
+        primarySelect.dispatchEvent(new Event('change'));
+        // Clear legend
+        clearLegend(legend._container);
     });
 
     const resetViewButton = document.getElementById("reset-view");
