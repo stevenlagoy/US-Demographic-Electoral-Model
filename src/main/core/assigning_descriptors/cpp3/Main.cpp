@@ -587,12 +587,12 @@ json Simulation::to_json() {
         "counties" : [
             "01001" : { // county FIPS (no need to store nation and state - 1 named descriptor each)
                 "score" : 1.0,
-                "descriptors" : ["$$USA", "$AL", "1", "2"] // list the member descriptors
+                "descriptors" : ["$$$$USA", "$AL", "1", "2"] // list the member descriptors
             },
             ... // each county
         ],
         "descriptors" : [
-            "$$USA" : { // nation descriptor
+            "$$$$USA" : { // nation descriptor
                 "demographic" : 0.5, // list all the demographics and values (if nonzero)
                 ...
             },

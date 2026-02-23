@@ -19,7 +19,7 @@ String.prototype.addCommas = function() {
 function jensenShannonDistance(v1, v2) {
     function kullbackLeibler(p, q) {
         let d = [];
-        for (let i = 0; i < p.length; p++) {
+        for (let i = 0; i < p.length; i++) {
             if (p[i] && q[i]) d[i] = p[i] * Math.log2(p[i]/q[i]);
         }
         return d.reduce((acc, cur) => cur + acc, 0.0);
@@ -30,8 +30,7 @@ function jensenShannonDistance(v1, v2) {
         vec.forEach(val => newVec.push(val / sum));
         return newVec;
     }
-    nv1 = normalize(v1);
-    nv2 = normalize(v2);
+    const nv1 = normalize(v1), nv2 = normalize(v2);
     let m = [];
     for (let i = 0; i < nv1.length; i++) {
         m[i] = (nv1[i] + nv2[i]) / 2;
@@ -291,7 +290,10 @@ function resetView() {
     selectedLayer = null;
     refreshStyles();
     // Clear the search input
-    document.getElementById("feature-search").value = "";
+    const featureSearchInput = document.getElementById("feature-search-input");
+    if (featureSearchInput) {
+        featureSearchInput.value = "";
+    }
     // Clear the info box
     displayMapEntityInfo();
     // Clear primarySelecteds
@@ -465,7 +467,7 @@ function clearLegend() {
 // SHADING ---
 
 function getShadingColor(value, max=1.0, national=0.0, scale=100_000) {
-    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== undefined;
+    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== '';
     const grades = Grades[isPrimarySelected ? 'primary_selected' : 'no_primary_selected'][currentViewMode]?.[currentShadingMode];
 
     switch (currentShadingMode) {
@@ -516,7 +518,7 @@ function getDemographicCloseness(demographics1, demographics2) {
     const v1 = [], v2 = [];
     for (const category in demographics1) {
         for (const demographic in demographics1[category]) {
-            if (!demographics1[category]?.[demographic] || !demographics2[category]?.[demographic]) continue;
+            if (demographics1[category]?.[demographic] === undefined || demographics2[category]?.[demographic] === undefined) continue;
             v1.push(demographics1[category][demographic]);
             v2.push(demographics2[category][demographic]);
         }
@@ -527,21 +529,33 @@ function getDemographicCloseness(demographics1, demographics2) {
 function getDescriptorCloseness(descriptors1, descriptors2, bias=1) {
     // Bias gives a baseline number of descriptors known to be shared by all map entities
     if (!descriptors1 || !descriptors2) return 0.0;
+    const len1 = descriptors1.length;
+    const len2 = descriptors2.length;
+    // If either side has no descriptors, treat similarity as zero and avoid division by zero
+    if (len1 === 0 || len2 === 0) return 0.0;
+    // Clamp the effective bias so that (length - effectiveBias) is never zero or negative.
+    // For very short descriptor lists (e.g., length 1), this reduces the bias to 0.
+    const effectiveBias1 = Math.min(bias, Math.max(0, len1 - 1));
+    const effectiveBias2 = Math.min(bias, Math.max(0, len2 - 1));
     let closeness1 = 0.0, closeness2 = 0.0;
     descriptors1.forEach(d => {
         if (descriptors2.includes(d)) {
-            closeness1 += (1 / descriptors1.length);
+            closeness1 += (1 / len1);
         }
     });
-    closeness1 -= bias / descriptors1.length;
-    closeness1 *= 1 + bias / (descriptors1.length - bias);
+    if (effectiveBias1 > 0) {
+        closeness1 -= effectiveBias1 / len1;
+        closeness1 *= 1 + effectiveBias1 / (len1 - effectiveBias1);
+    }
     descriptors2.forEach(d => {
         if (descriptors1.includes(d)) {
-            closeness2 += (1 / descriptors2.length);
+            closeness2 += (1 / len2);
         }
     });
-    closeness2 -= bias / descriptors2.length;
-    closeness2 *= 1 + bias / (descriptors2.length - bias);
+    if (effectiveBias2 > 0) {
+        closeness2 -= effectiveBias2 / len2;
+        closeness2 *= 1 + effectiveBias2 / (len2 - effectiveBias2);
+    }
     const sim = (closeness1 + closeness2) / 2;
     return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
 }
@@ -598,6 +612,7 @@ async function updateViewMode(mode) {
             const demographics = nation.features[0].demographics;
             for (const category in demographics)    
                 for (const demographic in demographics[category]) {
+                    if (category === 'marital_status') continue;
                     primarySelect.innerHTML += `
                         <option class="${category.replace(/_/g, "-")}" value="${category}:${demographic}">${category.replace(/_/g, " ").toTitleCase()}: ${demographic}</option>
                     `;
@@ -688,7 +703,7 @@ async function loadMapData(map) {
             states.features.forEach(f => {
                 const stateData = mapData[f.id];
                 if (!stateData) {
-                    console.log(`No state found with FIPS: ${f.id}. It may be a US territory.`);
+                    console.warn(`No state found with FIPS: ${f.id}. It may be a US territory.`);
                     return;
                 }
                 f.name = stateData.name;
@@ -700,7 +715,7 @@ async function loadMapData(map) {
             counties.features.forEach(f => {
                 const countyData = mapData[f.id];
                 if (!countyData) {
-                    console.log(`No county found with FIPS: ${f.id}. It may be a US territory.`);
+                    console.warn(`No county found with FIPS: ${f.id}. It may be a US territory.`);
                     return;
                 }
                 f.name = countyData.name;
@@ -731,11 +746,11 @@ async function loadElectoralData(map) {
                         const totalVotes = data.reduce((acc, cur) => acc + cur.votes, 0);
                         const turnout = totalVotes / county.population;
                         if (turnout < 0.1 || turnout > 1.2)
-                            console.log(`Turnout of ${turnout.toFixed(3)} in [${county.id}] ${county.name}, ${county.state} in ${year} is dubious.`);
+                            console.warn(`Turnout of ${turnout.toFixed(3)} in [${county.id}] ${county.name}, ${county.state} in ${year} is dubious.`);
                     }
                 }
                 else {
-                    console.log(`No county found with FIPS: ${FIPS}.`);
+                    console.warn(`No county found with FIPS: ${FIPS}.`);
                     continue;
                 }
             }
@@ -745,12 +760,12 @@ async function loadElectoralData(map) {
                     state.electoralData = data;
                 }
                 else {
-                    console.log(`No county found with FIPS: ${FIPS}.`);
+                    console.warn(`No county found with FIPS: ${FIPS}.`);
                     continue;
                 }
             }
             else {
-                console.log(`Unclear whether FIPS code is county or state: ${FIPS}`);
+                console.warn(`Unclear whether FIPS code is county or state: ${FIPS}`);
             }
         }
     });
@@ -786,6 +801,10 @@ async function loadDescriptorData(map) {
         for (const c in descriptorsData.counties) {
             const countyData = descriptorsData.counties[c]
             const county = counties.features.find(f => f.id === countyData.FIPS);
+            if (!county) {
+                console.warn(`Descriptor data references unknown county FIPS: ${countyData.FIPS}`);
+                continue;
+            }
             county.descriptors = countyData.descriptors;
         }
         for (const d in descriptorsData.descriptors) {
@@ -963,8 +982,8 @@ function style(feature) {
             };
         case ViewMode.ELECTORAL :
             if (!feature.electoralData) return blankStyle;
-            rep_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "REPUBLICAN")?.votes;
-            dem_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "DEMOCRAT")?.votes;
+            const rep_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "REPUBLICAN")?.votes;
+            const dem_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "DEMOCRAT")?.votes;
             if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
                 selectedLayer.bringToFront();
                 return {
@@ -1057,8 +1076,19 @@ function onEachFeature(feature, layer) {
                 layer.setStyle({ weight: 3, color: "#555" });
         },
         mouseout: () => {
-            if (layer !== selectedLayer)
-                geoJSONCounties.resetStyle(layer);
+            if (layer !== selectedLayer) {
+                let ownerLayer;
+                if (getZoomLevel() === ShapeMode.NATION || currentShapeMode === ShapeMode.NATION) {
+                    ownerLayer = geoJSONNation;
+                } else if (getZoomLevel() === ShapeMode.STATE || currentShapeMode === ShapeMode.STATE) {
+                    ownerLayer = geoJSONStates;
+                } else {
+                    ownerLayer = geoJSONCounties;
+                }
+                if (ownerLayer) {
+                    ownerLayer.resetStyle(layer);
+                }
+            }
         }
     });
 }
@@ -1199,8 +1229,8 @@ function formatDescritorMemberships(memberships) {
 function formatElectoralData(electoralData, population) {
     let html = '';
     for (const year in electoralData) {
-        data = electoralData[year];
-        totalVotes = data.reduce((acc, cur) => acc + parseInt(cur.votes, 10), 0);
+        const data = electoralData[year];
+        const totalVotes = data.reduce((acc, cur) => acc + parseInt(cur.votes, 10), 0);
         html += `
             <h4>${year} Election</h4>
             <p>Total Votes: ${totalVotes.toString().addCommas()}</p>
@@ -1243,7 +1273,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const shapeModeSelect = document.getElementById("shape-mode");
     shapeModeSelect.addEventListener('change', event => {
-        const selectedMode = ShapeMode[event.target.value];
+        let selectedMode = ShapeMode[event.target.value];
         if (!selectedMode) {
             console.error(`Failed to convert selected shape-mode to a known ShapeMode: "${event.target.value}"`);
             selectedMode = ShapeMode.AUTO;
@@ -1253,7 +1283,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const viewModeSelect = document.getElementById("view-mode");
     viewModeSelect.addEventListener('change', event => {
-        const selectedMode = ViewMode[event.target.value];
+        let selectedMode = ViewMode[event.target.value];
         if (!selectedMode) {
             console.error(`Failed to convert selected view-mode to a known ViewMode: "${event.target.value}"`);
             selectedMode = ViewMode.DEMOGRAPHICS;
@@ -1263,7 +1293,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const shadingModeSelect = document.getElementById("shading-mode");
     shadingModeSelect.addEventListener('change', event => {
-        const selectedMode = ShadingMode[event.target.value];
+        let selectedMode = ShadingMode[event.target.value];
         if (!selectedMode) {
             console.error(`Failed to convert selected shading-mode to a known ShadingMode: "${event.target.value}"`);
             selectedMode = ShadingMode.RAW;
@@ -1277,7 +1307,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         refreshStyles();
         updateLayerVisibility();
         updateLegendForCurrentContext();
-        if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
+        if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+            if (currentPrimarySelecteds[currentViewMode]) document.getElementById("shading-count-label").innerHTML = "Count of members";
+            else document.getElementById("shading-count-label").innerHTML = "Population";
+        }
+        else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
             const descriptor = descriptors.find(d => d.name === currentPrimarySelecteds[currentViewMode]);
             if (!descriptor.name.includes("$")) updateShapeMode(ShapeMode.COUNTY);
             else if (!descriptor.name.includes("$$$$")) updateShapeMode(ShapeMode.STATE); // && currentShapeMode !== ShapeMode.COUNTY
