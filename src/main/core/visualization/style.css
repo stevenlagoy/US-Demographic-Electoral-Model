@@ -337,7 +337,8 @@ div#controls {
 }
 
 .info.legend {
-  width: 10em;
+  width: 13em;
+  height: fit-content;
   padding: 6px 8px;
   font: 14px/16px Arial, Helvetica, sans-serif;
   background: rgba(255, 255, 255, 0.8);
@@ -346,6 +347,10 @@ div#controls {
   line-height: 18px;
   color: #333;
   z-index: 1100; /* above infobox/buttons */
+
+  p {
+    margin: 0.5em 0;
+  }
 }
 
 .info.legend i {

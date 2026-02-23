@@ -1,7 +1,7 @@
+// PROTOTYPE AND UTIL FUNCTIONS -------------------------------------------------------------------
+
 String.prototype.toTitleCase = function() {
-    return this.toLowerCase().replace(/\b\w/g, function(char) {
-        return char.toUpperCase();
-    });
+    return this.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
 }
 
 String.prototype.addCommas = function() {
@@ -14,272 +14,6 @@ String.prototype.addCommas = function() {
     }
     res = res.split('').reverse().join('').replace(/^,/, "");
     return res;
-}
-
-const ShapeMode = {
-    AUTO: "auto",
-    NATION: "nation",
-    STATE: "state",
-    COUNTY: "county"
-};
-Object.freeze(ShapeMode);
-let currentShapeMode = ShapeMode.AUTO;
-
-const ViewMode = {
-    DEMOGRAPHICS: "demographics",
-    ELECTORAL: "electoral",
-    DESCRIPTORS18: "descriptors18",
-    DESCRIPTORS11: "descriptors11"
-};
-Object.freeze(ViewMode);
-let currentViewMode = ViewMode.DEMOGRAPHICS;
-
-const ShadingMode = {
-    RAW: "raw",
-    RELATIVE: "relative",
-    COUNT: "count"
-};
-Object.freeze(ShadingMode);
-let currentShadingMode = ShadingMode.RAW;
-
-let currentPrimarySelecteds = {
-    DEMOGRAPHICS: '',
-    ELECTORAL: '',
-    DESCRIPTORS18: '',
-};
-
-const center = [45, -96];
-const defaultZoom = 4;
-const map = L.map('map').setView(center, defaultZoom);
-const legend = L.control({ position: 'bottomleft' });
-
-legend.onAdd = function(map) {
-    const div = L.DomUtil.create('div', 'info legend');
-    updateLegend(div);
-    return div;
-}
-
-function updateLegend(div, grades=[], text='') {
-    div.innerHTML = '';
-    div.style.display = "block";
-    if (text) {
-        div.innerHTML = `<p>${text}</p>`;
-        return;
-    }
-    let from, to;
-    for (let i = 0; i < grades.length; i++) {
-        const epsilon = 0.001;
-        if (currentShadingMode === ShadingMode.RAW) {
-            switch (currentViewMode) {
-                case ViewMode.DEMOGRAPHICS :
-                    from = grades[i]?.value, to = grades[i+1]?.value;
-                    if (from > to) [from, to] = [to, from];
-                    from += epsilon;
-                    div.innerHTML += `
-                        <div><i style="background:${grades[i].color}"></i><p>
-                        ${to === undefined ? `<` : ``}
-                        ${(from * 100).toFixed(1)}%
-                        ${to !== undefined ? `&ndash; ${(to * 100).toFixed(1)}%` : ``}
-                        </p></div>
-                    `;
-                    break;
-                case ViewMode.ELECTORAL :
-                    from = grades[i-1]?.value;
-                    to = grades[i]?.value;
-                    if (to < 0) {
-                        from = grades[i]?.value;
-                        to = grades[i-1]?.value;
-                    }
-                    div.innerHTML += `
-                        <div><i style="background:${grades[i].color}"></i><p>
-                        ${grades[i].label}
-                        ${grades[i].label !== 'Toss-Up' ? `<br>(${from && from != -1 ? `` : `>=`}
-                            ${to > 0 ? 'R' : 'D'}+${Math.round(Math.abs(to) * 100)}${from && from != -1 ? ` &ndash; ${to > 0 ? 'R' : 'D'}+${Math.round(Math.abs(from) * 100)}` : ``})`
-                            : ``}
-                        </p></div>
-                    `;
-                    break;
-            }
-        }
-        else if (currentShadingMode === ShadingMode.RELATIVE) {
-            let from = grades[i-1]?.value, to = grades[i]?.value;
-            from += 1;
-            to = (to || -1) + 1;
-            if (from > to) [from, to] = [to, from];
-            div.innerHTML += `
-                <div><i style="background:${grades[i].color}"></i><p>
-                ${from ? `${(from * 100).toFixed(1)}%` : `<=`}
-                ${to - from < epsilon ? `` : ` ${from ? `&ndash;` : ``} ${(to * 100).toFixed(1)}%`}
-                <br>of US average
-                </p></div>
-            `;
-        }
-    }
-}
-
-function updateLegendForCurrentContext() {
-    let grades = [];
-    let text = '';
-    if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.RAW) {
-        let max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
-        console.log(maxDemographicValues, currentPrimarySelecteds[currentViewMode]);
-        grades = [
-            {value: max * .9, color: '#520016'},
-            {value: max * .8, color: '#680020'},
-            {value: max * .7, color: '#800026'},
-            {value: max * .6, color: '#BD0026'},
-            {value: max * .5, color: '#E31A1C'},
-            {value: max * .4, color: '#FC4E2A'},
-            {value: max * .3, color: '#FD8D3C'},
-            {value: max * .2, color: '#FEB24C'},
-            {value: max * .1, color: '#FFEDA0'},
-            {value: max * .0, color: '#FFFFFF'},
-        ];
-    }
-    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.RELATIVE) {
-        let max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
-        grades = [
-            {value: max *  .500, color: '#27427B'},
-            {value: max *  .370, color: '#235A9E'},
-            {value: max *  .250, color: '#4E8CDB'},
-            {value: max *  .120, color: '#6592BE'},
-            {value: max *  .001, color: '#B0F0FF'},
-            {value: max * -.001, color: '#FFFFFF'},
-            {value: max * -.150, color: '#F8E172'},
-            {value: max * -.250, color: '#DC9633'},
-            {value: max * -.360, color: '#D67E25'},
-            {value: max * -.500, color: '#CC6A19'},
-            {value: max * -.999, color: '#A7521F'},
-        ];
-    }
-    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
-        let scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
-                    getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
-                                                          200_000     ;
-        grades = [
-            {value: scale * (100_000 / 100_000), color: '#003000'},
-            {value: scale * ( 75_000 / 100_000), color: '#004000'},
-            {value: scale * ( 50_000 / 100_000), color: '#005000'},
-            {value: scale * ( 25_000 / 100_000), color: '#006000'},
-            {value: scale * ( 12_000 / 100_000), color: '#007000'},
-            {value: scale * (   9000 / 100_000), color: '#008000'},
-            {value: scale * (   7500 / 100_000), color: '#009000'},
-            {value: scale * (   6000 / 100_000), color: '#00A000'},
-            {value: scale * (   5000 / 100_000), color: '#00B000'},
-            {value: scale * (   4000 / 100_000), color: '#00C000'},
-            {value: scale * (   3000 / 100_000), color: '#00D000'},
-            {value: scale * (   2500 / 100_000), color: '#00E000'},
-            {value: scale * (   2000 / 100_000), color: '#00F000'},
-            {value: scale * (   1500 / 100_000), color: '#20FF20'},
-            {value: scale * (   1250 / 100_000), color: '#40FF40'},
-            {value: scale * (   1000 / 100_000), color: '#60FF60'},
-            {value: scale * (    750 / 100_000), color: '#80FF80'},
-            {value: scale * (    500 / 100_000), color: '#A0FFA0'},
-            {value: scale * (    250 / 100_000), color: '#C0FFC0'},
-            {value: scale * (      0 / 100_000), color: '#FFFFFF'},
-        ];
-    }
-    else if (currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
-        let scale = getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
-                    getZoomLevel() === ShapeMode.STATE  ? 5_000_000  :
-                                                          350_000    ;
-        grades = [
-            {value: scale * (100_000 / 100_000), color: '#003000'},
-            {value: scale * ( 75_000 / 100_000), color: '#004000'},
-            {value: scale * ( 50_000 / 100_000), color: '#005000'},
-            {value: scale * ( 25_000 / 100_000), color: '#006000'},
-            {value: scale * ( 12_000 / 100_000), color: '#007000'},
-            {value: scale * (   9000 / 100_000), color: '#008000'},
-            {value: scale * (   7500 / 100_000), color: '#009000'},
-            {value: scale * (   6000 / 100_000), color: '#00A000'},
-            {value: scale * (   5000 / 100_000), color: '#00B000'},
-            {value: scale * (   4000 / 100_000), color: '#00C000'},
-            {value: scale * (   3000 / 100_000), color: '#00D000'},
-            {value: scale * (   2500 / 100_000), color: '#00E000'},
-            {value: scale * (   2000 / 100_000), color: '#00F000'},
-            {value: scale * (   1500 / 100_000), color: '#20FF20'},
-            {value: scale * (   1250 / 100_000), color: '#40FF40'},
-            {value: scale * (   1000 / 100_000), color: '#60FF60'},
-            {value: scale * (    750 / 100_000), color: '#80FF80'},
-            {value: scale * (    500 / 100_000), color: '#A0FFA0'},
-            {value: scale * (    250 / 100_000), color: '#C0FFC0'},
-            {value: scale * (      0 / 100_000), color: '#FFFFFF'},
-        ];
-    }
-    else if (selectedLayer && currentViewMode === ViewMode.ELECTORAL && currentShadingMode !== ShadingMode.COUNT) {
-        text = 'Green saturation indicates the selected and shaded state or county have similar demographics';
-    }
-    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.RAW) {
-        grades = [
-            {value:  0.25, color: '#F00000', label: 'Strong <b>Ⓡ</b>'},
-            {value:  0.12, color: '#FF3030', label: 'Safe <b>Ⓡ</b>'},
-            {value:  0.07, color: '#FF6060', label: 'Competitive <b>Ⓡ</b>'},
-            {value:  0.01, color: '#FFA0A0', label: 'Leans <b>Ⓡ</b>'},
-            {value: -0.01, color: '#FFFFFF', label: 'Toss-Up'},
-            {value: -0.07, color: '#A0A0FF', label: 'Leans <b>Ⓓ</b>'},
-            {value: -0.12, color: '#6060FF', label: 'Competitive <b>Ⓓ</b>'},
-            {value: -0.25, color: '#3030FF', label: 'Safe <b>Ⓓ</b>'},
-            {value: -1.00, color: '#0000FF', label: 'Strong <b>Ⓓ</b>'},
-        ];
-    }
-    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.RELATIVE) {
-        text = 'Red / Blue shading indicates Republican / Democrat lean relative to US election result';
-    }
-    else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.ELECTORAL && currentShadingMode === ShadingMode.COUNT) {
-        text = 'Green saturation and darker tint indicates more total voters in the shaded state or county';
-    }
-    else if (selectedLayer && currentViewMode === ViewMode.DESCRIPTORS18) {
-        text = 'Green saturation and darker tint indicates the selected and shaded state or county have similar descriptors';
-    }
-    updateLegend(legend._container, grades, text);
-}
-
-function clearLegend(div) {
-    div.innerHTML = '';
-    div.style.display = "none";
-}
-
-function resetView() {
-    // Saccade to default position
-    map.setView(center, defaultZoom);
-    // Select default values
-    ["shape-auto", "view-demographics", "shading-raw"].forEach(d => {
-        document.getElementById(d).checked = true;
-        // This will also clear the primary select value
-    });
-    updateShapeMode(ShapeMode.AUTO);
-    updateViewMode(ViewMode.DEMOGRAPHICS);
-    updateShadingMode(ShadingMode.RAW);
-    updateLayerVisibility();
-    // Clear selected layer
-    resetLayer(selectedLayer);
-    selectedLayer = null;
-    refreshStyles();
-    // Clear the search input
-    document.getElementById("feature-search").value = "";
-    // Clear the info box
-    displayMapEntityInfo();
-    // Clear primarySelecteds
-    currentPrimarySelecteds = {
-        DEMOGRAPHICS: '',
-        ELECTORAL: '',
-        DESCRIPTORS18: '',
-    };
-    const primarySelect = document.getElementById('primary-select');
-    primarySelect.value = '';
-    primarySelect.dispatchEvent(new Event('change'));
-    // Clear legend
-    clearLegend(legend._container);
-}
-
-function saccadeTo(FIPS) {
-    let match = geoJSONCounties.getLayers().find(layer => layer.feature.id === FIPS);
-    if (!match) match = geoJSONStates.getLayers().find(layer => layer.feature.id === FIPS);
-    if (match) {
-        map.fitBounds(match.getBounds());
-        resetLayer(selectedLayer);
-        highlightLayer(match);
-    } 
 }
 
 function jensenShannonDistance(v1, v2) {
@@ -308,11 +42,43 @@ function jensenShannonDistance(v1, v2) {
     return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
 }
 
-function getShadingColor(value, max=1.0, national=0.0, scale=100_000, update_legend=true) {
-    let grades;
-    switch (currentShadingMode) {
-        case ShadingMode.RAW :
-            grades = [
+// ENUMS AND CONSTANTS ----------------------------------------------------------------------------
+
+const ShapeMode = {
+    AUTO: "auto",
+    NATION: "nation",
+    STATE: "state",
+    COUNTY: "county"
+};
+Object.freeze(ShapeMode);
+let currentShapeMode = ShapeMode.AUTO;
+
+const ViewMode = {
+    DEMOGRAPHICS: "demographics",
+    ELECTORAL: "electoral",
+    DESCRIPTORS: "descriptors"
+};
+Object.freeze(ViewMode);
+let currentViewMode = ViewMode.DEMOGRAPHICS;
+
+const ShadingMode = {
+    RAW: "raw",
+    RELATIVE: "relative",
+    COUNT: "count"
+};
+Object.freeze(ShadingMode);
+let currentShadingMode = ShadingMode.RAW;
+
+let currentPrimarySelecteds = {
+    DEMOGRAPHICS: '',
+    ELECTORAL: '',
+    DESCRIPTORS: '',
+};
+
+const Grades = {
+    primary_selected: {
+        demographics: {
+            raw: max => [
                 {value: max * .9, color: '#520016'},
                 {value: max * .8, color: '#680020'},
                 {value: max * .7, color: '#800026'},
@@ -323,15 +89,8 @@ function getShadingColor(value, max=1.0, national=0.0, scale=100_000, update_leg
                 {value: max * .2, color: '#FEB24C'},
                 {value: max * .1, color: '#FFEDA0'},
                 {value: max * .0, color: '#FFFFFF'},
-            ];
-            // if (update_legend && legend._container) updateLegend(legend._container, grades);
-            for (const grade of grades) {
-                if (value >= grade.value) return grade.color;
-            }
-            return '#FFFFFF';
-        case ShadingMode.RELATIVE :
-            const diff = value - national;
-            grades = [
+            ],
+            relative: max => [
                 {value: max *  .500, color: '#27427B'},
                 {value: max *  .370, color: '#235A9E'},
                 {value: max *  .250, color: '#4E8CDB'},
@@ -343,15 +102,8 @@ function getShadingColor(value, max=1.0, national=0.0, scale=100_000, update_leg
                 {value: max * -.360, color: '#D67E25'},
                 {value: max * -.500, color: '#CC6A19'},
                 {value: max * -.999, color: '#A7521F'},
-            ];
-            // if (updateLegend && legend._container) updateLegend(legend._container, grades);
-            for (const grade of grades) {
-                if (diff >= grade.value) return grade.color;
-            }
-            return "#000";
-        case ShadingMode.COUNT :
-            value = value / scale * 100_000;
-            grades = [
+            ],
+            count: scale => [
                 {value: scale * (100_000 / 100_000), color: '#003000'},
                 {value: scale * ( 75_000 / 100_000), color: '#004000'},
                 {value: scale * ( 50_000 / 100_000), color: '#005000'},
@@ -372,68 +124,32 @@ function getShadingColor(value, max=1.0, national=0.0, scale=100_000, update_leg
                 {value: scale * (    500 / 100_000), color: '#A0FFA0'},
                 {value: scale * (    250 / 100_000), color: '#C0FFC0'},
                 {value: scale * (      0 / 100_000), color: '#FFFFFF'},
-            ];
-            for (const grade of grades) {
-                if (value > grade.value) return grade.color;
-            }
-            return "#FFFFFF" ;
-    }
-}
-
-function getPartyColor(democratic, republican, year, scale=100_000) {
-    // Democratic is % or # votes for democratic candidate, Repubican is % or # votes for republican candidate
-    
-    let total, margin;
-    let grades;
-
-    switch (currentShadingMode) {
-        case ShadingMode.RAW :
-            total = democratic + republican;
-            democratic /= total;
-            republican /= total;
-            margin = republican - democratic;
-            grades = [
+            ],
+        },
+        electoral: {
+            raw: [
                 {value:  0.25, color: '#F00000', label: 'Strong <b>Ⓡ</b>'},
                 {value:  0.12, color: '#FF3030', label: 'Safe <b>Ⓡ</b>'},
                 {value:  0.07, color: '#FF6060', label: 'Competitive <b>Ⓡ</b>'},
                 {value:  0.01, color: '#FFA0A0', label: 'Leans <b>Ⓡ</b>'},
-                {value: -0.01, color: '#FFFFFF', label: 'Toss-Up'},
+                {value: -0.01, color: '#FFFFFF', label: 'Equal'},
                 {value: -0.07, color: '#A0A0FF', label: 'Leans <b>Ⓓ</b>'},
                 {value: -0.12, color: '#6060FF', label: 'Competitive <b>Ⓓ</b>'},
                 {value: -0.25, color: '#3030FF', label: 'Safe <b>Ⓓ</b>'},
                 {value: -1.00, color: '#0000FF', label: 'Strong <b>Ⓓ</b>'},
-            ];
-            // updateLegend(legend._container, grades);
-            for (const grade of grades) {
-                if (margin > grade.value) return grade.color;
-            }
-            return '#000';
-        case ShadingMode.RELATIVE :
-            total = democratic + republican;
-            democratic /= total;
-            republican /= total;
-            margin = republican - democratic;
-            let nationDemocratic = nation.features[0].electoralData[year].find(r => r.party === "DEMOCRAT").votes;
-            let nationRepublican = nation.features[0].electoralData[year].find(r => r.party === "REPUBLICAN").votes;
-            const nationTotal = nationDemocratic + nationRepublican;
-            nationDemocratic /= nationTotal;
-            nationRepublican /= nationTotal;
-            const nationMargin = nationRepublican - nationDemocratic;
-            // updateLegend(legend._container, [], 'Red / Blue shading indicates Republican / Democrat lean relative to US election result');
-            const diff = margin - nationMargin;
-            return diff >  0.25 ? "#F00000" :
-                   diff >  0.12 ? "#FF4040" :
-                   diff >  0.08 ? "#FF8080" :
-                   diff >  0.00 ? "#FFC0C0" :
-                   diff === 0.0 ? "#FFFFFF" :
-                   diff > -0.08 ? "#C0C0FF" :
-                   diff > -0.12 ? "#8080FF" :
-                   diff > -0.25 ? "#4040FF" :
-                                  "#0000FF" ;
-        case ShadingMode.COUNT :
-            value = (democratic + republican) / scale * 100_000;
-            // updateLegend(legend._container, [], 'Green saturation and darker tint indicates more total voters in the shaded state or county');
-            grades = [
+            ],
+            relative: [
+                {value:  0.25, color: '#F00000', label: 'Very much more <b>Ⓡ</b> than US avg'},
+                {value:  0.12, color: '#FF3030', label: 'Much more <b>Ⓡ</b> than US avg'},
+                {value:  0.07, color: '#FF6060', label: 'Somewhat more <b>Ⓡ</b> than US avg'},
+                {value:  0.01, color: '#FFA0A0', label: 'Slightly more <b>Ⓡ</b> than US avg'},
+                {value: -0.01, color: '#FFFFFF', label: 'The same as US avg'},
+                {value: -0.07, color: '#A0A0FF', label: 'Slightly more <b>Ⓓ</b> than US avg'},
+                {value: -0.12, color: '#6060FF', label: 'Somewhat more <b>Ⓓ</b> than US avg'},
+                {value: -0.25, color: '#3030FF', label: 'Much more <b>Ⓓ</b> than US avg'},
+                {value: -1.00, color: '#0000FF', label: 'Extremely more <b>Ⓓ</b> than US avg'},
+            ],
+            count: scale => [
                 {value: scale * (100_000 / 100_000), color: '#003000'},
                 {value: scale * ( 75_000 / 100_000), color: '#004000'},
                 {value: scale * ( 50_000 / 100_000), color: '#005000'},
@@ -454,12 +170,346 @@ function getPartyColor(democratic, republican, year, scale=100_000) {
                 {value: scale * (    500 / 100_000), color: '#A0FFA0'},
                 {value: scale * (    250 / 100_000), color: '#C0FFC0'},
                 {value: scale * (      0 / 100_000), color: '#FFFFFF'},
-            ];
-            for (const grade of grades) {
-                if (value > grade.value) return grade.color;
-            }
-            return "#FFFFFF" ;
+            ],
+        },
+        descriptors: [
+            
+        ]
+    },
+    no_primary_selected: {
+        demographics: {
+            count: scale => [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ],
+        },
+        descriptors: [
+
+        ]
     }
+}
+
+const statesData = [
+    {FIPS: '01', abbr: 'AL', name: 'Alabama',                        censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '02', abbr: 'AK', name: 'Alaska',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '04', abbr: 'AZ', name: 'Arizona',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '05', abbr: 'AR', name: 'Arkansas',                       censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '06', abbr: 'CA', name: 'California',                     censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '08', abbr: 'CO', name: 'Colorado',                       censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '09', abbr: 'CT', name: 'Connecticut',                    censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '10', abbr: 'DE', name: 'Delaware',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '11', abbr: 'DC', name: 'District of Columbia',           censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '12', abbr: 'FL', name: 'Florida',                        censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '13', abbr: 'GA', name: 'Georgia',                        censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '15', abbr: 'HI', name: 'Hawaii',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '16', abbr: 'ID', name: 'Idaho',                          censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '17', abbr: 'IL', name: 'Illinois',                       censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '18', abbr: 'IN', name: 'Indiana',                        censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '19', abbr: 'IA', name: 'Iowa',                           censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '20', abbr: 'KS', name: 'Kansas',                         censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '21', abbr: 'KY', name: 'Kentucky',                       censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '22', abbr: 'LA', name: 'Louisiana',                      censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '23', abbr: 'ME', name: 'Maine',                          censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '24', abbr: 'MD', name: 'Maryland',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '25', abbr: 'MA', name: 'Massachusetts',                  censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '26', abbr: 'MI', name: 'Michigan',                       censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '27', abbr: 'MN', name: 'Minnesota',                      censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '28', abbr: 'MS', name: 'Mississippi',                    censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '29', abbr: 'MO', name: 'Missouri',                       censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '30', abbr: 'MT', name: 'Montana',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '31', abbr: 'NE', name: 'Nebraska',                       censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '32', abbr: 'NV', name: 'Nevada',                         censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '33', abbr: 'NH', name: 'New Hampshire',                  censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '34', abbr: 'NJ', name: 'New Jersey',                     censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '35', abbr: 'NM', name: 'New Mexico',                     censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '36', abbr: 'NY', name: 'New York',                       censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '37', abbr: 'NC', name: 'North Carolina',                 censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '38', abbr: 'ND', name: 'North Dakota',                   censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '39', abbr: 'OH', name: 'Ohio',                           censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '40', abbr: 'OK', name: 'Oklahoma',                       censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '41', abbr: 'OR', name: 'Oregon',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '42', abbr: 'PA', name: 'Pennsylvania',                   censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '44', abbr: 'RI', name: 'Rhode Island',                   censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '45', abbr: 'SC', name: 'South Carolina',                 censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '46', abbr: 'SD', name: 'South Dakota',                   censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '47', abbr: 'TN', name: 'Tennessee',                      censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '48', abbr: 'TX', name: 'Texas',                          censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '49', abbr: 'UT', name: 'Utah',                           censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '50', abbr: 'VT', name: 'Vermont',                        censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '51', abbr: 'VA', name: 'Virginia',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '53', abbr: 'WA', name: 'Washington',                     censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '54', abbr: 'WV', name: 'West Virginia',                  censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '55', abbr: 'WI', name: 'Wisconsin',                      censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '56', abbr: 'WY', name: 'Wyoming',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '60', abbr: 'AS', name: 'American Samoa',                 censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '64', abbr: 'FM', name: 'Federated States of Micronesia', censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '66', abbr: 'GU', name: 'Guam',                           censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '68', abbr: 'MH', name: 'Marshall Islands',               censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '69', abbr: 'MP', name: 'Northern Mariana Islands',       censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '70', abbr: 'PW', name: 'Palau',                          censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '72', abbr: 'PR', name: 'Puerto Rico',                    censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '74', abbr: 'UM', name: 'US Minor Outlying Islands',      censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '78', abbr: 'VI', name: 'Virgin Islands',                 censusRegion: 'Territory', censusDivision: 'Territory'},
+];
+
+// MAP --------------------------------------------------------------------------------------------
+const center = [45, -96], defaultZoom = 4;
+const map = L.map('map').setView(center, defaultZoom);
+
+function resetView() {
+    // Saccade to default position
+    map.setView(center, defaultZoom);
+    // Select default values
+    ["shape-auto", "view-demographics", "shading-raw"].forEach(d => {
+        document.getElementById(d).checked = true;
+        // This will also clear the primary select value
+    });
+    updateShapeMode(ShapeMode.AUTO);
+    updateViewMode(ViewMode.DEMOGRAPHICS);
+    updateShadingMode(ShadingMode.RAW);
+    updateLayerVisibility();
+    // Clear selected layer
+    resetLayer(selectedLayer);
+    selectedLayer = null;
+    refreshStyles();
+    // Clear the search input
+    document.getElementById("feature-search").value = "";
+    // Clear the info box
+    displayMapEntityInfo();
+    // Clear primarySelecteds
+    currentPrimarySelecteds = {
+        DEMOGRAPHICS: '',
+        ELECTORAL: '',
+        DESCRIPTORS: '',
+    };
+    const primarySelect = document.getElementById('primary-select');
+    primarySelect.value = '';
+    primarySelect.dispatchEvent(new Event('change'));
+    // Clear legend
+    clearLegend();
+}
+
+function saccadeTo(FIPS) {
+    let match = geoJSONCounties.getLayers().find(layer => layer.feature.id === FIPS);
+    if (!match) match = geoJSONStates.getLayers().find(layer => layer.feature.id === FIPS);
+    if (match) {
+        map.fitBounds(match.getBounds());
+        resetLayer(selectedLayer);
+        highlightLayer(match);
+    } 
+}
+
+// LEGEND -----------------------------------------------------------------------------------------
+const legend = L.control({ position: 'bottomleft' });
+
+legend.onAdd = function(map) {
+    const div = L.DomUtil.create('div', 'info legend');
+    return div;
+}
+
+function updateLegend(grades=[], text='') {
+    legend._container.innerHTML = '';
+    legend._container.style.display = "block";
+    
+    if (text) {
+        legend._container.innerHTML = `<p>${text}</p>`;
+        return;
+    }
+    
+    let from, to;
+
+    if ((!currentPrimarySelecteds[currentViewMode] && selectedLayer && currentShadingMode !== ShadingMode.COUNT) || currentViewMode === ViewMode.DESCRIPTORS) {
+        for (let g of grades) {
+            legend._container.innerHTML += `
+                <div><i style="background:${g.color}"></i><p>
+                ${g.label}
+                </p></div>
+            `;
+        }
+        return;
+    }
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+        case ShadingMode.RELATIVE :
+            for (let i = 0; i < grades.length; i++) {
+                from = grades[i]?.value, to = grades[i+1]?.value;
+                if (from > to) [from, to] = [to, from]; // Swap to correct order
+                from += 0.001;
+                legend._container.innerHTML += `
+                    <div><i style="background:${grades[i]?.color}"></i><p>
+                    ${to === undefined ? `<` : ``}
+                    ${(from * 100).toFixed(1)}%
+                    ${to !== undefined ? `&ndash; ${(to * 100).toFixed(1)}%` : ``}
+                    </p></div>
+                `;
+            }
+            break;
+        case ShadingMode.COUNT :
+            for (let i = 0; i < grades.length; i++) {
+                from = grades[i]?.value, to = grades[i+1]?.value;
+                if (from > to) [from, to] = [to, from]; // Swap to correct order
+                from = from >= 10_000 ? from.toString().replace(/000000$/,'M').replace(/000$/, 'k') : from;
+                to = to >= 10_000 ? to.toString().replace(/000000$/,'M').replace(/000$/, 'k') : to;
+                legend._container.innerHTML += `
+                    <div><i style="background:${grades[i]?.color}"></i><p>
+                    ${from}
+                    ${to !== undefined ? `&ndash; ${to}` : ``}
+                    </p></div>
+                `;
+            }
+            break;
+    }
+}
+
+function updateLegendForCurrentContext() {
+    
+    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== '';
+    
+    let grades = Grades[isPrimarySelected ? 'primary_selected' : 'no_primary_selected'][currentViewMode]?.[currentShadingMode];
+    let scale;
+
+    scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+            getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                  200_000     ;
+
+    const max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
+
+    const national = nation.features[0].demographics[currentPrimarySelecteds[currentViewMode]];
+
+    if (currentViewMode === ViewMode.DESCRIPTORS) {
+        if (currentPrimarySelecteds[currentViewMode]) {
+            grades = [
+                {color: '#6060FF', label: 'Is member'},
+                {color: '#CCC', label: 'Is not member'},
+            ];
+            updateLegend(grades);
+        }
+        else if (selectedLayer) {
+            grades = [
+                {color: '#004000', label: 'Shares 5 descriptors'},
+                {color: '#00A000', label: 'Shares 3 descriptors'},
+                {color: '#00FF00', label: 'Shares 2 descriptors'},
+                {color: '#A0FFA0', label: 'Shares 1 descriptors'},
+                {color: '#FFFFFF', label: 'Shares 0 descriptors'},
+            ];
+            updateLegend(grades);
+        }
+    }
+
+    if (isPrimarySelected) {
+        switch (currentShadingMode) {
+            case ShadingMode.RAW :
+            case ShadingMode.RELATIVE :
+                if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+                    updateLegend(grades(max));
+                }
+                else if (currentViewMode === ViewMode.ELECTORAL) {
+                    updateLegend(grades);
+                }
+                break;
+            case ShadingMode.COUNT :
+                const scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                              getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                                    200_000     ;
+                updateLegend(grades(scale));
+                break;
+        }
+    }
+    else if (currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
+        const scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                      getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                            200_000     ;
+        grades = Grades.no_primary_selected.demographics.count;
+        updateLegend(grades(scale));
+    }
+    else if (selectedLayer && currentViewMode === ViewMode.DEMOGRAPHICS) {
+        grades = [
+            {color: '#00FF00', label: '90% &ndash; 100% Similarity'},
+            {color: '#40FF40', label: '61% &ndash; 90% Similarity'},
+            {color: '#80FF80', label: '31% &ndash; 60% Similarity'},
+            {color: '#B0FFB0', label: '1% &ndash; 30% Similarity'},
+            {color: '#FFFFFF', label: '<1% Similarity'},
+        ];
+        updateLegend(grades);
+    }
+    else {
+        clearLegend();
+    }
+    return;
+}
+
+function clearLegend() {
+    legend._container.innerHTML = '';
+    legend._container.style.display = "none";
+}
+
+// SHADING ---
+
+function getShadingColor(value, max=1.0, national=0.0, scale=100_000) {
+    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== undefined;
+    const grades = Grades[isPrimarySelected ? 'primary_selected' : 'no_primary_selected'][currentViewMode]?.[currentShadingMode];
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+            for (let g of grades(max)) if (value >= g.value) return g.color;
+            break;
+        case ShadingMode.RELATIVE :
+            const diff = value - national;
+            for (let g of grades(max)) if (diff >= g.value) return g.color;
+            break;
+        case ShadingMode.COUNT :
+            for (let g of grades(scale)) if (value >= g.value) return g.color;
+            break;
+    }
+    return '#000';
+}
+
+function getPartyColor(democratic, republican, year, scale=100_000) {
+    const total = democratic + republican;
+    democratic /= total;
+    republican /= total;
+    const margin = republican - democratic;
+    const grades = Grades.primary_selected[currentViewMode]?.[currentShadingMode];
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+            for (let g of grades) if (margin > g.value) return g.color;
+            break;
+        case ShadingMode.RELATIVE :
+            const nationData = nation.features[0].electoralData[year];
+            let nationDemocratic = nationData.find(r => r.party === "DEMOCRAT").votes;
+            let nationRepublican = nationData.find(r => r.party === "REPUBLICAN").votes;
+            const nationTotal = nationDemocratic + nationRepublican;
+            nationDemocratic /= nationTotal;
+            nationRepublican /= nationTotal;
+            const nationMargin = nationRepublican - nationDemocratic;
+            const diff = margin - nationMargin;
+            for (let g of grades) if (diff > g.value) return g.color;
+            break;
+        case ShadingMode.COUNT :
+            for (let g of grades(scale)) if (total > g.value) return g.color;
+            break;
+    }
+    return '#000';
 }
 
 function getDemographicCloseness(demographics1, demographics2) {
@@ -501,6 +551,7 @@ function updateShapeMode(mode) {
     shapeModeInput.checked = true;
     currentShapeMode = mode;
     updateLayerVisibility();
+    updateLegendForCurrentContext();
     refreshStyles();
 }
 
@@ -510,10 +561,10 @@ async function updateViewMode(mode) {
     viewModeInput.checked = true;
     currentViewMode = mode;
     const primarySelect = document.getElementById("primary-select");
-    clearLegend(legend._container);
+    clearLegend();
     if (primarySelectOptions[mode]) { // Lazy load the options
         primarySelect.innerHTML = primarySelectOptions[mode];
-        if (mode === ViewMode.DESCRIPTORS18) {
+        if (mode === ViewMode.DESCRIPTORS) {
             displayDescriptorInfo(null);
             ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
         }
@@ -531,7 +582,10 @@ async function updateViewMode(mode) {
             if (!currentPrimarySelecteds[currentViewMode]) currentPrimarySelecteds[currentViewMode] = mostRecent;
         }
         else {
-            document.getElementById("shading-count-label").innerHTML = "Count of members";
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
         }
         primarySelect.value = currentPrimarySelecteds[currentViewMode];
         primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
@@ -551,7 +605,10 @@ async function updateViewMode(mode) {
             primarySelectOptions[mode] = primarySelect.innerHTML;
             primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
             ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
-            document.getElementById("shading-count-label").innerHTML = "Count of members";
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
             displayMapEntityInfo(null);
             break;
         case ViewMode.ELECTORAL :
@@ -572,7 +629,7 @@ async function updateViewMode(mode) {
             document.getElementById("shading-count-label").innerHTML = "Count of voters";
             displayMapEntityInfo(null);
             break;
-        case ViewMode.DESCRIPTORS18 :
+        case ViewMode.DESCRIPTORS :
             await loadDescriptorData();
             primarySelect.innerHTML = `<option value="">--Select a Descriptor--</option>`;
             for (const descriptor of descriptors) {
@@ -582,10 +639,11 @@ async function updateViewMode(mode) {
             }
             primarySelectOptions[mode] = primarySelect.innerHTML;
             ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
-            document.getElementById("shading-count-label").innerHTML = "Count of members";
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
             displayDescriptorInfo(null);
-            break;
-        case ViewMode.DESCRIPTORS11 :
             break;
     }
     refreshStyles();
@@ -608,6 +666,8 @@ let geoJSONStates = null;
 let states = null;
 let geoJSONCounties = null;
 let counties = null;
+
+// LOADING DATA -----------------------------------------------------------------------------------
 
 async function loadMapData(map) {
     await fetch("us-states.json").then(res => res.json()).then(topoData => {
@@ -730,16 +790,8 @@ async function loadDescriptorData(map) {
         }
         for (const d in descriptorsData.descriptors) {
             const descriptorData = descriptorsData.descriptors[d];
+            let name = descriptorData.name.replace(/_|\$+/g,' ').trim().toTitleCase();
             descriptors.push(descriptorData);
-            const newEnglandStates = ["Maine", "New Hampshire", "Vermont", "Massachusetts", "Rhode Island", "Connecticut"];
-            const middleAtlanticStates = ["New York", "Pennsylvania", "New Jersey"];
-            const southAtlanticStates = ["Delaware", "Maryland", "District of Columbia", "West Virginia", "Virginia", "North Carolina", "South Carolina", "Georgia", "Florida"];
-            const eastSouthCentralStates = ["Kentucky", "Tennessee", "Alabama", "Mississippi"];
-            const westSouthCentralStates = ["Arkansas", "Louisiana", "Oklahoma", "Texas"];
-            const eastNorthCentralStates = ["Ohio", "Michigan", "Indiana", "Illinois", "Wisconsin"];
-            const westNorthCentralStates = ["Minnesota", "Iowa", "Missouri", "North Dakota", "South Dakota", "Nebraska", "Kansas"];
-            const mountainStates = ["Montana", "Idaho", "Wyoming", "Nevada", "Utah", "Colorado", "Arizona", "New Mexico"];
-            const pacificStates = ["Washington", "Oregon", "California", "Alaska", "Hawaii"];
             if (descriptorData.name.includes("$$$$")) {
                 nation.features[0].descriptors = [descriptorData.name];
                 for (const state of states.features) {
@@ -748,70 +800,25 @@ async function loadDescriptorData(map) {
                 }
             }
             else if (descriptorData.name.includes("$$$")) {
-                let statesNames = [];
-                switch (descriptorData.name) {
-                    case "$$$MIDWEST" :
-                        statesNames = [...eastNorthCentralStates, ...westNorthCentralStates];
-                        break;
-                    case "$$$NORTHEAST" :
-                        statesNames = [...newEnglandStates, ...middleAtlanticStates];
-                        break;
-                    case "$$$SOUTH" :
-                        statesNames = [...southAtlanticStates, ...eastSouthCentralStates, ...westSouthCentralStates];
-                        break;
-                    case "$$$WEST" :
-                        statesNames = [...mountainStates, ...pacificStates];
-                        break;
-                    default :
-                        console.log(`Unrecognized census-region-level descriptor name: ${descriptorData.name}.`);
-                }
-                for (const stateName of statesNames) {
-                    const state = states.features.find(s => s.name === stateName);
+                const memberStates = statesData.filter(s => s.censusRegion === name);
+                for (const memberState of memberStates) {
+                    const state = states.features.find(s => s.id === memberState.FIPS);
                     if (!state.descriptors) state.descriptors = [];
                     state.descriptors.push(descriptorData.name);
                 }
             }
             else if (descriptorData.name.includes("$$")) {
-                let statesNames = [];
-                switch (descriptorData.name) {
-                    case "$$EAST_NORTH_CENTRAL" :
-                        statesNames = eastNorthCentralStates;
-                        break;
-                    case "$$EAST_SOUTH_CENTRAL" :
-                        statesNames = eastSouthCentralStates;
-                        break;
-                    case "$$MID_ATLANTIC" :
-                        statesNames = middleAtlanticStates;
-                        break;
-                    case "$$MOUNTAIN" :
-                        statesNames = mountainStates;
-                        break;
-                    case "$$NEW_ENGLAND" :
-                        statesNames = newEnglandStates;
-                        break;
-                    case "$$PACIFIC" :
-                        statesNames = pacificStates;
-                        break;
-                    case "$$SOUTH_ATLANTIC" :
-                        statesNames = southAtlanticStates;
-                        break;
-                    case "$$WEST_NORTH_CENTRAL" :
-                        statesNames = westNorthCentralStates;
-                        break;
-                    case "$$WEST_SOUTH_CENTRAL" :
-                        statesNames = westSouthCentralStates;
-                        break;
-                    default :
-                        console.log(`Unrecognized census-division-level descriptor name: ${descriptorData.name}.`);
-                }
-                for (const stateName of statesNames) {
-                    const state = states.features.find(s => s.name === stateName);
+                const memberStates = statesData.filter(s => s.censusDivision === name);
+                for (const memberState of memberStates) {
+                    const state = states.features.find(s => s.id === memberState.FIPS);
                     if (!state.descriptors) state.descriptors = [];
                     state.descriptors.push(descriptorData.name);
                 }
             }
             else if (descriptorData.name.includes("$")) {
-                const state = states.features.find(s => `$${stateAbbrs[s.name]}` == descriptorData.name);
+                name = name.toUpperCase();
+                const memberState = statesData.find(s => s.abbr === name);
+                const state = states.features.find(s => s.id === memberState.FIPS);
                 if (!state.descriptors) state.descriptors = [];
                 state.descriptors.push(descriptorData.name);
             }
@@ -820,6 +827,8 @@ async function loadDescriptorData(map) {
 }
 
 const maxDemographicValues = {}; // Cache each demographic's maximum value among counties
+
+// STYLING ----------------------------------------------------------------------------------------
 
 function style(feature) {
     const blankStyle = {
@@ -867,7 +876,6 @@ function style(feature) {
         else if (!selectedLayer) return blankStyle;
         else if (currentViewMode === ViewMode.DEMOGRAPHICS) {
             const similarity = getDemographicCloseness(feature.demographics, selectedLayer?.feature.demographics);
-            // updateLegend(legend._container, [], "Green saturation indicates the selected and shaded state or county have similar demographics");
             const shade = 256 - Math.round(256 * similarity);
             if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
                 selectedLayer.bringToFront();
@@ -886,10 +894,9 @@ function style(feature) {
                 interactive: true
             }
         }
-        else if (currentViewMode === ViewMode.DESCRIPTORS18) {
+        else if (currentViewMode === ViewMode.DESCRIPTORS) {
             const similarity = getDescriptorCloseness(feature.descriptors, selectedLayer?.feature.descriptors);
             // For similarity between 0-128, vary the shade (light). Between 128-256, vary the green channel (dark)
-            // updateLegend(legend._container, [], "Green saturation and darker tint indicates the selected and shaded state or county have similar descriptors");
             let shade = 256 - Math.round(512 * similarity);
             shade = shade > 255 ? 255 : shade < 0 ? 0 : shade;
             let greenChannel = 512 - Math.round(448 * similarity);
@@ -984,18 +991,18 @@ function style(feature) {
                 fillOpacity: 0.7,
                 interactive: true
             };
-        case ViewMode.DESCRIPTORS18 :
+        case ViewMode.DESCRIPTORS :
             if (!feature.descriptors) return blankStyle;
             if (feature.descriptors.find(d => d == currentPrimarySelecteds[currentViewMode])) { // Is member
                 if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
                     return {
-                        fillColor: "#6060ff",
+                        fillColor: "#6060FF",
                         fillOpacity: 0.6,
                         interactive: true
                     };
                 }
                 return {
-                    fillColor: "#6060ff",
+                    fillColor: "#6060FF",
                     weight: 0.75,
                     opacity: 1,
                     color: "#333",
@@ -1006,8 +1013,6 @@ function style(feature) {
             if (feature === selectedLayer?.feature) // Don't overwrite highlighting
                 return blankStyleNoOverwrite;
             return blankStyle;
-        case ViewMode.DESCRIPTORS11 :
-            break;
     }
 }
 
@@ -1043,7 +1048,7 @@ function onEachFeature(feature, layer) {
         click: () => {
             if (selectedLayer) resetLayer(selectedLayer);
             highlightLayer(layer);
-            if (currentViewMode !== ViewMode.DESCRIPTORS18 || !currentPrimarySelecteds[currentViewMode])
+            if (currentViewMode !== ViewMode.DESCRIPTORS || !currentPrimarySelecteds[currentViewMode])
                 displayMapEntityInfo(feature);
             updateLegendForCurrentContext();
         },
@@ -1075,6 +1080,7 @@ function updateLayerVisibility() {
         map.addLayer(geoJSONCounties);
     }
     refreshStyles();
+    updateLegendForCurrentContext();
 }
 
 function getZoomLevel() {
@@ -1089,6 +1095,8 @@ function getZoomLevel() {
         return ShapeMode.COUNTY;
     }
 }
+
+// INFOBOX SIDEBAR --------------------------------------------------------------------------------
 
 function displayMapEntityInfo(properties) {
     const mapInfobox = document.getElementById("map-infobox");
@@ -1109,7 +1117,7 @@ function displayMapEntityInfo(properties) {
             case ViewMode.ELECTORAL :
                 mapInfobox.innerHTML += `<h3>Electoral History:</h3> ${formatElectoralData(properties.electoralData, properties.population)}`;
                 break;
-            case ViewMode.DESCRIPTORS18 :
+            case ViewMode.DESCRIPTORS :
                 mapInfobox.innerHTML += `<h3>Descriptors:</h3> <p># Memberships: ${properties.descriptors.length}</p> ${formatDescritorMemberships(properties.descriptors)}`;
                 break;
         }
@@ -1218,7 +1226,10 @@ function formatElectoralData(electoralData, population) {
     return html;
 }
 
+// DOMCONTENTLOADED -------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // Attach listeners
 
     // Basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -1228,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', () => map.invalidateSize());
 
     legend.addTo(map);
-    clearLegend(legend._container);
+    clearLegend();
 
     const shapeModeSelect = document.getElementById("shape-mode");
     shapeModeSelect.addEventListener('change', event => {
@@ -1266,14 +1277,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         refreshStyles();
         updateLayerVisibility();
         updateLegendForCurrentContext();
-        if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS18) {
+        if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
             const descriptor = descriptors.find(d => d.name === currentPrimarySelecteds[currentViewMode]);
             if (!descriptor.name.includes("$")) updateShapeMode(ShapeMode.COUNTY);
             else if (!descriptor.name.includes("$$$$")) updateShapeMode(ShapeMode.STATE); // && currentShapeMode !== ShapeMode.COUNTY
             else updateShapeMode(ShapeMode.AUTO);
             displayDescriptorInfo(descriptor);
         }
-        if (!currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS18) {
+        if (!currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
             if (selectedLayer) {
                 highlightLayer(selectedLayer);
                 displayMapEntityInfo(selectedLayer?.feature);
@@ -1291,8 +1302,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentPrimarySelecteds[currentViewMode] = '';
         primarySelect.value = '';
         primarySelect.dispatchEvent(new Event('change'));
-        // Clear legend
-        clearLegend(legend._container);
+        // Update legend
+        updateLegendForCurrentContext();
     });
 
     const resetViewButton = document.getElementById("reset-view");
@@ -1367,65 +1378,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchSuggestionsBox.style.display = "block";
     });
 });
-
-const stateAbbrs = {
-    'Alabama': 'AL',
-    'Alaska': 'AK',
-    'American Samoa': 'AS',
-    'Arizona': 'AZ',
-    'Arkansas': 'AR',
-    'California': 'CA',
-    'Colorado': 'CO',
-    'Connecticut': 'CT',
-    'Delaware': 'DE',
-    'District of Columbia': 'DC',
-    'States of Micronesia': 'FM',
-    'Florida': 'FL',
-    'Georgia': 'GA',
-    'Guam': 'GU',
-    'Hawaii': 'HI',
-    'Idaho': 'ID',
-    'Illinois': 'IL',
-    'Indiana': 'IN',
-    'Iowa': 'IA',
-    'Kansas': 'KS',
-    'Kentucky': 'KY',
-    'Louisiana': 'LA',
-    'Maine': 'ME',
-    'Marshall Islands': 'MH',
-    'Maryland': 'MD',
-    'Massachusetts': 'MA',
-    'Michigan': 'MI',
-    'Minnesota': 'MN',
-    'Mississippi': 'MS',
-    'Missouri': 'MO',
-    'Montana': 'MT',
-    'Nebraska': 'NE',
-    'Nevada': 'NV',
-    'New Hampshire': 'NH',
-    'New Jersey': 'NJ',
-    'New Mexico': 'NM',
-    'New York': 'NY',
-    'North Carolina': 'NC',
-    'North Dakota': 'ND',
-    'Northern Mariana Islands': 'MP',
-    'Ohio': 'OH',
-    'Oklahoma': 'OK',
-    'Oregon': 'OR',
-    'Palau': 'PW',
-    'Pennsylvania': 'PA',
-    'Puerto Rico': 'PR',
-    'Rhode Island': 'RI',
-    'South Carolina': 'SC',
-    'South Dakota': 'SD',
-    'Tennessee': 'TN',
-    'Texas': 'TX',
-    'Utah': 'UT',
-    'Vermont': 'VT',
-    'Virgin Islands': 'VI',
-    'Virginia': 'VA',
-    'Washington': 'WA',
-    'West Virginia': 'WV',
-    'Wisconsin': 'WI',
-    'Wyoming': 'WY',
-};
