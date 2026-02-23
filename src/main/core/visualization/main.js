@@ -1,1026 +1,1392 @@
-const stateLookup = {
-    "01": "alabama",
-    "02": "alaska",
-    "04": "arizona",
-    "05": "arkansas",
-    "06": "california",
-    "08": "colorado",
-    "09": "connecticut",
-    "10": "delaware",
-    "11": "district_of_columbia",
-    "12": "florida",
-    "13": "georgia",
-    "15": "hawaii",
-    "16": "idaho",
-    "17": "illinois",
-    "18": "indiana",
-    "19": "iowa",
-    "20": "kansas",
-    "21": "kentucky",
-    "22": "louisiana",
-    "23": "maine",
-    "24": "maryland",
-    "25": "massachusetts",
-    "26": "michigan",
-    "27": "minnesota",
-    "28": "mississippi",
-    "29": "missouri",
-    "30": "montana",
-    "31": "nebraska",
-    "32": "nevada",
-    "33": "new_hampshire",
-    "34": "new_jersey",
-    "35": "new_mexico",
-    "36": "new_york",
-    "37": "north_carolina",
-    "38": "north_dakota",
-    "39": "ohio",
-    "40": "oklahoma",
-    "41": "oregon",
-    "42": "pennsylvania",
-    "44": "rhode_island",
-    "45": "south_carolina",
-    "46": "south_dakota",
-    "47": "tennessee",
-    "48": "texas",
-    "49": "utah",
-    "50": "vermont",
-    "51": "virginia",
-    "53": "washington",
-    "54": "west_virginia",
-    "55": "wisconsin",
-    "56": "wyoming"
-};
+// PROTOTYPE AND UTIL FUNCTIONS -------------------------------------------------------------------
 
-function toTitleCase(str) {
-  if (!str) {
-    return "";
-  }
-  return str.toLowerCase().replace(/\b\w/g, function(char) {
-    return char.toUpperCase();
-  });
+String.prototype.toTitleCase = function() {
+    return this.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+String.prototype.addCommas = function() {
+    let res = "";
+    let i = 0;
+    for (const char of this.split('').reverse().join('')) {
+        res += char;
+        i++;
+        if (i % 3 == 0) res += ",";
+    }
+    res = res.split('').reverse().join('').replace(/^,/, "");
+    return res;
+}
 
-    const center = [45, -96];
-    const map = L.map('map').setView(center, 4);
+function jensenShannonDistance(v1, v2) {
+    function kullbackLeibler(p, q) {
+        let d = [];
+        for (let i = 0; i < p.length; i++) {
+            if (p[i] && q[i]) d[i] = p[i] * Math.log2(p[i]/q[i]);
+        }
+        return d.reduce((acc, cur) => cur + acc, 0.0);
+    }
+    function normalize(vec) {
+        let newVec = [];
+        const sum = vec.reduce((acc, cur) => acc + (typeof cur === 'number' ? cur : 0.0), 0.0);
+        vec.forEach(val => newVec.push(val / sum));
+        return newVec;
+    }
+    const nv1 = normalize(v1), nv2 = normalize(v2);
+    let m = [];
+    for (let i = 0; i < nv1.length; i++) {
+        m[i] = (nv1[i] + nv2[i]) / 2;
+    }
+    const js = (kullbackLeibler(nv1, m) + kullbackLeibler(nv2, m)) / 2; // Get Jensen-Shannon Divergence
+    const scale = 300;
+    const sim = ((1 - js) - (1 - 1 / scale)) * scale; // Scale and invert
+    return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
+}
 
-    let descriptorsObject = null;
+// ENUMS AND CONSTANTS ----------------------------------------------------------------------------
+
+const ShapeMode = {
+    AUTO: "auto",
+    NATION: "nation",
+    STATE: "state",
+    COUNTY: "county"
+};
+Object.freeze(ShapeMode);
+let currentShapeMode = ShapeMode.AUTO;
+
+const ViewMode = {
+    DEMOGRAPHICS: "demographics",
+    ELECTORAL: "electoral",
+    DESCRIPTORS: "descriptors"
+};
+Object.freeze(ViewMode);
+let currentViewMode = ViewMode.DEMOGRAPHICS;
+
+const ShadingMode = {
+    RAW: "raw",
+    RELATIVE: "relative",
+    COUNT: "count"
+};
+Object.freeze(ShadingMode);
+let currentShadingMode = ShadingMode.RAW;
+
+let currentPrimarySelecteds = {
+    DEMOGRAPHICS: '',
+    ELECTORAL: '',
+    DESCRIPTORS: '',
+};
+
+const Grades = {
+    primary_selected: {
+        demographics: {
+            raw: max => [
+                {value: max * .9, color: '#520016'},
+                {value: max * .8, color: '#680020'},
+                {value: max * .7, color: '#800026'},
+                {value: max * .6, color: '#BD0026'},
+                {value: max * .5, color: '#E31A1C'},
+                {value: max * .4, color: '#FC4E2A'},
+                {value: max * .3, color: '#FD8D3C'},
+                {value: max * .2, color: '#FEB24C'},
+                {value: max * .1, color: '#FFEDA0'},
+                {value: max * .0, color: '#FFFFFF'},
+            ],
+            relative: max => [
+                {value: max *  .500, color: '#27427B'},
+                {value: max *  .370, color: '#235A9E'},
+                {value: max *  .250, color: '#4E8CDB'},
+                {value: max *  .120, color: '#6592BE'},
+                {value: max *  .001, color: '#B0F0FF'},
+                {value: max * -.001, color: '#FFFFFF'},
+                {value: max * -.150, color: '#F8E172'},
+                {value: max * -.250, color: '#DC9633'},
+                {value: max * -.360, color: '#D67E25'},
+                {value: max * -.500, color: '#CC6A19'},
+                {value: max * -.999, color: '#A7521F'},
+            ],
+            count: scale => [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ],
+        },
+        electoral: {
+            raw: [
+                {value:  0.25, color: '#F00000', label: 'Strong <b>Ⓡ</b>'},
+                {value:  0.12, color: '#FF3030', label: 'Safe <b>Ⓡ</b>'},
+                {value:  0.07, color: '#FF6060', label: 'Competitive <b>Ⓡ</b>'},
+                {value:  0.01, color: '#FFA0A0', label: 'Leans <b>Ⓡ</b>'},
+                {value: -0.01, color: '#FFFFFF', label: 'Equal'},
+                {value: -0.07, color: '#A0A0FF', label: 'Leans <b>Ⓓ</b>'},
+                {value: -0.12, color: '#6060FF', label: 'Competitive <b>Ⓓ</b>'},
+                {value: -0.25, color: '#3030FF', label: 'Safe <b>Ⓓ</b>'},
+                {value: -1.00, color: '#0000FF', label: 'Strong <b>Ⓓ</b>'},
+            ],
+            relative: [
+                {value:  0.25, color: '#F00000', label: 'Very much more <b>Ⓡ</b> than US avg'},
+                {value:  0.12, color: '#FF3030', label: 'Much more <b>Ⓡ</b> than US avg'},
+                {value:  0.07, color: '#FF6060', label: 'Somewhat more <b>Ⓡ</b> than US avg'},
+                {value:  0.01, color: '#FFA0A0', label: 'Slightly more <b>Ⓡ</b> than US avg'},
+                {value: -0.01, color: '#FFFFFF', label: 'The same as US avg'},
+                {value: -0.07, color: '#A0A0FF', label: 'Slightly more <b>Ⓓ</b> than US avg'},
+                {value: -0.12, color: '#6060FF', label: 'Somewhat more <b>Ⓓ</b> than US avg'},
+                {value: -0.25, color: '#3030FF', label: 'Much more <b>Ⓓ</b> than US avg'},
+                {value: -1.00, color: '#0000FF', label: 'Extremely more <b>Ⓓ</b> than US avg'},
+            ],
+            count: scale => [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ],
+        },
+        descriptors: [
+            
+        ]
+    },
+    no_primary_selected: {
+        demographics: {
+            count: scale => [
+                {value: scale * (100_000 / 100_000), color: '#003000'},
+                {value: scale * ( 75_000 / 100_000), color: '#004000'},
+                {value: scale * ( 50_000 / 100_000), color: '#005000'},
+                {value: scale * ( 25_000 / 100_000), color: '#006000'},
+                {value: scale * ( 12_000 / 100_000), color: '#007000'},
+                {value: scale * (   9000 / 100_000), color: '#008000'},
+                {value: scale * (   7500 / 100_000), color: '#009000'},
+                {value: scale * (   6000 / 100_000), color: '#00A000'},
+                {value: scale * (   5000 / 100_000), color: '#00B000'},
+                {value: scale * (   4000 / 100_000), color: '#00C000'},
+                {value: scale * (   3000 / 100_000), color: '#00D000'},
+                {value: scale * (   2500 / 100_000), color: '#00E000'},
+                {value: scale * (   2000 / 100_000), color: '#00F000'},
+                {value: scale * (   1500 / 100_000), color: '#20FF20'},
+                {value: scale * (   1250 / 100_000), color: '#40FF40'},
+                {value: scale * (   1000 / 100_000), color: '#60FF60'},
+                {value: scale * (    750 / 100_000), color: '#80FF80'},
+                {value: scale * (    500 / 100_000), color: '#A0FFA0'},
+                {value: scale * (    250 / 100_000), color: '#C0FFC0'},
+                {value: scale * (      0 / 100_000), color: '#FFFFFF'},
+            ],
+        },
+        descriptors: [
+
+        ]
+    }
+}
+
+const statesData = [
+    {FIPS: '01', abbr: 'AL', name: 'Alabama',                        censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '02', abbr: 'AK', name: 'Alaska',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '04', abbr: 'AZ', name: 'Arizona',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '05', abbr: 'AR', name: 'Arkansas',                       censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '06', abbr: 'CA', name: 'California',                     censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '08', abbr: 'CO', name: 'Colorado',                       censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '09', abbr: 'CT', name: 'Connecticut',                    censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '10', abbr: 'DE', name: 'Delaware',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '11', abbr: 'DC', name: 'District of Columbia',           censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '12', abbr: 'FL', name: 'Florida',                        censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '13', abbr: 'GA', name: 'Georgia',                        censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '15', abbr: 'HI', name: 'Hawaii',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '16', abbr: 'ID', name: 'Idaho',                          censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '17', abbr: 'IL', name: 'Illinois',                       censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '18', abbr: 'IN', name: 'Indiana',                        censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '19', abbr: 'IA', name: 'Iowa',                           censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '20', abbr: 'KS', name: 'Kansas',                         censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '21', abbr: 'KY', name: 'Kentucky',                       censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '22', abbr: 'LA', name: 'Louisiana',                      censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '23', abbr: 'ME', name: 'Maine',                          censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '24', abbr: 'MD', name: 'Maryland',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '25', abbr: 'MA', name: 'Massachusetts',                  censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '26', abbr: 'MI', name: 'Michigan',                       censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '27', abbr: 'MN', name: 'Minnesota',                      censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '28', abbr: 'MS', name: 'Mississippi',                    censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '29', abbr: 'MO', name: 'Missouri',                       censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '30', abbr: 'MT', name: 'Montana',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '31', abbr: 'NE', name: 'Nebraska',                       censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '32', abbr: 'NV', name: 'Nevada',                         censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '33', abbr: 'NH', name: 'New Hampshire',                  censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '34', abbr: 'NJ', name: 'New Jersey',                     censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '35', abbr: 'NM', name: 'New Mexico',                     censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '36', abbr: 'NY', name: 'New York',                       censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '37', abbr: 'NC', name: 'North Carolina',                 censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '38', abbr: 'ND', name: 'North Dakota',                   censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '39', abbr: 'OH', name: 'Ohio',                           censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '40', abbr: 'OK', name: 'Oklahoma',                       censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '41', abbr: 'OR', name: 'Oregon',                         censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '42', abbr: 'PA', name: 'Pennsylvania',                   censusRegion: 'Northeast', censusDivision: 'Mid Atlantic'},
+    {FIPS: '44', abbr: 'RI', name: 'Rhode Island',                   censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '45', abbr: 'SC', name: 'South Carolina',                 censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '46', abbr: 'SD', name: 'South Dakota',                   censusRegion: 'Midwest',   censusDivision: 'West North Central'},
+    {FIPS: '47', abbr: 'TN', name: 'Tennessee',                      censusRegion: 'South',     censusDivision: 'East South Central'},
+    {FIPS: '48', abbr: 'TX', name: 'Texas',                          censusRegion: 'South',     censusDivision: 'West South Central'},
+    {FIPS: '49', abbr: 'UT', name: 'Utah',                           censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '50', abbr: 'VT', name: 'Vermont',                        censusRegion: 'Northeast', censusDivision: 'New England'},
+    {FIPS: '51', abbr: 'VA', name: 'Virginia',                       censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '53', abbr: 'WA', name: 'Washington',                     censusRegion: 'West',      censusDivision: 'Pacific'},
+    {FIPS: '54', abbr: 'WV', name: 'West Virginia',                  censusRegion: 'South',     censusDivision: 'South Atlantic'},
+    {FIPS: '55', abbr: 'WI', name: 'Wisconsin',                      censusRegion: 'Midwest',   censusDivision: 'East North Central'},
+    {FIPS: '56', abbr: 'WY', name: 'Wyoming',                        censusRegion: 'West',      censusDivision: 'Mountain'},
+    {FIPS: '60', abbr: 'AS', name: 'American Samoa',                 censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '64', abbr: 'FM', name: 'Federated States of Micronesia', censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '66', abbr: 'GU', name: 'Guam',                           censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '68', abbr: 'MH', name: 'Marshall Islands',               censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '69', abbr: 'MP', name: 'Northern Mariana Islands',       censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '70', abbr: 'PW', name: 'Palau',                          censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '72', abbr: 'PR', name: 'Puerto Rico',                    censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '74', abbr: 'UM', name: 'US Minor Outlying Islands',      censusRegion: 'Territory', censusDivision: 'Territory'},
+    {FIPS: '78', abbr: 'VI', name: 'Virgin Islands',                 censusRegion: 'Territory', censusDivision: 'Territory'},
+];
+
+// MAP --------------------------------------------------------------------------------------------
+const center = [45, -96], defaultZoom = 4;
+const map = L.map('map').setView(center, defaultZoom);
+
+function resetView() {
+    // Saccade to default position
+    map.setView(center, defaultZoom);
+    // Select default values
+    ["shape-auto", "view-demographics", "shading-raw"].forEach(d => {
+        document.getElementById(d).checked = true;
+        // This will also clear the primary select value
+    });
+    updateShapeMode(ShapeMode.AUTO);
+    updateViewMode(ViewMode.DEMOGRAPHICS);
+    updateShadingMode(ShadingMode.RAW);
+    updateLayerVisibility();
+    // Clear selected layer
+    resetLayer(selectedLayer);
+    selectedLayer = null;
+    refreshStyles();
+    // Clear the search input
+    const featureSearchInput = document.getElementById("feature-search-input");
+    if (featureSearchInput) {
+        featureSearchInput.value = "";
+    }
+    // Clear the info box
+    displayMapEntityInfo();
+    // Clear primarySelecteds
+    currentPrimarySelecteds = {
+        DEMOGRAPHICS: '',
+        ELECTORAL: '',
+        DESCRIPTORS: '',
+    };
+    const primarySelect = document.getElementById('primary-select');
+    primarySelect.value = '';
+    primarySelect.dispatchEvent(new Event('change'));
+    // Clear legend
+    clearLegend();
+}
+
+function saccadeTo(FIPS) {
+    let match = geoJSONCounties.getLayers().find(layer => layer.feature.id === FIPS);
+    if (!match) match = geoJSONStates.getLayers().find(layer => layer.feature.id === FIPS);
+    if (match) {
+        map.fitBounds(match.getBounds());
+        resetLayer(selectedLayer);
+        highlightLayer(match);
+    } 
+}
+
+// LEGEND -----------------------------------------------------------------------------------------
+const legend = L.control({ position: 'bottomleft' });
+
+legend.onAdd = function(map) {
+    const div = L.DomUtil.create('div', 'info legend');
+    return div;
+}
+
+function updateLegend(grades=[], text='') {
+    legend._container.innerHTML = '';
+    legend._container.style.display = "block";
+    
+    if (text) {
+        legend._container.innerHTML = `<p>${text}</p>`;
+        return;
+    }
+    
+    let from, to;
+
+    if ((!currentPrimarySelecteds[currentViewMode] && selectedLayer && currentShadingMode !== ShadingMode.COUNT) || currentViewMode === ViewMode.DESCRIPTORS) {
+        for (let g of grades) {
+            legend._container.innerHTML += `
+                <div><i style="background:${g.color}"></i><p>
+                ${g.label}
+                </p></div>
+            `;
+        }
+        return;
+    }
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+        case ShadingMode.RELATIVE :
+            for (let i = 0; i < grades.length; i++) {
+                from = grades[i]?.value, to = grades[i+1]?.value;
+                if (from > to) [from, to] = [to, from]; // Swap to correct order
+                from += 0.001;
+                legend._container.innerHTML += `
+                    <div><i style="background:${grades[i]?.color}"></i><p>
+                    ${to === undefined ? `<` : ``}
+                    ${(from * 100).toFixed(1)}%
+                    ${to !== undefined ? `&ndash; ${(to * 100).toFixed(1)}%` : ``}
+                    </p></div>
+                `;
+            }
+            break;
+        case ShadingMode.COUNT :
+            for (let i = 0; i < grades.length; i++) {
+                from = grades[i]?.value, to = grades[i+1]?.value;
+                if (from > to) [from, to] = [to, from]; // Swap to correct order
+                from = from >= 10_000 ? from.toString().replace(/000000$/,'M').replace(/000$/, 'k') : from;
+                to = to >= 10_000 ? to.toString().replace(/000000$/,'M').replace(/000$/, 'k') : to;
+                legend._container.innerHTML += `
+                    <div><i style="background:${grades[i]?.color}"></i><p>
+                    ${from}
+                    ${to !== undefined ? `&ndash; ${to}` : ``}
+                    </p></div>
+                `;
+            }
+            break;
+    }
+}
+
+function updateLegendForCurrentContext() {
+    
+    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== '';
+    
+    let grades = Grades[isPrimarySelected ? 'primary_selected' : 'no_primary_selected'][currentViewMode]?.[currentShadingMode];
+    let scale;
+
+    scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+            getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                  200_000     ;
+
+    const max = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
+
+    const national = nation.features[0].demographics[currentPrimarySelecteds[currentViewMode]];
+
+    if (currentViewMode === ViewMode.DESCRIPTORS) {
+        if (currentPrimarySelecteds[currentViewMode]) {
+            grades = [
+                {color: '#6060FF', label: 'Is member'},
+                {color: '#CCC', label: 'Is not member'},
+            ];
+            updateLegend(grades);
+        }
+        else if (selectedLayer) {
+            grades = [
+                {color: '#004000', label: 'Shares 5 descriptors'},
+                {color: '#00A000', label: 'Shares 3 descriptors'},
+                {color: '#00FF00', label: 'Shares 2 descriptors'},
+                {color: '#A0FFA0', label: 'Shares 1 descriptors'},
+                {color: '#FFFFFF', label: 'Shares 0 descriptors'},
+            ];
+            updateLegend(grades);
+        }
+    }
+
+    if (isPrimarySelected) {
+        switch (currentShadingMode) {
+            case ShadingMode.RAW :
+            case ShadingMode.RELATIVE :
+                if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+                    updateLegend(grades(max));
+                }
+                else if (currentViewMode === ViewMode.ELECTORAL) {
+                    updateLegend(grades);
+                }
+                break;
+            case ShadingMode.COUNT :
+                const scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                              getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                                    200_000     ;
+                updateLegend(grades(scale));
+                break;
+        }
+    }
+    else if (currentViewMode === ViewMode.DEMOGRAPHICS && currentShadingMode === ShadingMode.COUNT) {
+        const scale = getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                      getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                            200_000     ;
+        grades = Grades.no_primary_selected.demographics.count;
+        updateLegend(grades(scale));
+    }
+    else if (selectedLayer && currentViewMode === ViewMode.DEMOGRAPHICS) {
+        grades = [
+            {color: '#00FF00', label: '90% &ndash; 100% Similarity'},
+            {color: '#40FF40', label: '61% &ndash; 90% Similarity'},
+            {color: '#80FF80', label: '31% &ndash; 60% Similarity'},
+            {color: '#B0FFB0', label: '1% &ndash; 30% Similarity'},
+            {color: '#FFFFFF', label: '<1% Similarity'},
+        ];
+        updateLegend(grades);
+    }
+    else {
+        clearLegend();
+    }
+    return;
+}
+
+function clearLegend() {
+    legend._container.innerHTML = '';
+    legend._container.style.display = "none";
+}
+
+// SHADING ---
+
+function getShadingColor(value, max=1.0, national=0.0, scale=100_000) {
+    const isPrimarySelected = currentPrimarySelecteds[currentViewMode] !== '';
+    const grades = Grades[isPrimarySelected ? 'primary_selected' : 'no_primary_selected'][currentViewMode]?.[currentShadingMode];
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+            for (let g of grades(max)) if (value >= g.value) return g.color;
+            break;
+        case ShadingMode.RELATIVE :
+            const diff = value - national;
+            for (let g of grades(max)) if (diff >= g.value) return g.color;
+            break;
+        case ShadingMode.COUNT :
+            for (let g of grades(scale)) if (value >= g.value) return g.color;
+            break;
+    }
+    return '#000';
+}
+
+function getPartyColor(democratic, republican, year, scale=100_000) {
+    const total = democratic + republican;
+    democratic /= total;
+    republican /= total;
+    const margin = republican - democratic;
+    const grades = Grades.primary_selected[currentViewMode]?.[currentShadingMode];
+
+    switch (currentShadingMode) {
+        case ShadingMode.RAW :
+            for (let g of grades) if (margin > g.value) return g.color;
+            break;
+        case ShadingMode.RELATIVE :
+            const nationData = nation.features[0].electoralData[year];
+            let nationDemocratic = nationData.find(r => r.party === "DEMOCRAT").votes;
+            let nationRepublican = nationData.find(r => r.party === "REPUBLICAN").votes;
+            const nationTotal = nationDemocratic + nationRepublican;
+            nationDemocratic /= nationTotal;
+            nationRepublican /= nationTotal;
+            const nationMargin = nationRepublican - nationDemocratic;
+            const diff = margin - nationMargin;
+            for (let g of grades) if (diff > g.value) return g.color;
+            break;
+        case ShadingMode.COUNT :
+            for (let g of grades(scale)) if (total > g.value) return g.color;
+            break;
+    }
+    return '#000';
+}
+
+function getDemographicCloseness(demographics1, demographics2) {
+    const v1 = [], v2 = [];
+    for (const category in demographics1) {
+        for (const demographic in demographics1[category]) {
+            if (demographics1[category]?.[demographic] === undefined || demographics2[category]?.[demographic] === undefined) continue;
+            v1.push(demographics1[category][demographic]);
+            v2.push(demographics2[category][demographic]);
+        }
+    }
+    return jensenShannonDistance(v1, v2);
+}
+
+function getDescriptorCloseness(descriptors1, descriptors2, bias=1) {
+    // Bias gives a baseline number of descriptors known to be shared by all map entities
+    if (!descriptors1 || !descriptors2) return 0.0;
+    const len1 = descriptors1.length;
+    const len2 = descriptors2.length;
+    // If either side has no descriptors, treat similarity as zero and avoid division by zero
+    if (len1 === 0 || len2 === 0) return 0.0;
+    // Clamp the effective bias so that (length - effectiveBias) is never zero or negative.
+    // For very short descriptor lists (e.g., length 1), this reduces the bias to 0.
+    const effectiveBias1 = Math.min(bias, Math.max(0, len1 - 1));
+    const effectiveBias2 = Math.min(bias, Math.max(0, len2 - 1));
+    let closeness1 = 0.0, closeness2 = 0.0;
+    descriptors1.forEach(d => {
+        if (descriptors2.includes(d)) {
+            closeness1 += (1 / len1);
+        }
+    });
+    if (effectiveBias1 > 0) {
+        closeness1 -= effectiveBias1 / len1;
+        closeness1 *= 1 + effectiveBias1 / (len1 - effectiveBias1);
+    }
+    descriptors2.forEach(d => {
+        if (descriptors1.includes(d)) {
+            closeness2 += (1 / len2);
+        }
+    });
+    if (effectiveBias2 > 0) {
+        closeness2 -= effectiveBias2 / len2;
+        closeness2 *= 1 + effectiveBias2 / (len2 - effectiveBias2);
+    }
+    const sim = (closeness1 + closeness2) / 2;
+    return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
+}
+
+function updateShapeMode(mode) {
+    const shapeModeInput = document.getElementById(`shape-${mode}`);
+    shapeModeInput.checked = true;
+    currentShapeMode = mode;
+    updateLayerVisibility();
+    updateLegendForCurrentContext();
+    refreshStyles();
+}
+
+let primarySelectOptions = {};
+async function updateViewMode(mode) {
+    const viewModeInput = document.getElementById(`view-${mode}`);
+    viewModeInput.checked = true;
+    currentViewMode = mode;
+    const primarySelect = document.getElementById("primary-select");
+    clearLegend();
+    if (primarySelectOptions[mode]) { // Lazy load the options
+        primarySelect.innerHTML = primarySelectOptions[mode];
+        if (mode === ViewMode.DESCRIPTORS) {
+            displayDescriptorInfo(null);
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
+        }
+        else {
+            displayMapEntityInfo(null);
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+        }
+        if (mode === ViewMode.ELECTORAL) {
+            document.getElementById("shading-count-label").innerHTML = "Count of voters";
+            const elections = Object.keys(nation.features[0].electoralData);
+            let mostRecent = elections[0];
+            for (const election of elections) {
+                if (election > mostRecent) mostRecent = election;
+            }
+            if (!currentPrimarySelecteds[currentViewMode]) currentPrimarySelecteds[currentViewMode] = mostRecent;
+        }
+        else {
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
+        }
+        primarySelect.value = currentPrimarySelecteds[currentViewMode];
+        primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
+        refreshStyles();
+        return;
+    }
+    switch (mode) {
+        case ViewMode.DEMOGRAPHICS :
+            primarySelect.innerHTML = `<option value="">--Select a Demographic--</option>`;
+            const demographics = nation.features[0].demographics;
+            for (const category in demographics)    
+                for (const demographic in demographics[category]) {
+                    if (category === 'marital_status') continue;
+                    primarySelect.innerHTML += `
+                        <option class="${category.replace(/_/g, "-")}" value="${category}:${demographic}">${category.replace(/_/g, " ").toTitleCase()}: ${demographic}</option>
+                    `;
+                }
+            primarySelectOptions[mode] = primarySelect.innerHTML;
+            primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
+            displayMapEntityInfo(null);
+            break;
+        case ViewMode.ELECTORAL :
+            await loadElectoralData();
+            primarySelect.innerHTML = '';
+            const elections = Object.keys(nation.features[0].electoralData);
+            let mostRecent = elections[0];
+            for (const election of elections) {
+                primarySelect.innerHTML += `
+                    <option value="${election}">${election} Election</option>
+                `;
+                if (election > mostRecent) mostRecent = election;
+            }
+            primarySelect.value = mostRecent;
+            primarySelect.dispatchEvent(new Event('change')); // Force update layer styles
+            primarySelectOptions[mode] = primarySelect.innerHTML;
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = false);
+            document.getElementById("shading-count-label").innerHTML = "Count of voters";
+            displayMapEntityInfo(null);
+            break;
+        case ViewMode.DESCRIPTORS :
+            await loadDescriptorData();
+            primarySelect.innerHTML = `<option value="">--Select a Descriptor--</option>`;
+            for (const descriptor of descriptors) {
+                primarySelect.innerHTML += `
+                    <option value="${descriptor.name}">${descriptor.name}</option>
+                `;
+            }
+            primarySelectOptions[mode] = primarySelect.innerHTML;
+            ["shading-raw", "shading-relative", "shading-count"].forEach(i => document.getElementById(i).disabled = true);
+            if (currentPrimarySelecteds[currentViewMode]) {
+                document.getElementById("shading-count-label").innerHTML = "Count of members";
+            }
+            else document.getElementById("shading-count-label").innerHTML = "Population";
+            displayDescriptorInfo(null);
+            break;
+    }
+    refreshStyles();
+    updateLegendForCurrentContext();
+}
+
+function updateShadingMode(mode) {
+    const shadingModeInput = document.getElementById(`shading-${mode}`);
+    shadingModeInput.checked = true;
+    currentShadingMode = mode;
+    refreshStyles();
+    updateLegendForCurrentContext();
+}
+
+let selectedLayer = null;
+
+let geoJSONNation = null;
+let nation = null;
+let geoJSONStates = null;
+let states = null;
+let geoJSONCounties = null;
+let counties = null;
+
+// LOADING DATA -----------------------------------------------------------------------------------
+
+async function loadMapData(map) {
+    await fetch("us-states.json").then(res => res.json()).then(topoData => {
+        nation = topojson.feature(topoData, topoData.objects.nation);
+        states = topojson.feature(topoData, topoData.objects.states);
+        counties = topojson.feature(topoData, topoData.objects.counties);
+        
+        return fetch("mapdata.json").then(res => res.json()).then(mapData => {
+            // Attach peroperties to Nation
+            nation.features.forEach(f => {
+                const nationData = mapData['nation'];
+                f.name = nationData.name;
+                f.population = nationData.population;
+                f.demographics = nationData.demographics;
+            });
+    
+            // Attach properties to States
+            states.features.forEach(f => {
+                const stateData = mapData[f.id];
+                if (!stateData) {
+                    console.warn(`No state found with FIPS: ${f.id}. It may be a US territory.`);
+                    return;
+                }
+                f.name = stateData.name;
+                f.population = stateData.population;
+                f.demographics = stateData.demographics;
+            });
+    
+            // Attach properties to Counties
+            counties.features.forEach(f => {
+                const countyData = mapData[f.id];
+                if (!countyData) {
+                    console.warn(`No county found with FIPS: ${f.id}. It may be a US territory.`);
+                    return;
+                }
+                f.name = countyData.name;
+                f.population = countyData.population;
+                f.demographics = countyData.demographics;
+                f.state = countyData.state;
+            });
+
+            // Create and add layers
+            geoJSONNation = L.geoJSON(nation, {style, onEachFeature}).addTo(map);
+            geoJSONStates = L.geoJSON(states, {style, onEachFeature});
+            geoJSONCounties = L.geoJSON(counties, {style, onEachFeature});
+        });
+    });
+}
+
+async function loadElectoralData(map) {
+    await fetch("elections.json").then(res => res.json()).then(electoralData => {
+        for (const FIPS in electoralData) {
+            const data = electoralData[FIPS];
+            if (FIPS.length === 5) { // County
+                const county = counties.features.find(c => c.id === FIPS);
+                if (county) {
+                    county.electoralData = data;
+                    // Check for realistic values
+                    for (const year in county.electoralData) {
+                        const data = county.electoralData[year];
+                        const totalVotes = data.reduce((acc, cur) => acc + cur.votes, 0);
+                        const turnout = totalVotes / county.population;
+                        if (turnout < 0.1 || turnout > 1.2)
+                            console.warn(`Turnout of ${turnout.toFixed(3)} in [${county.id}] ${county.name}, ${county.state} in ${year} is dubious.`);
+                    }
+                }
+                else {
+                    console.warn(`No county found with FIPS: ${FIPS}.`);
+                    continue;
+                }
+            }
+            else if (FIPS.length === 2) { // State
+                const state = states.features.find(s => s.id === FIPS);
+                if (state) {
+                    state.electoralData = data;
+                }
+                else {
+                    console.warn(`No county found with FIPS: ${FIPS}.`);
+                    continue;
+                }
+            }
+            else {
+                console.warn(`Unclear whether FIPS code is county or state: ${FIPS}`);
+            }
+        }
+    });
+    let nationResults = {};
+    for (const state of states.features) {
+        let stateResults = {};
+        if (!state.name) continue;
+        for (const county of counties.features) {
+            if (state.name && county.state && state.name === county.state) {
+                for (const year in county.electoralData) {
+                    if (!stateResults[year]) stateResults[year] = Array();
+                    if (!nationResults[year]) nationResults[year] = Array();
+                    for (const res of county.electoralData[year]) {
+                        const stateMatch = stateResults[year].find(r => r.candidate == res.candidate);
+                        if (stateMatch) stateMatch.votes += res.votes;
+                        else stateResults[year].push({...res}); // Clone county electoralData. Wow this bug was hard to find.
+                        const nationMatch = nationResults[year].find(r => r.candidate == res.candidate);
+                        if (nationMatch) nationMatch.votes += res.votes;
+                        else nationResults[year].push({...res}); // Clone county electoralData. I love implicit references I love implicit references I love implicit references I love
+                    }
+                }
+            }
+        }
+        state.electoralData = stateResults;
+    }
+    nation.features[0].electoralData = nationResults;
+}
+
+const descriptors = [];
+
+async function loadDescriptorData(map) {
+    await fetch("descriptors_18.json").then(res => res.json()).then(descriptorsData => {
+        for (const c in descriptorsData.counties) {
+            const countyData = descriptorsData.counties[c]
+            const county = counties.features.find(f => f.id === countyData.FIPS);
+            if (!county) {
+                console.warn(`Descriptor data references unknown county FIPS: ${countyData.FIPS}`);
+                continue;
+            }
+            county.descriptors = countyData.descriptors;
+        }
+        for (const d in descriptorsData.descriptors) {
+            const descriptorData = descriptorsData.descriptors[d];
+            let name = descriptorData.name.replace(/_|\$+/g,' ').trim().toTitleCase();
+            descriptors.push(descriptorData);
+            if (descriptorData.name.includes("$$$$")) {
+                nation.features[0].descriptors = [descriptorData.name];
+                for (const state of states.features) {
+                    if (!state.descriptors) state.descriptors = [];
+                    state.descriptors.push(descriptorData.name);
+                }
+            }
+            else if (descriptorData.name.includes("$$$")) {
+                const memberStates = statesData.filter(s => s.censusRegion === name);
+                for (const memberState of memberStates) {
+                    const state = states.features.find(s => s.id === memberState.FIPS);
+                    if (!state.descriptors) state.descriptors = [];
+                    state.descriptors.push(descriptorData.name);
+                }
+            }
+            else if (descriptorData.name.includes("$$")) {
+                const memberStates = statesData.filter(s => s.censusDivision === name);
+                for (const memberState of memberStates) {
+                    const state = states.features.find(s => s.id === memberState.FIPS);
+                    if (!state.descriptors) state.descriptors = [];
+                    state.descriptors.push(descriptorData.name);
+                }
+            }
+            else if (descriptorData.name.includes("$")) {
+                name = name.toUpperCase();
+                const memberState = statesData.find(s => s.abbr === name);
+                const state = states.features.find(s => s.id === memberState.FIPS);
+                if (!state.descriptors) state.descriptors = [];
+                state.descriptors.push(descriptorData.name);
+            }
+        }
+    });
+}
+
+const maxDemographicValues = {}; // Cache each demographic's maximum value among counties
+
+// STYLING ----------------------------------------------------------------------------------------
+
+function style(feature) {
+    const blankStyle = {
+        fillColor: "#cccccc",
+        weight: 0.75,
+        opacity: 1,
+        color: "#333",
+        fillOpacity: 0.6,
+        interactive: true
+    };
+    const blankStyleNoOverwrite = {
+        fillColor: "#cccccc",
+        fillOpacity: 0.6,
+        interactive: true
+    };
+    if (!currentPrimarySelecteds[currentViewMode]) { // When there is no primary selected
+        if (currentShadingMode === ShadingMode.COUNT) {
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                // This branch should never execute
+                return {
+                    fillColor: getShadingColor(
+                        feature.population, 1.0, 0.0,
+                        getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 5_000_000 :
+                                                              350_000
+                    ),
+                    fillOpacity: 0.6,
+                    interactive: true
+                };
+            }
+            return {
+                fillColor: getShadingColor(
+                    feature.population, 1.0, 0.0,
+                    getZoomLevel() === ShapeMode.NATION ? 12_500_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 5_000_000 :
+                                                          350_000
+                ),
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            };
+        }
+        else if (!selectedLayer) return blankStyle;
+        else if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+            const similarity = getDemographicCloseness(feature.demographics, selectedLayer?.feature.demographics);
+            const shade = 256 - Math.round(256 * similarity);
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: `#${shade.toString(16).padStart(2, '0')}FF${shade.toString(16).padStart(2, '0')}`,
+                    fillOpacity: 0.6,
+                    interactive: true
+                }
+            }
+            return {
+                fillColor: `#${shade.toString(16).padStart(2, '0')}FF${shade.toString(16).padStart(2, '0')}`,
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            }
+        }
+        else if (currentViewMode === ViewMode.DESCRIPTORS) {
+            const similarity = getDescriptorCloseness(feature.descriptors, selectedLayer?.feature.descriptors);
+            // For similarity between 0-128, vary the shade (light). Between 128-256, vary the green channel (dark)
+            let shade = 256 - Math.round(512 * similarity);
+            shade = shade > 255 ? 255 : shade < 0 ? 0 : shade;
+            let greenChannel = 512 - Math.round(448 * similarity);
+            greenChannel = greenChannel > 255 ? 255 : greenChannel < 0 ? 0 : greenChannel;
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: `#${shade.toString(16).padStart(2, '0')}${greenChannel.toString(16).padStart(2, '0')}${shade.toString(16).padStart(2, '0')}`,
+                    fillOpacity: 0.6,
+                    interactive: true
+                }
+            }
+            return {
+                fillColor: `#${shade.toString(16).padStart(2, '0')}${greenChannel.toString(16).padStart(2, '0')}${shade.toString(16).padStart(2, '0')}`,
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            }
+        }
+    }
+    switch (currentViewMode) {
+        case ViewMode.DEMOGRAPHICS :
+            const [selectedDemoCategory, selectedDemographic] = currentPrimarySelecteds[currentViewMode]?.split(":");
+            if (!feature.demographics) return blankStyle;
+            let highestPercent = maxDemographicValues[currentPrimarySelecteds[currentViewMode]];
+            if (!highestPercent) {
+                const ranked = counties.features.sort((a, b) => (b.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0) - (a.demographics?.[selectedDemoCategory]?.[selectedDemographic] || 0.0));
+                highestPercent = ranked[0].demographics[selectedDemoCategory][selectedDemographic];
+            }
+            maxDemographicValues[currentPrimarySelecteds[currentViewMode]] = highestPercent;
+            const nationalPercent = nation.features[0].demographics[selectedDemoCategory][selectedDemographic];
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                return {
+                    fillColor: getShadingColor(
+                        currentShadingMode === ShadingMode.COUNT ?
+                        feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
+                        feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
+                        highestPercent, nationalPercent,
+                        getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                              200_000
+                    ),
+                    fillOpacity: 0.6,
+                    interactive: true
+                };
+            }
+            return {
+                fillColor: getShadingColor(
+                    currentShadingMode === ShadingMode.COUNT ?
+                    feature.demographics[selectedDemoCategory]?.[selectedDemographic] * feature.population || 0 :
+                    feature.demographics[selectedDemoCategory]?.[selectedDemographic] || 0,
+                    highestPercent, nationalPercent,
+                    getZoomLevel() === ShapeMode.NATION ? 400_000_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 10_000_000  :
+                                                          200_000
+                ),
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.6,
+                interactive: true
+            };
+        case ViewMode.ELECTORAL :
+            if (!feature.electoralData) return blankStyle;
+            const rep_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "REPUBLICAN")?.votes;
+            const dem_votes = feature.electoralData[currentPrimarySelecteds[currentViewMode]]?.find(r => r.party == "DEMOCRAT")?.votes;
+            if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                selectedLayer.bringToFront();
+                return {
+                    fillColor: getPartyColor(
+                        dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
+                        getZoomLevel() === ShapeMode.NATION ? 800_000_000 :
+                        getZoomLevel() === ShapeMode.STATE  ? 40_000_000 :
+                                                              800_000
+                    ),
+                    fillOpacity: 0.7,
+                    interactive: true
+                }
+            }
+            return {
+                fillColor: getPartyColor(
+                    dem_votes, rep_votes, currentPrimarySelecteds[currentViewMode],
+                    getZoomLevel() === ShapeMode.NATION ? 800_000_000 :
+                    getZoomLevel() === ShapeMode.STATE  ? 40_000_000 :
+                                                          800_000
+                ),
+                weight: 0.75,
+                opacity: 1,
+                color: "#333",
+                fillOpacity: 0.7,
+                interactive: true
+            };
+        case ViewMode.DESCRIPTORS :
+            if (!feature.descriptors) return blankStyle;
+            if (feature.descriptors.find(d => d == currentPrimarySelecteds[currentViewMode])) { // Is member
+                if (feature === selectedLayer?.feature) { // Don't overwrite highlighting
+                    return {
+                        fillColor: "#6060FF",
+                        fillOpacity: 0.6,
+                        interactive: true
+                    };
+                }
+                return {
+                    fillColor: "#6060FF",
+                    weight: 0.75,
+                    opacity: 1,
+                    color: "#333",
+                    fillOpacity: 0.6,
+                    interactive: true
+                };
+            }
+            if (feature === selectedLayer?.feature) // Don't overwrite highlighting
+                return blankStyleNoOverwrite;
+            return blankStyle;
+    }
+}
+
+function resetLayer(layer) {
+    if (!layer) return;
+    layer.setStyle({
+        weight: 0.75,
+        color: "#333",
+        fillOpacity: 0.6
+    });
+}
+
+function refreshStyles() {
+    const refreshAll = true;
+    if (map.hasLayer(geoJSONNation) || refreshAll) geoJSONNation.setStyle(style);
+    if (map.hasLayer(geoJSONStates) || refreshAll) geoJSONStates.setStyle(style);
+    if (map.hasLayer(geoJSONCounties) || refreshAll) geoJSONCounties.setStyle(style);
+}
+
+function highlightLayer(layer) {
+    selectedLayer = layer;
+    layer.setStyle({
+        weight: 3,
+        color: "#ff7800",
+    });
+    selectedLayer.bringToFront();
+    refreshStyles();
+    if (layer.feature.state) updateShapeMode(ShapeMode.COUNTY);
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        click: () => {
+            if (selectedLayer) resetLayer(selectedLayer);
+            highlightLayer(layer);
+            if (currentViewMode !== ViewMode.DESCRIPTORS || !currentPrimarySelecteds[currentViewMode])
+                displayMapEntityInfo(feature);
+            updateLegendForCurrentContext();
+        },
+        mouseover: () => {
+            if (layer !== selectedLayer)
+                layer.setStyle({ weight: 3, color: "#555" });
+        },
+        mouseout: () => {
+            if (layer !== selectedLayer) {
+                let ownerLayer;
+                if (getZoomLevel() === ShapeMode.NATION || currentShapeMode === ShapeMode.NATION) {
+                    ownerLayer = geoJSONNation;
+                } else if (getZoomLevel() === ShapeMode.STATE || currentShapeMode === ShapeMode.STATE) {
+                    ownerLayer = geoJSONStates;
+                } else {
+                    ownerLayer = geoJSONCounties;
+                }
+                if (ownerLayer) {
+                    ownerLayer.resetStyle(layer);
+                }
+            }
+        }
+    });
+}
+
+function updateLayerVisibility() {
+    if (getZoomLevel() === ShapeMode.NATION || currentShapeMode === ShapeMode.NATION) {
+        map.addLayer(geoJSONNation);
+        map.removeLayer(geoJSONStates);
+        map.removeLayer(geoJSONCounties);
+    }
+    else if (getZoomLevel() === ShapeMode.STATE || currentShapeMode === ShapeMode.STATE) {
+        map.removeLayer(geoJSONNation);
+        map.addLayer(geoJSONStates);
+        map.removeLayer(geoJSONCounties);
+    }
+    else {
+        map.removeLayer(geoJSONNation);
+        map.removeLayer(geoJSONStates);
+        map.addLayer(geoJSONCounties);
+    }
+    refreshStyles();
+    updateLegendForCurrentContext();
+}
+
+function getZoomLevel() {
+    const zoom = map.getZoom();
+    if (currentShapeMode === ShapeMode.AUTO && zoom <= 4 || currentShapeMode === ShapeMode.NATION) {
+        return ShapeMode.NATION;
+    }
+    else if (currentShapeMode === ShapeMode.AUTO && zoom <= 6 || currentShapeMode === ShapeMode.STATE) {
+        return ShapeMode.STATE;
+    }
+    else {
+        return ShapeMode.COUNTY;
+    }
+}
+
+// INFOBOX SIDEBAR --------------------------------------------------------------------------------
+
+function displayMapEntityInfo(properties) {
+    const mapInfobox = document.getElementById("map-infobox");
+    if (!properties) {
+        mapInfobox.innerHTML = `<h3>Click on a state, county, or the nation to see details.</h3>`;
+    }
+    else {
+        mapInfobox.innerHTML = `
+            <h2>${properties.name}</h2>
+            ${properties.state ? `<h3>${properties.state}</h3>` : ""}
+            ${properties.id ? `<h4>FIPS: ${properties.id}</h4>` : ""}
+            <h3>Population:</h3>${properties.population.toString().addCommas()} (2020 census)
+        `;
+        switch(currentViewMode) {
+            case ViewMode.DEMOGRAPHICS :
+                mapInfobox.innerHTML += `<h3>Demographics:</h3> ${formatDemographics(properties.demographics)}`;
+                break;
+            case ViewMode.ELECTORAL :
+                mapInfobox.innerHTML += `<h3>Electoral History:</h3> ${formatElectoralData(properties.electoralData, properties.population)}`;
+                break;
+            case ViewMode.DESCRIPTORS :
+                mapInfobox.innerHTML += `<h3>Descriptors:</h3> <p># Memberships: ${properties.descriptors.length}</p> ${formatDescritorMemberships(properties.descriptors)}`;
+                break;
+        }
+    }
+}
+
+function displayDescriptorInfo(descriptor) {
+    const mapInfobox = document.getElementById("map-infobox");
+    if (!descriptor) {
+        mapInfobox.innerHTML = `<h3>Click on a state, county, the nation, or select a descriptor to see details.</h3>`;
+    }
+    else {
+        mapInfobox.innerHTML = `
+            <h2>${descriptor.name}</h2>
+            <h3>Demographics:</h3> ${formatDescriptorDemographics(descriptor.demographics)}
+            <h3>Members:</h3>
+            <p># members: ${descriptor.number_members}</p>
+            ${formatDescriptorMembers(descriptor.members)}
+        `;
+    }
+}
+
+function formatDemographics(demographics) {
+    let html = '';
+    for (const category in demographics) {
+        const values = demographics[category]
+        html += `<h4>${category.toTitleCase().replace(/_/g, " ")}</h4><ul>`;
+        for (const key in values) {
+            if (typeof values[key] === 'object') {
+                html += `<li>${key}:<ul>`;
+                for (const subkey in values[key]) {
+                    const val = values[key][subkey]
+                    if (val !== 0.0)
+                        html += `<li>${subkey}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
+                }
+                html += `</ul></li>`
+            }
+            else {
+                const val = values[key]
+                if (val !== 0.0)
+                    html += `<li>${key}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
+            }
+        }
+        html += `</ul>`;
+    }
+    return html;
+}
+
+function formatDescriptorDemographics(descriptorDemographics) {
+    let html = `<ul>`;
+    for (const demographic of descriptorDemographics) {
+        html += `<li><b>${demographic.name}</b>: ${demographic.value.toFixed(5)}</li>`;
+    }
+    html += `</ul>`;
+    return html;
+}
+
+// For a descriptor to format its members
+function formatDescriptorMembers(members) {
+    let html = `<ul>`;
+    for (const member of members) {
+        const county = counties.features.find(c => c.id === member);
+        html += `<li>[${member}] ${county.name}, ${county.state}</li>`;
+    }
+    html += `</ul>`;
+    return html;
+}
+
+// For a county or state to format its memberships
+function formatDescritorMemberships(memberships) {
+    let html = `<ul>`;
+    for (const membership of memberships) {
+        html += `<li>${membership}</li>`;
+    }
+    html += `</ul>`;
+    return html;
+}
+
+function formatElectoralData(electoralData, population) {
+    let html = '';
+    for (const year in electoralData) {
+        const data = electoralData[year];
+        const totalVotes = data.reduce((acc, cur) => acc + parseInt(cur.votes, 10), 0);
+        html += `
+            <h4>${year} Election</h4>
+            <p>Total Votes: ${totalVotes.toString().addCommas()}</p>
+            <p>Turnout (based on 2020 population): ${(totalVotes / population * 100).toFixed(1)}%</p>
+            <table><thead><tr>
+                <th>Candidate</th>
+                <th>Party</th>
+                <th>Votes</th>
+                <th>%</th>
+            </tr></thead><tbody>
+        `;
+        for (const result in data) {
+            if (data[result].votes === 0) continue;
+            html += `<tr class=${data[result].party.toLowerCase()}>
+                <td>${data[result].candidate.toTitleCase()}</td>
+                <td>${data[result].party.toTitleCase()}</td>
+                <td>${data[result].votes.toString().addCommas()}</td>
+                <td>${(parseInt(data[result].votes, 10) / totalVotes * 100).toFixed(1)}%</td>
+            </tr>`
+        }
+        html += `</tbody></table>`;
+    }
+    return html;
+}
+
+// DOMCONTENTLOADED -------------------------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', async () => {
+
+    // Attach listeners
 
     // Basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 10
     }).addTo(map);
 
-    let selectedLayer = null; // Track highlighted area
+    window.addEventListener('resize', () => map.invalidateSize());
 
-    let geojsonCounties = null;
-    let geojsonNation = null;
-    let geojsonStates = null;
+    legend.addTo(map);
+    clearLegend();
 
-    let shadingMode = "raw";
+    const shapeModeSelect = document.getElementById("shape-mode");
+    shapeModeSelect.addEventListener('change', event => {
+        let selectedMode = ShapeMode[event.target.value];
+        if (!selectedMode) {
+            console.error(`Failed to convert selected shape-mode to a known ShapeMode: "${event.target.value}"`);
+            selectedMode = ShapeMode.AUTO;
+        }
+        updateShapeMode(selectedMode);
+    });
 
-    let nationalAverages = {};
+    const viewModeSelect = document.getElementById("view-mode");
+    viewModeSelect.addEventListener('change', event => {
+        let selectedMode = ViewMode[event.target.value];
+        if (!selectedMode) {
+            console.error(`Failed to convert selected view-mode to a known ViewMode: "${event.target.value}"`);
+            selectedMode = ViewMode.DEMOGRAPHICS;
+        }
+        updateViewMode(selectedMode);
+    });
 
-    let selectedDemographic = null;
-    let selectedDescriptor = null;
+    const shadingModeSelect = document.getElementById("shading-mode");
+    shadingModeSelect.addEventListener('change', event => {
+        let selectedMode = ShadingMode[event.target.value];
+        if (!selectedMode) {
+            console.error(`Failed to convert selected shading-mode to a known ShadingMode: "${event.target.value}"`);
+            selectedMode = ShadingMode.RAW;
+        }
+        updateShadingMode(selectedMode);
+    });
 
-    map.on("zoomend", () => {
+    const primarySelect = document.getElementById("primary-select");
+    primarySelect.addEventListener('change', event => {
+        currentPrimarySelecteds[currentViewMode] = event.target.value;
+        refreshStyles();
         updateLayerVisibility();
-
-        if (geojsonCounties) geojsonCounties.resetStyle();
-        if (geojsonStates) geojsonStates.resetStyle();
-        if (geojsonNation) geojsonNation.resetStyle();
-
-        if (selectedLayer) {
-            selectedLayer.setStyle({
-                weight: 3,
-                color: "#ff7800",
-                fillOpacity: 0.5
-            });
-            selectedLayer.bringToFront();
+        updateLegendForCurrentContext();
+        if (currentViewMode === ViewMode.DEMOGRAPHICS) {
+            if (currentPrimarySelecteds[currentViewMode]) document.getElementById("shading-count-label").innerHTML = "Count of members";
+            else document.getElementById("shading-count-label").innerHTML = "Population";
         }
+        else if (currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
+            const descriptor = descriptors.find(d => d.name === currentPrimarySelecteds[currentViewMode]);
+            if (!descriptor.name.includes("$")) updateShapeMode(ShapeMode.COUNTY);
+            else if (!descriptor.name.includes("$$$$")) updateShapeMode(ShapeMode.STATE); // && currentShapeMode !== ShapeMode.COUNTY
+            else updateShapeMode(ShapeMode.AUTO);
+            displayDescriptorInfo(descriptor);
+        }
+        if (!currentPrimarySelecteds[currentViewMode] && currentViewMode === ViewMode.DESCRIPTORS) {
+            if (selectedLayer) {
+                highlightLayer(selectedLayer);
+                displayMapEntityInfo(selectedLayer?.feature);
+            }
+            else {
+                displayDescriptorInfo(null);
+            }
+        }
+    });
+
+    const clearPrimarySelectButton = document.getElementById("clear-primary-select-button");
+    clearPrimarySelectButton.addEventListener('click', event => {
+        event.preventDefault();
+        // Clear primarySelecteds
+        currentPrimarySelecteds[currentViewMode] = '';
+        primarySelect.value = '';
+        primarySelect.dispatchEvent(new Event('change'));
+        // Update legend
+        updateLegendForCurrentContext();
+    });
+
+    const resetViewButton = document.getElementById("reset-view");
+    resetViewButton.addEventListener('click', resetView);
+
+    map.on('zoomend', () => {
+        updateLayerVisibility();
+    });
+
+    await loadMapData(map);
     
-    });
+    displayMapEntityInfo();
 
-    function updateLayerVisibility() {
-        const zoom = map.getZoom();
-        console.log(zoom);
+    updateViewMode(currentViewMode);
 
-        if (descriptorsObject) { // Make all counties visible when descriptors loaded
-            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
-            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
-            if (geojsonCounties && !map.hasLayer(geojsonCounties)) map.addLayer(geojsonCounties);
-        }
-        else if (zoom <= 3) {
-            if (geojsonNation && !map.hasLayer(geojsonNation)) map.addLayer(geojsonNation);
-            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
-            if (geojsonCounties && map.hasLayer(geojsonCounties)) map.removeLayer(geojsonCounties);
-        }
-        else if (zoom <= 2) {
-            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
-            if (geojsonStates && !map.hasLayer(geojsonStates)) map.addLayer(geojsonStates);
-            if (geojsonCounties && map.hasLayer(geojsonCounties)) map.removeLayer(geojsonCounties);
+    const featureSearchInput = document.getElementById("feature-search-input");
+    document.getElementById("feature-search").addEventListener('submit', e => {
+        e.preventDefault(); // Prevent page reloading when user presses `enter`
+        const query = featureSearchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
+        let bestMatch = states.features.find(s => s.name?.replaceAll(/[.,'-\s]/g, "").toLowerCase().includes(query));
+        if (bestMatch) {
+            featureSearchInput.value = `${bestMatch.name}`;
+            updateShapeMode(ShapeMode.STATE);
         }
         else {
-            if (geojsonNation && map.hasLayer(geojsonNation)) map.removeLayer(geojsonNation);
-            if (geojsonStates && map.hasLayer(geojsonStates)) map.removeLayer(geojsonStates);
-            if (geojsonCounties && !map.hasLayer(geojsonCounties)) map.addLayer(geojsonCounties);
+            bestMatch = counties.features.find(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}${c.state}`.toLowerCase().includes(query));
+            if (!bestMatch) return;
+            featureSearchInput.value = `${bestMatch.name}, ${bestMatch.state}`;
+            updateShapeMode(ShapeMode.COUNTY);
         }
-    }
-
-    document.getElementById("scale-select").addEventListener("change", e => {
-        shadingMode = e.target.value;
-        if (geojsonCounties) geojsonCounties.setStyle(style);
-
-        const legendDiv = document.querySelector('.legend');
-        if (legendDiv) updateLegend(legendDiv);
+        document.getElementById("search-suggestions").innerHTML = '';
+        saccadeTo(bestMatch.id);
     });
-
-    let stateIndex;
-    let countyIndex;
-
-    window.addEventListener("resize", () => map.invalidateSize());
-
-    fetch("counties.json")
-        .then(res => res.json())
-        .then(countyData => {
-
-            // Compute national averages
-            fetch("nation.json")
-                .then(res => res.json())
-                .then(data => {
-                    nationalAverages = data.demographics;
-                    // Load geometries
-                    fetch("us-states.json")
-                        .then(res => res.json())
-                        .then(topoData => {
-                            const counties = topojson.feature(topoData, topoData.objects.counties);
-                            const states = topojson.feature(topoData, topoData.objects.states);
-                            const nation = topojson.feature(topoData, topoData.objects.nation);
-
-                            // Attach demographics to nation
-                            nation.features.forEach(f => {
-                                f.properties.demographics = nationalAverages;
-                                f.properties.population = Object.values(countyData)
-                                    .reduce((sum, c) => sum + (c.population || 0), 0);
-                                f.properties.name = "United States";
-                            });
-
-                            // Attach demographics to states
-                            states.features.forEach(f => {
-                                try {
-                                    const sid = f.id;
-                                    const stateName = stateLookup[sid];
-                                    const stateData = countyData[sid]; // if you store state-level data in counties.json, otherwise fetch separately
-                                    if (stateData) {
-                                        f.properties.demographics = stateData.demographics;
-                                        f.properties.population = stateData.population;
-                                        f.properties.name = toTitleCase(stateName.replace(/_/g, " "));
-                                    } else {
-                                        f.properties.demographics = nationalAverages; // fallback
-                                        f.properties.population = 0;
-                                        f.properties.name = toTitleCase(stateName.replace(/_/g, " "));
-                                    }
-                                }
-                                catch (err) {
-                                    console.error(`Could not read data for state with ID = ${f.id} (is it a territory?):`, err);
-                                }
-                            });
-
-                            // Attach demographics to counties
-                            counties.features.forEach(f => {
-                                f.properties.demographics = countyData[f.id]?.demographics || null;
-                                f.properties.name = countyData[f.id]?.name || "";
-                                f.properties.population = countyData[f.id]?.population || 0;
-                                const fp = f.id.substring(0, 2);
-                                f.properties.state = stateLookup[fp];
-                            });
-
-                            // Add GeoJSON layers
-                            geojsonNation = L.geoJSON(nation, { style, onEachFeature }).addTo(map);
-                            geojsonStates = L.geoJSON(states, { style, onEachFeature });
-                            geojsonCounties = L.geoJSON(counties, { style, onEachFeature });
-
-                            // Build lookup list
-                            countyIndex = counties.features.map(f => {
-                                const stateName = f.properties.state
-                                    ? toTitleCase(f.properties.state.replace(/_/g, " "))
-                                    : "Unknown";
-                                return {
-                                    name: f.properties.name || "Unknown",
-                                    state: stateName,
-                                    fips: f.id
-                                };
-                            });
-                            stateIndex = states.features.map(f => ({
-                                name: f.properties.name,
-                                fips: f.id
-                            }));
-
-                            updateLayerVisibility();
-                        });
-                });
-        });
-
-    function getColor(value, mode = "relative") {
-        if (mode === "relative") {
-            return value > 2.0 ? "#260080" :
-                   value > 1.5 ? "#2600BD" :
-                   value > 1.2 ? "#1C1AE3" :
-                   value > 1.0 ? "#2A4EFC" :
-                   value > 0.8 ? "#3C8DFD" :
-                   value > 0.5 ? "#4CB2FE" :
-                                 "#A0EDFF" ; 
-        }
-        else if (mode === "raw") {
-            return value > 0.95 ? "#520016" :
-                   value > 0.85 ? "#680020" :
-                   value > 0.75 ? "#800026" :
-                   value > 0.50 ? "#BD0026" : 
-                   value > 0.25 ? "#E31A1C" : 
-                   value > 0.10 ? "#FC4E2A" : 
-                   value > 0.05 ? "#FD8D3C" : 
-                   value > 0.01 ? "#FEB24C" : 
-                                  "#FFEDA0" ;
-        }
-        else if (mode === "count") {
-            return value > 800000 ? "#001900" :
-                   value > 400000 ? "#002600" :
-                   value > 100000 ? "#003300" :
-                   value > 50000  ? "#0D4D0D" :
-                   value > 25000  ? "#1A661A" :
-                   value > 10000  ? "#268026" :
-                   value > 5000   ? "#339933" :
-                   value > 2500   ? "#4DB34d" :
-                   value > 1000   ? "#80D580" :
-                   value > 500    ? "#99DD99" :
-                   value > 250    ? "#B2E5B2" :
-                   value > 100    ? "#CCEECC" :
-                   value > 0      ? "#E6F7E6" :
-                                    "#FFFFFF" ;
-        }
-    }
-
-    function getDemographicCategory(demo) {
-        switch (demo) {
-            case "White" : 
-            case "Black" : 
-            case "Hispanic" : 
-            case "Asian" :
-            case "Mixed" :
-            case "Other" :
-                return "race_and_ethnicity";
-            case "Married" :
-            case "Single Female" :
-            case "Single Male" :
-            case "One-Person" : 
-            case "Other Non-Family" :
-                return "household_types";
-            case "Healthcare" :
-            case "Retail" :
-            case "Manufacturing" :
-            case "Education" :
-            case "Hospitality" :
-            case "Professional" :
-            case "Construction" :
-            case "Other Services" :
-            case "Government" :
-            case "Finance & Insurance" :
-            case "Administrative" :
-            case "Transportation" :
-            case "Wholesalers" :
-            case "Entertainment" :
-            case "Information" :
-            case "Real estate" :
-            case "Agriculture" :
-            case "Utilities" :
-            case "Oil & Gas, and Mining" :
-            case "Management" :
-                return "industries";
-            case "Doctorate" :
-            case "Professional" :
-            case "Master's" :
-            case "Bachelor's" :
-            case "Associate's" :
-            case "Some College" :
-            case "High School" :
-            case "Some H.S." :
-            case "Less than H.S." :
-            case "None" :
-                return "educational_attainment";
-            "Other"
-            case "Unclassified" :
-            case "American" :
-            case "Irish" :
-            case "English" :
-            case "German" :
-            case "Scottish" :
-            case "Italian" :
-            case "French" :
-            case "Scotch-Irish" :
-            case "European" :
-            case "Subsaharan African" :
-            case "African" :
-            case "Dutch" :
-            case "Polish" :
-            case "Mexican" :
-            case "Central American" :
-            case "Guatemalan" :
-            case "Puerto Rican" :
-            case "Other Hispanic" :
-            case "South American" :
-            case "Cuban" :
-            case "Honduran" :
-            case "Salvadoran" :
-            case "Panamanian" :
-            case "Spaniard" :
-            case "Colombian" :
-            case "Spanish" :
-            case "Venezuelan" :
-            case "Peruvian" :
-            case "Nicaraguan" :
-            case "Dominican" :
-            case "Indian" :
-            case "Chinese" :
-            case "Korean" :
-            case "Vietnamese" :
-            case "Filipino" :
-            case "Japanese" :
-            case "Pakistani" :
-            case "Laotian" :
-            case "Thai" :
-            case "Bangladeshi" :
-            case "Mixed" :
-            case "Cambodian" :
-            case "Not Specified" :
-            case "Nepalese" :
-            case "Danish" :
-            case "Moroccan" :
-            case "Portuguese" :
-            case "Egyptian" :
-            case "Haitian" :
-            case "Israeli" :
-            case "Bahamian" :
-            case "Chilean" :
-            case "Uruguayan" :
-            case "Macedonian" :
-            case "Icelander" :
-            case "Armenian" :
-            case "Other Arab" :
-            case "Somali" :
-            case "German Russian" :
-            case "British" :
-            case "Czech" :
-            case "Arab" :
-            case "British West Indian" :
-            case "Slovak" :
-            case "Yugoslavian" :
-            case "Paraguayan" :
-            case "Swiss" :
-            case "Latvian" :
-            case "Palestinian" :
-            case "Cajun" :
-            case "Iraqi" :
-            case "Trinidadian and Tobagonian" :
-            case "Celtic" :
-            case "Canadian" :
-            case "Hmong" :
-            case "Sierra Leonean" :
-            case "Slovene" :
-            case "Iranian" :
-            case "Costa Rican" :
-            case "Slavic" :
-            case "Romanian" :
-            case "Other South American" :
-            case "West Indian" :
-            case "Luxemburger" :
-            case "Austrian" :
-            case "Ghanaian" :
-            case "Taiwanese" :
-            case "Liberian" :
-            case "South African" :
-            case "Albanian" :
-            case "Turkish" :
-            case "Bolivian" :
-            case "Barbadian" :
-            case "Brazilian" :
-            case "Czechoslovakian" :
-            case "Northern European" :
-            case "French Canadian" :
-            case "Guyanese" :
-            case "Alsatian" :
-            case "Australian" :
-            case "Cape Verdean" :
-            case "Jamaican" :
-            case "Indonesian" :
-            case "Bhutanese" :
-            case "Basque" :
-            case "Lithuanian" :
-            case "Assyrian/Chaldean/Syriac" :
-            case "Nigerian" :
-            case "Ukrainian" :
-            case "Belgian" :
-            case "Finnish" :
-            case "Scandinavian" :
-            case "Bulgarian" :
-            case "Mongolian" :
-            case "Malaysian" :
-            case "Serbian" :
-            case "Okinawan" :
-            case "Greek" :
-            case "Sri Lankan" :
-            case "Lebanese" :
-            case "Dutch West Indian" :
-            case "Syrian" :
-            case "Afghan" :
-            case "Welsh" :
-            case "Croatian" :
-            case "Norwegian" :
-            case "Jordanian" :
-            case "Other Central American" :
-            case "Hungarian" :
-            case "Swedish" :
-            case "Ethiopian" :
-            case "Eastern European" :
-            case "Ecuadorian" :
-            case "Russian" :
-            case "Pennsylvania German" :
-            case "Spanish American" :
-            case "Sudanese" :
-            case "New Zealander" :
-            case "Burmese" :
-            case "Kenyan" :
-            case "Argentinean" :
-                return "ancestry";
-        }
-    }
-
-    function descriptorCloseness(descriptors1, descriptors2) {
-        // console.log(descriptors1, descriptors2);
-        if (!descriptors1 || !descriptors2) return 0.0;
-        let closeness1 = 0.0, closeness2 = 0.0;
-        // Get closeness of 1 to 2
-        descriptors1.forEach(d => {
-            if (descriptors2.includes(d)) {
-                closeness1 += (1 / descriptors1.length);
-            }
-        });
-        // Get closeness of 2 to 1
-        descriptors2.forEach(d => {
-            if (descriptors1.includes(d)) {
-                closeness2 += (1 / descriptors2.length);
-            }
-        });
-        // console.log(closeness1, closeness2);
-        // Average closeness
-        let closeness = (closeness1 + closeness2 - 1) / 2;
-        return closeness;
-    }
-
-    function style(feature) {
-        if (!feature.properties.demographics) {
-            return {
-                fillColor: "#cccccc",
-                weight: 1,
-                opacity: 1,
-                color: "#333",
-                fillOpacity: 0.6,
-                interactive: true // <-- make sure polygons can be clicked
-            };
-        }
-
-        if (descriptorsObject && selectedLayer && !selectedDescriptor) {
-            let closeness = descriptorCloseness(feature.properties.descriptors, selectedLayer.feature.properties.descriptors) * 3;
-            // console.log(closeness);
-            const lightness = (1-closeness) * 256;
-            return {
-                fillColor: `rgb(${lightness}, 256, ${lightness})`,
-                weight: 1,
-                opacity: 1,
-                color: "#333",
-                fillOpacity: 0.7
-            };
-        }
-
-        if (selectedDemographic) {
-            const category = getDemographicCategory(selectedDemographic);
-            let countyPercent = 0;
-
-            if (
-                feature.properties.demographics &&
-                feature.properties.demographics[category] &&
-                feature.properties.demographics[category][selectedDemographic] !== undefined
-            ) {
-                countyPercent = feature.properties.demographics[category][selectedDemographic];
-            }
-            
-            let colorValue;
-            if (shadingMode === "raw") {
-                colorValue = countyPercent;
-            }
-            else if (shadingMode === "relative") {
-                const nationalPercent = nationalAverages[category]?.[selectedDemographic] || 0.0001;
-                colorValue = countyPercent / nationalPercent;
-            }
-            else if (shadingMode === "count") {
-                colorValue = countyPercent * feature.properties.population;
-            }
-            return {
-                fillColor: getColor(colorValue, shadingMode),
-                weight: 1,
-                opacity: 1,
-                color: "#333",
-                fillOpacity: 0.7
-            };
-        }
-        else if (selectedDescriptor && feature.properties.descriptors) {
-            try {
-                const isMember = feature.properties.descriptors.includes(selectedDescriptor);
-
-                return {
-                    fillColor: isMember ? "#6060ff" : "#cccccc",
-                    weight: 1,
-                    opacity: 1,
-                    color: "#333",
-                    fillOpacity: 0.7
-                }
-            }
-            catch (e) {
-                console.error(e, feature.properties.descriptors);
-                return {
-                    fillColor: "#cccccc",
-                    weight: 1,
-                    opacity: 1,
-                    color: "#333",
-                    fillOpacity: 0.6,
-                    interactive: true // <-- make sure polygons can be clicked
-                };
-            }
-        }
-        else {
-            return {
-                fillColor: "#cccccc",
-                weight: 1,
-                opacity: 1,
-                color: "#333",
-                fillOpacity: 0.6,
-                interactive: true // <-- make sure polygons can be clicked
-            };
-        }
-
-    }
-
-    document.getElementById("demographic-select").addEventListener("change", (e) => {
-        if (descriptorsObject) {
-            selectedDescriptor = e.target.value;
-            if (geojsonNation) geojsonNation.setStyle(style);
-            if (geojsonStates) geojsonStates.setStyle(style);
-            if (geojsonCounties) geojsonCounties.setStyle(style);
-        }
-        else {
-            selectedDemographic = e.target.value;
-            if (geojsonNation) geojsonNation.setStyle(style);
-            if (geojsonStates) geojsonStates.setStyle(style);
-            if (geojsonCounties) geojsonCounties.setStyle(style);
-            if (selectedDemographic) {
-                if (!legendAdded) {
-                    legend.addTo(map);
-                    legendAdded = true;
-                }
-                else {
-                    const legendDiv = document.querySelector('.legend');
-                    if (legendDiv) updateLegend(legendDiv);
-                }
-            }
-            else if (legendAdded) {
-                // Remove legend if nothing selected
-                legend.remove();
-                legendAdded = false;
-            }
-        }
-        
-        
-    });
-
-    document.getElementById("search-form").addEventListener("submit", e => {
-        e.preventDefault(); // stop page reload
-        const query = searchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
-        if (!query) return;
-
-        // Try county match
-
-        // Find the county feature by name
-        const countyMatch = countyIndex.find(c => 
-            (c.name + " " + c.state).toLowerCase() === query
-        );
-        if (countyMatch) {
-            zoomToCounty(countyMatch.fips);
-            return;
-        }
-
-        // Try state match
-        
-        const stateMatch = stateIndex.find(s => 
-            s.name.replaceAll(/[.,'-\s]/g, '').toLowerCase() === query
-        );
-        if (stateMatch) {
-            zoomToState(stateMatch.fips);
-            return;
-        }
-        
-        alert("No county found matching: " + query);
-    });
-
-    function zoomToCounty(fips) {
-        const match = geojsonCounties.getLayers().find(layer => layer.feature.id === fips);
-        if (match) {
-            map.fitBounds(match.getBounds());
-            highlightFeature({ target: match });
-        }
-    }
-    function zoomToState(fips) {
-        const match = geojsonStates.getLayers().find(layer => layer.feature.id === fips);
-        if (match) {
-            map.fitBounds(match.getBounds());
-            highlightFeature({ target: match });
-        }
-    }
-
-    function formatDemographics(demo) {
-        let html = '';
-        for (const category in demo) {
-            html += `<b>${toTitleCase(category).replace(/_/g, " ")}</b><ul>`;
-            const values = demo[category];
-            for (const key in values) {
-                if (typeof values[key] === 'object') {
-                    html += `<li>${key}:<ul>`;
-                    for (const subkey in values[key]) {
-                        const val = values[key][subkey];
-                        html += `<li>${subkey}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
-                    }
-                    html += `</ul></li>`;
-                }
-                else {
-                    const val = values[key];
-                    html += `<li>${key}: ${typeof val === 'number' ? val.toFixed(5) : val}</li>`;
-                }
-            }
-            html += '</ul>';
-        }
-        return html;
-    }
-
-    function highlightFeature(e) {
-        const props = e.target.feature.properties;
-        console.log(props);
-
-        const fips = e.target.feature.id;
-        const state = props.state;
-        const name = props.name || "United States";
-        let datapath;
-
-        if (!fips && name === "United States") { // The selected feature is the nation
-            datapath = `/src/main/resources/nation.json`;
-        }
-        else if (fips && !state) { // The selected feature is a state
-            datapath = `/src/main/resources/${name.replaceAll(" ", "_").toLowerCase()}/${fips}.json`;
-        }
-        else if (fips) { // The selected feature is a county
-            datapath = `/src/main/resources/${state}/counties/${fips}.json`;
-        }
-        else {
-            console.error("Missing FIPS:", props);
-            return;
-        }
-
-        fetch(datapath)
-            .then(res => res.json())
-            .then(data => {
-                const infobox = document.getElementById("infobox");
-                infobox.innerHTML = `
-                    <b>${data.name}</b><br>
-                    Population: ${data.population}<br>
-                    Demographics: <br>
-                    ${formatDemographics(data.demographics)}
-                `;
-                infobox.scrollTop = 0;
-            })
-            .catch(err => console.error("Failed to load feature JSON", err));
-
-        if (selectedLayer) {
-            geojsonCounties.resetStyle(selectedLayer);
-        }
-        selectedLayer = e.target;
-        selectedLayer.setStyle({
-            weight: 3,
-            color: "#ff7800",
-            fillOpacity: 0.5
-        });
-        if (descriptorsObject) geojsonCounties.setStyle(style);
-        selectedLayer.bringToFront();
-    }
-
-    function onEachFeature(feature, layer) {
-        layer.on({
-            click: highlightFeature,
-            mouseover: () => {
-                // Skip hover styling if selected
-                if (layer === selectedLayer) return;
-                layer.setStyle({ weight: 4, color: "#555" })
-            },
-            mouseout: () => {
-                // Skip styling reset if selected
-                if (layer === selectedLayer) return;
-                geojsonCounties.resetStyle(layer)
-            }
-        });
-    }
-
-    document.getElementById("reset-button").addEventListener("click", () => {
-        resetView();
-    });
-
-    function resetView() {
-        // Reset camera
-        map.setView(center, 4); // reset to default center & zoom
-        // Reset demographic select
-        const select = document.getElementById("demographic-select");
-        if (select) {
-            if (!descriptorsObject) {
-                select.innerHTML = `
-                    <option value="">-- Select demographic --</option>
-                    <option class="race-ethnicity" value="White">Race/Ethnicity: White</option>
-                    <option class="race-ethnicity" value="Hispanic">Race/Ethnicity: Hispanic</option>
-                    <option class="race-ethnicity" value="Black">Race/Ethnicity: Black</option>
-                    <option class="race-ethnicity" value="Asian">Race/Ethnicity: Asian</option>
-                    <option class="race-ethnicity" value="Mixed">Race/Ethnicity: Mixed</option>
-                    <option class="race-ethnicity" value="Other">Race/Ethnicity: Other</option>
-                    <option class="household-type" value="Married">Household Type: Married</option>
-                    <option class="household-type"value="Single Female">Household Type: Single Female</option>
-                    <option class="household-type"value="Single Male">Household Type: Single Male</option>
-                    <option class="household-type"value="One-Person">Household Type: One-Person</option>
-                    <option class="household-type"value="Other Non-Family">Household Type: Other Non-Family</option>
-                    <option class="industry" value="Healthcare">Industry: Healthcare</option>
-                    <option class="industry" value="Retail">Industry: Retail</option>
-                    <option class="industry" value="Manufacturing">Industry: Manufacturing</option>
-                    <option class="industry" value="Education">Industry: Education</option>
-                    <option class="industry" value="Hospitality">Industry: Hospitality</option>
-                    <option class="industry" value="Professional">Industry: Professional</option>
-                    <option class="industry" value="Construction">Industry: Construction</option>
-                    <option class="industry" value="Other Services">Industry: Other Services</option>
-                    <option class="industry" value="Government">Industry: Government</option>
-                    <option class="industry" value="Finance & Insurance">Industry: Finance & Insurance</option>
-                    <option class="industry" value="Administrative">Industry: Administrative</option>
-                    <option class="industry" value="Transportation">Industry: Transportation</option>
-                    <option class="industry" value="Wholesalers">Industry: Wholesalers</option>
-                    <option class="industry" value="Entertainment">Industry: Entertainment</option>
-                    <option class="industry" value="Information">Industry: Information</option>
-                    <option class="industry" value="Real estate">Industry: Real estate</option>
-                    <option class="industry" value="Agriculture">Industry: Agriculture</option>
-                    <option class="industry" value="Utilities">Industry: Utilities</option>
-                    <option class="industry" value="Oil & Gas, and Mining">Industry: Oil & Gas, and Mining</option>
-                    <option class="industry" value="Management">Industry: Management</option>
-                    <option class="educational-attainment" value="Doctorate">Education: Doctorate</option>
-                    <option class="educational-attainment" value="Professional">Education: Professional</option>
-                    <option class="educational-attainment" value="Master's">Education: Master's Degree</option>
-                    <option class="educational-attainment" value="Bachelor's">Education: Bachelor's Degree</option>
-                    <option class="educational-attainment" value="Associate's">Education: Associate's Degree</option>
-                    <option class="educational-attainment" value="Some College">Education: Some College</option>
-                    <option class="educational-attainment" value="High School">Education: High School Diploma</option>
-                    <option class="educational-attainment" value="Some H.S.">Education: Some High School</option>
-                    <option class="educational-attainment" value="Less than H.S.">Education: Less than High School</option>
-                    <option class="educational-attainment" value="None">Education: No Formal Education</option>
-                    <option class="ancestry" value="Unclassified">Ancestry: Unclassified</option>
-                    <option class="ancestry" value="Afghan">Ancestry: Afghan</option>
-                    <option class="ancestry" value="African">Ancestry: African</option>
-                    <option class="ancestry" value="Albanian">Ancestry: Albanian</option>
-                    <option class="ancestry" value="Alsatian">Ancestry: Alsatian</option>
-                    <option class="ancestry" value="American">Ancestry: American</option>
-                    <option class="ancestry" value="Arab">Ancestry: Arab</option>
-                    <option class="ancestry" value="Argentinean">Ancestry: Argentinean</option>
-                    <option class="ancestry" value="Armenian">Ancestry: Armenian</option>
-                    <option class="ancestry" value="Assyrian/Chaldean/Syriac">Ancestry: Assyrian/Chaldean/Syriac</option>
-                    <option class="ancestry" value="Australian">Ancestry: Australian</option>
-                    <option class="ancestry" value="Austrian">Ancestry: Austrian</option>
-                    <option class="ancestry" value="Bahamian">Ancestry: Bahamian</option>
-                    <option class="ancestry" value="Bangladeshi">Ancestry: Bangladeshi</option>
-                    <option class="ancestry" value="Barbadian">Ancestry: Barbadian</option>
-                    <option class="ancestry" value="Basque">Ancestry: Basque</option>
-                    <option class="ancestry" value="Belgian">Ancestry: Belgian</option>
-                    <option class="ancestry" value="Bhutanese">Ancestry: Bhutanese</option>
-                    <option class="ancestry" value="Bolivian">Ancestry: Bolivian</option>
-                    <option class="ancestry" value="Brazilian">Ancestry: Brazilian</option>
-                    <option class="ancestry" value="British West Indian">Ancestry: British West Indian</option>
-                    <option class="ancestry" value="British">Ancestry: British</option>
-                    <option class="ancestry" value="Bulgarian">Ancestry: Bulgarian</option>
-                    <option class="ancestry" value="Burmese">Ancestry: Burmese</option>
-                    <option class="ancestry" value="Cajun">Ancestry: Cajun</option>
-                    <option class="ancestry" value="Cambodian">Ancestry: Cambodian</option>
-                    <option class="ancestry" value="Canadian">Ancestry: Canadian</option>
-                    <option class="ancestry" value="Cape Verdean">Ancestry: Cape Verdean</option>
-                    <option class="ancestry" value="Celtic">Ancestry: Celtic</option>
-                    <option class="ancestry" value="Central American">Ancestry: Central American</option>
-                    <option class="ancestry" value="Chilean">Ancestry: Chilean</option>
-                    <option class="ancestry" value="Chinese">Ancestry: Chinese</option>
-                    <option class="ancestry" value="Colombian">Ancestry: Colombian</option>
-                    <option class="ancestry" value="Costa Rican">Ancestry: Costa Rican</option>
-                    <option class="ancestry" value="Croatian">Ancestry: Croatian</option>
-                    <option class="ancestry" value="Cuban">Ancestry: Cuban</option>
-                    <option class="ancestry" value="Czech">Ancestry: Czech</option>
-                    <option class="ancestry" value="Czechoslovakian">Ancestry: Czechoslovakian</option>
-                    <option class="ancestry" value="Danish">Ancestry: Danish</option>
-                    <option class="ancestry" value="Dominican">Ancestry: Dominican</option>
-                    <option class="ancestry" value="Dutch West Indian">Ancestry: Dutch West Indian</option>
-                    <option class="ancestry" value="Dutch">Ancestry: Dutch</option>
-                    <option class="ancestry" value="Eastern European">Ancestry: Eastern European</option>
-                    <option class="ancestry" value="Ecuadorian">Ancestry: Ecuadorian</option>
-                    <option class="ancestry" value="Egyptian">Ancestry: Egyptian</option>
-                    <option class="ancestry" value="English">Ancestry: English</option>
-                    <option class="ancestry" value="Ethiopian">Ancestry: Ethiopian</option>
-                    <option class="ancestry" value="European">Ancestry: European</option>
-                    <option class="ancestry" value="Filipino">Ancestry: Filipino</option>
-                    <option class="ancestry" value="Finnish">Ancestry: Finnish</option>
-                    <option class="ancestry" value="French Canadian">Ancestry: French Canadian</option>
-                    <option class="ancestry" value="French">Ancestry: French</option>
-                    <option class="ancestry" value="German Russian">Ancestry: German Russian</option>
-                    <option class="ancestry" value="German">Ancestry: German</option>
-                    <option class="ancestry" value="Ghanaian">Ancestry: Ghanaian</option>
-                    <option class="ancestry" value="Greek">Ancestry: Greek</option>
-                    <option class="ancestry" value="Guatemalan">Ancestry: Guatemalan</option>
-                    <option class="ancestry" value="Guyanese">Ancestry: Guyanese</option>
-                    <option class="ancestry" value="Haitian">Ancestry: Haitian</option>
-                    <option class="ancestry" value="Hmong">Ancestry: Hmong</option>
-                    <option class="ancestry" value="Honduran">Ancestry: Honduran</option>
-                    <option class="ancestry" value="Hungarian">Ancestry: Hungarian</option>
-                    <option class="ancestry" value="Icelander">Ancestry: Icelander</option>
-                    <option class="ancestry" value="Indian">Ancestry: Indian</option>
-                    <option class="ancestry" value="Indonesian">Ancestry: Indonesian</option>
-                    <option class="ancestry" value="Iranian">Ancestry: Iranian</option>
-                    <option class="ancestry" value="Iraqi">Ancestry: Iraqi</option>
-                    <option class="ancestry" value="Irish">Ancestry: Irish</option>
-                    <option class="ancestry" value="Israeli">Ancestry: Israeli</option>
-                    <option class="ancestry" value="Italian">Ancestry: Italian</option>
-                    <option class="ancestry" value="Jamaican">Ancestry: Jamaican</option>
-                    <option class="ancestry" value="Japanese">Ancestry: Japanese</option>
-                    <option class="ancestry" value="Jordanian">Ancestry: Jordanian</option>
-                    <option class="ancestry" value="Kenyan">Ancestry: Kenyan</option>
-                    <option class="ancestry" value="Korean">Ancestry: Korean</option>
-                    <option class="ancestry" value="Laotian">Ancestry: Laotian</option>
-                    <option class="ancestry" value="Latvian">Ancestry: Latvian</option>
-                    <option class="ancestry" value="Lebanese">Ancestry: Lebanese</option>
-                    <option class="ancestry" value="Liberian">Ancestry: Liberian</option>
-                    <option class="ancestry" value="Lithuanian">Ancestry: Lithuanian</option>
-                    <option class="ancestry" value="Luxemburger">Ancestry: Luxemburger</option>
-                    <option class="ancestry" value="Macedonian">Ancestry: Macedonian</option>
-                    <option class="ancestry" value="Malaysian">Ancestry: Malaysian</option>
-                    <option class="ancestry" value="Mexican">Ancestry: Mexican</option>
-                    <option class="ancestry" value="Mixed">Ancestry: Mixed</option>
-                    <option class="ancestry" value="Mongolian">Ancestry: Mongolian</option>
-                    <option class="ancestry" value="Moroccan">Ancestry: Moroccan</option>
-                    <option class="ancestry" value="Nepalese">Ancestry: Nepalese</option>
-                    <option class="ancestry" value="New Zealander">Ancestry: New Zealander</option>
-                    <option class="ancestry" value="Nicaraguan">Ancestry: Nicaraguan</option>
-                    <option class="ancestry" value="Nigerian">Ancestry: Nigerian</option>
-                    <option class="ancestry" value="Northern European">Ancestry: Northern European</option>
-                    <option class="ancestry" value="Norwegian">Ancestry: Norwegian</option>
-                    <option class="ancestry" value="Not Specified">Ancestry: Not Specified</option>
-                    <option class="ancestry" value="Okinawan">Ancestry: Okinawan</option>
-                    <option class="ancestry" value="Other Arab">Ancestry: Other Arab</option>
-                    <option class="ancestry" value="Other Central American">Ancestry: Other Central American</option>
-                    <option class="ancestry" value="Other Hispanic">Ancestry: Other Hispanic</option>
-                    <option class="ancestry" value="Other South American">Ancestry: Other South American</option>
-                    <option class="ancestry" value="Pakistani">Ancestry: Pakistani</option>
-                    <option class="ancestry" value="Palestinian">Ancestry: Palestinian</option>
-                    <option class="ancestry" value="Panamanian">Ancestry: Panamanian</option>
-                    <option class="ancestry" value="Paraguayan">Ancestry: Paraguayan</option>
-                    <option class="ancestry" value="Pennsylvania German">Ancestry: Pennsylvania German</option>
-                    <option class="ancestry" value="Peruvian">Ancestry: Peruvian</option>
-                    <option class="ancestry" value="Polish">Ancestry: Polish</option>
-                    <option class="ancestry" value="Portuguese">Ancestry: Portuguese</option>
-                    <option class="ancestry" value="Puerto Rican">Ancestry: Puerto Rican</option>
-                    <option class="ancestry" value="Romanian">Ancestry: Romanian</option>
-                    <option class="ancestry" value="Russian">Ancestry: Russian</option>
-                    <option class="ancestry" value="Salvadoran">Ancestry: Salvadoran</option>
-                    <option class="ancestry" value="Scandinavian">Ancestry: Scandinavian</option>
-                    <option class="ancestry" value="Scotch-Irish">Ancestry: Scotch-Irish</option>
-                    <option class="ancestry" value="Scottish">Ancestry: Scottish</option>
-                    <option class="ancestry" value="Serbian">Ancestry: Serbian</option>
-                    <option class="ancestry" value="Sierra Leonean">Ancestry: Sierra Leonean</option>
-                    <option class="ancestry" value="Slavic">Ancestry: Slavic</option>
-                    <option class="ancestry" value="Slovak">Ancestry: Slovak</option>
-                    <option class="ancestry" value="Slovene">Ancestry: Slovene</option>
-                    <option class="ancestry" value="Somali">Ancestry: Somali</option>
-                    <option class="ancestry" value="South African">Ancestry: South African</option>
-                    <option class="ancestry" value="South American">Ancestry: South American</option>
-                    <option class="ancestry" value="Spaniard">Ancestry: Spaniard</option>
-                    <option class="ancestry" value="Spanish American">Ancestry: Spanish American</option>
-                    <option class="ancestry" value="Spanish">Ancestry: Spanish</option>
-                    <option class="ancestry" value="Sri Lankan">Ancestry: Sri Lankan</option>
-                    <option class="ancestry" value="Subsaharan African">Ancestry: Subsaharan African</option>
-                    <option class="ancestry" value="Sudanese">Ancestry: Sudanese</option>
-                    <option class="ancestry" value="Swedish">Ancestry: Swedish</option>
-                    <option class="ancestry" value="Swiss">Ancestry: Swiss</option>
-                    <option class="ancestry" value="Syrian">Ancestry: Syrian</option>
-                    <option class="ancestry" value="Taiwanese">Ancestry: Taiwanese</option>
-                    <option class="ancestry" value="Thai">Ancestry: Thai</option>
-                    <option class="ancestry" value="Trinidadian and Tobagonian">Ancestry: Trinidadian and Tobagonian</option>
-                    <option class="ancestry" value="Turkish">Ancestry: Turkish</option>
-                    <option class="ancestry" value="Ukrainian">Ancestry: Ukrainian</option>
-                    <option class="ancestry" value="Uruguayan">Ancestry: Uruguayan</option>
-                    <option class="ancestry" value="Venezuelan">Ancestry: Venezuelan</option>
-                    <option class="ancestry" value="Vietnamese">Ancestry: Vietnamese</option>
-                    <option class="ancestry" value="Welsh">Ancestry: Welsh</option>
-                    <option class="ancestry" value="West Indian">Ancestry: West Indian</option>
-                    <option class="ancestry" value="Yugoslavian">Ancestry: Yugoslavian</option>
-                `;
-            }
-            select.value = "";
-            select.dispatchEvent(new Event('change'));
-        }
-        selectedDemographic = "";
-        // Remove fill colors
-        if (geojsonCounties) {
-            geojsonCounties.setStyle(() => ({
-                fillColor: "#cccccc",
-                weight: 1,
-                opacity: 1,
-                color: "#333",
-                fillOpacity: 0.6
-            }));
-            if(selectedLayer) geojsonCounties.resetStyle(selectedLayer);
-            selectedLayer = null;
-        }
-        // Reset infobox text
-        document.getElementById("infobox").innerHTML = "Click on a county or county-equivalent to see demographic details.";
-    }
-
-    let legend = L.control({ position: 'bottomleft' });
-
-    legend.onAdd = function(map) {
-        const div = L.DomUtil.create('div', 'info legend');
-        updateLegend(div); // initial
-        return div;
-    };
-
-    let legendAdded = false;
-
-    function updateLegend(div) {
-        let grades = [];
-        if (shadingMode === "relative") 
-            grades = [0.50, 0.80, 1.0, 1.2, 1.5, 2]
-        else if (shadingMode === "raw")
-            grades = [0.0, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.85, 0.95];
-        else if (shadingMode === "count")
-            grades = [0, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 4000000, 800000];
-
-        div.innerHTML = '';
-        for (let i = 0; i < grades.length; i++) {
-            const from = grades[i];
-            const to = grades[i + 1];
-            if (shadingMode === "relative") {
-                div.innerHTML +=
-                `<i style="background:${getColor(from + 0.001, shadingMode)}"></i> ` +
-                from.toFixed(2) * 100 + `%` + (to ? ` &ndash; ${to.toFixed(2) * 100}% of US Average<br>` :
-                    `+ of US Average`);
-            }
-            else if (shadingMode === "raw") {
-                div.innerHTML +=
-                `<i style="background:${getColor(from + 0.001, shadingMode)}"></i> ` +
-                from.toFixed(2) * 100 + `%` + (to ? ` &ndash; ${to.toFixed(2) * 100}%<br>` :
-                    `+`);
-            }
-            else if (shadingMode === "count") {
-                div.innerHTML +=
-                `<i style="background:${getColor(from + 0.001, shadingMode)}"></i> ` +
-                from + (to ? ` &ndash; ${to} people<br>` : `+ people`);
-            }
-        }
-    }    
-
-    const searchInput = document.getElementById("search-input");
-    const suggestionsBox = document.getElementById("suggestions");
-
-    searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
-        suggestionsBox.innerHTML = "";
+    const searchSuggestionsBox = document.getElementById("search-suggestions");
+    featureSearchInput.addEventListener("input", e => {
+        const query = featureSearchInput.value.trim().replaceAll(/[.,'-\s]/g,"").toLowerCase();
+        searchSuggestionsBox.innerHTML = "";
         if (!query) {
-            suggestionsBox.style.display = "none";
+            searchSuggestionsBox.style.display = "none";
             return;
         }
 
         const matches = [
-            ...stateIndex.filter(s => 
-                s.name.replaceAll(/[.,'-\s]/g,"").toLowerCase().includes(query)
-            ),
-            ...countyIndex.filter(c => 
-                (c.name.replaceAll(/[.,'-\s]/g,"") + " " + c.state).toLowerCase().includes(query)
-            ),
-        ].slice(0, 10); // limit to 10 results
+            ...states.features.filter(s => s.name?.replaceAll(/[.,'-\s]/g, "").toLowerCase().includes(query)),
+            ...counties.features.filter(c => `${c.name?.replaceAll(/[.,'-\s]/g, "")}${c.state}`.toLowerCase().includes(query)),
+        ].slice(0, 10); // Limit to 10 results
 
         if (matches.length === 0) {
-            suggestionsBox.style.display = "none";
+            searchSuggestionsBox.style.display = "none";
             return;
         }
 
@@ -1030,82 +1396,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 `${match.name}, ${match.state}` : // county
                 `${match.name}`; // state
             div.addEventListener("click", () => {
-                searchInput.value = match.state ?
-                    `${match.name}, ${match.state}` : // county
-                    `${match.name}`; // state
-                suggestionsBox.style.display = "none";
-                if (match.state) zoomToCounty(match.fips);
-                else zoomToState(match.fips);
+                if (match.state) { // Match is a county
+                    featureSearchInput.value = `${match.name}, ${match.state}`;
+                    updateShapeMode(ShapeMode.COUNTY);
+                }
+                else { // Match is a state
+                    featureSearchInput.value = `${match.name}`;
+                    updateShapeMode(ShapeMode.STATE);
+                }
+                searchSuggestionsBox.style.display = "none";
+                saccadeTo(match.id);
             });
-            suggestionsBox.appendChild(div);
+            searchSuggestionsBox.appendChild(div);
         });
-        suggestionsBox.style.display = "block";
+        searchSuggestionsBox.style.display = "block";
     });
-
-    document.getElementById('load-descriptors-input').addEventListener('change', handleLoadDescriptorsInput, false);
-
-    function handleLoadDescriptorsInput(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const fileContent = e.target.result;
-            try {
-                const jsonObject = JSON.parse(fileContent);
-                console.log(jsonObject);
-                // Successfully parsed
-                descriptorsObject = jsonObject;
-
-                // Deselect demographics
-                // and remove filters from all counties
-                resetView();
-                const select = document.getElementById('demographic-select');
-                select.innerHTML = ``;
-                
-                // Allow selection of descriptors
-                options = [];
-                if (select) {
-                    Object.keys(jsonObject.descriptors).forEach(d => {
-                        options.push(`<option class="descriptor" value="${d}">${d.includes("$") ? d : "Descriptor " + d}</option>`);
-                    });
-                }
-                options.sort();
-                options.unshift(`<option value="">-- Select Descriptor --</option>`);
-                options.forEach(o => select.innerHTML += o); 
-
-                // Attach descriptors to counties
-                if (geojsonCounties) {
-                    geojsonCounties.eachLayer(layer => {
-                        layer.feature.properties.descriptors = [];
-                        const fips = layer.feature.id;
-                        // console.log(fips);
-                        try {
-                            for (let d of jsonObject.counties[fips].descriptors) {
-                                layer.feature.properties.descriptors.push(d);
-                            }
-                        }
-                        catch (e) {}
-                    });
-
-                    // Reapply style if a descriptor is selected
-                    if (selectedDescriptor) geojsonCounties.setStyle(style);
-                }
-
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-                alert('Invalid JSON file.');
-            }
-        };
-
-        reader.onerror = (e) => {
-            console.error('Error reading file:', e);
-            alert('Error reading the file.');
-        };
-
-        reader.readAsText(file);
-    }
-
-    resetView();
-
 });

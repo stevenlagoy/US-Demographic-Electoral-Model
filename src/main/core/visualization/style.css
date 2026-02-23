@@ -6,8 +6,8 @@ html, body {
 }
 
 body {
-    --header-height: 80px;
-    --footer-height: 80px;
+    --header-height: 3em;
+    --footer-height: 2em;
 }
 
 header, footer {
@@ -16,8 +16,9 @@ header, footer {
     width: 100%;
     color: white;
     text-align: center;
-    z-index: 1000;
+    z-index: 10;
     font-size: 1em;
+    background-color: #333;
 }
 
 header {
@@ -27,15 +28,15 @@ header {
     line-height: var(--header-height);
     align-items: center;
     justify-content: center;
-    background-color: #333;
+    border-bottom: 3px solid white;
 }
 
 footer {
     display: flex;
     bottom: 0;
+    border-top: 3px solid white;
     height: var(--footer-height);
     line-height: var(--footer-height);
-    background-color: #333;
     justify-content: space-evenly;
     align-items: center;
 }
@@ -54,12 +55,16 @@ main {
     height: 100%;
     position: relative;
 }
+#map .leaflet-control-zoom {
+    transform: scale(1.2);
+    top: 33px;
+}
 
-#infobox {
+#map-infobox {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: clamp(150px, 20vw, 300px);
+    width: clamp(150px, 25vw, 600px);
     bottom: 25px;
     word-wrap: break-word;
     background: white;
@@ -71,40 +76,74 @@ main {
     box-shadow: 2px 2px 5px;
 }
 
-.race-ethnicity {
+thead {
+    background-color: black;
+    color: white;
+}
+tbody {
+    background-color: lightgray;
+}
+td, th {
+    padding: 8px;
+}
+tr.democrat {
+    background-color: cornflowerblue;
+}
+tr.republican {
+    background-color: lightcoral;
+}
+tr.green {
+    background-color: lightgreen;
+}
+tr.libertarian {
+    background-color: lightyellow;
+}
+
+#descriptor-info {
+    position: absolute;
+    right: 320px;
+    width: 475px;
+    height: 300px;
+    bottom: 25px;
+    word-wrap: break-word;
+    background: white;
+    padding: 10px;
+    border: 1px solid #333;
+    z-index: 1000;
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 5px;
+    visibility: hidden;
+}
+
+.race-and-ethnicity {
     background-color: palevioletred;
 }
-.household-type {
-    background-color: paleturquoise;
+.age-and-sex {
+    background-color: lightsalmon;
 }
-.industry {
+.household-types {
     background-color: palegoldenrod;
 }
-.educational-attainment {
+.marital-status {
     background-color: palegreen;
 }
 .ancestry {
+    background-color: paleturquoise;
+}
+.employment-status {
+    background-color: skyblue;
+}
+.industries {
     background-color: lavender;
 }
+.educational-attainment {
+    background-color: pink;
+}
 
-#reset-button, #load-descriptors {
+.vertical {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: minmax(max-content, 5%);
-    background: #333;
-    color: white;
-    cursor: pointer;
-}
-
-#load-descriptors {
-    height: 2em;
-    padding: 0 0.5em;
-    gap: 0.5em;
-}
-
-#reset-button:hover, #load-descriptors:hover {
-    background: #555;
+    flex-direction: column;
 }
 
 #profile:link, #profile:visited {
@@ -120,6 +159,36 @@ main {
     gap: 10px;
     z-index: 1000;
     align-items: center;
+}
+
+#controls form {
+    display: flex;
+}
+
+#reset-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #333 !important;
+    color: white;
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+#reset-view:hover {
+    background: #555 !important;
+}
+#reset-view:active {
+    background: white !important;
+    color: black;
+}
+
+#feature-search {
+    display: flex;
+    flex-direction: column;
+}
+
+#feature-search input {
+    height: 2.5em;
 }
 
 @media (max-width: 1200px) {
@@ -151,7 +220,7 @@ main {
     }
 
 
-    #infobox {
+    #map-infobox {
         position: absolute;
         top: 80%;
         left: 0;
@@ -175,13 +244,7 @@ main {
         box-sizing: border-box;
     }
 
-    .suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        width: 100%;
-        background: white;
+    #search-suggestions {
         border: 1px solid #ccc;
         max-height: 200px;
         overflow-y: auto;
@@ -195,23 +258,23 @@ main {
         overflow-y: auto;
     }
 
-    #search-form {
+    #feature-search {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         gap: 6px;
         position: relative;
     }
-    #search-input {
+    #feature-search-input {
         width: 100%;
         height: 3vh;
         box-sizing: border-box;
         text-align: center;
     }
-    #search-input:focus {
+    #feature-search-input:focus {
         text-align: left;
     }
-    #search-form button {
+    #feature-search button {
         align-self: center;
     }
 }
@@ -239,37 +302,41 @@ main {
     background-color: black;
 }
 
-.suggestions { 
-    position: absolute;
+#search-suggestions { 
     background: white;
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
-    width: 200px;
     display: none;
-    z-index: 1000;
 }
-
-.suggestions * {
+#search-suggestions > * {
     border: 1px solid #ccc;
     cursor: pointer;
 }
 
 .info.legend {
-  padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 5px;
-  line-height: 18px;
-  color: #333;
-  z-index: 1100; /* above infobox/buttons */
+    width: 13em;
+    height: fit-content;
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    line-height: 18px;
+    color: #333;
+    z-index: 1100; /* above infobox/buttons */
+}
+
+.info.legend p {
+    margin: 0.5em 0;
 }
 
 .info.legend i {
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin-right: 8px;
-  opacity: 0.7;
+    border: 2px solid black;
+    border-radius: 0.37em;
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
 }

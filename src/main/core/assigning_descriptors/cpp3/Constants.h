@@ -50,6 +50,14 @@
 #define BG_BRIGHT_CYAN "106"
 #define BG_BRIGHT_WHITE "107"
 
+#define NATIONAL_DESCRIPTOR_NAME "$$$$USA"
+
+#define REGION_DESCRIPTOR_PREFIX "$$$"
+
+#define DIVISION_DESCRIPTOR_PREFIX "$$"
+
+#define STATE_DESCRIPTOR_PREFIX "$"
+
 // The number of demographic keys used in the dataset
 #define NUMBER_DEMOGRAPHICS 223
 // The number of descriptors we will create (including fixed-membership [USA, AL, etc])

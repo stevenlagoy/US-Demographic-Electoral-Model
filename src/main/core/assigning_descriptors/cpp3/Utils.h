@@ -56,6 +56,10 @@ extern std::map<std::string, std::string> stateNameToAbbr;
 
 extern std::map<std::string, std::string> stateFIPSToName;
 
+extern std::map<std::string, std::string> stateNameToCensusDivision;
+
+extern std::map<std::string, std::string> censusDivisionToCensusRegion;
+
 std::vector<std::string> listDirectories(const std::string& path);
 
 std::vector<std::string> listFiles(const std::string& path);
