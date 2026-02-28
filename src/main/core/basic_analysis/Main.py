@@ -77,60 +77,146 @@ def main() -> None:
         for d in counties['01001']['demographics'][category]:
             demographics.append(d)
 
+    # Precompute demographic percentages for all counties and all demographics
+    demographic_percentages: Dict[str, Dict[str, float]] = {}
+    for demographic in demographics:
+        demographic_percentages[demographic] = get_demographic_percentages(counties, demographic)
+
     # Create combinations of demographics
     demographic_combos = list(combinations(demographics, combo_size))
     demographics_electoral: Dict[Tuple[str, ...], Dict[str, float]] = {combo: {} for combo in demographic_combos}
 
     # Determine average voting results for each demographic combination
-    i: int = 0
-    for combo in demographic_combos:
-        i += 1
-        if not i % 10: print(i)
-        for demographic in combo:
-            county_percentages: Dict[str, float] = get_demographic_percentages(counties, demographic)
-            for FIPS, percentage in county_percentages.items():
-                if len(FIPS) != 5: continue # Only look at counties (states are composed of counties)
-                if FIPS in ["15005"]: continue # Kalawao County, HI does not have electoral history in the dataset 
-                electoral = elections[FIPS]
-                for year, result in electoral.items():
-                    for _return in result:
-                        party = _return['party']
-                        votes = _return['votes']
-                        demographics_electoral[combo].setdefault(party, 0.0)
-                        demographics_electoral[combo][party] += (votes * percentage) / total_votes
+    for idx, combo in enumerate(demographic_combos):
+        if idx % 10 == 0:
+            print(f"Processing combo {idx+1}/{len(demographic_combos)}")
+        # For each county, calculate the combined percentage for this combo
+        for FIPS in counties:
+            if len(FIPS) != 5 or FIPS not in elections or FIPS in ["15005"]:
+                continue
+            # For each demographic in the combo, get the percentage for this county
+            combo_percent = 1.0
+            for demographic in combo:
+                percent = demographic_percentages[demographic].get(FIPS, 0.0)
+                combo_percent *= percent
+            if combo_percent == 0.0:
+                continue
+            electoral = elections[FIPS]
+            for year, result in electoral.items():
+                for _return in result:
+                    party = _return['party']
+                    votes = _return['votes']
+                    demographics_electoral[combo].setdefault(party, 0.0)
+                    demographics_electoral[combo][party] += (votes * combo_percent) / total_votes
     print('Demographics-Electoral behaviors processed')
 
-    # Determine accuracy of the demographic combination averages
+    # Get average voting result for the nation across all years
+    nation_totals: Dict[str, float] = {}
+    for FIPS, county in counties.items():
+        if FIPS not in elections or len(FIPS) != 5: continue
+        election = elections[FIPS]
+        for year, _returns in election.items():
+            for _return in _returns:
+                if _return['party'] not in nation_totals:
+                    nation_totals[_return['party']] = 0
+                nation_totals[_return['party']] += int(_return['votes'])
+    total_votes: int = 0
+    for party, votes in nation_totals.items():
+        total_votes += int(votes)
+    for party, votes in nation_totals.items():
+        nation_totals[party] /= total_votes
+    
+    # Only consider the top two parties by national vote share
+    sorted_parties = sorted(nation_totals.items(), key=lambda x: x[1], reverse=True)
+    top_parties = [p for p, _ in sorted_parties[:2]]
+
     accuracy: float = 0.0
     count: int = 0
     for FIPS, county in counties.items():
         if FIPS not in elections or len(FIPS) != 5: continue
-        # Determine expected electoral results based on demographics
-        # For each demographic combination, predict party votes
-        for combo in demographic_combos:
-            predicted: Dict[str, float] = {}
-            for party in demographics_electoral[combo]:
-                prediction = 0.0
-                for demographic in combo:
-                    percentage = 0.0
-                    for category in county['demographics']:
-                        if demographic in county['demographics'][category]:
-                            percentage = county['demographics'][category][demographic]
-                            break
-                    prediction += demographics_electoral[combo][party] * percentage
-                predicted[party] = prediction
-            # Compare to real electoral results for each year
-            for year, results in elections[FIPS].items():
-                for result in results:
-                    party = result['party']
-                    year_total_votes = sum(r['votes'] for r in results)
-                    actual = result['votes'] / year_total_votes if year_total_votes > 0 else 0.0
-                    prediction = predicted.get(party, 0.0)
-                    accuracy += abs(prediction - actual)
-                    count += 1
+        for year, results in elections[FIPS].items():
+            year_total_votes = sum(r['votes'] for r in results)
+            if year_total_votes == 0:
+                continue
+            actual_dist = {}
+            for result in results:
+                party = result['party']
+                actual_dist[party] = result['votes'] / year_total_votes
+            # Only consider top two parties
+            mae = 0.0
+            for party in top_parties:
+                actual = actual_dist.get(party, 0.0)
+                prediction = nation_totals.get(party, 0.0)
+                mae += abs(prediction - actual)
+            mae /= len(top_parties)
+            accuracy += mae
+            count += 1
     if count > 0:
         accuracy /= count
-    print(f'Mean absolute error: {accuracy}')
+    print(f'Mean Error from National Average (top 2 parties): {accuracy}')
+    
+    # Use numpy for fast MAE calculation
+    import numpy as np
+    # Precompute all unique parties across all predictions
+    all_parties = set()
+    for combo in demographic_combos:
+        all_parties.update(demographics_electoral[combo].keys())
+    all_parties = sorted(all_parties)
+    party_idx = {p: i for i, p in enumerate(all_parties)}
+
+    # Precompute actual party distributions for all county-years
+    actual_distributions = []  # List of (FIPS, year, np.array of party shares)
+    for FIPS, county in counties.items():
+        if FIPS not in elections or len(FIPS) != 5:
+            continue
+        for year, results in elections[FIPS].items():
+            year_total_votes = sum(r['votes'] for r in results)
+            if year_total_votes == 0:
+                continue
+            arr = np.zeros(len(all_parties))
+            for result in results:
+                party = result['party']
+                arr[party_idx[party]] = result['votes'] / year_total_votes
+            actual_distributions.append((FIPS, year, arr))
+
+    # For each combo, compute MAE using vectorized numpy and correct demographic product logic
+    # Calculate the average MAE across all demographic combinations
+    n_combos = len(demographic_combos)
+    total_mae = 0.0
+    valid_combos = 0
+    for idx, combo in enumerate(demographic_combos):
+        if idx % 10 == 0:
+            print(f"Evaluating combo {idx+1}/{n_combos}")
+        combo_mae = 0.0
+        count = 0
+        # Precompute demographic percentages for this combo for all counties
+        combo_percentages = {}
+        for FIPS in counties:
+            if len(FIPS) != 5 or FIPS not in elections or FIPS == "15005":
+                continue
+            percent = 1.0
+            for demographic in combo:
+                percent *= demographic_percentages[demographic].get(FIPS, 0.0)
+            combo_percentages[FIPS] = percent
+
+        for FIPS, year, actual_arr in actual_distributions:
+            if FIPS not in combo_percentages or combo_percentages[FIPS] == 0.0:
+                continue
+            predicted = np.zeros(len(all_parties))
+            for i, party in enumerate(all_parties):
+                predicted[i] = demographics_electoral[combo].get(party, 0.0) * combo_percentages[FIPS]
+            pred_sum = predicted.sum()
+            if pred_sum > 0:
+                predicted /= pred_sum
+            mae = np.mean(np.abs(predicted - actual_arr))
+            combo_mae += mae
+            count += 1
+        if count > 0:
+            combo_mae /= count
+            total_mae += combo_mae
+            valid_combos += 1
+    avg_mae = total_mae / valid_combos if valid_combos > 0 else float('inf')
+    print(f'Average mean absolute error across all combos: {avg_mae}')
 
     print("Done!")
 
