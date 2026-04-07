@@ -36,8 +36,9 @@ function jensenShannonDistance(v1, v2) {
         m[i] = (nv1[i] + nv2[i]) / 2;
     }
     const js = (kullbackLeibler(nv1, m) + kullbackLeibler(nv2, m)) / 2; // Get Jensen-Shannon Divergence
-    const scale = 300;
+    const scale = 7;
     const sim = ((1 - js) - (1 - 1 / scale)) * scale; // Scale and invert
+    console.log(sim);
     return 0.0 > sim ? 0.0 : 1.0 < sim ? 1.0 : sim; // Clamp to [0.0, 1.0]
 }
 
@@ -1256,6 +1257,11 @@ function formatElectoralData(electoralData, population) {
     return html;
 }
 
+// CONTROLS ---------------------------------------------------------------------------------------
+
+let controlsMinimized = false;
+
+
 // DOMCONTENTLOADED -------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -1410,5 +1416,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchSuggestionsBox.appendChild(div);
         });
         searchSuggestionsBox.style.display = "block";
+    });
+    const minimizeButton = document.getElementById("minimize-button");
+    const minimizeImage = document.getElementById("minimize-image");
+    const controlsBox = document.getElementById("controls");
+    minimizeButton.addEventListener("click", () => {
+        controlsMinimized = !controlsMinimized;
+        if (controlsMinimized) {
+            controlsBox.style.transform = "translateY(-90%)";
+            minimizeImage.style.transform = "rotate(180deg)";
+        }
+        else {
+            controlsBox.style.transform = "none";
+            minimizeImage.style.transform = "none";
+        }
     });
 });

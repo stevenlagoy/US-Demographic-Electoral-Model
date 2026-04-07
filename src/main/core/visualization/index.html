@@ -17,69 +17,74 @@
     </header>
     <main>
         <div id="controls">
-            <div class="vertical">
-                <button id="reset-view" title="Reset view modes and camera position">Reset View</button>
-                <form id="feature-search">
-                    <input type="search" id="feature-search-input" placeholder="Search for a map feature" title="Type in the name of a State or County">
-                    <div id="search-suggestions"></div>
-                    <!-- <button type="submit">Search</button> -->
+            <div class="horizontal">
+                <div class="vertical">
+                    <button id="reset-view" title="Reset view modes and camera position">Reset View</button>
+                    <form id="feature-search">
+                        <input type="search" id="feature-search-input" placeholder="Search for a map feature" title="Type in the name of a State or County">
+                        <div id="search-suggestions"></div>
+                        <!-- <button type="submit">Search</button> -->
+                    </form>
+                </div>
+                <form>
+                    <fieldset id="shape-mode" title="Control what shapes are shown on the map">
+                        <legend>Shape Mode</legend>
+                        <div title="Automatically change what shapes to show based on zoom level">
+                            <input type="radio" id="shape-auto" name="shape-mode" value="AUTO" checked>
+                            <label for="shape-auto">Auto</label>
+                        </div>
+                        <div title="Always display the borders of the nation">
+                            <input type="radio" id="shape-nation" name="shape-mode" value="NATION">
+                            <label for="shape-nation">Nation</label>
+                        </div>
+                        <div title="Always display the borders of all states">
+                            <input type="radio" id="shape-state" name="shape-mode" value="STATE">
+                            <label for="shape-state">State</label>
+                        </div>
+                        <div title="Always display the borders of all counties">
+                            <input type="radio" id="shape-county" name="shape-mode" value="COUNTY">
+                            <label for="shape-county">County</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="view-mode" title="Control what kind of data is shown">
+                        <legend>View Mode</legend>
+                        <div title="View the demographics of the nation, states, or counties">
+                            <input type="radio" id="view-demographics" name="view-mode" value="DEMOGRAPHICS" checked>
+                            <label for="view-demographics">Demographics</label>
+                        </div>
+                        <div title="View electoral data since 2000 for the nation, states, or counties">
+                            <input type="radio" id="view-electoral" name="view-mode" value="ELECTORAL">
+                            <label for="view-electoral">Electoral</label>
+                        </div>
+                        <div title="View the most notable demographic subregions identified by a simulated model">
+                            <input type="radio" id="view-descriptors" name="view-mode" value="DESCRIPTORS">
+                            <label for="view-descriptors">Descriptors</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="shading-mode" title="Control how areas on the map are shaded based on their data">
+                        <legend>Shading Mode</legend>
+                        <div title="Shade by the raw demographic or electoral percentages from each state or county">
+                            <input type="radio" id="shading-raw" name="shading-mode" value="RAW" checked>
+                            <label for="shading-raw">Raw % Per</label>
+                        </div>
+                        <div title="Shade by the difference of demographic or electoral percentages from national percentages">
+                            <input type="radio" id="shading-relative" name="shading-mode" value="RELATIVE">
+                            <label for="shading-relative">Relative to US avg</label>
+                        </div>
+                        <div title="Shade by the number of demographic members or voters in each state or county">
+                            <input type="radio" id="shading-count" name="shading-mode" value="COUNT">
+                            <label id="shading-count-label" for="shading-count">Count of members</label>
+                        </div>
+                    </fieldset>
+                    <div class="vertical">
+                        <select name="primary-select" id="primary-select"></select>
+                        <button id="clear-primary-select-button">Clear</button>
+                    </div>
                 </form>
             </div>
-            <form>
-                <fieldset id="shape-mode" title="Control what shapes are shown on the map">
-                    <legend>Shape Mode</legend>
-                    <div title="Automatically change what shapes to show based on zoom level">
-                        <input type="radio" id="shape-auto" name="shape-mode" value="AUTO" checked>
-                        <label for="shape-auto">Auto</label>
-                    </div>
-                    <div title="Always display the borders of the nation">
-                        <input type="radio" id="shape-nation" name="shape-mode" value="NATION">
-                        <label for="shape-nation">Nation</label>
-                    </div>
-                    <div title="Always display the borders of all states">
-                        <input type="radio" id="shape-state" name="shape-mode" value="STATE">
-                        <label for="shape-state">State</label>
-                    </div>
-                    <div title="Always display the borders of all counties">
-                        <input type="radio" id="shape-county" name="shape-mode" value="COUNTY">
-                        <label for="shape-county">County</label>
-                    </div>
-                </fieldset>
-                <fieldset id="view-mode" title="Control what kind of data is shown">
-                    <legend>View Mode</legend>
-                    <div title="View the demographics of the nation, states, or counties">
-                        <input type="radio" id="view-demographics" name="view-mode" value="DEMOGRAPHICS" checked>
-                        <label for="view-demographics">Demographics</label>
-                    </div>
-                    <div title="View electoral data since 2000 for the nation, states, or counties">
-                        <input type="radio" id="view-electoral" name="view-mode" value="ELECTORAL">
-                        <label for="view-electoral">Electoral</label>
-                    </div>
-                    <div title="View the most notable demographic subregions identified by a simulated model">
-                        <input type="radio" id="view-descriptors" name="view-mode" value="DESCRIPTORS">
-                        <label for="view-descriptors">Descriptors</label>
-                    </div>
-                </fieldset>
-                <fieldset id="shading-mode" title="Control how areas on the map are shaded based on their data">
-                    <legend>Shading Mode</legend>
-                    <div title="Shade by the raw demographic or electoral percentages from each state or county">
-                        <input type="radio" id="shading-raw" name="shading-mode" value="RAW" checked>
-                        <label for="shading-raw">Raw % Per</label>
-                    </div>
-                    <div title="Shade by the difference of demographic or electoral percentages from national percentages">
-                        <input type="radio" id="shading-relative" name="shading-mode" value="RELATIVE">
-                        <label for="shading-relative">Relative to US avg</label>
-                    </div>
-                    <div title="Shade by the number of demographic members or voters in each state or county">
-                        <input type="radio" id="shading-count" name="shading-mode" value="COUNT">
-                        <label id="shading-count-label" for="shading-count">Count of members</label>
-                    </div>
-                </fieldset>
-                <div class="vertical">
-                    <select name="primary-select" id="primary-select"></select>
-                    <button id="clear-primary-select-button">Clear</button>
-                </div>
-            </form>
+            <div class="minimize">
+                <button class="minimize-button" id="minimize-button"><img src="triangle.png" alt="" width="10px" id="minimize-image"></button>
+            </div>
         </div>
         <div id="map"></div>
         <div id="map-infobox"></div>
