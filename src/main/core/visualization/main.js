@@ -1257,6 +1257,11 @@ function formatElectoralData(electoralData, population) {
     return html;
 }
 
+// CONTROLS ---------------------------------------------------------------------------------------
+
+let controlsMinimized = false;
+
+
 // DOMCONTENTLOADED -------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -1411,5 +1416,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchSuggestionsBox.appendChild(div);
         });
         searchSuggestionsBox.style.display = "block";
+    });
+    const minimizeButton = document.getElementById("minimize-button");
+    const minimizeImage = document.getElementById("minimize-image");
+    const controlsBox = document.getElementById("controls");
+    minimizeButton.addEventListener("click", () => {
+        controlsMinimized = !controlsMinimized;
+        if (controlsMinimized) {
+            controlsBox.style.transform = "translateY(-90%)";
+            minimizeImage.style.transform = "rotate(180deg)";
+        }
+        else {
+            controlsBox.style.transform = "none";
+            minimizeImage.style.transform = "none";
+        }
     });
 });

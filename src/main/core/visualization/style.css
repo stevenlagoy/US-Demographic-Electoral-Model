@@ -146,19 +146,65 @@ tr.libertarian {
     flex-direction: column;
 }
 
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
 #profile:link, #profile:visited {
     color: white;
 }
 
 #controls {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 10px;
     left: 50px;
-    display: flex;
     border-radius: 4px;
     gap: 10px;
     z-index: 1000;
     align-items: center;
+    background-color: #ffffff;
+    padding: 0.5em 0.5em 0.1em 0.5em;
+    border: 1px solid black;
+    border-radius: 1em;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+#controls>div {
+    gap: 1em;
+} 
+
+.minimize {
+    margin-top: auto; /* Pushes the minimize button to the bottom */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.minimize-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+    background: #eee;
+    border: 1px solid #333;
+    border-radius: 0.5em;
+    box-shadow: 2px 2px 5px;
+    padding: 0.2em !important;
+    cursor: pointer;
+    box-shadow: none !important;
+}
+
+.minimize-button img {
+    display: block;
+    margin: auto;
+    width: 4em;
+    height: 0.75em;
 }
 
 #controls form {
@@ -277,6 +323,12 @@ tr.libertarian {
     #feature-search button {
         align-self: center;
     }
+    header, footer {
+        height: 0 !important;
+    }
+    main {
+        top: 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -286,6 +338,9 @@ tr.libertarian {
     }
     header h1 {
         font-size: 1rem;
+    }
+    #controls>div {
+        flex-direction: column !important;
     }
 }
 
